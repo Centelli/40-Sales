@@ -1,0 +1,150 @@
+Dim [Vsalesdate] As Date
+Dim [Vsalescurr] As Varchar(10)
+Dim [Vmatkey] As Varchar(18)
+Dim [Vordernet] As Float
+Dim [Vorderqty] As Float
+Dim [Vvbap_Stcur] As Float
+Dim [Vchangedate] As Date
+
+Dim [Vordernethc] As Float
+Dim [Vordernetgc] As Float
+
+Dim [Mhomecurr] As Map(Varchar(4),Varchar(4)) = Select [Company Code.Comp Code Key],[Company Code.Comp Currency Key] From [Company Code]
+
+Dim [V_Rate_Home_To_Chf] As Float
+Dim [V_Rate_Chf_To_Reg] As Float
+
+[Vmatkey]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Matnr]
+[Vordernet]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Netwr]
+[Vorderqty]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Kwmeng]
+[Vsalesdate]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Audat]
+[Vsalescurr]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Waerk]
+[Vvbap_Stcur]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Stcur]
+
+  [Sales Order Number]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Vbeln]
+  [Sales Order Item]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Posnr]
+  [Sales Order Scl Line]='0001'
+  [Sales Order Key]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Vbeln]+''+[Sql_I2_Vw_Vbak_Vbap.Vbap_Posnr]
+  [So Header Create Date]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Erdat]
+//  [Time Header]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Erzet]
+//  [Created By Header]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Ernam]
+  [So Date]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Audat]
+  [So Document Category]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Vbtyp]
+  [So Document Type]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Auart]
+//  [Currency Header]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Waerk]
+  [Sales Org Key]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Vkorg]
+  [Comp Code Key] = [Sql_I2_Vw_Vbak_Vbap.Vbak_Vkorg]
+//  [Distr Channel]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Vtweg]
+  [Division Header]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Spart]
+//  [Sales Group]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Vkgrp]
+  [Sales Office Key]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Vkbur]
+  [So Doc Condition]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Knumv]
+//  [Pric Procedure]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Kalsm]
+//  [Po Number]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Bstnk]
+  [Customer Key]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Kunnr]
+  [So Header Change Date]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Aedat]
+//  [Ccodetobebilled]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Bukrs_Vf]
+  [Item Key]=[Vmatkey]
+//  [Ext Mat Group Key]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Matkl]
+  [Item Category]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Pstyv]
+//  [Rejection Reason Key]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Abgru]
+  [Base Unit]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Meins]
+//  [Cust Material]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Kdmat]
+  [Division Key]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Spart]
+  [Order Net]=[Vordernet]
+  [Currency Key]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Waerk]
+  [Order Qty]=[Vorderqty]
+//  [Reference Doc]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Vgbel]
+//  [Reference Item]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Vgpos]
+  [Plant]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Werks]
+  [Created On Line Item]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Erdat]
+//  [Created By Line Item]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Ernam]
+//  [Time Line Item]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Erzet]
+//  [Net Price]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Netpr]
+  [So Item Cost]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Wavwr]
+//  [Requirement Type Key] = [Sql_I2_Vw_Vbak_Vbap.Vbap_Bedae]
+//  [Object Number] = [Sql_I2_Vw_Vbak_Vbap.Vbap_Objnr]
+  [Delivery Customer Key]='Del_I2_'+[Sql_I2_Vw_Vbak_Vbap.Customer_Delivery_Country]
+//  [Exch Rate Stats]=[Sql_I2_Vw_Vbak_Vbap.Vbap_Stcur]
+  If [Sql_I2_Vw_Vbak_Vbap.Vbap_Aedat] Is Not Null Then
+    [Vchangedate] = [Sql_I2_Vw_Vbak_Vbap.Vbap_Aedat]
+  Else
+    [Vchangedate] = [Sql_I2_Vw_Vbak_Vbap.Vbap_Erdat]
+  End If
+
+  [Security Key] = 'N' + Substring('0000',0,4 - Length([Sql_I2_Vw_Vbak_Vbap.Vbak_Vkorg])) + [Sql_I2_Vw_Vbak_Vbap.Vbak_Vkorg] + [Sql_I2_Vw_Vbak_Vbap.Vbap_Spart] + '' + [Sql_I2_Vw_Vbak_Vbap.Vbak_Kunnr] 
+  
+  [Analysis Date]=[Vchangedate]
+  [Changed On Line Item]=[Vchangedate]
+  [Change Date]=[Vchangedate]
+  
+
+  [Pricing Date]=[Sql_I2_Vw_Vbak_Vbap.Vkbd_Prsdt]
+  [Custarea Key] = [Sql_I2_Vw_Vbak_Vbap.Vbak_Kunnr] + '' + Substring('0000',0,4 - Length([Sql_I2_Vw_Vbak_Vbap.Vbak_Vkorg]))+ [Sql_I2_Vw_Vbak_Vbap.Vbak_Vkorg] 
+  [So Order Delivery Status]=[Sql_I2_Vw_Vbak_Vbap.Vbup_Lfsta]
+  [So Item Delivery Status]=[Sql_I2_Vw_Vbak_Vbap.Vbup_Lfgsa]
+  [So Item Rejection Status]=[Sql_I2_Vw_Vbak_Vbap.Vbup_Absta]
+  [So Item Overall Status]=[Sql_I2_Vw_Vbak_Vbap.Vbup_Gbsta]
+  [Rectype] = 'New Record'
+  [Delmarker] = 'I2'
+  [Source] = 'I2'
+
+  [V_Rate_Home_To_Chf] = 1
+  If [Sc-Company.Comp Currency Key] <> 'Chf' Then
+    [V_Rate_Home_To_Chf] = [Homerates.Exchange Rate]
+  End If
+Print '[Sc-Company.Comp Currency Key]:'+[Sc-Company.Comp Currency Key]+' [V_Rate_Home_To_Chf] ='+[V_Rate_Home_To_Chf] 
+  [V_Rate_Chf_To_Reg] = 1
+  If [Sc-Customer Sales Area I2.Rc Currency Key] <> 'Chf' Then
+    [V_Rate_Chf_To_Reg] = [Regrates.Exchange Rate]
+  End If
+Print '[Sc-Customer Sales Area I2.Rc Currency Key]:'+[Sc-Customer Sales Area I2.Rc Currency Key]+' [V_Rate_Chf_To_Reg] ='+[V_Rate_Chf_To_Reg]   
+  /* Catch Issue Rate Not Found Code */
+
+  If [V_Rate_Home_To_Chf] Is Null Then
+    [V_Rate_Home_To_Chf] = 1
+    Print 'Issue With '+[Sql_I2_Vw_Vbak_Vbap.Vbap_Vbeln]+' Rate For V_Rate_Home_To_Chf '+[Sc-Company.Comp Currency Key]+' Not Found - Set To 1'
+  End If
+  
+  If [V_Rate_Chf_To_Reg] Is Null Then
+    [V_Rate_Chf_To_Reg] = 1
+    Print 'Issue With '+[Sql_I2_Vw_Vbak_Vbap.Vbap_Vbeln]+' Rate For V_Rate_Chf_To_Reg '+[Sc-Customer Sales Area I2.Rc Currency Key]+' Not Found - Set To 1'
+  End If  
+  
+
+  [Currency Key Dc]=[Vsalescurr]
+  [Ex Rate Dc]=1
+  [Order Intake Dc]=[Vordernet]
+  
+  [Currency Key Hc] = [Sc-Company.Comp Currency Key]
+  If [Vvbap_Stcur] > Float(0.00) Then
+	  [Ex Rate Hc]=[Vvbap_Stcur]
+    [Vordernethc]=Float([Vordernet]*[Vvbap_Stcur])
+  Elseif [Vvbap_Stcur] < Float(0.00) Then
+    [Ex Rate Hc]=Float(1/[Vvbap_Stcur]*-1)
+    [Vordernethc]=Float([Vordernet]/([Vvbap_Stcur]*-1))
+  End If  
+  [Order Intake Hc]=[Vordernethc]
+
+  [Currency Key Gc] = 'Chf'
+  If [Sc-Company.Comp Currency Key] = 'Chf' Then
+    [Ex Rate Gc] = 1
+    [Vordernetgc] = [Vordernethc]
+  Else
+    [Ex Rate Gc] = [V_Rate_Home_To_Chf]
+    [Vordernetgc] = [Vordernethc]*[V_Rate_Home_To_Chf]
+  End If
+  [Order Intake Gc]=[Vordernetgc]
+
+  [Currency Key Rc] = [Sc-Customer Sales Area I2.Rc Currency Key]
+  If [Sc-Customer Sales Area I2.Rc Currency Key] = 'Chf' Then
+    [Ex Rate Rc] = 1
+    [Order Intake Rc] = [Vordernetgc]
+  Else
+    [Ex Rate Rc] = Float(1/[V_Rate_Chf_To_Reg])
+    [Order Intake Rc] = Float([Vordernetgc]/[V_Rate_Chf_To_Reg])
+  End If
+
+  [Current Record] = 1
+
+Writerecord

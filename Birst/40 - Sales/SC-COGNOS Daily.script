@@ -1,0 +1,15 @@
+[Comp Code Key] = [Grain(Sc-Invoices I2).Comp Code Key]
+[Currency Key Hc] = [Grain(Sc-Invoices I2).# Currency Key Hc]
+[Analysis Date] = [Grain(Sc-Invoices I2).Analysis Date]
+[Net Sales Hc] = Sum([Grain(Sc-Invoices I2).Net Sales Hc])
+[Sales Cogs Hc] = Sum([Grain(Sc-Invoices I2).Sales Cogs Hc])
+[Sales Icogs Hc] = Sum([Grain(Sc-Invoices I2).Sales Icogs Hc])
+If Length(''+Datepart(Month,[Grain(Sc-Invoices I2).Analysis Date])) = 1 Then
+[Month]='0'+Datepart(Month,[Grain(Sc-Invoices I2).Analysis Date])
+Else
+[Month]=''+Datepart(Month,[Grain(Sc-Invoices I2).Analysis Date])
+End If
+[Year]=Substring(''+Datepart(Year,[Grain(Sc-Invoices I2).Analysis Date]),2,4)
+
+
+Writerecord

@@ -1,0 +1,2 @@
+Select [Tbl_Dim_Sales_Region.Sales_Region_Code], [Tbl_Dim_Sales_Region.Sales_Subregion_Code], [Tbl_Dim_Sales_Region.Sales_Office_Code], [Tbl_Dim_Sales_Region.Sales_Office_Name], [Tbl_Dim_Sales_Region.Regional_Currency_Code]
+  From [Tbl_Dim_Sales_Region]

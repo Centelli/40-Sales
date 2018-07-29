@@ -1,0 +1,26 @@
+Select [Sql_I2_Vw_Dim_Customer.Comp_Code], [Sql_I2_Vw_Dim_Customer.Div_Comp_Code], [Sql_I2_Vw_Dim_Customer.Comp_Type], [Sql_I2_Vw_Dim_Customer.Sap_Comp_Code], [Sql_I2_Vw_Dim_Customer.Legacy_Flag], [Sql_I2_Vw_Dim_Customer.Customer_Key], [Sql_I2_Vw_Dim_Customer.Customer_Code], [Sql_I2_Vw_Dim_Customer.Customer_Name1], [Sql_I2_Vw_Dim_Customer.Customer Address1], [Sql_I2_Vw_Dim_Customer.Customer Address2], [Sql_I2_Vw_Dim_Customer.Country Key], [Sql_I2_Vw_Dim_Customer.Customer_Longname], [Sql_I2_Vw_Dim_Customer.Market_Sub_Segment_Code], [Sql_I2_Vw_Dim_Customer.Market_Sub_Segment_Name], [Sql_I2_Vw_Dim_Customer.Market_Role_Code], [Sql_I2_Vw_Dim_Customer.Market_Role_Name], [Sql_I2_Vw_Dim_Customer.Customer_Group_Name], [Sql_I2_Vw_Dim_Customer.Customer_Type], [Sql_I2_Vw_Dim_Customer.Salesrep_Code], [Sql_I2_Vw_Dim_Customer.Salesrep_Name], [Sql_I2_Vw_Dim_Customer.Customer_Group_Code], [Sql_I2_Vw_Dim_Customer.Customer_Account_Group_Code]
+  From [Sql_I2_Vw_Dim_Customer]
+Left Outer Join
+Select [Country.Country Key], [Country.Country]
+  From [Country]
+  On [Sql_I2_Vw_Dim_Customer.Country Key] = [Country.Country Key]
+Left Outer Join
+Select [Tbl_Dim_Market.Market_Segment_Name], [Tbl_Dim_Market.Market_Name], [Tbl_Dim_Market.Market_Code]
+  From [Tbl_Dim_Market]
+    On [Sql_I2_Vw_Dim_Customer.Market_Sub_Segment_Code] = [Tbl_Dim_Market.Market_Segment_Code]
+Left Outer Join
+Select [Tbl_Dim_Country.Country_Iso_Alpha_Code], [Tbl_Dim_Country.Subregion_Key], [Tbl_Dim_Country.Subregion_Name], [Tbl_Dim_Country.Area_Key], [Tbl_Dim_Country.Area_Name], [Tbl_Dim_Country.Region_Key], [Tbl_Dim_Country.Region_Name]
+  From [Tbl_Dim_Country]
+  On [Sql_I2_Vw_Dim_Customer.Country Key] = [Tbl_Dim_Country.Country_Iso_Alpha_Code]
+Left Outer Join
+Select [Tbl_Dim_Market_Role.Market_Role_Name], [Tbl_Dim_Market_Role.Market_Role_Group_Name], [Tbl_Dim_Market_Role.Sales_Partner_Name]
+  From [Tbl_Dim_Market_Role]
+    On [Sql_I2_Vw_Dim_Customer.Market_Role_Code] = [Tbl_Dim_Market_Role.Market_Role_Code]
+Left Outer Join
+Select [Tbl_Dim_Customer_Group.Customer_Group_Code], [Tbl_Dim_Customer_Group.Customer_Group_Name], [Tbl_Dim_Customer_Group.Customer_Group_Parent_Name]
+  From [Tbl_Dim_Customer_Group]
+    On [Sql_I2_Vw_Dim_Customer.Customer_Group_Code]=[Tbl_Dim_Customer_Group.Customer_Group_Code]
+Left Outer Join
+Select [Tbl_Dim_Customer_Type.Customer_Type_Code], [Tbl_Dim_Customer_Type.Customer_Type_Name]
+  From [Tbl_Dim_Customer_Type]
+    On [Sql_I2_Vw_Dim_Customer.Customer_Account_Group_Code] = [Tbl_Dim_Customer_Type.Customer_Account_Group_Code]

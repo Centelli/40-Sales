@@ -1,0 +1,113 @@
+Dim [Vbacklog] As Float
+
+If Sum([Sclagg.Order Qty]) < Sum([Sc-Invoices.Invoice Qty]) Then 
+
+[Vbacklog] = Sum([Sc-Invoices.Invoice Qty])-Sum([Sclagg.Order Qty])
+
+Print '[Sc-Orders Sl Update.Sales Order Number]:'+[Sc-Orders Sl Update.Sales Order Number]+'  [Sc-Orders Sl.Sales Order Number]:'+[Sclagg.Sales Order Number]
+Print '[Sc-Orders Sl Update.Sales Order Item]:'+[Sc-Orders Sl Update.Sales Order Item]+'  [Sc-Orders Sl.Sales Order Item]:'+[Sclagg.Sales Order Item]
+Print 'Sum([Sc-Invoices.Invoice Qty]):'+Sum([Sc-Invoices.Invoice Qty])+'  Sum([Sc-Orders Sl Update.Order Qty]):'+Sum([Sclagg.Order Qty])
+
+[Sales Order Number]=[Sc-Orders Sl Update.Sales Order Number]
+[Sales Order Item]=[Sc-Orders Sl Update.Sales Order Item]
+[So Date]=[Sc-Orders Sl Update.So Date]
+[So Document Category]=[Sc-Orders Sl Update.So Document Category]
+[So Transaction Group]=[Sc-Orders Sl Update.So Transaction Group]
+[So Document Type]=[Sc-Orders Sl Update.So Document Type]
+[Sales Org Key]=[Sc-Orders Sl Update.Sales Org Key]
+[Distr Channel]=[Sc-Orders Sl Update.Distr Channel]
+[Sales Office Key]=[Sc-Orders Sl Update.Sales Office Key]
+[Customer Key]=[Sc-Orders Sl Update.Customer Key]
+[So Header Change Date]=[Sc-Orders Sl Update.So Header Change Date]
+[Item Key]=[Sc-Orders Sl Update.Item Key]
+[Item Category]=[Sc-Orders Sl Update.Item Category]
+[Rejection Reason Key]=[Sc-Orders Sl Update.Rejection Reason Key]
+[Base Unit]=[Sc-Orders Sl Update.Base Unit]
+[Division Key]=[Sc-Orders Sl Update.Division Key]
+[Plant]=[Sc-Orders Sl Update.Plant]
+[Analysis Date]=[Sc-Orders Sl Update.Analysis Date]
+[Pricing Date]=[Sc-Orders Sl Update.Pricing Date]
+[Sales Order Key]=[Sc-Orders Sl Update.Sales Order Key]
+[Current Record]=[Sc-Orders Sl Update.Current Record]
+[Custarea Key]=[Sc-Orders Sl Update.Custarea Key]
+[So Item Delivery Status]=[Sc-Orders Sl Update.So Item Delivery Status]
+[So Order Delivery Status]=[Sc-Orders Sl Update.So Order Delivery Status]
+[So Item Rejection Status]=[Sc-Orders Sl Update.So Item Rejection Status]
+[So Item Overall Status]=[Sc-Orders Sl Update.So Item Overall Status]
+[Change Date]=[Sc-Orders Sl Update.Change Date]
+[Delmarker]=[Sc-Orders Sl Update.Delmarker]
+[Source]=[Sc-Orders Sl Update.Source]
+[Requirement Type Key]=[Sc-Orders Sl Update.Requirement Type Key]
+[Object Number]=[Sc-Orders Sl Update.Object Number]
+[Comp Code Key]=[Sc-Orders Sl Update.Comp Code Key]
+//[Scl Delivery Date]=[Sc-Orders Sl Update.Scl Delivery Date]
+//[Scl Category]=[Sc-Orders Sl Update.Scl Category]
+//[Scl Type]=[Sc-Orders Sl Update.Scl Type]
+//[Scl Requirement Type]=[Sc-Orders Sl Update.Scl Requirement Type]
+[Sales Order Scl Line]='Xx'
+[So Doc Condition]=[Sc-Orders Sl Update.So Doc Condition]
+[Delivery Customer Key]=[Sc-Orders Sl Update.Delivery Customer Key]
+[Security Key]=[Sc-Orders Sl Update.Security Key]
+[Rectype]='Backlog'
+
+[Scl Quantity]=[Vbacklog]
+[Order Qty]=[Vbacklog]
+
+/*
+[So Item Cost]=Sum([Sclagg.So Item Cost])
+*/
+
+[Currency Key Dc]=[Sclagg.Currency Key Dc]
+[Ex Rate Dc]=[Sclagg.Ex Rate Dc]
+[Order Intake Dc]=0.0
+[So Item Cost Dc]=0.0
+
+[Currency Key Gc]=[Sclagg.Currency Key Gc]
+[Ex Rate Gc]=[Sclagg.Ex Rate Gc]
+[Order Intake Gc]=0.0
+[So Item Cost Gc]=0.0
+
+[Currency Key Hc]=[Sclagg.Currency Key Hc]
+[Ex Rate Hc]=[Sclagg.Ex Rate Hc]
+[Order Intake Hc]=0.0
+[So Item Cost Hc]=0.0
+
+[Currency Key Rc]=[Sclagg.Currency Key Rc]
+[Ex Rate Rc]=[Sclagg.Ex Rate Rc]
+[Order Intake Rc]=0.0
+[So Item Cost Rc]=0.0
+
+
+If Ifnull([Sc-Orders Sl.Order Qty],0.0) <> 0.0 Then
+ If Ifnull([Sc-Orders Sl.Order Intake Dc],0.0)<>0.0
+  [Order Intake Dc]=([Sc-Orders Sl.Order Intake Dc]/[Sc-Orders Sl.Order Qty])*[Vbacklog]
+ End If
+ If Ifnull([Sc-Orders Sl.So Item Cost Dc],0.0) <> 0.0 Then
+  [So Item Cost Dc]=([Sc-Orders Sl.So Item Cost Dc]/[Sc-Orders Sl.Order Qty])*[Vbacklog]
+ End If
+
+ If Ifnull([Sc-Orders Sl.Order Intake Gc],0.0)<>0.0
+  [Order Intake Gc]=([Sc-Orders Sl.Order Intake Gc]/[Sc-Orders Sl.Order Qty])*[Vbacklog]
+ End If
+ If Ifnull([Sc-Orders Sl.So Item Cost Gc],0.0) <> 0.0 Then
+  [So Item Cost Gc]=([Sc-Orders Sl.So Item Cost Gc]/[Sc-Orders Sl.Order Qty])*[Vbacklog]
+ End If
+
+ If Ifnull([Sc-Orders Sl.Order Intake Hc],0.0)<>0.0
+  [Order Intake Hc]=([Sc-Orders Sl.Order Intake Hc]/[Sc-Orders Sl.Order Qty])*[Vbacklog]
+ End If
+ If Ifnull([Sc-Orders Sl.So Item Cost Hc],0.0) <> 0.0 Then
+  [So Item Cost Hc]=([Sc-Orders Sl.So Item Cost Hc]/[Sc-Orders Sl.Order Qty])*[Vbacklog]
+ End If
+
+ If Ifnull([Sc-Orders Sl.Order Intake Rc],0.0)<>0.0
+  [Order Intake Rc]=([Sc-Orders Sl.Order Intake Rc]/[Sc-Orders Sl.Order Qty])*[Vbacklog]
+ End If
+ If Ifnull([Sc-Orders Sl.So Item Cost Rc],0.0) <> 0.0 Then
+  [So Item Cost Rc]=([Sc-Orders Sl.So Item Cost Rc]/[Sc-Orders Sl.Order Qty])*[Vbacklog]
+ End If
+End If
+
+Writerecord
+
+End If

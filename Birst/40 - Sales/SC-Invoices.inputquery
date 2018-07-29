@@ -1,0 +1,24 @@
+/* With Rc From S-Off*/
+
+Select [Vbrk_Vbrp.Vbrk_Vbeln], [Vbrk_Vbrp.Vbrk_Fkart], [Vbrk_Vbrp.Vbrk_Fktyp], [Vbrk_Vbrp.Vbrk_Vbtyp], [Vbrk_Vbrp.Vbrk_Waerk], [Vbrk_Vbrp.Vbrk_Vkorg], [Vbrk_Vbrp.Vbrk_Vtweg], [Vbrk_Vbrp.Vbrk_Spart], [Vbrk_Vbrp.Vbrk_Fkdat], [Vbrk_Vbrp.Vbrk_Belnr], [Vbrk_Vbrp.Vbrk_Gjahr], [Vbrk_Vbrp.Vbrk_Poper], [Vbrk_Vbrp.Vbrk_Kdgrp], [Vbrk_Vbrp.Vbrk_Bukrs], [Vbrk_Vbrp.Vbrk_Netwr], [Vbrk_Vbrp.Vbrk_Ernam], [Vbrk_Vbrp.Vbrk_Erzet], [Vbrk_Vbrp.Vbrk_Erdat], [Vbrk_Vbrp.Vbrk_Kalsm], [Vbrk_Vbrp.Vbrk_Knumv], [Vbrk_Vbrp.Vbrk_Kunrg], [Vbrk_Vbrp.Vbrk_Kunag], [Vbrk_Vbrp.Vbrk_Aedat], [Vbrk_Vbrp.Vbrk_Sfakn], [Vbrk_Vbrp.Vbrk_Kunwe], [Vbrk_Vbrp.Vbrp_Vbeln], [Vbrk_Vbrp.Vbrp_Posnr], [Vbrk_Vbrp.Vbrp_Uepos], [Vbrk_Vbrp.Vbrp_Fkimg], [Vbrk_Vbrp.Vbrp_Fklmg], [Vbrk_Vbrp.Vbrp_Vrkme], [Vbrk_Vbrp.Vbrp_Umvkz], [Vbrk_Vbrp.Vbrp_Umvkn], [Vbrk_Vbrp.Vbrp_Meins], [Vbrk_Vbrp.Vbrp_Netwr], [Vbrk_Vbrp.Vbrp_Vbelv], [Vbrk_Vbrp.Vbrp_Posnv], [Vbrk_Vbrp.Vbrp_Vgbel], [Vbrk_Vbrp.Vbrp_Vgpos], [Vbrk_Vbrp.Vbrp_Vgtyp], [Vbrk_Vbrp.Vbrp_Aubel], [Vbrk_Vbrp.Vbrp_Aupos], [Vbrk_Vbrp.Vbrp_Auref], [Vbrk_Vbrp.Vbrp_Matnr], [Vbrk_Vbrp.Vbrp_Matkl], [Vbrk_Vbrp.Vbrp_Pstyv], [Vbrk_Vbrp.Vbrp_Posar], [Vbrk_Vbrp.Vbrp_Spart], [Vbrk_Vbrp.Vbrp_Werks], [Vbrk_Vbrp.Vbrp_Aland], [Vbrk_Vbrp.Vbrp_Vkgrp], [Vbrk_Vbrp.Vbrp_Vkbur], [Vbrk_Vbrp.Vbrp_Ernam], [Vbrk_Vbrp.Vbrp_Erdat], [Vbrk_Vbrp.Vbrp_Erzet], [Vbrk_Vbrp.Vbrp_Lgort], [Vbrk_Vbrp.Vbrp_Wavwr], [Vbrk_Vbrp.Vbrp_Kzwi1], [Vbrk_Vbrp.Vbrp_Kzwi2], [Vbrk_Vbrp.Vbrp_Kzwi3], [Vbrk_Vbrp.Vbrp_Kzwi4], [Vbrk_Vbrp.Vbrp_Kzwi5], [Vbrk_Vbrp.Vbrp_Kzwi6], [Vbrk_Vbrp.Vbrp_Stcur], [Vbrk_Vbrp.Vbrp_Prctr], [Vbrk_Vbrp.Vbrp_Autyp], [Vbrk_Vbrp.Vbrp_Kursk], [Vbrk_Vbrp.Vbrp_Shkzg],[Vbrk_Vbrp.Vbrk_Kurrf], [Vbrk_Vbrp.Vbrp_Kowrr], [Vbrk_Vbrp.Vbrp_Fareg] From [Vbrk_Vbrp] Where [Vbrk_Vbrp.Vbrk_Fkart] Not In ('Wia','Zb1','Zb2','Zb3','Zf5','Zf8','Zfaz','Zfas','Zitp','Zwia','Zwis','Zzep','Zzhk','Zztp','') 
+And [Vbrk_Vbrp.Vbrp_Pstyv] Not In ('B1N','G2Tx','Zaab','Zaae','Zaak','Zaas','Zafc','Zafn','Zagc','Zagd','Zagn','Zagx','Zann','Zasm','Zdlw','Zgab','Zgas','Zkaa','Zkaf','Zkag','Zkam','Zkbn','Zkea','Zkls','Zkmn','Zknn','Zlan','Zlnn','Zmen','Znlc','Znln','Znnn','Zpro','Zqal','Zrex','Ztal','Ztax','Zzz1','','Zkbu')
+Inner Join
+Select [Sc-Company.Comp Code Key],[Sc-Company.Comp Currency Key] From [Sc-Company] On [Sc-Company.Comp Code Key]=[Vbrk_Vbrp.Vbrk_Bukrs]
+Inner Join 
+Select [Tbl_Dim_Sales_Region.Sales_Office_Code],[Tbl_Dim_Sales_Region.Regional_Currency_Code] From [Tbl_Dim_Sales_Region] On [Tbl_Dim_Sales_Region.Sales_Office_Code]=[Vbrk_Vbrp.Vbrp_Vkbur]
+Left Outer Join
+Select [Homerates.Exchange Rate]  From [Sc-Ex Rates] 'Homerates' On [Homerates.Valid From Date] <= [Vbrk_Vbrp.Vbrk_Fkdat] And [Homerates.Valid To Date] >= [Vbrk_Vbrp.Vbrk_Fkdat] And [Homerates.From Currency Key] = [Sc-Company.Comp Currency Key]
+Left Outer Join
+Select [Regrates.Exchange Rate]  From [Sc-Ex Rates] 'Regrates' On [Regrates.Valid From Date] <= [Vbrk_Vbrp.Vbrk_Fkdat] And [Regrates.Valid To Date] >= [Vbrk_Vbrp.Vbrk_Fkdat] And [Regrates.From Currency Key] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
+Left Outer Join
+Select Sum([Konv.Konv_Kwert])
+  From [Konv] 
+  On [Konv.Konv_Knumv] = [Vbrk_Vbrp.Vbrk_Knumv] And [Konv.Konv_Kposn] = [Vbrk_Vbrp.Vbrp_Posnr] And [Konv.Konv_Kinak] Is Null
+Left Outer Join
+Select [Vbpa.Vbpa_Kunnr] From [Vbpa] On [Vbpa.Vbpa_Vbeln] = [Vbrk_Vbrp.Vbrp_Vbeln] And [Vbpa.Vbpa_Posnr] = [Vbrk_Vbrp.Vbrp_Posnr] And [Vbpa.Vbpa_Parvw] = 'We'
+Left Outer Join 
+Select [Sc-Icogs.Icogs Init Cost Price], [Sc-Icogs.Icogs Cost Price] From [Sc-Icogs] On [Sc-Icogs.Material Key] = [Vbrk_Vbrp.Vbrp_Matnr] And [Sc-Icogs.Plant Key] = [Vbrk_Vbrp.Vbrp_Werks] And [Vbrk_Vbrp.Vbrk_Fkdat] >= [Sc-Icogs.Icogs Valid From] And [Vbrk_Vbrp.Vbrk_Fkdat] < [Sc-Icogs.Icogs Valid To]
+Left Outer Join 
+Select [Tcurf.Tcurf_Ffact], [Tcurf.Tcurf_Tfact]
+From [Tcurf]
+On [Tcurf.Tcurf_Kurst] = 'M' And [Tcurf.Tcurf_Fcurr] = [Vbrk_Vbrp.Vbrk_Waerk] And [Tcurf.Tcurf_Tcurr] = [Sc-Company.Comp Currency Key]
