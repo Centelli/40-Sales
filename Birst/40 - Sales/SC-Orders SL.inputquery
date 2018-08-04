@@ -9,9 +9,9 @@ Select [Homerates.Exchange Rate]  From [Sc-Ex Rates] 'Homerates' On [Homerates.V
 Left Outer Join
 Select [Regrates.Exchange Rate]  From [Sc-Ex Rates] 'Regrates' On [Regrates.Valid From Date] <= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Regrates.Valid To Date] >= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Regrates.From Currency Key] = [Sc-Customer Sales Area.Rc Currency Key]
 Left Outer Join 
-Select [Tcurf.Tcurf_Ffact], [Tcurf.Tcurf_Tfact]
-From [Tcurf]
-On [Tcurf.Tcurf_Kurst] = 'M' And [Tcurf.Tcurf_Fcurr] = [Vbak_Vbap_Vbep.Vbap_Waerk] And [Tcurf.Tcurf_Tcurr] = [Sc-Company.Comp Currency Key]
+Select [Sc-Tcurf.Tcurf_Ffact], [Sc-Tcurf.Tcurf_Tfact]
+From [Sc-Tcurf]
+On [Sc-Tcurf.Tcurf_Kurst] = 'M' And [Sc-Tcurf.Tcurf_Fcurr] = [Vbak_Vbap_Vbep.Vbap_Waerk] And [Sc-Tcurf.Tcurf_Tcurr] = [Sc-Company.Comp Currency Key] And [Sc-Tcurf.From Date] <= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Sc-Tcurf.To Date] >= [Vbak_Vbap_Vbep.Vbkd_Prsdt]
 Left Outer Join
 Select [Bd.Vbkd_Vbeln], [Bd.Vbkd_Posnr], [Bd.Vbkd_Prsdt], [Bd.Vbkd_Kursk]
   From [Vbkd] 'Bd'

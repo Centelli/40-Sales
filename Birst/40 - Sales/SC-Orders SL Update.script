@@ -47,11 +47,12 @@ Dim [Vschedqty] As Float
 [Security Key] = [Sc-Orders Sl.Security Key]
 
 
+Dim [Mcurrentorders] As Map(Varchar(16), Varchar(10)) = Select [Grain(Sc-Orders Sl Update).# Sales Order Key], [Grain(Sc-Orders Sl Update).Sales Order Number] From [Grain(Sc-Orders Sl Update)] Where [Grain(Sc-Orders Sl Update).# Current Record] = '1'
 
 /*
 If Order Schedule Line Exists Then This Is An Update Record
 */
-If [Grain(Sc-Orders Sl Update).Sales Order Number] Is Null Then
+If [Mcurrentorders]([Sc-Orders Sl.Sales Order Key]) Is Null Then
  [Rectype]=[Sc-Orders Sl.Rectype]
 Else
  [Rectype]='Update'
@@ -93,10 +94,6 @@ Qty To Come From Schedule Line Not Order
 
 [Currency Key Rc]=[Sc-Orders Sl.Currency Key Rc]
 [Ex Rate Rc]=[Sc-Orders Sl.Ex Rate Rc]
-
-Print '[Vordqty]:'+[Vordqty]
-Print '[Vschedqty]'+[Vschedqty]
-Print [Sc-Orders Sl.Order Intake Dc]
 
 If [Vordqty] > 0.00 Then
 [Order Intake Dc]=[Vschedqty]*(Ifnull([Sc-Orders Sl.Order Intake Dc],0.00)/[Vordqty])

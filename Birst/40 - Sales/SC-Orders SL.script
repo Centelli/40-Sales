@@ -66,8 +66,12 @@ Dim [V_Rate_Chf_To_Reg] As Float
 
 
   [Vordernetvbap] = [Checkvalue]([Vbak_Vbap_Vbep.Vbap_Netwr])
-  [Vorderqtyvbap] = (Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbap_Kwmeng])),0.00)*(Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbap_Umvkz])),0.00)/Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbap_Umvkn])),0.00)))
-
+  // Credit And Debit Memos Do Not Have Kwmeng So Take Zmeng
+  If [Vbak_Vbap_Vbep.Vbak_Auart] In ('Zl2','Zg2') Then
+    [Vorderqtyvbap] = (Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbap_Zmeng])),0.00)*(Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbap_Umvkz])),0.00)/Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbap_Umvkn])),0.00)))
+  Else
+    [Vorderqtyvbap] = (Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbap_Kwmeng])),0.00)*(Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbap_Umvkz])),0.00)/Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbap_Umvkn])),0.00)))
+  End If
 /*
 Item Key Manipulation For Vc Items 
 */  
@@ -81,22 +85,26 @@ Print '[Vbak_Vbap_Vbep.Vbap_Vbeln]: '+[Vbak_Vbap_Vbep.Vbap_Vbeln]+' [Vbak_Vbap_V
 /*
 Print '[Vsalescurr]: '+[Vsalescurr]
 Print '[Vvbap_Stcur]: '+[Vvbap_Stcur]
-Print '[Tcurf.Tcurf_Ffact]: '+[Tcurf.Tcurf_Ffact]
-Print '[Tcurf.Tcurf_Tfact]: '+[Tcurf.Tcurf_Tfact]
+Print '[Sc-Tcurf.Tcurf_Ffact]: '+[Sc-Tcurf.Tcurf_Ffact]
+Print '[Sc-Tcurf.Tcurf_Tfact]: '+[Sc-Tcurf.Tcurf_Tfact]
 */
 
 // Use Tcurf Data To Apply Sap Multiplier, Applied To Dc To Hc Ex Rate
-If Ifnull([Tcurf.Tcurf_Ffact],'0') <> '0' And Ifnull([Tcurf.Tcurf_Tfact],'0') <> '0' Then
- [Vvbkd_Kursk] = [Vvbkd_Kursk]/(Ifnull(Float([Tcurf.Tcurf_Ffact]),0.00)/Float([Tcurf.Tcurf_Tfact]))
-Elseif [Tcurf.Tcurf_Tfact] = '0' Then
- [Vvbkd_Kursk] = [Vvbkd_Kursk]/Float([Tcurf.Tcurf_Ffact])
+If Ifnull([Sc-Tcurf.Tcurf_Ffact],'0') <> '0' And Ifnull([Sc-Tcurf.Tcurf_Tfact],'0') <> '0' Then
+ [Vvbkd_Kursk] = [Vvbkd_Kursk]/(Ifnull(Float([Sc-Tcurf.Tcurf_Ffact]),0.00)/Float([Sc-Tcurf.Tcurf_Tfact]))
+Elseif [Sc-Tcurf.Tcurf_Tfact] = '0' Then
+ [Vvbkd_Kursk] = [Vvbkd_Kursk]/Float([Sc-Tcurf.Tcurf_Ffact])
 Else
  [Vvbkd_Kursk] = [Vvbkd_Kursk]
 End If
   [Vordernet] = Ifnull([Vordernetvbap],0.00)
   [Vorderqty] = Ifnull([Vorderqtyvbap],0.00)
-  [Vschedlineqty] = Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbep_Lmeng])),0.00)
-  
+  // Credit And Debit Memos Do Not Have Schedule Lines
+  If [Vbak_Vbap_Vbep.Vbak_Auart] In ('Zl2','Zg2') Then
+    [Vschedlineqty] = Ifnull([Vorderqtyvbap],0.00)
+  Else
+    [Vschedlineqty] = Ifnull(Float([Checkvalue]([Vbak_Vbap_Vbep.Vbep_Lmeng])),0.00)
+  End If
 /* 
   If A Reason For Rejection Is Set, Then Following Logic Applies:
     Abgru = Zl --> No Change
