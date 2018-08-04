@@ -1,0 +1,55 @@
+Dim [Vgdatu] As Varchar(8)
+Dim [Vfromdate] As Date
+Dim [Vtodate] As Date
+
+Dim [Vcurrcurr] As Varchar(8)
+
+Dim [Vprevcurr] As Varchar(8)
+Dim [Vprevdate] As Date
+
+[Vcurrcurr]=[Tcurf.Tcurf_Fcurr]+[Tcurf.Tcurf_Tcurr]
+[Tcurf_Kurst]=[Tcurf.Tcurf_Kurst]
+[Tcurf_Fcurr]=[Tcurf.Tcurf_Fcurr]
+[Tcurf_Tcurr]=[Tcurf.Tcurf_Tcurr]
+[Tcurf_Gdatu]=[Tcurf.Tcurf_Gdatu]
+[Tcurf_Ffact]=[Tcurf.Tcurf_Ffact]
+[Tcurf_Tfact]=[Tcurf.Tcurf_Tfact]
+[Tcurf_Abwct]=[Tcurf.Tcurf_Abwct]
+[Tcurf_Abwga]=[Tcurf.Tcurf_Abwga]
+
+//Sap Gdatu Is In Sap Inverted Date Format Which Is In Yyymmdd
+[Vgdatu] = Varchar(99999999-[Tcurf.Tcurf_Gdatu])
+
+Print Count([Qcount.Tcurf_Gdatu]) + ' ' + [Tcurf.Tcurf_Fcurr] + ' ' + [Tcurf.Tcurf_Tcurr]
+//Print Substring([Vgdatu],4,6)+'/'+Substring([Vgdatu],6,8)+'/'+Substring([Vgdatu],0,4) 
+
+//Birst Expects Mmddyyyy
+[Vfromdate] = '#'+Substring([Vgdatu],4,6)+'/'+Substring([Vgdatu],6,8)+'/'+Substring([Vgdatu],0,4)+'#'
+
+Print Format([Vfromdate],'Ddmmyyyy')
+
+If [Vprevcurr] Is Not Null Then
+ Print [Vprevcurr]+' '+[Vcurrcurr]
+ If [Vprevcurr]=[Vcurrcurr] Then
+  Print '1.1'
+  [Vtodate]=[Vprevdate]
+ Else
+  Print '1.2'
+  [Vtodate]='#01/01/2999#'
+ End If
+ 
+Else //Handle First Record
+ Print '2'
+ [Vtodate]='#01/01/2999#'
+End If
+[Vprevcurr]=[Vcurrcurr]
+[Vprevdate]=[Vfromdate]
+
+//Print Format([Vtodate],'Ddmmyyyy')
+
+[From Date]=[Vfromdate]
+[To Date]=[Vtodate]
+//Count For Debug
+[Tcurf_Count]=Count([Qcount.Tcurf_Gdatu])
+
+Writerecord

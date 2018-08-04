@@ -1,0 +1,10 @@
+Select [Kna1.Kna1_Kunnr], [Kna1.Kna1_Land1], [Kna1.Kna1_Name1], [Kna1.Kna1_Name2], [Kna1.Kna1_Ort01], [Kna1.Kna1_Pstlz], [Kna1.Kna1_Regio], [Kna1.Kna1_Sortl], [Kna1.Kna1_Stras], [Kna1.Kna1_Adrnr], [Kna1.Kna1_Brsch], [Kna1.Kna1_Ktokd], [Kna1.Kna1_Bran1], [Kna1.Kna1_Katr1], [Kna1.Kna1_Katr6]
+  From [Kna1]
+Left Outer Join
+Select [Adr6.Adr6_Addrnumber], [Adr6.Adr6_Persnumber], [Adr6.Adr6_Smtp_Addr]
+  From [Adr6]
+  On [Adr6.Adr6_Addrnumber] = [Kna1.Kna1_Adrnr]
+Left Outer Join
+Select [Sc-Employee Hierarchy.Name], [Sc-Employee Hierarchy.Ad Id], [Sc-Employee Hierarchy.Manager Ad Id], [Sc-Employee Hierarchy.Manager Name], [Sc-Employee Hierarchy.Managerx2 Ad Id], [Sc-Employee Hierarchy.Managerx2 Name], [Sc-Employee Hierarchy.Managerx3 Ad Id], [Sc-Employee Hierarchy.Managerx3 Name], [Sc-Employee Hierarchy.Managerx4 Ad Id], [Sc-Employee Hierarchy.Managerx4 Name]
+  From [Sc-Employee Hierarchy]
+  On [Sc-Employee Hierarchy.Email Id] = [Adr6.Adr6_Smtp_Addr]

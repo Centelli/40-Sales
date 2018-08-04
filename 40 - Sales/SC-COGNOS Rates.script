@@ -1,0 +1,12 @@
+[Perakt]=[Sql_Ccr_Fastnet_Xomrv.Perakt]
+[Vkod]=[Sql_Ccr_Fastnet_Xomrv.Vkod]
+[Kurstyp]=[Sql_Ccr_Fastnet_Xomrv.Kurstyp]
+[Enhet]=[Sql_Ccr_Fastnet_Xomrv.Enhet]
+[Kurs]=[Sql_Ccr_Fastnet_Xomrv.Kurs]
+[Year]=Substring([Sql_Ccr_Fastnet_Xomrv.Perakt],0,2)
+[Month]=Substring([Sql_Ccr_Fastnet_Xomrv.Perakt],2,4)
+[Type]=Substring([Sql_Ccr_Fastnet_Xomrv.Perakt],4,6)
+[Source]=[Sql_Ccr_Fastnet_Xomrv.Kurstyp]
+[Exchange Rate]=[Sql_Ccr_Fastnet_Xomrv.Kurs]
+[Currency Key]=[Sql_Ccr_Fastnet_Xomrv.Vkod]
+Writerecord

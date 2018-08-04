@@ -1,0 +1,11 @@
+[Delivery Customer Key] = 'Del_I2_'+[Sql_Dbo_Vw_Sql_Dim_Country.Country_Iso_Alpha_Code]
+[Delivery Country Key] = [Sql_Dbo_Vw_Sql_Dim_Country.Country_Iso_Alpha_Code]
+[Delivery Country] = [Sql_Dbo_Vw_Sql_Dim_Country.Country_Name]
+[Geographical Subregion Key] = [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Key]
+[Geographical Subregion] = [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Name]
+[Geographical Area Key] = [Sql_Dbo_Vw_Sql_Dim_Country.Area_Key]
+[Geographical Area] = [Sql_Dbo_Vw_Sql_Dim_Country.Area_Name]
+[Geographical Region Key] = [Sql_Dbo_Vw_Sql_Dim_Country.Region_Key]
+[Geographical Region] = [Sql_Dbo_Vw_Sql_Dim_Country.Region_Name]
+[Source] = 'I2'
+Writerecord

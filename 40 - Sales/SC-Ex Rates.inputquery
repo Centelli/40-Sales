@@ -1,0 +1,1 @@
+Select [Level(Exchange Rates.Exchange Rates).From Currency Key], [Level(Exchange Rates.Exchange Rates).To Currency Key], [Level(Exchange Rates.Exchange Rates).Valid From Date], [Level(Exchange Rates.Exchange Rates).Valid To Date], [Level(Exchange Rates.Exchange Rates).Exchange Rate] From [Level(Exchange Rates.Exchange Rates)]

@@ -1,0 +1,109 @@
+Dim [Vcustomerkey] As Varchar(18)
+Dim [Vsalesrepkey] As Varchar(10)
+Dim [Vcustsalesareakey] As Varchar(22)
+Dim [Vsalesoffice] As Varchar(4)
+Dim [Vwriterecord] As Varchar(1)
+
+Dim [Vdebug] As Varchar(1)
+
+If [Grain(Sc-Security Input).# User] = 'Joern.Kuhlbrock@Hubersuhner.Com' Then
+  [Vdebug] = 'X'
+Else
+  [Vdebug] = ''
+End If
+
+/* Map Variables */
+Dim [Mcustcountry] As Map(Varchar(18),Varchar(3)) = Select [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Country Key] From [Level(Customer.Customer)]
+Dim [Mcustconscustomer] As Map(Varchar(18),Varchar(20)) = Select [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Conscustomer] From [Level(Customer.Customer)]
+Dim [Mcustmarket] As Map(Varchar(18),Varchar(10)) = Select [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Market Segment Key] From [Level(Customer.Customer)]
+Dim [Mcustsalesrep] As Map(Varchar(22),Varchar(10)) = Select [Grain(Sc-Customer Sales Area).Custarea Key], [Grain(Sc-Customer Sales Area).# Outside Sales Key] From [Grain(Sc-Customer Sales Area)]
+Dim [Mcustsalesoffice] As Map(Varchar(22),Varchar(10)) = Select [Grain(Sc-Customer Sales Area).Custarea Key], [Grain(Sc-Customer Sales Area).# Sales Office Key] From [Grain(Sc-Customer Sales Area)]
+
+/* 28Jun18 / Aneesh: There Are Security Keys That Are Short/Blank/=Na. Causing Script To Fail. Unable To Find Data Linked To These Keys So Logging
+In Print Output For Now */
+
+[Vwriterecord] = ''
+
+If Length([Level(Security Key.Security Key).Security Key]) > 6 Then
+
+	/* Determine Customer Key And Cust Sales Area Key
+	Assumption: First Character Is Icogs Flag, 4 For Company And 2 For Division To Get Customer */
+	[Vcustomerkey] = Substring([Level(Security Key.Security Key).Security Key],7,Length([Level(Security Key.Security Key).Security Key]))
+	[Vcustsalesareakey] = Substring([Level(Security Key.Security Key).Security Key],7,Length([Level(Security Key.Security Key).Security Key])) + Substring([Level(Security Key.Security Key).Security Key],1,5)
+
+	If [Vdebug] = 'X' Then
+	  Print [Grain(Sc-Security Input).# User] + ':' + [Grain(Sc-Security Input).# Security Mask] + ':'  + [Grain(Sc-Security Input).# Sales Office Key] + ':' + [Grain(Sc-Security Input).# Cust Role Entity]+ ':' + [Grain(Sc-Security Input).# Cust Role Code]+':'+[Grain(Sc-Security Input).# Cust Role Name] + ':' + [Level(Security Key.Security Key).Security Key] + ':' + [Vcustomerkey] + ':' + [Vcustsalesareakey] + ':' + [Mcustcountry]([Vcustomerkey]) + ':' + [Mcustconscustomer]([Vcustomerkey])+':' + [Mcustmarket]([Vcustomerkey])+':' + [Mcustsalesrep]([Vcustsalesareakey]) + ':' + [Mcustsalesoffice]([Vcustsalesareakey])
+	End If
+
+	/* If A Role Is Specified In The File, Use That Else Determine */
+
+	If [Grain(Sc-Security Input).# Role] = Null Or [Grain(Sc-Security Input).# Role] = '' Then
+	// Update Role To No Restriction If Cust_All, Comp_All, Div_All And Icogs = 1
+	    If [Grain(Sc-Security Input).# Security Mask] = 'Y______%' And [Grain(Sc-Security Input).# Cust Role Entity] = 'Customer All' Then
+	      [Role] = 'All'
+	    Else
+	      [Role] = 'Limited'
+	    End If
+	Else
+	  [Role] = [Grain(Sc-Security Input).# Role]
+	End If
+
+	[User] = [Grain(Sc-Security Input).# User]
+	[User Security Key] = [Level(Security Key.Security Key).Security Key]
+	[Customer Key] = [Vcustomerkey]
+
+	// For Customer All, Write Record, Else Check If User Has Access To Customer
+	If [Grain(Sc-Security Input).# Cust Role Entity] = 'Customer All'  Then
+	  [Detail] = ''
+	  [Source] = 'Cust All'
+	  [Vwriterecord] = 'X'
+	Elseif [Grain(Sc-Security Input).# Cust Role Entity] = 'Customer Country' Then
+	  [Detail] = [Mcustcountry]([Vcustomerkey])+ ':' + [Grain(Sc-Security Input).# Cust Role Code]
+	  [Source] = 'Country'
+	  If [Mcustcountry]([Vcustomerkey]) = [Grain(Sc-Security Input).# Cust Role Code] Then
+	    [Vwriterecord] = 'X'
+         [Entity Value] = [Grain(Sc-Security Input).# Cust Role Code]
+	  End If
+	Elseif [Grain(Sc-Security Input).# Cust Role Entity] = 'Customer Group' Then
+	  [Detail] = [Mcustconscustomer]([Vcustomerkey]) + ':' + [Grain(Sc-Security Input).# Cust Role Name]
+	  [Source] = 'Cust Group'
+	  If [Mcustconscustomer]([Vcustomerkey]) = [Grain(Sc-Security Input).# Cust Role Name] Then
+	    [Vwriterecord] = 'X'
+         [Entity Value] = [Grain(Sc-Security Input).# Cust Role Name]
+	  End If
+	Elseif [Grain(Sc-Security Input).# Cust Role Entity] = 'Market' Then
+	  [Detail] = [Mcustmarket]([Vcustomerkey])+ ':' + [Grain(Sc-Security Input).# Cust Role Code]
+	  [Source] = 'Market'
+	  If [Mcustmarket]([Vcustomerkey]) = [Grain(Sc-Security Input).# Cust Role Code] Then
+	    [Vwriterecord] = 'X'
+         [Entity Value] = [Grain(Sc-Security Input).# Cust Role Code]
+	  End If
+	Elseif [Grain(Sc-Security Input).# Cust Role Entity] = 'Sales Rep' Then
+	   [Detail] = [Mcustsalesrep]([Vcustsalesareakey]) + ':' + [Grain(Sc-Security Input).# Cust Role Code]
+	   [Vsalesrepkey] = [Mcustsalesrep]([Vcustsalesareakey])
+	   [Source] = 'Sales Rep'
+	   If [Vsalesrepkey] Is Not Null Then
+	     If [Vsalesrepkey] = [Grain(Sc-Security Input).# Cust Role Code] Then
+	       [Vwriterecord] = 'X'
+            [Entity Value] = [Grain(Sc-Security Input).# Cust Role Code]
+	     End If
+	   End If
+	End If
+
+/* Only Write Record If Sales Office Check Is Ok */
+	If [Vwriterecord] = 'X' Then
+		If [Grain(Sc-Security Input).# Sales Office Key] = 'All' Then
+		    Writerecord
+		Else
+                     [Vsalesoffice] = [Mcustsalesoffice]([Vcustsalesareakey])
+			If [Grain(Sc-Security Input).# Sales Office Key] = [Vsalesoffice]
+				Writerecord
+			End If
+		End If
+	End If
+
+Else
+
+Print Length([Level(Security Key.Security Key).Security Key]) + ':' + [Level(Security Key.Security Key).Security Key]
+
+End If

@@ -1,0 +1,1 @@
+Select [Sc-Active Directory.Email Id], [Sc-Active Directory.Last Name], [Sc-Active Directory.First Name], [Sc-Active Directory.Ad Id], [Sc-Active Directory.Manager Ad Id] From [Sc-Active Directory]
