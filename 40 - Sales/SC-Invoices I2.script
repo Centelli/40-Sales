@@ -261,7 +261,7 @@ Writerecord
 [Invoice Qty] = 0.00
 
 // If Icogs Is Zero, User Cogs
-If (Float(Ifnull([Sc-Icogs.Icogs Cost Price],0.00))) <> 0.00 Then
+If (Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))) <> 0.00 Then
   [Sales Icogs Hc]=(Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))*Float([Sql_I2_Vw_Vbrk_Vbrp.Vbrp_Fkimg]))
   If [Sc-Company.Comp Currency Key] = 'Chf' Then
     [Vsalesicogsgc]=(Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))*Float([Sql_I2_Vw_Vbrk_Vbrp.Vbrp_Fkimg]))

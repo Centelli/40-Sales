@@ -11,14 +11,14 @@ Select [Homerates.Exchange Rate]  From [Sc-Ex Rates] 'Homerates' On [Homerates.V
 Left Outer Join
 Select [Regrates.Exchange Rate]  From [Sc-Ex Rates] 'Regrates' On [Regrates.Valid From Date] <= [Vbrk_Vbrp.Vbrk_Fkdat] And [Regrates.Valid To Date] >= [Vbrk_Vbrp.Vbrk_Fkdat] And [Regrates.From Currency Key] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
 Left Outer Join
-Select Sum([Konv.Konv_Kwert])
-  From [Konv] 
-  On [Konv.Konv_Knumv] = [Vbrk_Vbrp.Vbrk_Knumv] And [Konv.Konv_Kposn] = [Vbrk_Vbrp.Vbrp_Posnr] And [Konv.Konv_Kinak] Is Null
+Select Sum([Bapi.Condition Value])
+  From [Zbi_Birst_Zbapisalesorderget] 'Bapi' 
+  On [Bapi.Sales Document] = [Vbrk_Vbrp.Vbrk_Vbeln] And [Bapi.Number Of The Document Condition] = [Vbrk_Vbrp.Vbrk_Knumv] And [Bapi.Condition Item Number] = [Vbrk_Vbrp.Vbrp_Posnr] And [Bapi.Condition Is Inactive] Is Null And [Bapi.Condition Type] In ('Vprs', 'Zptp', 'Zva0', 'Ztic', 'Zvee')
 Left Outer Join
 Select [Vbpa.Vbpa_Kunnr] From [Vbpa] On [Vbpa.Vbpa_Vbeln] = [Vbrk_Vbrp.Vbrp_Vbeln] And [Vbpa.Vbpa_Posnr] = [Vbrk_Vbrp.Vbrp_Posnr] And [Vbpa.Vbpa_Parvw] = 'We'
 Left Outer Join 
 Select [Sc-Icogs.Icogs Init Cost Price], [Sc-Icogs.Icogs Cost Price] From [Sc-Icogs] On [Sc-Icogs.Material Key] = [Vbrk_Vbrp.Vbrp_Matnr] And [Sc-Icogs.Plant Key] = [Vbrk_Vbrp.Vbrp_Werks] And [Vbrk_Vbrp.Vbrk_Fkdat] >= [Sc-Icogs.Icogs Valid From] And [Vbrk_Vbrp.Vbrk_Fkdat] < [Sc-Icogs.Icogs Valid To]
 Left Outer Join 
-Select [Tcurf.Tcurf_Ffact], [Tcurf.Tcurf_Tfact]
-From [Tcurf]
-On [Tcurf.Tcurf_Kurst] = 'M' And [Tcurf.Tcurf_Fcurr] = [Vbrk_Vbrp.Vbrk_Waerk] And [Tcurf.Tcurf_Tcurr] = [Sc-Company.Comp Currency Key]
+Select [Sc-Tcurf.Tcurf_Ffact], [Sc-Tcurf.Tcurf_Tfact]
+From [Sc-Tcurf]
+On [Sc-Tcurf.Tcurf_Kurst] = 'M' And [Sc-Tcurf.Tcurf_Fcurr] = [Vbrk_Vbrp.Vbrk_Waerk] And [Sc-Tcurf.Tcurf_Tcurr] = [Sc-Company.Comp Currency Key] And [Sc-Tcurf.From Date] <= [Vbrk_Vbrp.Vbrk_Fkdat] And [Sc-Tcurf.To Date] >= [Vbrk_Vbrp.Vbrk_Fkdat]
