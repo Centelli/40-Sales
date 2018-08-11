@@ -89,10 +89,10 @@ Tbl_Dim_Market_Role
 Tbl_Dim_Sales_Region
 Sc-Division
 Is-S Off Test
-Vbkd
 Sql_I2_Vw_Sales_Org
 Sc-Sales Org
 Zbi_Birst_Zbapisalesorderget
 Sql_Vw_Bi_Icogs
-Vbak_Vbap_Vbep
 Sc-Tcurf
+Vbak_Vbap_Vbep
+Vbkd

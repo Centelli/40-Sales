@@ -234,10 +234,10 @@ End If
   End If
 Print '[Sc-Company.Comp Currency Key]:'+[Sc-Company.Comp Currency Key]+' [V_Rate_Home_To_Chf] ='+[V_Rate_Home_To_Chf] 
   [V_Rate_Chf_To_Reg] = 1
-  If [Sc-Customer Sales Area.Rc Currency Key] <> 'Chf' Then
+  If [Tbl_Dim_Sales_Region.Regional_Currency_Code] <> 'Chf' Then
     [V_Rate_Chf_To_Reg] = [Regrates.Exchange Rate]
   End If
-Print '[Sc-Sales Office.Rc Currency Key]:'+[Sc-Customer Sales Area.Rc Currency Key]+' [V_Rate_Chf_To_Reg] ='+[V_Rate_Chf_To_Reg]   
+Print '[Sc-Sales Office.Rc Currency Key]:'+[Tbl_Dim_Sales_Region.Regional_Currency_Code]+' [V_Rate_Chf_To_Reg] ='+[V_Rate_Chf_To_Reg]   
 
   If [V_Rate_Home_To_Chf] Is Null Then
     [V_Rate_Home_To_Chf] = 1
@@ -246,7 +246,7 @@ Print '[Sc-Sales Office.Rc Currency Key]:'+[Sc-Customer Sales Area.Rc Currency K
   
   If [V_Rate_Chf_To_Reg] Is Null Then
     [V_Rate_Chf_To_Reg] = 1
-    Print 'Issue With '+[Vbak_Vbap_Vbep.Vbap_Vbeln]+' Rate For V_Rate_Chf_To_Reg '+[Sc-Customer Sales Area.Rc Currency Key]+' Not Found - Set To 1'
+    Print 'Issue With '+[Vbak_Vbap_Vbep.Vbap_Vbeln]+' Rate For V_Rate_Chf_To_Reg '+[Tbl_Dim_Sales_Region.Regional_Currency_Code]+' Not Found - Set To 1'
   End If  
 
   /* Populate The Values In All Three Required Currencies  */
@@ -300,8 +300,8 @@ Print '[Sc-Sales Office.Rc Currency Key]:'+[Sc-Customer Sales Area.Rc Currency K
   
   Print '[Vordernetgc]: '+[Vordernetgc]
   
-  [Currency Key Rc] = [Sc-Customer Sales Area.Rc Currency Key]
-  If [Sc-Customer Sales Area.Rc Currency Key] = 'Chf' Then
+  [Currency Key Rc] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
+  If [Tbl_Dim_Sales_Region.Regional_Currency_Code] = 'Chf' Then
     [Ex Rate Rc] = 1
     [Order Intake Rc] = [Vordernetgc]
     If [Vbak_Vbap_Vbep.Vbap_Wavwr] Is Not Null Then

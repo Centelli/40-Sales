@@ -1,5 +1,3 @@
-/* Rc From S-Off Table Script*/
-
 Dim [Vsalesorg] As Varchar(10)
 Dim [Vsalesdate] As Date
 Dim [Vsalescurr] As Varchar(10)
@@ -51,10 +49,10 @@ Else
 End If
 
 // Use Tcurf Data To Apply Sap Factor, Applied To Dc To Hc Ex Rate
-If Ifnull([Tcurf.Tcurf_Ffact],'0') <> '0' And Ifnull([Tcurf.Tcurf_Tfact],'0') <> '0' Then
- [Vexcratetohc] = [Vexcratetohc]/(Ifnull(Float([Tcurf.Tcurf_Ffact]),0.00)/Float([Tcurf.Tcurf_Tfact]))
-Elseif [Tcurf.Tcurf_Tfact] = '0' Then
- [Vexcratetohc] = [Vexcratetohc]/Float([Tcurf.Tcurf_Ffact])
+If Ifnull([Sc-Tcurf.Tcurf_Ffact],'0') <> '0' And Ifnull([Sc-Tcurf.Tcurf_Tfact],'0') <> '0' Then
+ [Vexcratetohc] = [Vexcratetohc]/(Ifnull(Float([Sc-Tcurf.Tcurf_Ffact]),0.00)/Float([Sc-Tcurf.Tcurf_Tfact]))
+Elseif [Sc-Tcurf.Tcurf_Tfact] = '0' Then
+ [Vexcratetohc] = [Vexcratetohc]/Float([Sc-Tcurf.Tcurf_Ffact])
 Else
  [Vexcratetohc] = [Vexcratetohc]
 End If
@@ -180,9 +178,9 @@ End If
 Print '2'
 
 
-If Sum([Konv.Konv_Kwert]) Is Not Null Then
+If Sum([Bapi.Condition Value]) Is Not Null Then
 Print '3.1'
-  [Vsalescost] = Float(Sum([Konv.Konv_Kwert])) * [Vmultiplier] * -1
+  [Vsalescost] = Float(Sum([Bapi.Condition Value])) * [Vmultiplier] * -1
 Else  
 Print '3.2'
   [Vsalescost] = 0.00
@@ -191,7 +189,7 @@ End If
 [Sales Cogs Dc] = [Vsalescost]
 
 Print '4'
-//Print 'In Konv '+Sum([Konv.Konv_Kwert])+' - '+[Vbrk_Vbrp.Vbrk_Knumv]
+//Print 'In Konv '+Sum([Bapi.Condition Value])+' - '+[Vbrk_Vbrp.Vbrk_Knumv]
 
 
 Print '5'
@@ -285,7 +283,7 @@ Writerecord
 [Invoice Qty] = 0.00
 
 // If Icogs Is Zero, User Cogs
-If (Float(Ifnull([Sc-Icogs.Icogs Cost Price],0.00))) <> 0.00 Then
+If (Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))) <> 0.00 Then
   [Sales Icogs Hc]=(Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))*Float([Vbrk_Vbrp.Vbrp_Fkimg]))
   If [Sc-Company.Comp Currency Key] = 'Chf' Then
     [Vsalesicogsgc]=(Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))*Float([Vbrk_Vbrp.Vbrp_Fkimg]))

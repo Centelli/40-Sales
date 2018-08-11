@@ -3,11 +3,13 @@ And [Vbak_Vbap_Vbep.Vbap_Pstyv] Not In ('B1N','G2Tx','Zaab','Zaae','Zaak','Zaas'
 Inner Join
 Select [Sc-Company.Comp Code Key],[Sc-Company.Comp Currency Key] From [Sc-Company] On [Sc-Company.Comp Code Key]=[Vbak_Vbap_Vbep.Vbak_Vkorg]
 Inner Join 
-Select Distinct [Sc-Customer Sales Area.Sales Office Key],[Sc-Customer Sales Area.Rc Currency Key] From [Sc-Customer Sales Area] On [Sc-Customer Sales Area.Sales Office Key]=[Vbak_Vbap_Vbep.Vbak_Vkbur] And [Sc-Customer Sales Area.Customer Key] = [Vbak_Vbap_Vbep.Vbak_Kunnr]
+Select [Tbl_Dim_Sales_Region.Sales_Office_Code], [Tbl_Dim_Sales_Region.Regional_Currency_Code]
+  From [Tbl_Dim_Sales_Region]
+    On [Tbl_Dim_Sales_Region.Sales_Office_Code] = [Vbak_Vbap_Vbep.Vbak_Vkbur]
 Left Outer Join 
 Select [Homerates.Exchange Rate]  From [Sc-Ex Rates] 'Homerates' On [Homerates.Valid From Date] <= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Homerates.Valid To Date] >= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Homerates.From Currency Key] = [Sc-Company.Comp Currency Key]
 Left Outer Join
-Select [Regrates.Exchange Rate]  From [Sc-Ex Rates] 'Regrates' On [Regrates.Valid From Date] <= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Regrates.Valid To Date] >= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Regrates.From Currency Key] = [Sc-Customer Sales Area.Rc Currency Key]
+Select [Regrates.Exchange Rate]  From [Sc-Ex Rates] 'Regrates' On [Regrates.Valid From Date] <= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Regrates.Valid To Date] >= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Regrates.From Currency Key] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
 Left Outer Join 
 Select [Sc-Tcurf.Tcurf_Ffact], [Sc-Tcurf.Tcurf_Tfact]
 From [Sc-Tcurf]

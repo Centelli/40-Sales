@@ -22,6 +22,6 @@ Else
 End If
 
 [Icogs Init Calc Date]=[Sql_Vw_Bi_Icogs.Calc_Date]
-[Icogs Init Cost Price]=[Sql_Vw_Bi_Icogs.Init_Cost_Price]*-1
+[Icogs Init Cost Price]=[Sql_Vw_Bi_Icogs.Init_Cost_Price]
 [Icogs Status]=[Sql_Vw_Bi_Icogs.Icogs_Status]
 Writerecord
