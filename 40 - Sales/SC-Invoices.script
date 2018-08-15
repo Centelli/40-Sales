@@ -176,7 +176,15 @@ End If
 [Source] = 'Sap Ecc'
 
 Print '2'
-
+/*
+If Sum([Konv.Konv_Kwert]) Is Not Null Then
+Print '3.1'
+  [Vsalescost] = Float(Sum([Konv.Konv_Kwert])) * [Vmultiplier] * -1
+Else  
+Print '3.2'
+  [Vsalescost] = 0.00
+End If
+*/
 
 If Sum([Bapi.Condition Value]) Is Not Null Then
 Print '3.1'
@@ -185,7 +193,6 @@ Else
 Print '3.2'
   [Vsalescost] = 0.00
 End If
-
 [Sales Cogs Dc] = [Vsalescost]
 
 Print '4'
@@ -282,8 +289,11 @@ Writerecord
 [Sales Net] = 0.00
 [Invoice Qty] = 0.00
 
+Print '6'
+Print (Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00)))
 // If Icogs Is Zero, User Cogs
 If (Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))) <> 0.00 Then
+  Print '6.1'
   [Sales Icogs Hc]=(Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))*Float([Vbrk_Vbrp.Vbrp_Fkimg]))
   If [Sc-Company.Comp Currency Key] = 'Chf' Then
     [Vsalesicogsgc]=(Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))*Float([Vbrk_Vbrp.Vbrp_Fkimg]))
@@ -292,10 +302,11 @@ If (Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))) <> 0.00 Then
   End If
   [Sales Icogs Gc]=[Vsalesicogsgc]
 Else
+  Print '6.2'
   [Sales Icogs Hc] = [Vsalescosthc]
   [Sales Icogs Gc] = [Vsalescostgc]
 End If
-
+Print [Vsalesicogsgc]
 
 If [Tbl_Dim_Sales_Region.Regional_Currency_Code] = 'Chf' Then
   [Sales Icogs Rc]=[Vsalesicogsgc]

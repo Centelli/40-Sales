@@ -14,6 +14,11 @@ Left Outer Join
 Select Sum([Bapi.Condition Value])
   From [Zbi_Birst_Zbapisalesorderget] 'Bapi' 
   On [Bapi.Sales Document] = [Vbrk_Vbrp.Vbrk_Vbeln] And [Bapi.Number Of The Document Condition] = [Vbrk_Vbrp.Vbrk_Knumv] And [Bapi.Condition Item Number] = [Vbrk_Vbrp.Vbrp_Posnr] And [Bapi.Condition Is Inactive] Is Null And [Bapi.Condition Type] In ('Vprs', 'Zptp', 'Zva0', 'Ztic', 'Zvee')
+/*
+Select Sum([Konv.Konv_Kwert])
+  From [Konv] 
+  On [Konv.Konv_Knumv] = [Vbrk_Vbrp.Vbrk_Knumv] And [Konv.Konv_Kposn] = [Vbrk_Vbrp.Vbrp_Posnr] And [Konv.Konv_Kinak] Is Null
+*/
 Left Outer Join
 Select [Vbpa.Vbpa_Kunnr] From [Vbpa] On [Vbpa.Vbpa_Vbeln] = [Vbrk_Vbrp.Vbrp_Vbeln] And [Vbpa.Vbpa_Posnr] = [Vbrk_Vbrp.Vbrp_Posnr] And [Vbpa.Vbpa_Parvw] = 'We'
 Left Outer Join 
