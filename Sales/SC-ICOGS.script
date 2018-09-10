@@ -1,0 +1,27 @@
+Dim [Vmatkeylong] As Varchar(40)
+
+// Check If Item Code Is An Integer (Cast To Int And If Not Int Then Null Is Returned). If It Is, Pad With Leading Zeros
+If Integer([Sql_Vw_Bi_Icogs.Item_Code]) Is Null Then
+[Material Key]=[Sql_Vw_Bi_Icogs.Item_Code]
+Print 'Mat Key:'+ [Sql_Vw_Bi_Icogs.Item_Code]
+Else
+[Vmatkeylong] = '000000000000000000' + '' + [Sql_Vw_Bi_Icogs.Item_Code]
+[Material Key] = Substring([Vmatkeylong], Length([Vmatkeylong])-18,Length([Vmatkeylong]))
+Print Substring([Vmatkeylong], Length([Vmatkeylong])-18,Length([Vmatkeylong]))
+End If
+
+[Plant Key]=[Sql_Vw_Bi_Icogs.Plant_Code]
+[Icogs Last Calc Date]=[Sql_Vw_Bi_Icogs.Last_Cost_Price_Trans_Date]
+[Icogs Cost Price]=[Sql_Vw_Bi_Icogs.Cost_Price]
+[Icogs Valid From]=[Sql_Vw_Bi_Icogs.Valid_From]
+
+If [Sql_Vw_Bi_Icogs.Valid_To] Is Not Null Then
+[Icogs Valid To]=[Sql_Vw_Bi_Icogs.Valid_To]
+Else
+[Icogs Valid To]=Datetime('12/31/2999')
+End If
+
+[Icogs Init Calc Date]=[Sql_Vw_Bi_Icogs.Calc_Date]
+[Icogs Init Cost Price]=[Sql_Vw_Bi_Icogs.Init_Cost_Price]*-1
+[Icogs Status]=[Sql_Vw_Bi_Icogs.Icogs_Status]
+Writerecord

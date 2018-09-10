@@ -1,0 +1,7 @@
+Select [Sc-Item.Item Key], [Sc-Item.Item Type], [Sc-Item.Industry Sector], [Sc-Item.Item Group Key], [Sc-Item.Old Mat Num], [Sc-Item.Base Uom], [Sc-Item.Laboratory], [Sc-Item.Item Division Key], [Sc-Item.Ean], [Sc-Item.Item], [Sc-Item.Division], [Sc-Item.Item Group], [Sc-Item.Product Group Key], [Sc-Item.Product Group], [Sc-Item.Product Unit Key], [Sc-Item.Product Unit], [Sc-Item.Product Division Key], [Sc-Item.Product Division], [Sc-Item.Product Segment Key], [Sc-Item.Product Segment], [Sc-Item.Solution Key], [Sc-Item.Solution]
+  From [Sc-Item] Where [Sc-Item.Item Type] = 'Zkma'
+Inner Join
+Select [Vbak_Vbap_Vbep.Vbap_Matkl]
+  From [Vbak_Vbap_Vbep] Where [Vbak_Vbap_Vbep.Vbak_Auart] Not In ('Zaf','Zag','Zla','Zln','Zpf','Zb1','Zb2','Zb3','Zka','Zkb','Zkk','Zkm','Zme','') 
+And [Vbak_Vbap_Vbep.Vbap_Pstyv] Not In ('B1N','G2Tx','Zaab','Zaae','Zaak','Zaas','Zafc','Zafn','Zagc','Zagd','Zagn','Zagx','Zann','Zasm','Zdlw','Zgab','Zgas','Zkaa','Zkaf','Zkag','Zkbn','Zkea','Zkls','Zknn','Zlnn','Zmen','Znlc','Znln','Znnn','Zpro','Zqal','Zrex','Ztal','Ztax','Zzz1','')
+   On [Sc-Item.Item Key]=[Vbak_Vbap_Vbep.Vbap_Matnr]

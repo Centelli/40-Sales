@@ -1,0 +1,31 @@
+Function [Checkvalue]([Input] As Varchar(21)) As Float
+  If [Input] Is Not Null Then
+    If (Substring([Input],Length([Input])-1,Length([Input]))) = '-' Then
+     Return Float(Substring([Input],0,Length([Input])-1)) * -1
+    Else
+      Return Float([Input])
+    End If
+  Else
+    Return Float(0.00)
+  End If
+End Function 
+
+Dim [Vfromtoratio] As Float
+
+[From Currency] = [Tcurf.Tcurf_Fcurr]
+[To Currency] = [Tcurf.Tcurf_Tcurr]
+[From_To Curr] = [Tcurf.Tcurf_Fcurr] + '_' + [Tcurf.Tcurf_Tcurr]
+[From Ratio] = [Checkvalue]([Tcurf.Tcurf_Ffact])
+[To Ratio] = [Checkvalue]([Tcurf.Tcurf_Tfact])
+
+If [Checkvalue]([Tcurf.Tcurf_Ffact]) = Float(0.00) Then
+ [Vfromtoratio]=1.00
+Elseif [Checkvalue]([Tcurf.Tcurf_Tfact]) = Float(0.00) Then
+ [Vfromtoratio]=[Checkvalue]([Tcurf.Tcurf_Ffact])
+Else
+ [Vfromtoratio]=Float([Checkvalue]([Tcurf.Tcurf_Ffact]))/Float([Checkvalue]([Tcurf.Tcurf_Tfact]))
+End If
+
+[From_To Ratio] = [Vfromtoratio]
+
+Writerecord

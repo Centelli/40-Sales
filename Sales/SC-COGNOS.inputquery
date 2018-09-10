@@ -1,0 +1,6 @@
+Select [Sc-Cognos Daily.Comp Code Key], [Sc-Cognos Daily.Year], [Sc-Cognos Daily.Month], [Sc-Cognos Daily.Currency Key Hc], Sum([Sc-Cognos Daily.Net Sales Hc]), Sum([Sc-Cognos Daily.Sales Cogs Hc]), Sum([Sc-Cognos Daily.Sales Icogs Hc])
+  From [Sc-Cognos Daily] 
+Left Outer Join 
+Select [Avgrates.Exchange Rate] From [Sc-Cognos Rates] 'Avgrates'
+On [Avgrates.Month] = [Sc-Cognos Daily.Month] And [Avgrates.Year] = [Sc-Cognos Daily.Year] And [Avgrates.Source] = 'B' And [Avgrates.Type] = 'Ac' And [Avgrates.Currency Key] = [Sc-Cognos Daily.Currency Key Hc]
+Order By [Sc-Cognos Daily.Comp Code Key], [Sc-Cognos Daily.Year], [Sc-Cognos Daily.Month]

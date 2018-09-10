@@ -1,0 +1,11 @@
+Select [Sql Customer New Biz.Customer_Key], [Sql Customer New Biz.Comp_Code], [Sql Customer New Biz.Customer_Code], [Sql Customer New Biz.Customer_Name1], [Sql Customer New Biz.Customer_Longname], [Sql Customer New Biz.Market_Sub_Segment_Name], [Sql Customer New Biz.Market_Role_Code], [Sql Customer New Biz.Market_Role_Name], [Sql Customer New Biz.Customer_Group_Name], [Sql Customer New Biz.Market_Sub_Segment_Code]
+  From [Sql Customer New Biz]
+Left Outer Join
+Left Outer Join
+Select [Tbl_Dim_Market.Market_Segment_Name], [Tbl_Dim_Market.Market_Name], [Tbl_Dim_Market.Market_Code]
+  From [Tbl_Dim_Market]
+    On [Sql Customer New Biz.Market_Sub_Segment_Code] = [Tbl_Dim_Market.Market_Segment_Code]  
+Left Outer Join
+Select [Tbl_Dim_Market_Role.Market_Role_Name], [Tbl_Dim_Market_Role.Market_Role_Group_Name], [Tbl_Dim_Market_Role.Sales_Partner_Name]
+  From [Tbl_Dim_Market_Role]
+    On [Sql Customer New Biz.Market_Role_Code] = [Tbl_Dim_Market_Role.Market_Role_Code]

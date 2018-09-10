@@ -1,0 +1,12 @@
+[Email Id]=[Active Directory.Mail]
+[Last Name]=[Active Directory.Sn]
+[First Name]=[Active Directory.Givenname]
+[Ad Id]=Toupper([Active Directory.Cn])
+
+If [Active Directory.Manager] Is Not Null Then
+   [Manager Ad Id]=Toupper(Substring([Active Directory.Manager],3,Position(',',[Active Directory.Manager])))
+Else
+   [Manager Ad Id] = ''
+End If
+
+Writerecord

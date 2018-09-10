@@ -1,0 +1,58 @@
+Dim [Mworkyearmonth] As Map(Varchar(6), Integer) = Select [Sc-Work Year.Yearmonth], [Sc-Work Year.Workcount] From [Sc-Work Year] 
+Dim [Vyearmonth] As Varchar(6)
+
+// Only Take Records Which Have A Budget Value. Checking Using Month Code 
+// As It Is Used In Format Function Which Fails If Month Is Null - Double Safety
+If [Sql Sales Budget Forecast.Month_Code] Is Not Null Then
+
+[Vyearmonth] = [Sql Sales Budget Forecast.Year_Code] + '' + Format([Sql Sales Budget Forecast.Month_Code], '00')
+
+/*
+Print Format([Sql Workdays.Day_Code],'Yyyy-Mm-Dd') + ':' + [Sql Sales Budget Forecast.Year_Code] + ':' + Format([Sql Sales Budget Forecast.Month_Code], '00') +  [Sql Sales Budget Forecast.Version] + ':' + [Sql Sales Budget Forecast.Div_Comp_Code] +':'+ [Sql Sales Budget Forecast.Sales_Rep_Code] + ':' + [Sql Sales Budget Forecast.Customer_Code] + ':' + [Sql Sales Budget Forecast.Division_Code] + ':' + [Sql Sales Budget Forecast.Value] + ':' + ([Sql Sales Budget Forecast.Value]/[Mworkyearmonth]([Vyearmonth]))
+*/
+
+[Analysis Date]=[Sql Workdays.Day_Code]
+[Customer Key]=[Sql Sales Budget Forecast.Customer_Code]
+If [Sql Sales Budget Forecast.Comp_Type] = 'Sap' Then
+  [Sales Org Key]=[Sql Sales Budget Forecast.Sap_Comp_Code]
+  [Comp Code Key]=[Sql Sales Budget Forecast.Sap_Comp_Code]
+  [Custarea Key]=[Sql Sales Budget Forecast.Customer_Code]+''+[Sql Sales Budget Forecast.Sap_Comp_Code]+ '' + '1000'
+  [Security Key] = 'N' + Substring('0000',0,4 - Length([Sql Sales Budget Forecast.Sap_Comp_Code])) + [Sql Sales Budget Forecast.Sap_Comp_Code] + '' + [Sql Sales Budget Forecast.Division_Code] + '' + [Sql Sales Budget Forecast.Customer_Code]
+Else
+  [Sales Org Key]=[Sql Sales Budget Forecast.Div_Comp_Code]
+  [Comp Code Key]=[Sql Sales Budget Forecast.Div_Comp_Code]
+  [Custarea Key]=[Sql Sales Budget Forecast.Customer_Code]+''+[Sql Sales Budget Forecast.Sales_Rep_Code]
+  [Security Key] = 'N' + Substring('0000',0,4 - Length(''+[Sql Sales Budget Forecast.Div_Comp_Code])) + [Sql Sales Budget Forecast.Div_Comp_Code] + '' + [Sql Sales Budget Forecast.Division_Code] + '' + [Sql Sales Budget Forecast.Customer_Code] 
+End If
+If [Sql Sales Budget Forecast.Customer_Type] = 'New Biz' Then
+[Custarea Key]=[Sql Sales Budget Forecast.Customer_Code]+''+[Sql Sales Budget Forecast.Sales_Rep_Code]
+Else
+[Custarea Key]=[Sql Sales Budget Forecast.Customer_Code]+''+[Sql Sales Budget Forecast.Sap_Comp_Code]+ '' + '1000'
+End If
+[Division Key]=[Sql Sales Budget Forecast.Division_Code]
+[In Sales Key]=[Sql Sales Budget Forecast.Sales_Rep_Code]
+[Currency Key]=[Sql Sales Budget Forecast.Curr_Code]
+[Customer Type]=[Sql Sales Budget Forecast.Customer_Type]
+[Rate To Chf]=[Sql Sales Budget Forecast.Rate_To_Chf]
+
+Print [Sql Sales Budget Forecast.Customer_Code]
+Print Format([Sql Workdays.Day_Code],'Yyyy-Mm-Dd') + ' - ' + [Sql Sales Budget Forecast.Year_Code] + ':' + Format([Sql Sales Budget Forecast.Month_Code], '00')
+Print 'Yearmonth:'+[Vyearmonth]+' Workcount:'+[Mworkyearmonth]([Vyearmonth])
+Print [Sql Sales Budget Forecast.Value]
+
+[Budget Hc]=0.00
+[Budget Gc]=0.00
+[Forecast Hc]=0.00
+[Forecast Gc]=0.00
+
+If [Sql Sales Budget Forecast.Version] = 'Bud' And [Sql Workdays.Sales_Max_Count] = 1 Then
+  [Budget Hc]=[Sql Sales Budget Forecast.Value]/[Mworkyearmonth]([Vyearmonth])
+  [Budget Gc]=([Sql Sales Budget Forecast.Value]/[Mworkyearmonth]([Vyearmonth]))*[Sql Sales Budget Forecast.Rate_To_Chf]
+Elseif [Sql Sales Budget Forecast.Version] = 'Fc' And [Sql Workdays.Sales_Max_Count] = 1 Then
+  [Forecast Hc]=[Sql Sales Budget Forecast.Value]/[Mworkyearmonth]([Vyearmonth])
+  [Forecast Gc]=([Sql Sales Budget Forecast.Value]/[Mworkyearmonth]([Vyearmonth]))*[Sql Sales Budget Forecast.Rate_To_Chf]
+End If
+
+Writerecord
+
+End If

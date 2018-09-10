@@ -1,0 +1,121 @@
+Print 'Comp:'+[Sc-Cognos Daily.Comp Code Key]+' Curr:'+[Sc-Cognos Daily.Currency Key Hc]
+Print 'Year:'+[Sc-Cognos Daily.Year]+' Month:'+[Sc-Cognos Daily.Month]
+Print 'Exrate:'+[Avgrates.Exchange Rate]
+
+Dim [Vprevmonth] As Varchar(2)
+Dim [Vcurryear] As Varchar(2)
+Dim [Vprevyear] As Varchar(2) = Null
+Dim [Vcompcode] As Varchar(4)
+Dim [Vprevcompcode] As Varchar(4) = Null
+Dim [Vexrate] As Float
+Dim [Vhcnet] As Float
+Dim [Vhccogs] As Float
+Dim [Vhcicogs] As Float
+Dim [Vgcnet] As Float
+Dim [Vgccogs] As Float
+Dim [Vgcicogs] As Float
+Dim [Vprevgcnet] As Float
+Dim [Vprevgccogs] As Float
+Dim [Vprevgcicogs] As Float
+Dim [Vdate] As Date
+
+//Analysis Date Will Be Last Day Of The Month
+[Vdate]=Datetime([Sc-Cognos Daily.Month]+'/01/'+[Sc-Cognos Daily.Year]+' 12:00')
+//Print '[Vdate]:'+[Vdate]
+[Vdate]=Dateadd(Day,-1,Dateadd(Month,1,[Vdate]))
+
+If Length(''+Datepart(Month,Dateadd(Month,-1,Nowdate))) = 1 Then
+[Vprevmonth]='0'+Datepart(Month,Dateadd(Month,-1,Nowdate))
+Else
+[Vprevmonth]=''+Datepart(Month,Dateadd(Month,-1,Nowdate))
+End If
+[Vcurryear]=Datepart(Year,Nowdate)
+
+[Vcompcode]=[Sc-Cognos Daily.Comp Code Key]
+[Vexrate]=Ifnull([Avgrates.Exchange Rate],1.0)
+
+[Comp Code Key] = [Sc-Cognos Daily.Comp Code Key]
+[Cognos Currency Key Hc] = [Sc-Cognos Daily.Currency Key Hc]
+[Cognos Month]=[Sc-Cognos Daily.Month]
+[Cognos Year]=[Sc-Cognos Daily.Year]
+[Analysis Date]=[Vdate]
+
+[Net Sales Hc] = Sum([Sc-Cognos Daily.Net Sales Hc])
+[Sales Cogs Hc] = Sum([Sc-Cognos Daily.Sales Cogs Hc])
+[Sales Icogs Hc] = Sum([Sc-Cognos Daily.Sales Icogs Hc])
+
+Print '[Vgcnet] 1:'+[Vgcnet]
+[Vprevgcnet]=[Vgcnet]
+[Vprevgccogs]=[Vgccogs]
+[Vprevgcicogs]=[Vgcicogs]
+If [Vprevcompcode] Is Not Null And [Vprevyear] Is Not Null Then
+ If [Vprevcompcode]=[Vcompcode] And [Vprevyear]=[Sc-Cognos Daily.Year] Then
+ //Print '1'
+//  If [Sc-Cognos Daily.Month] <= [Vprevmonth] Then
+   //Hc Cumulative
+   [Vhcnet]=[Vhcnet]+Sum([Sc-Cognos Daily.Net Sales Hc])
+   [Vhccogs]=[Vhccogs]+Sum([Sc-Cognos Daily.Sales Cogs Hc])
+   [Vhcicogs]=[Vhcicogs]+Sum([Sc-Cognos Daily.Sales Icogs Hc])
+   [Vgcnet]=(([Vgcnet]+([Vhcnet]*[Vexrate]))-[Vgcnet])
+   [Vgccogs]=(([Vgccogs]+([Vhccogs]*[Vexrate]))-[Vgccogs])
+   [Vgcicogs]=(([Vgcicogs]+([Vhcicogs]*[Vexrate]))-[Vgcicogs])
+//  End If
+ Else
+ //Print '2'
+  [Vhcnet]=0.0
+  [Vhccogs]=0.0
+  [Vhcicogs]=0.0
+  [Vgcnet]=0.0
+  [Vgccogs]=0.0
+  [Vgcicogs]=0.0
+  [Vprevgcnet]=0.0
+  [Vprevgccogs]=0.0
+  [Vprevgcicogs]=0.0
+//  If [Sc-Cognos Daily.Month] <= [Vprevmonth] Then
+   //Hc Cumulative
+   [Vhcnet]=[Vhcnet]+Sum([Sc-Cognos Daily.Net Sales Hc])
+   [Vhccogs]=[Vhccogs]+Sum([Sc-Cognos Daily.Sales Cogs Hc])
+   [Vhcicogs]=[Vhcicogs]+Sum([Sc-Cognos Daily.Sales Icogs Hc])
+   [Vgcnet]=(([Vgcnet]+([Vhcnet]*[Vexrate]))-[Vgcnet])
+   [Vgccogs]=(([Vgccogs]+([Vhccogs]*[Vexrate]))-[Vgccogs])
+   [Vgcicogs]=(([Vgcicogs]+([Vhcicogs]*[Vexrate]))-[Vgcicogs])
+
+//  End If  
+ End If
+Else
+//Print '3'
+ [Vhcnet]=0.0
+ [Vhccogs]=0.0
+ [Vhcicogs]=0.0
+ [Vgcnet]=0.0
+ [Vgccogs]=0.0
+ [Vgcicogs]=0.0
+ [Vprevgcnet]=0.0
+ [Vprevgccogs]=0.0
+ [Vprevgcicogs]=0.0
+// If [Sc-Cognos Daily.Month] <= [Vprevmonth] Then
+  //Hc Cumulative
+  [Vhcnet]=[Vhcnet]+Sum([Sc-Cognos Daily.Net Sales Hc])
+  [Vhccogs]=[Vhccogs]+Sum([Sc-Cognos Daily.Sales Cogs Hc])
+  [Vhcicogs]=[Vhcicogs]+Sum([Sc-Cognos Daily.Sales Icogs Hc])
+  [Vgcnet]=(([Vgcnet]+([Vhcnet]*[Vexrate]))-[Vgcnet])
+  [Vgccogs]=(([Vgccogs]+([Vhccogs]*[Vexrate]))-[Vgccogs])
+  [Vgcicogs]=(([Vgcicogs]+([Vhcicogs]*[Vexrate]))-[Vgcicogs])
+
+// End If
+End If
+
+Print '[Vgcnet] 2:'+[Vgcnet]
+
+[Vprevcompcode]=[Vcompcode]
+[Vprevyear]=[Sc-Cognos Daily.Year]
+
+[Net Hc Ytd]=[Vhcnet]
+[Cogs Hc Ytd]=[Vhccogs]
+[Icogs Hc Ytd]=[Vhcicogs]
+[Cognos Ex Rate Gc]=[Vexrate]
+[Cognos Net Gc]=[Vgcnet]-[Vprevgcnet]
+[Cognos Cogs Gc]=[Vgccogs]-[Vprevgccogs]
+[Cognos Icogs Gc]=[Vgcicogs]-[Vprevgcicogs]
+
+Writerecord

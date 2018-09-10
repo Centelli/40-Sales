@@ -1,0 +1,68 @@
+Dim [Madrecord] As Map(Varchar(50),Varchar(100))
+Dim [Memailid] As Map(Varchar(50),Varchar(241))
+//Dim [Mhierarchy] As Map(Varchar(50), Varchar(50))
+Dim [Vhigherleveladid] As Varchar(50)
+Dim [Vhigherlevelname] As Varchar(100)
+Dim [Vdepth] As Integer = 0
+
+
+If [Sc-Active Directory.Manager Ad Id] <> [Sc-Active Directory.Ad Id]) Then
+   Addparentchild([Sc-Active Directory.Manager Ad Id],[Sc-Active Directory.Ad Id])
+Else
+   Addparentchild('',[Sc-Active Directory.Ad Id])
+End If
+
+[Madrecord]([Sc-Active Directory.Ad Id]) = [Sc-Active Directory.First Name] + ' ' + [Sc-Active Directory.Last Name]
+//[Mhierarchy]([Sc-Active Directory.Ad Id]) = [Sc-Active Directory.Manager Ad Id]
+[Memailid]([Sc-Active Directory.Ad Id]) = [Sc-Active Directory.Email Id]
+
+Complete
+  [Vdepth] = Getlevelattribute('Numlevels')
+  While Nextchild()
+    Print Getlevelattribute('Currentdepth') + ':' + Getlevelvalue(Getlevelattribute('Currentdepth')) 
+    // + ':' + Getlevelvalue(Getlevelattribute('Currentdepth')-1) + ':' + Getlevelvalue(Getlevelattribute('Currentdepth')-2)
+    [Ad Id]=Getlevelvalue(Getlevelattribute('Currentdepth'))
+    [Name] = [Madrecord](Getlevelvalue(Getlevelattribute('Currentdepth')))
+    [Email Id]=[Memailid](Getlevelvalue(Getlevelattribute('Currentdepth')))
+    [Vhigherleveladid] = ''
+    [Vhigherlevelname] = ''
+
+    If Getlevelattribute('Currentdepth') > 1 Then
+    	[Manager Ad Id] = Getlevelvalue(Getlevelattribute('Currentdepth')-1)
+    	[Manager Name] = [Madrecord](Getlevelvalue(Getlevelattribute('Currentdepth')-1))
+    	[Vhigherleveladid] = Getlevelvalue(Getlevelattribute('Currentdepth')-1)
+    	[Vhigherlevelname] = [Madrecord](Getlevelvalue(Getlevelattribute('Currentdepth')-1))
+    Else
+    	[Manager Ad Id] = [Vhigherleveladid]
+    	[Manager Name] = [Vhigherlevelname]
+    End If
+    If Getlevelattribute('Currentdepth') > 2 Then
+		[Managerx2 Ad Id] = Getlevelvalue(Getlevelattribute('Currentdepth')-2)
+	    [Managerx2 Name] = [Madrecord](Getlevelvalue(Getlevelattribute('Currentdepth')-2))
+    	[Vhigherleveladid] = Getlevelvalue(Getlevelattribute('Currentdepth')-2)
+    	[Vhigherlevelname] = [Madrecord](Getlevelvalue(Getlevelattribute('Currentdepth')-2))
+    Else
+    	[Managerx2 Ad Id] = [Vhigherleveladid]
+    	[Managerx2 Name] = [Vhigherlevelname]
+    End If
+    If Getlevelattribute('Currentdepth') > 3 Then
+	    [Managerx3 Ad Id] = Getlevelvalue(Getlevelattribute('Currentdepth')-3)
+	    [Managerx3 Name] = [Madrecord](Getlevelvalue(Getlevelattribute('Currentdepth')-3))
+    	[Vhigherleveladid] = Getlevelvalue(Getlevelattribute('Currentdepth')-3)
+    	[Vhigherlevelname] = [Madrecord](Getlevelvalue(Getlevelattribute('Currentdepth')-3))
+    Else
+    	[Managerx3 Ad Id] = [Vhigherleveladid]
+    	[Managerx3 Name] = [Vhigherlevelname]
+    End If
+    If Getlevelattribute('Currentdepth') > 4 Then
+	    [Managerx4 Ad Id] = Getlevelvalue(Getlevelattribute('Currentdepth')-4)
+	    [Managerx4 Name] = [Madrecord](Getlevelvalue(Getlevelattribute('Currentdepth')-4))
+    	[Vhigherleveladid] = Getlevelvalue(Getlevelattribute('Currentdepth')-4)
+    	[Vhigherlevelname] = [Madrecord](Getlevelvalue(Getlevelattribute('Currentdepth')-4))
+    Else
+    	[Managerx4 Ad Id] = [Vhigherleveladid]
+    	[Managerx4 Name] = [Vhigherlevelname]
+    End If
+    Writerecord
+  End While
+End Complete
