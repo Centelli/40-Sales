@@ -1,0 +1,4 @@
+[In Sales Key]=[Sql_I2_Vw_Dim_Customer.Specialist_Code]
+[Inside Sales]=[Sql_I2_Vw_Dim_Customer.Specialist_Name]
+[Insales Ag]='Na'
+Writerecord

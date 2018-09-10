@@ -7,7 +7,7 @@ Dim [Vexcratetohc] As Float
 Dim [Vmultiplier] As Float
 Dim [Vmatkey] As Varchar(18)
 Dim [Vcustomerkey] As Varchar(18)
-Dim [Vdelcustomerkey] As Varchar(10)
+Dim [Vdelcustomerkey] As Varchar(18)
 Dim [Vregcurrency] As Varchar(4)
 
 Dim [Vsecuritykey] As Varchar(25)
@@ -41,6 +41,7 @@ End Function
 [Vsalesdate] = [Vbrk_Vbrp.Vbrk_Fkdat]
 [Vsalescurr] = [Vbrk_Vbrp.Vbrk_Waerk]
 [Vsalesnet] = [Checkvalue]([Vbrk_Vbrp.Vbrp_Netwr])
+
 
 // Take Header Rate Unless It Is Blank, In Which Case Take Line Item Exchange Rate
 If [Vbrk_Vbrp.Vbrk_Kurrf] Is Not Null Then
@@ -82,13 +83,13 @@ If [Mvcitems]([Vbrk_Vbrp.Vbrp_Matnr]) Is Not Null Then
 Else 
   [Vmatkey]=[Vbrk_Vbrp.Vbrp_Matnr]
 End If 
-Print '[Delpart.Vbpa_Kunnr]:'+[Delpart.Vbpa_Kunnr]
+
 If [Delpart.Vbpa_Kunnr] Is Not Null Then
  [Vdelcustomerkey]=[Delpart.Vbpa_Kunnr]
 Else
  [Vdelcustomerkey]=[Defdelpart.Vbpa_Kunnr]
 End If
-Print '[Vdelcustomerkey]:'+[Vdelcustomerkey]
+
 /* Sales Doc Number */
 Dim [Vsalesdoc] As Varchar(10) = [Vbrk_Vbrp.Vbrk_Vbeln]
 Dim [Vsalesdocitem] As Varchar(10) = [Vbrk_Vbrp.Vbrp_Posnr]

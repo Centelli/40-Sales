@@ -20,5 +20,4 @@
 [Product Segment]=[Sc-Item.Product Segment]
 [Solution Key]=[Sc-Item.Solution Key]
 [Solution]=[Sc-Item.Solution]
-[Source]='Sap Vc'
 Writerecord

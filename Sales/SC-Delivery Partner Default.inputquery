@@ -1,3 +1,0 @@
-Select [Vbpa.Vbpa_Vbeln], Min([Vbpa.Vbpa_Posnr]) From [Vbpa] Where [Vbpa.Vbpa_Parvw] = 'We'
-Inner Join 
-Select [Vbrk_Vbrp.Vbrk_Vbeln] From [Vbrk_Vbrp] On [Vbrk_Vbrp.Vbrk_Vbeln]=[Vbpa.Vbpa_Vbeln]

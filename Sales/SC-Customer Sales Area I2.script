@@ -1,4 +1,4 @@
-[Custarea Key]= [Sql_I2_Vw_Dim_Customer.Customer_Code]+Substring('0000',0,4-Length(Trim([Sql_I2_Vw_Dim_Customer.Sales_Org_Key])))+ Trim([Sql_I2_Vw_Dim_Customer.Sales_Org_Key])
+[Custarea Key]= [Sql_I2_Vw_Dim_Customer.Customer_Code]+Substring('0000',0,4-Length(Trim([Sql_I2_Vw_Dim_Customer.Div_Comp_Code])))+ Trim([Sql_I2_Vw_Dim_Customer.Div_Comp_Code])
 
 [Outside Sales Key]=Ifnull([Sql_I2_Vw_Dim_Customer.Salesrep_Code],'Na')
 
@@ -8,7 +8,7 @@
 [Comp Code Key]=[Sql_I2_Vw_Dim_Customer.Sap_Comp_Code]
 [Sales Office Key]=[Sql_I2_Vw_Dim_Customer.Sales_Office_Key]
 
-[Source]=[Sql_I2_Vw_Dim_Customer.Source]
+[Source]='I2'
 
 [Sales Office Key] = [Tbl_Dim_Sales_Region.Sales_Office_Code]
 [Sales Office] = [Tbl_Dim_Sales_Region.Sales_Office_Name]

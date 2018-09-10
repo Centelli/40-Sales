@@ -12,7 +12,7 @@
 [Market Key]=[Tbl_Dim_Market.Market_Code]
 [Market Segment]=[Tbl_Dim_Market.Market_Segment_Name]
 [Market Role] = [Tbl_Dim_Market_Role.Market_Role_Name]
-[Source] = [Sql_I2_Vw_Dim_Customer.Source]
+[Source] = 'I2'
 
 If [Sql_I2_Vw_Dim_Customer.Customer_Type] = 'Regular' Then
  [Customer Type] = '3Rd Party'

@@ -22,10 +22,8 @@ Select Sum([Konv.Konv_Kwert])
 */
 Left Outer Join
 Select [Delpart.Vbpa_Kunnr] From [Vbpa] 'Delpart' On [Delpart.Vbpa_Vbeln] = [Vbrk_Vbrp.Vbrp_Vbeln] And [Delpart.Vbpa_Posnr] = [Vbrk_Vbrp.Vbrp_Posnr] And [Delpart.Vbpa_Parvw] = 'We'
-Inner Join 
-Select [Sc-Delivery Partner Default.Vbpa_Vbeln], [Sc-Delivery Partner Default.Vbpa_Posnr] From [Sc-Delivery Partner Default] On [Sc-Delivery Partner Default.Vbpa_Vbeln] = [Vbrk_Vbrp.Vbrk_Vbeln]
 Left Outer Join
-Select [Defdelpart.Vbpa_Kunnr] From [Vbpa] 'Defdelpart' On [Defdelpart.Vbpa_Vbeln] = [Vbrk_Vbrp.Vbrp_Vbeln] And [Defdelpart.Vbpa_Posnr] = [Sc-Delivery Partner Default.Vbpa_Posnr] And [Defdelpart.Vbpa_Parvw] = 'We'
+Select [Defdelpart.Vbpa_Kunnr] From [Vbpa] 'Defdelpart' On [Defdelpart.Vbpa_Vbeln] = [Vbrk_Vbrp.Vbrp_Vbeln] And [Defdelpart.Vbpa_Posnr] = '000010' And [Defdelpart.Vbpa_Parvw] = 'We'
 Left Outer Join 
 Select [Sc-Icogs.Icogs Init Cost Price], [Sc-Icogs.Icogs Cost Price] From [Sc-Icogs] On [Sc-Icogs.Material Key] = [Vbrk_Vbrp.Vbrp_Matnr] And [Sc-Icogs.Plant Key] = [Vbrk_Vbrp.Vbrp_Werks] And [Vbrk_Vbrp.Vbrk_Fkdat] >= [Sc-Icogs.Icogs Valid From] And [Vbrk_Vbrp.Vbrk_Fkdat] < [Sc-Icogs.Icogs Valid To]
 Left Outer Join 

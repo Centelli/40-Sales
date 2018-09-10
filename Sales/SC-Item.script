@@ -21,5 +21,4 @@
 [Product Segment]=[Structure_Dimension_Item.Product Segment Name]
 [Solution Key]=[Structure_Dimension_Item.Solution Code]
 [Solution]=[Structure_Dimension_Item.Solution Name]
-[Source]='Sap Ecc'
 Writerecord
