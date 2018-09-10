@@ -1,4 +1,4 @@
-Select [Sql_I2_Vw_Dim_Customer.Div_Comp_Code], [Sql_I2_Vw_Dim_Customer.Customer_Code], [Sql_I2_Vw_Dim_Customer.Salesrep_Code], [Sql_I2_Vw_Dim_Customer.Specialist_Code], [Sql_I2_Vw_Dim_Customer.Sales_Office_Key], [Sql_I2_Vw_Dim_Customer.Salesrep_Email], [Sql_I2_Vw_Dim_Customer.Salesrep_Name], [Sql_I2_Vw_Dim_Customer.Specialist_Name]
+Select [Sql_I2_Vw_Dim_Customer.Div_Comp_Code], [Sql_I2_Vw_Dim_Customer.Sap_Comp_Code], [Sql_I2_Vw_Dim_Customer.Customer_Code], [Sql_I2_Vw_Dim_Customer.Salesrep_Code], [Sql_I2_Vw_Dim_Customer.Specialist_Code], [Sql_I2_Vw_Dim_Customer.Sales_Office_Key], [Sql_I2_Vw_Dim_Customer.Salesrep_Email], [Sql_I2_Vw_Dim_Customer.Salesrep_Name], [Sql_I2_Vw_Dim_Customer.Specialist_Name]
   From [Sql_I2_Vw_Dim_Customer]
 Left Outer Join
 Select [Tbl_Dim_Sales_Region.Sales_Region_Code], [Tbl_Dim_Sales_Region.Sales_Subregion_Code], [Tbl_Dim_Sales_Region.Sales_Office_Code], [Tbl_Dim_Sales_Region.Sales_Office_Name], [Tbl_Dim_Sales_Region.Regional_Currency_Code]

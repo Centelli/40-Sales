@@ -5,7 +5,7 @@
 [Old Mat Num]=[Sc-Item.Old Mat Num]
 [Base Uom]=[Sc-Item.Base Uom]
 [Laboratory]=[Sc-Item.Laboratory]
-[Division Key]=[Sc-Item.Division Key]
+[Item Division Key]=[Sc-Item.Item Division Key]
 [Ean]=[Sc-Item.Ean]
 [Item]=[Sc-Item.Item]
 [Division]=[Sc-Item.Division]

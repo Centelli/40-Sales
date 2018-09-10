@@ -5,7 +5,7 @@
 [Inside Sales Key]=Ifnull([Sql_I2_Vw_Dim_Customer.Specialist_Code],'Na')
 
 [Customer Key]=[Sql_I2_Vw_Dim_Customer.Customer_Code]
-[Comp Code Key]=[Sql_I2_Vw_Dim_Customer.Div_Comp_Code]
+[Comp Code Key]=[Sql_I2_Vw_Dim_Customer.Sap_Comp_Code]
 [Sales Office Key]=[Sql_I2_Vw_Dim_Customer.Sales_Office_Key]
 
 [Source]='I2'

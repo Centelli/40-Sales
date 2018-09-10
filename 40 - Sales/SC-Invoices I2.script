@@ -5,7 +5,7 @@ Dim [Vsalesnet] As Float
 Dim [Vsalescost] As Float
 Dim [Vexcratetohc] As Float
 Dim [Vmultiplier] As Float
-Dim [Vmatkey] As Varchar(18)
+Dim [Vmatkey] As Varchar(30)
 Dim [Vcustomerkey] As Varchar(18)
 
 Dim [Vsecuritykey] As Varchar(25)	

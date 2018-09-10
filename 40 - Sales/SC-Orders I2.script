@@ -33,7 +33,7 @@ Dim [V_Rate_Chf_To_Reg] As Float
   [So Document Type]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Auart]
 //  [Currency Header]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Waerk]
   [Sales Org Key]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Vkorg]
-  [Comp Code Key] = [Sql_I2_Vw_Vbak_Vbap.Vbak_Vkorg]
+  [Comp Code Key] = [Sql_I2_Vw_Vbak_Vbap.Vbak_Bukrs_Vf]
 //  [Distr Channel]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Vtweg]
   [Division Header]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Spart]
 //  [Sales Group]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Vkgrp]

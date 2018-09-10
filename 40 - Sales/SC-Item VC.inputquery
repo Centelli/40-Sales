@@ -1,4 +1,4 @@
-Select [Sc-Item.Item Key], [Sc-Item.Item Type], [Sc-Item.Industry Sector], [Sc-Item.Item Group Key], [Sc-Item.Old Mat Num], [Sc-Item.Base Uom], [Sc-Item.Laboratory], [Sc-Item.Division Key], [Sc-Item.Ean], [Sc-Item.Item], [Sc-Item.Division], [Sc-Item.Item Group], [Sc-Item.Product Group Key], [Sc-Item.Product Group], [Sc-Item.Product Unit Key], [Sc-Item.Product Unit], [Sc-Item.Product Division Key], [Sc-Item.Product Division], [Sc-Item.Product Segment Key], [Sc-Item.Product Segment], [Sc-Item.Solution Key], [Sc-Item.Solution]
+Select [Sc-Item.Item Key], [Sc-Item.Item Type], [Sc-Item.Industry Sector], [Sc-Item.Item Group Key], [Sc-Item.Old Mat Num], [Sc-Item.Base Uom], [Sc-Item.Laboratory], [Sc-Item.Item Division Key], [Sc-Item.Ean], [Sc-Item.Item], [Sc-Item.Division], [Sc-Item.Item Group], [Sc-Item.Product Group Key], [Sc-Item.Product Group], [Sc-Item.Product Unit Key], [Sc-Item.Product Unit], [Sc-Item.Product Division Key], [Sc-Item.Product Division], [Sc-Item.Product Segment Key], [Sc-Item.Product Segment], [Sc-Item.Solution Key], [Sc-Item.Solution]
   From [Sc-Item] Where [Sc-Item.Item Type] = 'Zkma'
 Inner Join
 Select [Vbak_Vbap_Vbep.Vbap_Matkl]

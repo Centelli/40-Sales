@@ -7,6 +7,8 @@ Dim [Vexcratetohc] As Float
 Dim [Vmultiplier] As Float
 Dim [Vmatkey] As Varchar(18)
 Dim [Vcustomerkey] As Varchar(18)
+Dim [Vdelcustomerkey] As Varchar(18)
+Dim [Vregcurrency] As Varchar(4)
 
 Dim [Vsecuritykey] As Varchar(25)
 
@@ -70,7 +72,7 @@ Print '1'
 
 [Vsalesnet] = [Vsalesnet] * [Vmultiplier]
 
-//Dim [Mhomecurr] As Map(Varchar(4),Varchar(4)) = Select [Company Code.Comp Code Key],[Company Code.Comp Currency Key] From [Company Code]
+Dim [Mregcurr] As Map(Varchar(22),Varchar(4)) = Select [Level(Customer Sales Area.Customer Sales Area).Custarea Key],[Level(Customer Sales Area.Customer Sales Area).Rc Currency Key] From [Level(Customer Sales Area.Customer Sales Area)] Where [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] Is Not Null
 
 Dim [Mvcitems] As Map(Varchar(18),Varchar(18)) = Select [Sc-Item.Item Key], [Sc-Item.Item Key] From [Sc-Item] Where [Sc-Item.Item Type] = 'Zkma'
 /*
@@ -81,6 +83,12 @@ If [Mvcitems]([Vbrk_Vbrp.Vbrp_Matnr]) Is Not Null Then
 Else 
   [Vmatkey]=[Vbrk_Vbrp.Vbrp_Matnr]
 End If 
+
+If [Delpart.Vbpa_Kunnr] Is Not Null Then
+ [Vdelcustomerkey]=[Delpart.Vbpa_Kunnr]
+Else
+ [Vdelcustomerkey]=[Defdelpart.Vbpa_Kunnr]
+End If
 
 /* Sales Doc Number */
 Dim [Vsalesdoc] As Varchar(10) = [Vbrk_Vbrp.Vbrk_Vbeln]
@@ -115,12 +123,20 @@ Else
    
 End If
 
+
+//Regional Currency 
+If [Tbl_Dim_Sales_Region.Regional_Currency_Code] Is Not Null Then
+[Vregcurrency]=[Tbl_Dim_Sales_Region.Regional_Currency_Code]
+Else
+[Vregcurrency]=[Mregcurr]([Vcustomerkey] + '' + [Vbrk_Vbrp.Vbrk_Vkorg])
+End If
+
 [Customer Key] = [Vcustomerkey] 
 [Custarea Key] = [Vcustomerkey] + '' + [Vbrk_Vbrp.Vbrk_Vkorg]
 [Vsecuritykey] = [Vbrk_Vbrp.Vbrk_Bukrs] + '' + [Vbrk_Vbrp.Vbrp_Spart] + '' + [Vcustomerkey] 
 
 [Si Cancellation Document]=[Vbrk_Vbrp.Vbrk_Sfakn]
-[Delivery Customer Key]=[Vbpa.Vbpa_Kunnr]
+[Delivery Customer Key]=[Vdelcustomerkey]
 If [Vbrk_Vbrp.Vbrk_Aedat] Is Not Null Then
 [Si Header Change Date]=[Vbrk_Vbrp.Vbrk_Aedat]
 Else 
@@ -193,6 +209,7 @@ Else
 Print '3.2'
   [Vsalescost] = 0.00
 End If
+
 [Sales Cogs Dc] = [Vsalescost]
 
 Print '4'
@@ -209,10 +226,10 @@ Print '5'
   End If
 Print '[Sc-Company.Comp Currency Key]:'+[Sc-Company.Comp Currency Key]+' [V_Rate_Home_To_Chf] ='+[V_Rate_Home_To_Chf] 
   [V_Rate_Chf_To_Reg] = 1
-  If [Tbl_Dim_Sales_Region.Regional_Currency_Code] <> 'Chf' Then
+  If [Vregcurrency] <> 'Chf' Then
     [V_Rate_Chf_To_Reg] = [Regrates.Exchange Rate]
   End If
-Print '[Tbl_Dim_Sales_Region.Regional_Currency_Code]:'+[Tbl_Dim_Sales_Region.Regional_Currency_Code]+' [V_Rate_Chf_To_Reg] ='+[V_Rate_Chf_To_Reg]   
+Print '[Vregcurrency]:'+[Vregcurrency]+' [V_Rate_Chf_To_Reg] ='+[V_Rate_Chf_To_Reg]   
 
   If [V_Rate_Home_To_Chf] Is Null Then
     [V_Rate_Home_To_Chf] = 1
@@ -221,7 +238,7 @@ Print '[Tbl_Dim_Sales_Region.Regional_Currency_Code]:'+[Tbl_Dim_Sales_Region.Reg
   
   If [V_Rate_Chf_To_Reg] Is Null Then
     [V_Rate_Chf_To_Reg] = 1
-    Print 'Issue With '+[Vbrk_Vbrp.Vbrk_Vbeln]+' Rate For V_Rate_Chf_To_Reg '+[Tbl_Dim_Sales_Region.Regional_Currency_Code]+' Not Found - Set To 1'
+    Print 'Issue With '+[Vbrk_Vbrp.Vbrk_Vbeln]+' Rate For V_Rate_Chf_To_Reg '+[Vregcurrency]+' Not Found - Set To 1'
   End If  
 
 [Currency Key Dc]=[Vsalescurr]
@@ -256,8 +273,8 @@ End If
   [Net Sales Gc] = [Vsalesnetgc]
   [Sales Cogs Gc] = [Vsalescostgc]
 
-[Currency Key Rc] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
-If [Tbl_Dim_Sales_Region.Regional_Currency_Code] = 'Chf' Then
+[Currency Key Rc] = [Vregcurrency]
+If [Vregcurrency] = 'Chf' Then
   [Ex Rate Rc] = 1
   [Net Sales Rc] = [Vsalesnetgc]
   [Sales Cogs Rc] = [Vsalescostgc]
@@ -308,7 +325,7 @@ Else
 End If
 Print [Vsalesicogsgc]
 
-If [Tbl_Dim_Sales_Region.Regional_Currency_Code] = 'Chf' Then
+If [Vregcurrency] = 'Chf' Then
   [Sales Icogs Rc]=[Vsalesicogsgc]
 Else
   [Sales Icogs Rc]=[Vsalesicogsgc]/[V_Rate_Chf_To_Reg]

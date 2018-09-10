@@ -1,7 +1,7 @@
 [Item Key]=[Sql_I2_Vw_Mara.Mara_Matnr]
 [Item Group Key]=[Sql_I2_Vw_Mara.Mara_Extwg]
 [Base Uom]=[Sql_I2_Vw_Mara.Mara_Meins]
-[Division Key]=[Sql_I2_Vw_Mara.Mara_Spart]
+[Item Division Key]=[Sql_I2_Vw_Mara.Mara_Spart]
 [Item]=[Sql_I2_Vw_Mara.Makt_Maktx]
 [Item Group] = [Ext Material Group.Ext Mat Group]
 [Product Group Key]=[Structure_Dimension_Item.Product Group Code]
