@@ -1,0 +1,30 @@
+SELECT [ScLAgg.Sales Order Number], [ScLAgg.Sales Order Item], 
+SUM([ScLAgg.ScL Quantity]), 
+SUM([ScLAgg.Order Qty]),
+[ScLAgg.Currency Key DC], 
+[ScLAgg.Ex Rate DC], 
+SUM([ScLAgg.Order Intake DC]), 
+SUM([ScLAgg.SO Item Cost DC]), 
+[ScLAgg.Currency Key GC], 
+[ScLAgg.Ex Rate GC], 
+SUM([ScLAgg.Order Intake GC]), 
+SUM([ScLAgg.SO Item Cost GC]), 
+[ScLAgg.Currency Key HC], 
+[ScLAgg.Ex Rate HC], 
+SUM([ScLAgg.Order Intake HC]), 
+SUM([ScLAgg.SO Item Cost HC]), 
+[ScLAgg.Currency Key RC], 
+[ScLAgg.Ex Rate RC], 
+SUM([ScLAgg.Order Intake RC]), 
+SUM([ScLAgg.SO Item Cost RC]) 
+ FROM [SC-Orders SL Update] 'ScLAgg' 
+INNER JOIN
+SELECT [SC-Orders SL Update.Sales Order Number], [SC-Orders SL Update.Sales Order Item], [SC-Orders SL Update.SO Date], [SC-Orders SL Update.SO Document Category], [SC-Orders SL Update.SO Transaction Group], [SC-Orders SL Update.SO Document Type], [SC-Orders SL Update.Sales Org Key], [SC-Orders SL Update.Distr Channel], [SC-Orders SL Update.Sales Office Key], [SC-Orders SL Update.Customer Key], [SC-Orders SL Update.SO Header Change Date], [SC-Orders SL Update.Item Key], [SC-Orders SL Update.Item category], [SC-Orders SL Update.Rejection Reason Key], [SC-Orders SL Update.Base Unit], [SC-Orders SL Update.Division Key], [SC-Orders SL Update.Plant], [SC-Orders SL Update.Analysis Date], [SC-Orders SL Update.Pricing Date], [SC-Orders SL Update.Sales Order Key], [SC-Orders SL Update.Current Record], [SC-Orders SL Update.CustArea Key], [SC-Orders SL Update.SO Item Delivery Status], [SC-Orders SL Update.SO Order Delivery Status], [SC-Orders SL Update.SO Item Rejection Status], [SC-Orders SL Update.SO Item Overall Status], [SC-Orders SL Update.Change Date], [SC-Orders SL Update.DelMarker], [SC-Orders SL Update.Source], [SC-Orders SL Update.Requirement Type Key], [SC-Orders SL Update.Object Number], [SC-Orders SL Update.Comp Code Key], [SC-Orders SL Update.SO Doc Condition], [SC-Orders SL Update.Delivery Customer Key], [SC-Orders SL Update.Security Key], [SC-Orders SL Update.RecType]
+ FROM [SC-Orders SL Update] 
+ ON [SC-Orders SL Update.Sales Order Number]=[ScLAgg.Sales Order Number] AND [SC-Orders SL Update.Sales Order Item]=[ScLAgg.Sales Order Item] AND [SC-Orders SL Update.Sales Order ScL Line] = '0001' AND [SC-Orders SL Update.Rejection Reason Key] is null 
+INNER JOIN 
+SELECT [SC-Orders SL.Sales Order Number], [SC-Orders SL.Sales Order Item], [SC-Orders SL.Order Qty], [SC-Orders SL.Order Intake DC], [SC-Orders SL.Order Intake GC], [SC-Orders SL.Order Intake HC], [SC-Orders SL.Order Intake RC], [SC-Orders SL.SO Item Cost DC], [SC-Orders SL.SO Item Cost HC], [SC-Orders SL.SO Item Cost GC], [SC-Orders SL.SO Item Cost RC] FROM [SC-Orders SL] 
+ON [SC-Orders SL.Sales Order Number]=[ScLAgg.Sales Order Number] AND [SC-Orders SL.Sales Order Item]=[ScLAgg.Sales Order Item] AND [SC-Orders SL.Sales Order ScL Line] = '0001'  AND [SC-Orders SL Update.Rejection Reason Key] is null 
+LEFT OUTER JOIN 
+SELECT [SC-Invoices.Sales Order Number], [SC-Invoices.Sales Order Item], SUM([SC-Invoices.Invoice Qty]) FROM [SC-Invoices] 
+ ON [SC-Invoices.Sales Order Number]=[ScLAgg.Sales Order Number] AND [SC-Invoices.Sales Order Item]=[ScLAgg.Sales Order Item] AND [SC-Invoices.Bill Type Key] = 'ZF2'

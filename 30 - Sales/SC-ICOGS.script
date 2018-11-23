@@ -1,0 +1,27 @@
+dim [vMatKeyLong] as Varchar(40)
+
+// Check if item code is an integer (cast to int and if not int then null is returned). If it is, pad with leading zeros
+if integer([SQL_vw_bi_ICOGS.item_code]) is null then
+[Material Key]=[SQL_vw_bi_ICOGS.item_code]
+print 'mat key:'+ [SQL_vw_bi_ICOGS.item_code]
+else
+[vMatKeyLong] = '000000000000000000' + '' + [SQL_vw_bi_ICOGS.item_code]
+[Material Key] = substring([vMatKeyLong], length([vMatKeyLong])-18,length([vMatKeyLong]))
+print substring([vMatKeyLong], length([vMatKeyLong])-18,length([vMatKeyLong]))
+end if
+
+[Plant Key]=[SQL_vw_bi_ICOGS.plant_code]
+[ICOGS Last Calc Date]=[SQL_vw_bi_ICOGS.last_cost_price_trans_date]
+[ICOGS Cost Price]=[SQL_vw_bi_ICOGS.cost_price]
+[ICOGS Valid From]=[SQL_vw_bi_ICOGS.valid_from]
+
+if [SQL_vw_bi_ICOGS.valid_to] is not null then
+[ICOGS Valid To]=[SQL_vw_bi_ICOGS.valid_to]
+else
+[ICOGS Valid To]=DATETIME('12/31/2999')
+end if
+
+[ICOGS Init Calc Date]=[SQL_vw_bi_ICOGS.calc_date]
+[ICOGS Init Cost Price]=[SQL_vw_bi_ICOGS.init_cost_price]*-1
+[ICOGS Status]=[SQL_vw_bi_ICOGS.icogs_status]
+WRITERECORD

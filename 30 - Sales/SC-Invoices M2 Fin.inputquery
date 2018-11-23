@@ -1,0 +1,20 @@
+Select 
+[SC-Invoices M2 Curr.VBRP_VBELN],
+[SC-Invoices M2 Curr.VBRP_POSNR],
+ MAX([SC-Invoices M2 Curr.Currency Key DC]),
+ SUM([SC-Invoices M2 Curr.Net Sales DC]),
+ SUM([SC-Invoices M2 Curr.Sales COGS DC]),
+ SUM([SC-Invoices M2 Curr.Sales ICOGS DC]),
+ MAX([SC-Invoices M2 Curr.Currency Key HC]),
+ SUM([SC-Invoices M2 Curr.Net Sales HC]),
+ SUM([SC-Invoices M2 Curr.Sales COGS HC]),
+ SUM([SC-Invoices M2 Curr.Sales ICOGS HC]),
+ MAX([SC-Invoices M2 Curr.Currency Key GC]),
+ SUM([SC-Invoices M2 Curr.Net Sales GC]),
+ SUM([SC-Invoices M2 Curr.Sales COGS GC]),
+ SUM([SC-Invoices M2 Curr.Sales ICOGS GC]),
+ MAX([SC-Invoices M2 Curr.Currency Key RC]),
+ SUM([SC-Invoices M2 Curr.Net Sales RC]),
+ SUM([SC-Invoices M2 Curr.Sales COGS RC]),
+ SUM([SC-Invoices M2 Curr.Sales ICOGS RC])
+ FROM [SC-Invoices M2 Curr]

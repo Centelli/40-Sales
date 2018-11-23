@@ -1,0 +1,55 @@
+DIM [vGDATU] as VARCHAR(8)
+DIM [vFromDate] as DATE
+DIM [vToDate] as DATE
+
+DIM [vCurrCurr] AS VARCHAR(8)
+
+DIM [vPrevCurr] AS VARCHAR(8)
+DIM [vPrevDate] as DATE
+
+[vCurrCurr]=[TCURF.TCURF_FCURR]+[TCURF.TCURF_TCURR]
+[TCURF_KURST]=[TCURF.TCURF_KURST]
+[TCURF_FCURR]=[TCURF.TCURF_FCURR]
+[TCURF_TCURR]=[TCURF.TCURF_TCURR]
+[TCURF_GDATU]=[TCURF.TCURF_GDATU]
+[TCURF_FFACT]=[TCURF.TCURF_FFACT]
+[TCURF_TFACT]=[TCURF.TCURF_TFACT]
+[TCURF_ABWCT]=[TCURF.TCURF_ABWCT]
+[TCURF_ABWGA]=[TCURF.TCURF_ABWGA]
+
+//SAP GDATU is in SAP Inverted date format which is in YYYMMDD
+[vGDATU] = VARCHAR(99999999-[TCURF.TCURF_GDATU])
+
+PRINT COUNT([qCOUNT.TCURF_GDATU]) + ' ' + [TCURF.TCURF_FCURR] + ' ' + [TCURF.TCURF_TCURR]
+//PRINT substring([vGDATU],4,6)+'/'+substring([vGDATU],6,8)+'/'+substring([vGDATU],0,4) 
+
+//Birst expects MMDDYYYY
+[vFromDate] = '#'+substring([vGDATU],4,6)+'/'+substring([vGDATU],6,8)+'/'+substring([vGDATU],0,4)+'#'
+
+PRINT format([vFromDate],'DDMMYYYY')
+
+IF [vPrevCurr] IS NOT NULL THEN
+ PRINT [vPrevCurr]+' '+[vCurrCurr]
+ IF [vPrevCurr]=[vCurrCurr] THEN
+  PRINT '1.1'
+  [vToDate]=DATEADD(DAY,-1,[vPrevDate])
+ ELSE
+  PRINT '1.2'
+  [vToDate]='#01/01/2999#'
+ END IF
+ 
+ELSE //Handle First Record
+ PRINT '2'
+ [vToDate]='#01/01/2999#'
+END IF
+[vPrevCurr]=[vCurrCurr]
+[vPrevDate]=[vFromDate]
+
+//PRINT format([vToDate],'DDMMYYYY')
+
+[From Date]=[vFromDate]
+[To Date]=[vToDate]
+//Count for debug
+[TCURF_Count]=COUNT([qCOUNT.TCURF_GDATU])
+
+WRITERECORD

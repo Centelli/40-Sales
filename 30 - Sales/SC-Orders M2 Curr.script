@@ -1,0 +1,33 @@
+[Currency Key DC]=NULL
+[Order Intake DC]=0.0
+[Currency Key HC]=NULL
+[Order Intake HC]=0.0
+[Currency Key GC]=NULL
+[Order Intake GC]=0.0
+[Currency Key RC]=NULL
+[Order Intake RC]=0.0
+
+[VBAP_VBELN]=[SQL_M2_vw_migration_fact_orders.VBAP_VBELN]
+[VBAP_POSNR]=[SQL_M2_vw_migration_fact_orders.VBAP_POSNR]
+[VBAP_AEDAT]=[SQL_M2_vw_migration_fact_orders.VBAP_AEDAT]
+[VBAK_KUNNR]=[SQL_M2_vw_migration_fact_orders.VBAK_KUNNR]
+[VBAP_SPART]=[SQL_M2_vw_migration_fact_orders.VBAP_SPART]
+[VBAP_MATNR]=[SQL_M2_vw_migration_fact_orders.VBAP_MATNR]
+[Customer_Delivery_Country]=[SQL_M2_vw_migration_fact_orders.Customer_Delivery_Country]
+
+[Order Qty]=[SQL_M2_vw_migration_fact_orders.VBAP_KWMENG]
+
+IF [SQL_M2_vw_migration_fact_orders.curr_type_code]='DC' THEN
+ [Currency Key DC]=[SQL_M2_vw_migration_fact_orders.VBAP_WAERK]
+ [Order Intake DC]=[SQL_M2_vw_migration_fact_orders.VBAP_NETWR]
+ELSEIF [SQL_M2_vw_migration_fact_orders.curr_type_code]='HC' THEN
+ [Currency Key HC]=[SQL_M2_vw_migration_fact_orders.VBAP_WAERK]
+ [Order Intake HC]=[SQL_M2_vw_migration_fact_orders.VBAP_NETWR]
+ELSEIF [SQL_M2_vw_migration_fact_orders.curr_type_code]='GC' THEN
+ [Currency Key GC]=[SQL_M2_vw_migration_fact_orders.VBAP_WAERK]
+ [Order Intake GC]=[SQL_M2_vw_migration_fact_orders.VBAP_NETWR]
+ELSEIF [SQL_M2_vw_migration_fact_orders.curr_type_code]='RC' THEN
+ [Currency Key RC]=[SQL_M2_vw_migration_fact_orders.VBAP_WAERK]
+ [Order Intake RC]=[SQL_M2_vw_migration_fact_orders.VBAP_NETWR]
+END IF
+WRITERECORD

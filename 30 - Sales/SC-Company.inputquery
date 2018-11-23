@@ -1,0 +1,3 @@
+SELECT [Company Code.Comp Code Key], [Company Code.Comp Name], [Company Code.City], [Company Code.Comp Country Key], [Company Code.Comp Currency Key], 'SAP ECC' FROM [Company Code]
+UNIONALL 
+SELECT [SQL_I2_vw_dim_company.BUKRS], [SQL_I2_vw_dim_company.comp_name], NULL, [SQL_I2_vw_dim_company.LAND1], [SQL_I2_vw_dim_company.WAERS], [SQL_I2_vw_dim_company.Source] FROM [SQL_I2_vw_dim_company]

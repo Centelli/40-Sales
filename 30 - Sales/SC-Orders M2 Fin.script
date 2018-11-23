@@ -1,0 +1,17 @@
+[VBAP_VBELN]=[SC-Orders M2 Curr.VBAP_VBELN]
+[VBAP_POSNR]=[SC-Orders M2 Curr.VBAP_POSNR]
+[VBAP_AEDAT]=[SC-Orders M2 Curr.VBAP_AEDAT]
+[VBAK_KUNNR]=[SC-Orders M2 Curr.VBAK_KUNNR]
+[VBAP_SPART]=[SC-Orders M2 Curr.VBAP_SPART]
+[VBAP_MATNR]=[SC-Orders M2 Curr.VBAP_MATNR]
+[Customer_Delivery_Country]=[SC-Orders M2 Curr.Customer_Delivery_Country]
+[Currency Key DC]=MAX([SC-Orders M2 Curr.Currency Key DC])
+[Order Intake DC]=SUM([SC-Orders M2 Curr.Order Intake DC])
+[Currency Key HC]=MAX([SC-Orders M2 Curr.Currency Key HC])
+[Order Intake HC]=SUM([SC-Orders M2 Curr.Order Intake HC])
+[Currency Key GC]=MAX([SC-Orders M2 Curr.Currency Key GC])
+[Order Intake GC]=SUM([SC-Orders M2 Curr.Order Intake GC])
+[Currency Key RC]=MAX([SC-Orders M2 Curr.Currency Key RC])
+[Order Intake RC]=SUM([SC-Orders M2 Curr.Order Intake RC])
+[Order Qty]=AVG([SC-Orders M2 Curr.Order Qty])
+WRITERECORD

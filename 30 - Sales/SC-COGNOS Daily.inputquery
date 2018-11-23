@@ -1,0 +1,2 @@
+SELECT [Grain(SC-Invoices I2).Comp Code Key], [Grain(SC-Invoices I2).# Currency Key HC], [Grain(SC-Invoices I2).Analysis Date], SUM([Grain(SC-Invoices I2).Net Sales HC]), SUM([Grain(SC-Invoices I2).Sales COGS HC]), SUM([Grain(SC-Invoices I2).Sales ICOGS HC])
+  FROM [Grain(SC-Invoices I2)] WHERE [Grain(SC-Invoices I2).Analysis Date] IS NOT NULL

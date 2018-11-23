@@ -1,0 +1,1 @@
+SELECT [SC-Active Directory.Email ID], [SC-Active Directory.Last Name], [SC-Active Directory.First Name], [SC-Active Directory.AD ID], [SC-Active Directory.Manager AD ID] FROM [SC-Active Directory]

@@ -1,0 +1,112 @@
+Dim [vCustomerKey] as varchar(18)
+Dim [vSalesRepKey] as varchar(10)
+Dim [vCustSalesAreaKey] as varchar(22)
+Dim [vSalesOffice] as varchar(4)
+Dim [vWriteRecord] as varchar(1)
+
+Dim [vDebug] as Varchar(1)
+
+IF [Grain(SC-Security Input).# User] = 'ereen.angyuehleng@hubersuhner.com' then
+  [vDebug] = 'X'
+ELSE
+  [vDebug] = ''
+END IF
+
+/* Map variables */
+Dim [mCustCountry] as MAP(Varchar(18),Varchar(3)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Country Key] FROM [Level(Customer.Customer)]
+Dim [mCustCustomerGroup] as MAP(Varchar(18),Varchar(77)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Customer Group] FROM [Level(Customer.Customer)]
+Dim [mCustMarket] as MAP(Varchar(18),Varchar(10)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Market Key] FROM [Level(Customer.Customer)]
+Dim [mCustSalesRep] as MAP(Varchar(22),Varchar(10)) = SELECT [Grain(SC-Customer Sales Area).CustArea Key], [Grain(SC-Customer Sales Area).# Outside Sales Key] FROM [Grain(SC-Customer Sales Area)]
+Dim [mCustSalesOffice] as MAP(Varchar(22),Varchar(10)) = SELECT [Grain(SC-Customer Sales Area).CustArea Key], [Grain(SC-Customer Sales Area).# Sales Office Key] FROM [Grain(SC-Customer Sales Area)]
+
+/* 28Jun18 / Aneesh: There are security keys that are short/blank/=NA. Causing script to fail. Unable to find data linked to these keys so logging
+in print output for now */
+
+[vWriteRecord] = ''
+
+IF length([Level(Security Key.Security Key).Security Key]) > 6 THEN
+
+	/* Determine customer key and cust sales area key
+	Assumption: First character is ICOGS flag, 4 for company and 2 for division to get customer */
+	[vCustomerKey] = substring([Level(Security Key.Security Key).Security Key],7,length([Level(Security Key.Security Key).Security Key]))
+	[vCustSalesAreaKey] = substring([Level(Security Key.Security Key).Security Key],7,length([Level(Security Key.Security Key).Security Key])) + substring([Level(Security Key.Security Key).Security Key],1,5)
+
+	if [vDebug] = 'X' then
+	  print [Grain(SC-Security Input).# User] + ':' + [Grain(SC-Security Input).# Security Mask] + ':'  + [Grain(SC-Security Input).# Sales Office Key] + ':' + [Grain(SC-Security Input).# Cust Role Entity]+ ':' + [Grain(SC-Security Input).# Cust Role Code]+':'+[Grain(SC-Security Input).# Cust Role Name] + ':' + [Level(Security Key.Security Key).Security Key] + ':' + [vCustomerKey] + ':' + [vCustSalesAreaKey] + ':' + [mCustCountry]([vCustomerKey]) + ':' + [mCustCustomerGroup]([vCustomerKey])+':' + [mCustMarket]([vCustomerKey])+':' + [mCustSalesRep]([vCustSalesAreaKey]) + ':' + [mCustSalesOffice]([vCustSalesAreaKey])
+	End if
+
+	/* If a role is specified in the file, use that else determine */
+
+	IF [Grain(SC-Security Input).# Role] = null or [Grain(SC-Security Input).# Role] = '' THEN
+	// Update role to no restriction if CUST_ALL, COMP_ALL, DIV_ALL and ICOGS = 1
+	    IF [Grain(SC-Security Input).# Security Mask] = 'Y______%' and ([Grain(SC-Security Input).# Cust Role Entity] = 'Customer All' or [Grain(SC-Security Input).# Cust Role Entity] is null) THEN
+	      [Role] = 'All'
+	    ELSE
+	      [Role] = 'Limited'
+	    END IF
+	ELSE
+	  [Role] = [Grain(SC-Security Input).# Role]
+	END IF
+
+	[User] = [Grain(SC-Security Input).# User]
+	[User Security Key] = [Level(Security Key.Security Key).Security Key]
+	[Customer Key] = [vCustomerKey]
+
+	// For customer all, write record, else check if user has access to customer
+	if [Grain(SC-Security Input).# Cust Role Entity] = 'Customer All'  or [Grain(SC-Security Input).# Cust Role Entity] is null then
+	  [Detail] = ''
+	  [Source] = 'Cust All'
+	  [vWriteRecord] = 'X'
+	elseif [Grain(SC-Security Input).# Cust Role Entity] = 'Customer Country' then
+	  [Detail] = [mCustCountry]([vCustomerKey])+ ':' + [Grain(SC-Security Input).# Cust Role Code]
+	  [Source] = 'Country'
+	  if [mCustCountry]([vCustomerKey]) = [Grain(SC-Security Input).# Cust Role Code] then
+	    [vWriteRecord] = 'X'
+         [Entity Value] = [Grain(SC-Security Input).# Cust Role Code]
+	  end if
+	elseif [Grain(SC-Security Input).# Cust Role Entity] = 'Customer Group' then
+	  [Detail] = [mCustCustomerGroup]([vCustomerKey]) + ':' + [Grain(SC-Security Input).# Cust Role Name]
+	  [Source] = 'Cust Group'
+	  if [mCustCustomerGroup]([vCustomerKey]) = [Grain(SC-Security Input).# Cust Role Name] then
+	    [vWriteRecord] = 'X'
+         [Entity Value] = [Grain(SC-Security Input).# Cust Role Name]
+	  end if
+	elseif [Grain(SC-Security Input).# Cust Role Entity] = 'Market' then
+	  [Detail] = [mCustMarket]([vCustomerKey])+ ':' + [Grain(SC-Security Input).# Cust Role Code]
+	  [Source] = 'Market'
+	if [vDebug] = 'X' then
+	  print 'In Market check: ' + [mCustMarket]([vCustomerKey]) + ':' + [Grain(SC-Security Input).# Cust Role Code] + ':' + ([mCustMarket]([vCustomerKey]) = [Grain(SC-Security Input).# Cust Role Code])
+	End if
+     if [mCustMarket]([vCustomerKey]) = [Grain(SC-Security Input).# Cust Role Code] then
+	    [vWriteRecord] = 'X'
+         [Entity Value] = [Grain(SC-Security Input).# Cust Role Code]
+	  end if
+	elseif [Grain(SC-Security Input).# Cust Role Entity] = 'Sales Rep' then
+	   [Detail] = [mCustSalesRep]([vCustSalesAreaKey]) + ':' + [Grain(SC-Security Input).# Cust Role Code]
+	   [vSalesRepKey] = [mCustSalesRep]([vCustSalesAreaKey])
+	   [Source] = 'Sales Rep'
+	   if [vSalesRepKey] is not null then
+	     if [vSalesRepKey] = [Grain(SC-Security Input).# Cust Role Code] then
+	       [vWriteRecord] = 'X'
+            [Entity Value] = [Grain(SC-Security Input).# Cust Role Code]
+	     end if
+	   end if
+	end if
+
+/* Only write record if Sales office check is ok */
+	if [vWriteRecord] = 'X' then
+		if [Grain(SC-Security Input).# Sales Office Key] = 'All' then
+		    WRITERECORD
+		else
+                     [vSalesOffice] = [mCustSalesOffice]([vCustSalesAreaKey])
+			if [Grain(SC-Security Input).# Sales Office Key] = [vSalesOffice]
+				WRITERECORD
+			end if
+		end if
+	end if
+
+ELSE
+
+print length([Level(Security Key.Security Key).Security Key]) + ':' + [Level(Security Key.Security Key).Security Key]
+
+end if
