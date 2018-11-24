@@ -132,7 +132,7 @@ END IF
 
 [Customer Key] = [vCustomerKey] 
 [CustArea Key] = [vCustomerKey] + '' + [VBRK_VBRP.VBRK_VKORG]
-[vSecurityKey] = [VBRK_VBRP.VBRK_BUKRS] + '' + [VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = [VBRK_VBRP.VBRK_VKORG] + '' + [VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
 
 [SI Cancellation Document]=[VBRK_VBRP.VBRK_SFAKN]
 [Delivery Customer Key]=[vDelCustomerKey]

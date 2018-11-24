@@ -8,7 +8,7 @@ Dim [vMultiplier] as FLOAT
 Dim [vMatKey] as Varchar(30)
 Dim [vCustomerKey] as Varchar(18)
 
-Dim [vSecurityKey] as Varchar(25)	
+Dim [vSecurityKey] as Varchar(25) 
 
 Dim [vSalesNetHC] as Float
 Dim [vSalesCostHC] as Float
@@ -98,7 +98,7 @@ Dim [vSalesDocItem] as Varchar(10) = [SQL_I2_vw_VBRK_VBRP.VBRP_POSNR]
 
 [Customer Key] = [vCustomerKey]
 [CustArea Key] = [vCustomerKey] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_VKORG]))+ [SQL_I2_vw_VBRK_VBRP.VBRK_VKORG] 
-[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_BUKRS])) + [SQL_I2_vw_VBRK_VBRP.VBRK_BUKRS] + '' + [SQL_I2_vw_VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_VKORG])) + [SQL_I2_vw_VBRK_VBRP.VBRK_VKORG] + '' + [SQL_I2_vw_VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
 
 //[SI Cancellation Document]=[SQL_I2_vw_VBRK_VBRP.VBRK_SFAKN]
 [Delivery Customer Key]='DEL_I2_'+[SQL_I2_vw_VBRK_VBRP.Customer_Delivery_Country]
@@ -205,8 +205,8 @@ PRINT '[SC-Customer Sales Area I2.RC Currency Key]:'+[SC-Customer Sales Area I2.
 
    IF [vExcRatetoHC] > FLOAT(0.00) THEN
     [Ex Rate HC]=[vExcRatetoHC]
-	[vSalesNetHC]=IFNULL([vSalesNet],0.00)*[vExcRatetoHC]
-	[vSalesCostHC]=IFNULL([vSalesCost],0.00)*[vExcRatetoHC] 
+  [vSalesNetHC]=IFNULL([vSalesNet],0.00)*[vExcRatetoHC]
+  [vSalesCostHC]=IFNULL([vSalesCost],0.00)*[vExcRatetoHC] 
    ELSEIF [vExcRatetoHC] < FLOAT(0.00)
     [Ex Rate HC]=FLOAT(1/([vExcRatetoHC]*-1))
     [vSalesNetHC]=FLOAT(IFNULL([vSalesNet],0.00)/([vExcRatetoHC]*-1))
