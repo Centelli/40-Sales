@@ -1,0 +1,4 @@
+[User]=[vw_cockpit_users.mail]
+[Module]=[vw_cockpit_user_roles.Module]
+
+WRITERECORD
