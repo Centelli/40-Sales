@@ -1,0 +1,50 @@
+Source Name,Column Name,Data Type,Width,Hierarchy,Level
+vw_cockpit_map_company,comp_role_key,Varchar,13,,
+vw_cockpit_map_company,bukrs,Integer,4,,
+vw_cockpit_map_company,div_comp_code,Integer,4,,
+vw_cockpit_map_company,VKORG,Integer,4,,
+vw_cockpit_map_company,VKBUR,Integer,4,,
+vw_cockpit_map_divsion,division_code,Varchar,2,,
+vw_cockpit_map_divsion,div_role_key,Varchar,12,,
+vw_cockpit_user_roles,role_key,Varchar,4,,
+vw_cockpit_user_roles,role_code,Varchar,8,,
+vw_cockpit_user_roles,icogs,Varchar,4,,
+vw_cockpit_user_roles,comp_entity,Varchar,13,,
+vw_cockpit_user_roles,comp_role_key,Varchar,13,,
+vw_cockpit_user_roles,div_role_key,Varchar,12,,
+vw_cockpit_user_roles,cust_role_key,Varchar,41,,
+vw_cockpit_user_roles,Module,Varchar,17,,
+vw_cockpit_user_roles,member_key,Varchar,30,,
+vw_cockpit_user_roles,uid,Varchar,16,,
+vw_cockpit_users,user_key,Integer,4,,
+vw_cockpit_users,ou,Varchar,2,,
+vw_cockpit_users,uid,Varchar,16,,
+vw_cockpit_users,cn,Varchar,30,,
+vw_cockpit_users,mail,Varchar,45,,
+vw_cockpit_users,default,Varchar,4,,
+vw_cockpit_users,ad,Integer,1,,
+vw_cockpit_users,swapmousebutton,Varchar,4,,
+vw_cockpit_users,active,Integer,2,,
+vw_cockpit_users,valid_from,DateTime,23,,
+vw_cockpit_users,valid_until,Varchar,4,,
+vw_cockpit_users,AUDIT_USER,Varchar,21,,
+vw_cockpit_users,AUDIT_TIME,Varchar,23,,
+vw_cockpit_users,member_key,Varchar,28,,
+SC-Security Input,User,Varchar,50,User Security,User Security
+SC-Security Input,Security Mask,Varchar,29,User Security,User Security
+SC-Security Input,Cust Role Entity,Varchar,20,User Security,User Security
+SC-Security Input,Cust Role Code,Varchar,20,User Security,User Security
+SC-Security Input,Cust Role Name,Varchar,50,User Security,User Security
+SC-Security Input,ICOGS,Varchar,1,User Security,User Security
+SC-Security Input,Role,Varchar,20,User Security,User Security
+SC-Security Input,Sales Office Key,Varchar,4,User Security,User Security
+vw_cockpit_map_customer,cust_role_key,Varchar,41,,
+vw_cockpit_map_customer,Entity,Varchar,16,,
+vw_cockpit_map_customer,Cockpit Table,Varchar,18,,
+vw_cockpit_map_customer,Key,Varchar,6,,
+vw_cockpit_map_customer,Code,Varchar,11,,
+vw_cockpit_map_customer,Name,Varchar,26,,
+Birst Modules,module_key,Varchar,31,,
+Birst Modules,module_value,Varchar,31,,
+SC-Security Modules,User,Varchar,50,User Modules,User Modules
+SC-Security Modules,Module,Varchar,20,User Modules,User Modules

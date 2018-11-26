@@ -1,0 +1,18 @@
+SELECT [vw_cockpit_user_roles.icogs], [vw_cockpit_user_roles.comp_entity], [vw_cockpit_user_roles.comp_role_key], [vw_cockpit_user_roles.div_role_key], [vw_cockpit_user_roles.cust_role_key]
+  FROM [vw_cockpit_user_roles] 
+INNER JOIN
+SELECT [vw_cockpit_users.mail]
+  FROM [vw_cockpit_users]
+  ON [vw_cockpit_user_roles.uid] = [vw_cockpit_users.uid] 
+LEFT OUTER JOIN
+SELECT [vw_cockpit_map_company.comp_role_key], [vw_cockpit_map_company.bukrs], [vw_cockpit_map_company.VKBUR], [vw_cockpit_map_company.VKORG]
+  FROM [vw_cockpit_map_company]
+  ON [vw_cockpit_user_roles.comp_role_key] = [vw_cockpit_map_company.comp_role_key]
+LEFT OUTER JOIN
+SELECT [vw_cockpit_map_divsion.division_code], [vw_cockpit_map_divsion.div_role_key]
+  FROM [vw_cockpit_map_divsion]
+  ON [vw_cockpit_user_roles.div_role_key] = [vw_cockpit_map_divsion.div_role_key]
+LEFT OUTER JOIN
+SELECT [vw_cockpit_map_customer.cust_role_key], [vw_cockpit_map_customer.Entity], [vw_cockpit_map_customer.Cockpit Table], [vw_cockpit_map_customer.Key], [vw_cockpit_map_customer.Code], [vw_cockpit_map_customer.Name]
+  FROM [vw_cockpit_map_customer]
+  ON [vw_cockpit_user_roles.cust_role_key] = [vw_cockpit_map_customer.cust_role_key]
