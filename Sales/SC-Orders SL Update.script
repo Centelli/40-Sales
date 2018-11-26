@@ -1,6 +1,6 @@
 DIM [vOrdQty] as Float
 DIM [vSchedQty] as Float
-
+print [SC-Orders SL.Sales Order Number] + ':' + [SC-Orders SL.Sales Order Item] + ':' + [SC-Orders SL.Sales Order ScL Line]
 [Sales Order Number]=[SC-Orders SL.Sales Order Number]
 [Sales Order Item]=[SC-Orders SL.Sales Order Item]
 [Sales Order ScL Line]=[SC-Orders SL.Sales Order ScL Line]

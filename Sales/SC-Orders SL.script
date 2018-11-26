@@ -210,13 +210,35 @@ end if
   [ScL Quantity] = [vSchedLineQty]
   [Security Key] = 'N' + [VBAK_VBAP_VBEP.VBAK_VKORG] + '' + [VBAK_VBAP_VBEP.VBAP_SPART] + '' + [VBAK_VBAP_VBEP.VBAK_KUNNR]
   
+  PRINT '2.1'
+  PRINT [VBAK_VBAP_VBEP.VBAP_AEDAT]
+  PRINT [VBAK_VBAP_VBEP.VBAK_AEDAT]
+  PRINT [VBAK_VBAP_VBEP.VBAP_ERDAT]
+  
   /* Changed on Date or Created Date */
   IF [VBAK_VBAP_VBEP.VBAP_AEDAT] IS NOT NULL THEN
-    [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_AEDAT]
-  ELSE
-    [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_ERDAT]
+    IF [VBAK_VBAP_VBEP.VBAK_AEDAT] IS NOT NULL THEN
+      IF [VBAK_VBAP_VBEP.VBAP_AEDAT] > [VBAK_VBAP_VBEP.VBAK_AEDAT] THEN
+        [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_AEDAT]
+      ELSE
+        [vChangeDate] = [VBAK_VBAP_VBEP.VBAK_AEDAT]
+      END IF
+    ELSE
+      [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_AEDAT]
+    END IF
+  ELSE 
+    IF [VBAK_VBAP_VBEP.VBAK_AEDAT] IS NOT NULL THEN
+      IF [VBAK_VBAP_VBEP.VBAP_ERDAT] > [VBAK_VBAP_VBEP.VBAK_AEDAT] THEN
+        [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_ERDAT]
+      ELSE
+        [vChangeDate] = [VBAK_VBAP_VBEP.VBAK_AEDAT]
+    ELSE
+      [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_ERDAT]
+    END IF
   END IF
-  
+
+  PRINT [vChangeDate]
+
   [Analysis Date]=[vChangeDate]
   [Change Date]=[vChangeDate]
   

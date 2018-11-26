@@ -1,9 +1,0 @@
-SELECT [SC-Active Directory.Email ID], [SC-Active Directory.Last Name], [SC-Active Directory.First Name], [SC-Active Directory.AD ID], [SC-Active Directory.Manager AD ID] FROM [SC-Active Directory]
-LEFT OUTER JOIN 
-SELECT [ADR6.ADR6_ADDRNUMBER], [ADR6.ADR6_PERSNUMBER], [ADR6.ADR6_SMTP_ADDR] 
-  FROM [ADR6] 
-  ON  [SC-Active Directory.Email ID] = [ADR6.ADR6_SMTP_ADDR]
-LEFT OUTER JOIN 
-SELECT [OutCust.KNA1_KUNNR], [OutCust.KNA1_LAND1], [OutCust.KNA1_NAME1], [OutCust.KNA1_NAME2], [OutCust.KNA1_ORT01], [OutCust.KNA1_PSTLZ], [OutCust.KNA1_REGIO], [OutCust.KNA1_SORTL], [OutCust.KNA1_STRAS], [OutCust.KNA1_ADRNR], [OutCust.KNA1_BRSCH], [OutCust.KNA1_KTOKD], [OutCust.KNA1_BRAN1], [OutCust.KNA1_KATR1], [OutCust.KNA1_KATR6], [OutCust.KNA1_KATR5]  
-  FROM [KNA1] 'OutCust' 
-    ON [ADR6.ADR6_ADDRNUMBER] = [OutCust.KNA1_ADRNR]
