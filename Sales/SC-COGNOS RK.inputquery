@@ -1,9 +1,9 @@
-Select [Sc-Cognos Daily.Comp Code Key], [Sc-Cognos Daily.Year], [Sc-Cognos Daily.Month], [Sc-Cognos Daily.Currency Key Hc], Sum([Sc-Cognos Daily.Net Sales Hc]), Sum([Sc-Cognos Daily.Sales Cogs Hc]), Sum([Sc-Cognos Daily.Sales Icogs Hc])
-  From [Sc-Cognos Daily] 
-Left Outer Join 
-Select [Spotrates.Exchange Rate] From [Sc-Cognos Rates] 'Spotrates'
-On [Spotrates.Month] = [Sc-Cognos Daily.Month] And [Spotrates.Year] = [Sc-Cognos Daily.Year] And [Spotrates.Source] = 'B' And [Spotrates.Type] = 'Ac' And [Spotrates.Currency Key] = [Sc-Cognos Daily.Currency Key Hc]
-Left Outer Join 
-Select [Avgrates.Exchange Rate] From [Sc-Cognos Rates] 'Avgrates'
-On [Avgrates.Month] = [Sc-Cognos Daily.Month] And [Avgrates.Year] = [Sc-Cognos Daily.Year] And [Avgrates.Source] = 'B' And [Avgrates.Type] = 'Ac' And [Avgrates.Currency Key] = [Sc-Cognos Daily.Currency Key Hc]
-Order By [Sc-Cognos Daily.Comp Code Key], [Sc-Cognos Daily.Year], [Sc-Cognos Daily.Month]
+SELECT [SC-COGNOS Daily.Comp Code Key], [SC-COGNOS Daily.Year], [SC-COGNOS Daily.Month], [SC-COGNOS Daily.Currency Key HC], SUM([SC-COGNOS Daily.Net Sales HC]), SUM([SC-COGNOS Daily.Sales COGS HC]), SUM([SC-COGNOS Daily.Sales ICOGS HC])
+  FROM [SC-COGNOS Daily] 
+LEFT OUTER JOIN 
+SELECT [SpotRates.Exchange Rate] FROM [SC-COGNOS Rates] 'SpotRates'
+ON [SpotRates.Month] = [SC-COGNOS Daily.Month] AND [SpotRates.Year] = [SC-COGNOS Daily.Year] AND [SpotRates.Source] = 'B' AND [SpotRates.Type] = 'AC' AND [SpotRates.Currency Key] = [SC-COGNOS Daily.Currency Key HC]
+LEFT OUTER JOIN 
+SELECT [AvgRates.Exchange Rate] FROM [SC-COGNOS Rates] 'AvgRates'
+ON [AvgRates.Month] = [SC-COGNOS Daily.Month] AND [AvgRates.Year] = [SC-COGNOS Daily.Year] AND [AvgRates.Source] = 'B' AND [AvgRates.Type] = 'AC' AND [AvgRates.Currency Key] = [SC-COGNOS Daily.Currency Key HC]
+ORDER BY [SC-COGNOS Daily.Comp Code Key], [SC-COGNOS Daily.Year], [SC-COGNOS Daily.Month]

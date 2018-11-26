@@ -1,123 +1,123 @@
-Print 'Comp:'+[Sc-Cognos Daily.Comp Code Key]+' Curr:'+[Sc-Cognos Daily.Currency Key Hc]
-Print 'Year:'+[Sc-Cognos Daily.Year]+' Month:'+[Sc-Cognos Daily.Month]
-Print 'Spot:'+[Spotrates.Exchange Rate]+' Avg:'+[Avgrates.Exchange Rate]
+PRINT 'Comp:'+[SC-COGNOS Daily.Comp Code Key]+' Curr:'+[SC-COGNOS Daily.Currency Key HC]
+PRINT 'Year:'+[SC-COGNOS Daily.Year]+' Month:'+[SC-COGNOS Daily.Month]
+PRINT 'Spot:'+[SpotRates.Exchange Rate]+' Avg:'+[AvgRates.Exchange Rate]
 
-Dim [Vprevmonth] As Varchar(2)
-Dim [Vcurryear] As Varchar(2)
-Dim [Vprevyear] As Varchar(2) = Null
-Dim [Vcompcode] As Varchar(4)
-Dim [Vprevcompcode] As Varchar(4) = Null
-Dim [Vspotrate] As Float
-Dim [Vavgrate] As Float
-Dim [Vhcnet] As Float
-Dim [Vhccogs] As Float
-Dim [Vhcicogs] As Float
-Dim [Vgcspotnet] As Float
-Dim [Vgcspotcogs] As Float
-Dim [Vgcspoticogs] As Float
-Dim [Vgcavgnet] As Float
-Dim [Vgcavgcogs] As Float
-Dim [Vgcavgicogs] As Float
+DIM [vPrevMonth] AS VARCHAR(2)
+DIM [vCurrYear] AS VARCHAR(2)
+DIM [vPrevYear] AS VARCHAR(2) = null
+DIM [vCompCode] AS VARCHAR(4)
+DIM [vPrevCompCode] AS VARCHAR(4) = null
+DIM [vSpotRate] AS FLOAT
+DIM [vAvgRate] AS FLOAT
+DIM [vHCNet] AS FLOAT
+DIM [vHCCOGS] AS FLOAT
+DIM [vHCICOGS] AS FLOAT
+DIM [vGCSpotNet] AS FLOAT
+DIM [vGCSpotCOGS] AS FLOAT
+DIM [vGCSpotICOGS] AS FLOAT
+DIM [vGCAvgNet] AS FLOAT
+DIM [vGCAvgCOGS] AS FLOAT
+DIM [vGCAvgICOGS] AS FLOAT
 
-If Length(''+Datepart(Month,Dateadd(Month,-1,Nowdate))) = 1 Then
-[Vprevmonth]='0'+Datepart(Month,Dateadd(Month,-1,Nowdate))
-Else
-[Vprevmonth]=''+Datepart(Month,Dateadd(Month,-1,Nowdate))
-End If
-[Vcurryear]=Datepart(Year,Nowdate)
+IF LENGTH(''+DATEPART(MONTH,DATEADD(MONTH,-1,NOWDATE))) = 1 THEN
+[vPrevMonth]='0'+DATEPART(MONTH,DATEADD(MONTH,-1,NOWDATE))
+ELSE
+[vPrevMonth]=''+DATEPART(MONTH,DATEADD(MONTH,-1,NOWDATE))
+END IF
+[vCurrYear]=DATEPART(YEAR,NOWDATE)
 
-[Vcompcode]=[Sc-Cognos Daily.Comp Code Key]
-[Vspotrate]=Ifnull([Spotrates.Exchange Rate],1.0)
-[Vavgrate]=Ifnull([Avgrates.Exchange Rate],1.0)
+[vCompCode]=[SC-COGNOS Daily.Comp Code Key]
+[vSpotRate]=IFNULL([SpotRates.Exchange Rate],1.0)
+[vAvgRate]=IFNULL([AvgRates.Exchange Rate],1.0)
 
-[Comp Code Key] = [Sc-Cognos Daily.Comp Code Key]
-[Currency Key Hc] = [Sc-Cognos Daily.Currency Key Hc]
-[Month]=[Sc-Cognos Daily.Month]
-[Year]=[Sc-Cognos Daily.Year]
+[Comp Code Key] = [SC-COGNOS Daily.Comp Code Key]
+[Currency Key HC] = [SC-COGNOS Daily.Currency Key HC]
+[Month]=[SC-COGNOS Daily.Month]
+[Year]=[SC-COGNOS Daily.Year]
 
-[Net Sales Hc] = Sum([Sc-Cognos Daily.Net Sales Hc])
-[Sales Cogs Hc] = Sum([Sc-Cognos Daily.Sales Cogs Hc])
-[Sales Icogs Hc] = Sum([Sc-Cognos Daily.Sales Icogs Hc])
+[Net Sales HC] = SUM([SC-COGNOS Daily.Net Sales HC])
+[Sales COGS HC] = SUM([SC-COGNOS Daily.Sales COGS HC])
+[Sales ICOGS HC] = SUM([SC-COGNOS Daily.Sales ICOGS HC])
 
-If [Vprevcompcode] Is Not Null And [Vprevyear] Is Not Null Then
- If [Vprevcompcode]=[Vcompcode] And [Vprevyear]=[Sc-Cognos Daily.Year] Then
- Print '1'
-//  If [Sc-Cognos Daily.Month] <= [Vprevmonth] Then
-   //Hc Cumulative
-   [Vhcnet]=[Vhcnet]+Sum([Sc-Cognos Daily.Net Sales Hc])
-   [Vhccogs]=[Vhccogs]+Sum([Sc-Cognos Daily.Sales Cogs Hc])
-   [Vhcicogs]=[Vhcicogs]+Sum([Sc-Cognos Daily.Sales Icogs Hc])
-   [Vgcspotnet]=[Vgcspotnet]+(Sum([Sc-Cognos Daily.Net Sales Hc])*[Vspotrate])
-   [Vgcspotcogs]=[Vhccogs]+(Sum([Sc-Cognos Daily.Sales Cogs Hc])*[Vspotrate])
-   [Vgcspoticogs]=[Vhcicogs]+(Sum([Sc-Cognos Daily.Sales Cogs Hc])*[Vspotrate])
-   [Vgcavgnet]=([Vgcavgnet]+([Vhcnet]*[Vavgrate]))-[Vgcavgnet]
-   [Vgcavgcogs]=([Vgcavgcogs]+([Vhccogs]*[Vavgrate]))-[Vgcavgcogs]
-   [Vgcavgicogs]=([Vgcavgicogs]+([Vhcicogs]*[Vavgrate]))-[Vgcavgicogs]
+IF [vPrevCompCode] IS NOT NULL AND [vPrevYear] IS NOT NULL THEN
+ IF [vPrevCompCode]=[vCompCode] AND [vPrevYear]=[SC-COGNOS Daily.Year] THEN
+ PRINT '1'
+//  IF [SC-COGNOS Daily.Month] <= [vPrevMonth] THEN
+   //HC Cumulative
+   [vHCNet]=[vHCNet]+SUM([SC-COGNOS Daily.Net Sales HC])
+   [vHCCOGS]=[vHCCOGS]+SUM([SC-COGNOS Daily.Sales COGS HC])
+   [vHCICOGS]=[vHCICOGS]+SUM([SC-COGNOS Daily.Sales ICOGS HC])
+   [vGCSpotNet]=[vGCSpotNet]+(SUM([SC-COGNOS Daily.Net Sales HC])*[vSpotRate])
+   [vGCSpotCOGS]=[vHCCOGS]+(SUM([SC-COGNOS Daily.Sales COGS HC])*[vSpotRate])
+   [vGCSpotICOGS]=[vHCICOGS]+(SUM([SC-COGNOS Daily.Sales COGS HC])*[vSpotRate])
+   [vGCAvgNet]=([vGCAvgNet]+([vHCNet]*[vAvgRate]))-[vGCAvgNet]
+   [vGCAvgCOGS]=([vGCAvgCOGS]+([vHCCOGS]*[vAvgRate]))-[vGCAvgCOGS]
+   [vGCAvgICOGS]=([vGCAvgICOGS]+([vHCICOGS]*[vAvgRate]))-[vGCAvgICOGS]
 
-//  End If
- Else
- Print '2'
-  [Vhcnet]=0.0
-  [Vhccogs]=0.0
-  [Vhcicogs]=0.0
-  [Vgcspotnet]=0.0
-  [Vgcspotcogs]=0.0
-  [Vgcspoticogs]=0.0
-  [Vgcavgnet]=0.0
-  [Vgcavgcogs]=0.0
-  [Vgcavgicogs]=0.0
-//  If [Sc-Cognos Daily.Month] <= [Vprevmonth] Then
-   //Hc Cumulative
-   [Vhcnet]=[Vhcnet]+Sum([Sc-Cognos Daily.Net Sales Hc])
-   [Vhccogs]=[Vhccogs]+Sum([Sc-Cognos Daily.Sales Cogs Hc])
-   [Vhcicogs]=[Vhcicogs]+Sum([Sc-Cognos Daily.Sales Icogs Hc])
-   [Vgcspotnet]=[Vgcspotnet]+(Sum([Sc-Cognos Daily.Net Sales Hc])*[Vspotrate])
-   [Vgcspotcogs]=[Vhccogs]+(Sum([Sc-Cognos Daily.Sales Cogs Hc])*[Vspotrate])
-   [Vgcspoticogs]=[Vhcicogs]+(Sum([Sc-Cognos Daily.Sales Cogs Hc])*[Vspotrate])
-   [Vgcavgnet]=([Vgcavgnet]+([Vhcnet]*[Vavgrate]))-[Vgcavgnet]
-   [Vgcavgcogs]=([Vgcavgcogs]+([Vhccogs]*[Vavgrate]))-[Vgcavgcogs]
-   [Vgcavgicogs]=([Vgcavgicogs]+([Vhcicogs]*[Vavgrate]))-[Vgcavgicogs]
+//  END IF
+ ELSE
+ PRINT '2'
+  [vHCNet]=0.0
+  [vHCCOGS]=0.0
+  [vHCICOGS]=0.0
+  [vGCSpotNet]=0.0
+  [vGCSpotCOGS]=0.0
+  [vGCSpotICOGS]=0.0
+  [vGCAvgNet]=0.0
+  [vGCAvgCOGS]=0.0
+  [vGCAvgICOGS]=0.0
+//  IF [SC-COGNOS Daily.Month] <= [vPrevMonth] THEN
+   //HC Cumulative
+   [vHCNet]=[vHCNet]+SUM([SC-COGNOS Daily.Net Sales HC])
+   [vHCCOGS]=[vHCCOGS]+SUM([SC-COGNOS Daily.Sales COGS HC])
+   [vHCICOGS]=[vHCICOGS]+SUM([SC-COGNOS Daily.Sales ICOGS HC])
+   [vGCSpotNet]=[vGCSpotNet]+(SUM([SC-COGNOS Daily.Net Sales HC])*[vSpotRate])
+   [vGCSpotCOGS]=[vHCCOGS]+(SUM([SC-COGNOS Daily.Sales COGS HC])*[vSpotRate])
+   [vGCSpotICOGS]=[vHCICOGS]+(SUM([SC-COGNOS Daily.Sales COGS HC])*[vSpotRate])
+   [vGCAvgNet]=([vGCAvgNet]+([vHCNet]*[vAvgRate]))-[vGCAvgNet]
+   [vGCAvgCOGS]=([vGCAvgCOGS]+([vHCCOGS]*[vAvgRate]))-[vGCAvgCOGS]
+   [vGCAvgICOGS]=([vGCAvgICOGS]+([vHCICOGS]*[vAvgRate]))-[vGCAvgICOGS]
 
-//  End If  
- End If
-Else
-Print '3'
- [Vhcnet]=0.0
- [Vhccogs]=0.0
- [Vhcicogs]=0.0
- [Vgcspotnet]=0.0
- [Vgcspotcogs]=0.0
- [Vgcspoticogs]=0.0
- [Vgcavgnet]=0.0
- [Vgcavgcogs]=0.0
- [Vgcavgicogs]=0.0
-// If [Sc-Cognos Daily.Month] <= [Vprevmonth] Then
-  //Hc Cumulative
-  [Vhcnet]=[Vhcnet]+Sum([Sc-Cognos Daily.Net Sales Hc])
-  [Vhccogs]=[Vhccogs]+Sum([Sc-Cognos Daily.Sales Cogs Hc])
-  [Vhcicogs]=[Vhcicogs]+Sum([Sc-Cognos Daily.Sales Icogs Hc])
-  [Vgcspotnet]=[Vgcspotnet]+(Sum([Sc-Cognos Daily.Net Sales Hc])*[Vspotrate])
-  [Vgcspotcogs]=[Vhccogs]+(Sum([Sc-Cognos Daily.Sales Cogs Hc])*[Vspotrate])
-  [Vgcspoticogs]=[Vhcicogs]+(Sum([Sc-Cognos Daily.Sales Cogs Hc])*[Vspotrate])
-  [Vgcavgnet]=([Vgcavgnet]+([Vhcnet]*[Vavgrate]))-[Vgcavgnet]
-  [Vgcavgcogs]=([Vgcavgcogs]+([Vhccogs]*[Vavgrate]))-[Vgcavgcogs]
-  [Vgcavgicogs]=([Vgcavgicogs]+([Vhcicogs]*[Vavgrate]))-[Vgcavgicogs]
+//  END IF  
+ END IF
+ELSE
+PRINT '3'
+ [vHCNet]=0.0
+ [vHCCOGS]=0.0
+ [vHCICOGS]=0.0
+ [vGCSpotNet]=0.0
+ [vGCSpotCOGS]=0.0
+ [vGCSpotICOGS]=0.0
+ [vGCAvgNet]=0.0
+ [vGCAvgCOGS]=0.0
+ [vGCAvgICOGS]=0.0
+// IF [SC-COGNOS Daily.Month] <= [vPrevMonth] THEN
+  //HC Cumulative
+  [vHCNet]=[vHCNet]+SUM([SC-COGNOS Daily.Net Sales HC])
+  [vHCCOGS]=[vHCCOGS]+SUM([SC-COGNOS Daily.Sales COGS HC])
+  [vHCICOGS]=[vHCICOGS]+SUM([SC-COGNOS Daily.Sales ICOGS HC])
+  [vGCSpotNet]=[vGCSpotNet]+(SUM([SC-COGNOS Daily.Net Sales HC])*[vSpotRate])
+  [vGCSpotCOGS]=[vHCCOGS]+(SUM([SC-COGNOS Daily.Sales COGS HC])*[vSpotRate])
+  [vGCSpotICOGS]=[vHCICOGS]+(SUM([SC-COGNOS Daily.Sales COGS HC])*[vSpotRate])
+  [vGCAvgNet]=([vGCAvgNet]+([vHCNet]*[vAvgRate]))-[vGCAvgNet]
+  [vGCAvgCOGS]=([vGCAvgCOGS]+([vHCCOGS]*[vAvgRate]))-[vGCAvgCOGS]
+  [vGCAvgICOGS]=([vGCAvgICOGS]+([vHCICOGS]*[vAvgRate]))-[vGCAvgICOGS]
 
-// End If
-End If
-[Vprevcompcode]=[Vcompcode]
-[Vprevyear]=[Sc-Cognos Daily.Year]
+// END IF
+END IF
+[vPrevCompCode]=[vCompCode]
+[vPrevYear]=[SC-COGNOS Daily.Year]
 
-[Net Hc Ytd]=[Vhcnet]
-[Cogs Hc Ytd]=[Vhccogs]
-[Icogs Hc Ytd]=[Vhcicogs]
-[Ex Rate Gc Spot]=[Vspotrate]
-[Net Gc Spot]=[Vgcspotnet]
-[Cogs Gc Spot]=[Vgcspotcogs]
-[Icogs Gc Spot]=[Vgcspoticogs]
-[Ex Rate Gc Avg]=[Vavgrate]
-[Net Gc Avg]=[Vgcavgnet]
-[Cogs Gc Avg]=[Vgcavgcogs]
-[Icogs Gc Avg]=[Vgcavgicogs]
+[Net HC YTD]=[vHCNet]
+[COGS HC YTD]=[vHCCOGS]
+[ICOGS HC YTD]=[vHCICOGS]
+[Ex Rate GC Spot]=[vSpotRate]
+[Net GC Spot]=[vGCSpotNet]
+[COGS GC Spot]=[vGCSpotCOGS]
+[ICOGS GC Spot]=[vGCSpotICOGS]
+[Ex Rate GC Avg]=[vAvgRate]
+[Net GC Avg]=[vGCAvgNet]
+[COGS GC Avg]=[vGCAvgCOGS]
+[ICOGS GC Avg]=[vGCAvgICOGS]
 
-Writerecord
+WRITERECORD

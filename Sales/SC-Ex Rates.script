@@ -3,4 +3,4 @@
 [Valid From Date]=[Level(Exchange Rates.Exchange Rates).Valid From Date] 
 [Valid To Date]=[Level(Exchange Rates.Exchange Rates).Valid To Date]
 [Exchange Rate]=[Level(Exchange Rates.Exchange Rates).Exchange Rate]
-Writerecord
+WRITERECORD

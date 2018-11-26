@@ -1,61 +1,61 @@
-Dim [Mworkyear] As Map(Varchar(4), Integer) = Select [Sc-Work Year.Year], Sum([Sc-Work Year.Workcount]) From [Sc-Work Year] 
+DIM [mWorkYear] AS Map(VARCHAR(4), INTEGER) = SELECT [SC-Work Year.Year], SUM([SC-Work Year.WorkCount]) FROM [SC-Work Year] 
 
-Dim [Vworkcount] As Integer
-Dim [Vprevyear] As Integer
+DIM [vWorkCount] AS INTEGER
+DIM [vPrevYear] AS INTEGER
 
-Print [Sql Workdays.Day_Code]
-Print 'Prev:' + [Vprevyear]
+PRINT [SQL Workdays.day_code]
+PRINT 'Prev:' + [vPrevYear]
 
-[Analysis Date]=[Sql Workdays.Day_Code]
+[Analysis Date]=[SQL Workdays.day_code]
 
-If [Sql Workdays.Day_Type] = 1 Then
+if [SQL Workdays.day_type] = 1 then
 [Day Type] = 'Weekday'
-Elseif [Sql Workdays.Day_Type] = 2 Then
+elseif [SQL Workdays.day_type] = 2 then
 [Day Type] = 'Weekend'
-Elseif [Sql Workdays.Day_Type] = 3 Then
+elseif [SQL Workdays.day_type] = 3 then
 [Day Type] = 'Holiday'
-Else
+else
 [Day Type] = 'Other'
-End If
+end if
 
-[Working Day]=[Sql Workdays.Sales_Max_Count]
+[Working Day]=[SQL Workdays.sales_max_count]
 
-If [Vprevyear] Is Not Null Then
+IF [vPrevYear] IS NOT NULL THEN
 
-   If [Sql Workdays.Day_Type] = 1 Then
-    [Vworkcount] = [Vworkcount]+1
-   End If
-  If [Vworkcount] > 0 Then
-  [Coefficient] = Float([Mworkyear](Varchar(Datepart(Year,[Sql Workdays.Day_Code]))))/Float([Vworkcount])
-  Else
+   IF [SQL Workdays.day_type] = 1 THEN
+    [vWorkCount] = [vWorkCount]+1
+   END IF
+  IF [vWorkCount] > 0 THEN
+  [Coefficient] = FLOAT([mWorkYear](VARCHAR(DATEPART(YEAR,[SQL Workdays.day_code]))))/FLOAT([vWorkCount])
+  ELSE
   [Coefficient] = 0.00
-  End If 
+  END IF 
   
 
-End If
+END IF
 
-If [Vprevyear] Is Null Then
- If [Sql Workdays.Day_Type] = 1 Then
-  [Vworkcount] = [Vworkcount]+1
- End If
-[Vprevyear]=Datepart(Year,[Sql Workdays.Day_Code])
-  If [Vworkcount] > 0 Then
-  [Coefficient] = Float([Mworkyear](Varchar(Datepart(Year,[Sql Workdays.Day_Code]))))/Float([Vworkcount])
-  Else
+IF [vPrevYear] IS NULL THEN
+ IF [SQL Workdays.day_type] = 1 THEN
+  [vWorkCount] = [vWorkCount]+1
+ END IF
+[vPrevYear]=DATEPART(YEAR,[SQL Workdays.day_code])
+  IF [vWorkCount] > 0 THEN
+  [Coefficient] = FLOAT([mWorkYear](VARCHAR(DATEPART(YEAR,[SQL Workdays.day_code]))))/FLOAT([vWorkCount])
+  ELSE
   [Coefficient] = 0.00
-  End If 
-End If
+  END IF 
+END IF
 
-If [Vprevyear]<>Datepart(Year,[Sql Workdays.Day_Code]) Then
-   Writerecord
-   [Vworkcount]=0
-   [Vprevyear]=Datepart(Year,[Sql Workdays.Day_Code])
-Else
-   Writerecord
-End If
+IF [vPrevYear]<>DATEPART(YEAR,[SQL Workdays.day_code]) THEN
+   WRITERECORD
+   [vWorkCount]=0
+   [vPrevYear]=DATEPART(YEAR,[SQL Workdays.day_code])
+ELSE
+   WRITERECORD
+END IF
 
-Print 'Work Count:'+[Vworkcount]
-Print 'Work Year:'+[Mworkyear](Varchar(Datepart(Year,[Sql Workdays.Day_Code])))
-If [Vworkcount] > 0 Then
-[Coefficient] = Float([Mworkyear](Varchar(Datepart(Year,[Sql Workdays.Day_Code]))))/Float([Vworkcount])
-End If
+PRINT 'Work Count:'+[vWorkCount]
+PRINT 'Work Year:'+[mWorkYear](VARCHAR(DATEPART(YEAR,[SQL Workdays.day_code])))
+IF [vWorkCount] > 0 THEN
+[Coefficient] = FLOAT([mWorkYear](VARCHAR(DATEPART(YEAR,[SQL Workdays.day_code]))))/FLOAT([vWorkCount])
+END IF

@@ -1,10 +1,10 @@
-Select [Kna1.Kna1_Kunnr], [Kna1.Kna1_Land1]
-  From [Kna1]
-Left Outer Join
-Select [Country.Country Key], [Country.Country]
-  From [Country]
-  On [Kna1.Kna1_Land1] = [Country.Country Key]
-Left Outer Join
-Select [Sql_Dbo_Vw_Sql_Dim_Country.Country_Iso_Alpha_Code], [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Area_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Area_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Region_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Region_Name]
-  From [Sql_Dbo_Vw_Sql_Dim_Country]
-  On [Kna1.Kna1_Land1]=[Sql_Dbo_Vw_Sql_Dim_Country.Country_Iso_Alpha_Code]
+SELECT [KNA1.KNA1_KUNNR], [KNA1.KNA1_LAND1]
+  FROM [KNA1]
+LEFT OUTER JOIN
+SELECT [Country.Country Key], [Country.Country]
+  FROM [Country]
+  ON [KNA1.KNA1_LAND1] = [Country.Country Key]
+LEFT OUTER JOIN
+SELECT [SQL_DBO_vw_sql_dim_country.country_iso_alpha_code], [SQL_DBO_vw_sql_dim_country.subregion_key], [SQL_DBO_vw_sql_dim_country.subregion_name], [SQL_DBO_vw_sql_dim_country.area_key], [SQL_DBO_vw_sql_dim_country.area_name], [SQL_DBO_vw_sql_dim_country.region_key], [SQL_DBO_vw_sql_dim_country.region_name]
+  FROM [SQL_DBO_vw_sql_dim_country]
+  ON [KNA1.KNA1_LAND1]=[SQL_DBO_vw_sql_dim_country.country_iso_alpha_code]

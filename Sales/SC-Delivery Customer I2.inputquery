@@ -1,2 +1,2 @@
-Select [Sql_Dbo_Vw_Sql_Dim_Country.Country_Iso_Alpha_Code], [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Area_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Country_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Area_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Region_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Region_Name]
-  From [Sql_Dbo_Vw_Sql_Dim_Country]
+SELECT [SQL_DBO_vw_sql_dim_country.country_iso_alpha_code], [SQL_DBO_vw_sql_dim_country.subregion_key], [SQL_DBO_vw_sql_dim_country.subregion_name], [SQL_DBO_vw_sql_dim_country.area_key], [SQL_DBO_vw_sql_dim_country.country_name], [SQL_DBO_vw_sql_dim_country.area_name], [SQL_DBO_vw_sql_dim_country.region_key], [SQL_DBO_vw_sql_dim_country.region_name]
+  FROM [SQL_DBO_vw_sql_dim_country]

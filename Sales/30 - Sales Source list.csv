@@ -20,14 +20,11 @@ Market Role
 Ext Material Group
 Country
 Industry
-Market Segment To Market Mapping
 Structure_Dimension_Item
 Sc-Delivery Customer
 Conscustom
 Sc-Company
 Knvp
-Sc-Inside Sales
-Sc-Outside Sales
 Sc-Customer Sales Area
 Knvv
 Sc-Order Extract
@@ -35,7 +32,6 @@ Sql Sales Budget Forecast
 Sql Workdays
 Sc-Budget Forecast
 Sc-Work Year
-View_Icogs_Initial_Apr14
 Sc-Icogs
 Sc-Workdays
 Sql_Dm_Vw_General_Vbak_Vbap
@@ -56,12 +52,10 @@ Sc-Orders I2
 Tcurf
 Sc-Currency Factors
 Sql_I2_Vw_Dim_Customer
-Sc-Inside Sales I2
-Sc-Outside Sales I2
 Sc-Orders Sl
+Vbak_Vbap_Vbep
 Sc-Orders Sl History
 Sc-Orders Sl Update
-Sc-Sales Office
 Sql_Dbo_Vw_Sql_Dim_Country
 Sc-User Access
 Sc-Ex Rates
@@ -88,12 +82,22 @@ Tbl_Dim_Market
 Tbl_Dim_Market_Role
 Tbl_Dim_Sales_Region
 Sc-Division
-Is-S Off Test
+Vbkd
 Sql_I2_Vw_Sales_Org
 Sc-Sales Org
-Zbi_Birst_Zbapisalesorderget
 Sql_Vw_Bi_Icogs
+User_Defaults
+Zbi_Birst_Zbapisalesorderget
 Sc-Tcurf
-Vbak_Vbap_Vbep
-Vbkd
+Sc-Delivery Partner Default
+Sql_M2_Vw_Migration_Fact_Sales
+Sc-Invoices M2 Curr
+Sc-Invoices M2
+Sql_M2_Vw_Migration_Fact_Orders
+Sc-Orders M2
+Sc-Invoices M2 Fin
+Sc-Orders M2 Curr
+Sc-Orders M2 Fin
+Md_Outside_Sales
 Rk_Test
+Rk_Test_2

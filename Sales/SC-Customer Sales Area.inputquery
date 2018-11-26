@@ -1,29 +1,29 @@
-Select [Knvv.Knvv_Kunnr], [Knvv.Knvv_Vkorg], [Knvv.Knvv_Vtweg], [Knvv.Knvv_Spart], [Knvv.Knvv_Vkbur] From [Knvv]
-Left Outer Join
-Select [Insales.Knvp_Parvw], [Insales.Knvp_Kunn2] 
-  From [Knvp] 'Insales'
-    On [Knvv.Knvv_Kunnr]=[Insales.Knvp_Kunnr] And [Knvv.Knvv_Vkorg]=[Insales.Knvp_Vkorg] And [Knvv.Knvv_Vtweg]=[Insales.Knvp_Vtweg] And [Knvv.Knvv_Spart]=[Insales.Knvp_Spart] And [Insales.Knvp_Parvw] = 'Zm' And [Insales.Knvp_Parza] = '000'
-Left Outer Join 
-Select [Outsales.Knvp_Parvw], [Outsales.Knvp_Kunn2] 
-  From [Knvp] 'Outsales'
-    On [Knvv.Knvv_Kunnr]=[Outsales.Knvp_Kunnr] And [Knvv.Knvv_Vkorg]=[Outsales.Knvp_Vkorg] And [Knvv.Knvv_Vtweg]=[Outsales.Knvp_Vtweg] And [Knvv.Knvv_Spart]=[Outsales.Knvp_Spart] And [Outsales.Knvp_Parvw] = 'Ve' And [Outsales.Knvp_Parza] = '000'
-Left Outer Join
-Select [Tbl_Dim_Sales_Region.Sales_Region_Code], [Tbl_Dim_Sales_Region.Sales_Subregion_Code], [Tbl_Dim_Sales_Region.Sales_Office_Code], [Tbl_Dim_Sales_Region.Sales_Office_Name], [Tbl_Dim_Sales_Region.Regional_Currency_Code]
-  From [Tbl_Dim_Sales_Region]
-    On [Tbl_Dim_Sales_Region.Sales_Office_Code] = [Knvv.Knvv_Vkbur]
-Left Outer Join	
-Select [Incust.Kna1_Kunnr], [Incust.Kna1_Land1], [Incust.Kna1_Name1], [Incust.Kna1_Name2], [Incust.Kna1_Ort01], [Incust.Kna1_Pstlz], [Incust.Kna1_Regio], [Incust.Kna1_Sortl], [Incust.Kna1_Stras], [Incust.Kna1_Adrnr], [Incust.Kna1_Brsch], [Incust.Kna1_Ktokd], [Incust.Kna1_Bran1], [Incust.Kna1_Katr1], [Incust.Kna1_Katr6] 
-  From [Kna1] 'Incust' 
-    On [Incust.Kna1_Kunnr] = [Insales.Knvp_Kunn2] 
-Left Outer Join 
-Select [Outcust.Kna1_Kunnr], [Outcust.Kna1_Land1], [Outcust.Kna1_Name1], [Outcust.Kna1_Name2], [Outcust.Kna1_Ort01], [Outcust.Kna1_Pstlz], [Outcust.Kna1_Regio], [Outcust.Kna1_Sortl], [Outcust.Kna1_Stras], [Outcust.Kna1_Adrnr], [Outcust.Kna1_Brsch], [Outcust.Kna1_Ktokd], [Outcust.Kna1_Bran1], [Outcust.Kna1_Katr1], [Outcust.Kna1_Katr6] 
-  From [Kna1] 'Outcust' 
-    On [Outcust.Kna1_Kunnr] = [Outsales.Knvp_Kunn2] 
-Left Outer Join 
-Select [Adr6.Adr6_Addrnumber], [Adr6.Adr6_Persnumber], [Adr6.Adr6_Smtp_Addr] 
-  From [Adr6] 
-  On [Adr6.Adr6_Addrnumber] = [Outcust.Kna1_Adrnr] 
-Left Outer Join 
-Select [Sc-Employee Hierarchy.Name], [Sc-Employee Hierarchy.Ad Id], [Sc-Employee Hierarchy.Manager Ad Id], [Sc-Employee Hierarchy.Manager Name], [Sc-Employee Hierarchy.Managerx2 Ad Id], [Sc-Employee Hierarchy.Managerx2 Name], [Sc-Employee Hierarchy.Managerx3 Ad Id], [Sc-Employee Hierarchy.Managerx3 Name], [Sc-Employee Hierarchy.Managerx4 Ad Id], [Sc-Employee Hierarchy.Managerx4 Name] 
-  From [Sc-Employee Hierarchy] 
-  On [Sc-Employee Hierarchy.Email Id] = [Adr6.Adr6_Smtp_Addr]
+SELECT [KNVV.KNVV_KUNNR], [KNVV.KNVV_VKORG], [KNVV.KNVV_VTWEG], [KNVV.KNVV_SPART], [KNVV.KNVV_VKBUR], [KNVV.TVKO_BUKRS] FROM [KNVV]
+LEFT OUTER JOIN
+SELECT [InSales.KNVP_PARVW], [InSales.KNVP_KUNN2] 
+  FROM [KNVP] 'InSales'
+    ON [KNVV.KNVV_KUNNR]=[InSales.KNVP_KUNNR] AND [KNVV.KNVV_VKORG]=[InSales.KNVP_VKORG] AND [KNVV.KNVV_VTWEG]=[InSales.KNVP_VTWEG] AND [KNVV.KNVV_SPART]=[InSales.KNVP_SPART] AND [InSales.KNVP_PARVW] = 'ZM' AND [InSales.KNVP_PARZA] = '000'
+LEFT OUTER JOIN 
+SELECT [OutSales.KNVP_PARVW], [OutSales.KNVP_KUNN2] 
+  FROM [KNVP] 'OutSales'
+    ON [KNVV.KNVV_KUNNR]=[OutSales.KNVP_KUNNR] AND [KNVV.KNVV_VKORG]=[OutSales.KNVP_VKORG] AND [KNVV.KNVV_VTWEG]=[OutSales.KNVP_VTWEG] AND [KNVV.KNVV_SPART]=[OutSales.KNVP_SPART] AND [OutSales.KNVP_PARVW] = 'VE'
+LEFT OUTER JOIN
+SELECT [tbl_dim_sales_region.sales_region_code], [tbl_dim_sales_region.sales_subregion_code], [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.sales_office_name], [tbl_dim_sales_region.regional_currency_code]
+  FROM [tbl_dim_sales_region]
+    ON [tbl_dim_sales_region.sales_office_code] = [KNVV.KNVV_VKBUR]
+LEFT OUTER JOIN	
+SELECT [InCust.KNA1_KUNNR], [InCust.KNA1_LAND1], [InCust.KNA1_NAME1], [InCust.KNA1_NAME2], [InCust.KNA1_ORT01], [InCust.KNA1_PSTLZ], [InCust.KNA1_REGIO], [InCust.KNA1_SORTL], [InCust.KNA1_STRAS], [InCust.KNA1_ADRNR], [InCust.KNA1_BRSCH], [InCust.KNA1_KTOKD], [InCust.KNA1_BRAN1], [InCust.KNA1_KATR1], [InCust.KNA1_KATR6] 
+  FROM [KNA1] 'InCust' 
+    ON [InCust.KNA1_KUNNR] = [InSales.KNVP_KUNN2] 
+LEFT OUTER JOIN 
+SELECT [OutCust.KNA1_KUNNR], [OutCust.KNA1_LAND1], [OutCust.KNA1_NAME1], [OutCust.KNA1_NAME2], [OutCust.KNA1_ORT01], [OutCust.KNA1_PSTLZ], [OutCust.KNA1_REGIO], [OutCust.KNA1_SORTL], [OutCust.KNA1_STRAS], [OutCust.KNA1_ADRNR], [OutCust.KNA1_BRSCH], [OutCust.KNA1_KTOKD], [OutCust.KNA1_BRAN1], [OutCust.KNA1_KATR1], [OutCust.KNA1_KATR6] 
+  FROM [KNA1] 'OutCust' 
+    ON [OutCust.KNA1_KUNNR] = [OutSales.KNVP_KUNN2] 
+LEFT OUTER JOIN 
+SELECT [ADR6.ADR6_ADDRNUMBER], [ADR6.ADR6_PERSNUMBER], [ADR6.ADR6_SMTP_ADDR] 
+  FROM [ADR6] 
+  ON [ADR6.ADR6_ADDRNUMBER] = [OutCust.KNA1_ADRNR] 
+LEFT OUTER JOIN 
+SELECT [SC-Employee Hierarchy.Name], [SC-Employee Hierarchy.AD ID], [SC-Employee Hierarchy.Manager AD ID], [SC-Employee Hierarchy.Manager Name], [SC-Employee Hierarchy.Managerx2 AD ID], [SC-Employee Hierarchy.Managerx2 Name], [SC-Employee Hierarchy.Managerx3 AD ID], [SC-Employee Hierarchy.Managerx3 Name], [SC-Employee Hierarchy.Managerx4 AD ID], [SC-Employee Hierarchy.Managerx4 Name] 
+  FROM [SC-Employee Hierarchy] 
+  ON [SC-Employee Hierarchy.Email ID] = [ADR6.ADR6_SMTP_ADDR]

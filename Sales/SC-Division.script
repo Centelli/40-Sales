@@ -1,10 +1,10 @@
 [Division Key]=[Division.Division Key]
 
-[Business Unit Key] = [Tbl_Dim_Division.Business_Unit_Key]
-[Business Unit Code] = [Tbl_Dim_Division.Business_Unit_Code]
-[Business Unit] = [Tbl_Dim_Division.Business_Unit_Name]
-[Technology Segment Code] = [Tbl_Dim_Division.Technology_Segment_Code]
-[Technology Segment] = [Tbl_Dim_Division.Technology_Segment_Name]
-[Division Code] = [Tbl_Dim_Division.Division_Code] 
-[Division]=[Tbl_Dim_Division.Division_Name]
-Writerecord
+[Business Unit Key] = [tbl_dim_division.business_unit_key]
+[Business Unit Code] = [tbl_dim_division.business_unit_code]
+[Business Unit] = [tbl_dim_division.business_unit_name]
+[Technology Segment Code] = [tbl_dim_division.technology_segment_code]
+[Technology Segment] = [tbl_dim_division.technology_segment_name]
+[Division Code] = [tbl_dim_division.division_code] 
+[Division]=[tbl_dim_division.division_name]
+WRITERECORD

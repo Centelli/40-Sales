@@ -1,336 +1,335 @@
-Dim [Vsalesorg] As Varchar(10)
-Dim [Vsalesdate] As Date
-Dim [Vsalescurr] As Varchar(10)
-Dim [Vsalesnet] As Float
-Dim [Vsalescost] As Float
-Dim [Vexcratetohc] As Float
-Dim [Vmultiplier] As Float
-Dim [Vmatkey] As Varchar(18)
-Dim [Vcustomerkey] As Varchar(18)
-Dim [Vdelcustomerkey] As Varchar(18)
-Dim [Vregcurrency] As Varchar(4)
+Dim [vSalesOrg] as Varchar(10)
+Dim [vSalesDate] as Date
+Dim [vSalesCurr] as Varchar(10)
+Dim [vSalesNet] as Float
+Dim [vSalesCost] as Float
+Dim [vExcRatetoHC] as Float
+Dim [vMultiplier] as FLOAT
+Dim [vMatKey] as Varchar(18)
+Dim [vCustomerKey] as Varchar(18)
+Dim [vDelCustomerKey] as Varchar(10)
+DIM [vRegCurrency] as Varchar(4)
 
-Dim [Vsecuritykey] As Varchar(25)
+Dim [vSecurityKey] as Varchar(25)
 
-Dim [Vsalesnethc] As Float
-Dim [Vsalescosthc] As Float
-Dim [Vsalesicogshc] As Float
+Dim [vSalesNetHC] as Float
+Dim [vSalesCostHC] as Float
+Dim [vSalesIcogsHC] as Float
 
-Dim [Vsalesnetgc] As Float
-Dim [Vsalescostgc] As Float
-Dim [Vsalesicogsgc] As Float
+Dim [vSalesNetGC] as Float
+Dim [vSalesCostGC] as Float
+Dim [vSalesIcogsGC] as Float
 
-Dim [V_Rate_Home_To_Chf] As Float
-Dim [V_Rate_Chf_To_Reg] As Float
+Dim [v_rate_home_to_chf] as Float
+Dim [v_rate_chf_to_reg] as Float
 
-Print [Vbrk_Vbrp.Vbrk_Vbeln]
+print [VBRK_VBRP.VBRK_VBELN]
 
-Function [Checkvalue]([Input] As Varchar(15)) As Float
-If [Input] Is Not Null Then
-If (Substring([Input],Length([Input])-1,Length([Input]))) = '-' Then
- Return Float(Substring([Input],0,Length([Input])-1)) * -1
-Else
-  Return Float([Input])
-End If
-Else
-  Return [Input]
-End If
-End Function 
+FUNCTION [CheckValue]([Input] as Varchar(15)) as Float
+IF [Input] IS NOT NULL THEN
+IF (SUBSTRING([Input],LENGTH([Input])-1,LENGTH([Input]))) = '-' THEN
+ return float(SUBSTRING([Input],0,LENGTH([Input])-1)) * -1
+ELSE
+  return float([Input])
+END IF
+ELSE
+  RETURN [Input]
+END IF
+End function 
 
-[Vsalesorg] = [Vbrk_Vbrp.Vbrk_Bukrs]
-[Vsalesdate] = [Vbrk_Vbrp.Vbrk_Fkdat]
-[Vsalescurr] = [Vbrk_Vbrp.Vbrk_Waerk]
-[Vsalesnet] = [Checkvalue]([Vbrk_Vbrp.Vbrp_Netwr])
+[vSalesOrg] = [VBRK_VBRP.VBRK_BUKRS]
+[vSalesDate] = [VBRK_VBRP.VBRK_FKDAT]
+[vSalesCurr] = [VBRK_VBRP.VBRK_WAERK]
+[vSalesNet] = [CheckValue]([VBRK_VBRP.VBRP_NETWR])
+
+// Take header rate unless it is blank, in which case take line item exchange rate
+IF [VBRK_VBRP.VBRK_KURRF] IS NOT NULL THEN
+ [vExcRatetoHC] = [CheckValue]([VBRK_VBRP.VBRK_KURRF])
+ELSE
+ [vExcRatetoHC] = [CheckValue]([VBRK_VBRP.VBRP_KURSK])
+END IF
+
+// USE TCURF DATA to apply SAP factor, applied to DC to HC Ex RATE
+IF IFNULL([SC-TCURF.TCURF_FFACT],'0') <> '0' AND IFNULL([SC-TCURF.TCURF_TFACT],'0') <> '0' THEN
+ [vExcRatetoHC] = [vExcRatetoHC]/(IFNULL(FLOAT([SC-TCURF.TCURF_FFACT]),0.00)/FLOAT([SC-TCURF.TCURF_TFACT]))
+ELSEIF [SC-TCURF.TCURF_TFACT] = '0' THEN
+ [vExcRatetoHC] = [vExcRatetoHC]/FLOAT([SC-TCURF.TCURF_FFACT])
+ELSE
+ [vExcRatetoHC] = [vExcRatetoHC]
+END IF
 
 
-// Take Header Rate Unless It Is Blank, In Which Case Take Line Item Exchange Rate
-If [Vbrk_Vbrp.Vbrk_Kurrf] Is Not Null Then
- [Vexcratetohc] = [Checkvalue]([Vbrk_Vbrp.Vbrk_Kurrf])
-Else
- [Vexcratetohc] = [Checkvalue]([Vbrk_Vbrp.Vbrp_Kursk])
-End If
+// IF credit memo, apart from credit memo cancellation (type Zs2), reverse sign
+//  What about invoice cancellations?
+IF [VBRK_VBRP.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1') then
+ [vMultiplier] = -1.00
+else
+ [vMultiplier] = 1.00
+end if
 
-// Use Tcurf Data To Apply Sap Factor, Applied To Dc To Hc Ex Rate
-If Ifnull([Sc-Tcurf.Tcurf_Ffact],'0') <> '0' And Ifnull([Sc-Tcurf.Tcurf_Tfact],'0') <> '0' Then
- [Vexcratetohc] = [Vexcratetohc]/(Ifnull(Float([Sc-Tcurf.Tcurf_Ffact]),0.00)/Float([Sc-Tcurf.Tcurf_Tfact]))
-Elseif [Sc-Tcurf.Tcurf_Tfact] = '0' Then
- [Vexcratetohc] = [Vexcratetohc]/Float([Sc-Tcurf.Tcurf_Ffact])
-Else
- [Vexcratetohc] = [Vexcratetohc]
-End If
+PRINT '1'
 
+[vSalesNet] = [vSalesNet] * [vMultiplier]
 
-// If Credit Memo, Apart From Credit Memo Cancellation (Type Zs2), Reverse Sign
-//  What About Invoice Cancellations?
-If [Vbrk_Vbrp.Vbrk_Fkart] In ('Zg2', 'Zig', 'Zre', 'Zs1') Then
- [Vmultiplier] = -1.00
-Else
- [Vmultiplier] = 1.00
-End If
+Dim [mRegCurr] as MAP(Varchar(22),Varchar(4)) = SELECT [Level(Customer Sales Area.Customer Sales Area).CustArea Key],[Level(Customer Sales Area.Customer Sales Area).RC Currency Key] FROM [Level(Customer Sales Area.Customer Sales Area)] WHERE [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] is not null
 
-Print '1'
-
-[Vsalesnet] = [Vsalesnet] * [Vmultiplier]
-
-Dim [Mregcurr] As Map(Varchar(22),Varchar(4)) = Select [Level(Customer Sales Area.Customer Sales Area).Custarea Key],[Level(Customer Sales Area.Customer Sales Area).Rc Currency Key] From [Level(Customer Sales Area.Customer Sales Area)] Where [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] Is Not Null
-
-Dim [Mvcitems] As Map(Varchar(18),Varchar(18)) = Select [Sc-Item.Item Key], [Sc-Item.Item Key] From [Sc-Item] Where [Sc-Item.Item Type] = 'Zkma'
+DIM [mVCItems] AS MAP(Varchar(18),Varchar(18)) = SELECT [SC-Item.Item Key], [SC-Item.Item Key] FROM [SC-Item] WHERE [SC-Item.Item Type] = 'ZKMA'
 /*
-Item Key Manipulation For Vc Items 
+Item Key manipulation for VC items 
 */  
-If [Mvcitems]([Vbrk_Vbrp.Vbrp_Matnr]) Is Not Null Then
-  [Vmatkey]=[Vbrk_Vbrp.Vbrp_Matkl]+''+Substring([Vbrk_Vbrp.Vbrp_Matnr],Length([Vbrk_Vbrp.Vbrp_Matnr])-9,Length([Vbrk_Vbrp.Vbrp_Matnr]))
-Else 
-  [Vmatkey]=[Vbrk_Vbrp.Vbrp_Matnr]
-End If 
-
-If [Delpart.Vbpa_Kunnr] Is Not Null Then
- [Vdelcustomerkey]=[Delpart.Vbpa_Kunnr]
-Else
- [Vdelcustomerkey]=[Defdelpart.Vbpa_Kunnr]
-End If
-
+IF [mVCItems]([VBRK_VBRP.VBRP_MATNR]) IS NOT NULL THEN
+  [vMatKey]=[VBRK_VBRP.VBRP_MATKL]+''+SUBSTRING([VBRK_VBRP.VBRP_MATNR],LENGTH([VBRK_VBRP.VBRP_MATNR])-9,LENGTH([VBRK_VBRP.VBRP_MATNR]))
+ELSE 
+  [vMatKey]=[VBRK_VBRP.VBRP_MATNR]
+END IF 
+PRINT '[DelPart.VBPA_KUNNR]:'+[DelPart.VBPA_KUNNR]
+IF [DelPart.VBPA_KUNNR] IS NOT NULL THEN
+ [vDelCustomerKey]=[DelPart.VBPA_KUNNR]
+ELSE
+ [vDelCustomerKey]=[DefDelPart.VBPA_KUNNR]
+END IF
+PRINT '[vDelCustomerKey]:'+[vDelCustomerKey]
 /* Sales Doc Number */
-Dim [Vsalesdoc] As Varchar(10) = [Vbrk_Vbrp.Vbrk_Vbeln]
-Dim [Vsalesdocitem] As Varchar(10) = [Vbrk_Vbrp.Vbrp_Posnr]
+Dim [vSalesDoc] as Varchar(10) = [VBRK_VBRP.VBRK_VBELN]
+Dim [vSalesDocItem] as Varchar(10) = [VBRK_VBRP.VBRP_POSNR]
 
-[Invoice Number]=[Vbrk_Vbrp.Vbrk_Vbeln]
-[Bill Type Key]=[Vbrk_Vbrp.Vbrk_Fkart]
-[Billingcategory]=[Vbrk_Vbrp.Vbrk_Fktyp]
-[Header Doc Cat]=[Vbrk_Vbrp.Vbrk_Vbtyp]
-[Currency Key]=[Vbrk_Vbrp.Vbrk_Waerk]
-[Sales Org Key]=[Vbrk_Vbrp.Vbrk_Vkorg]
-[Distr Channel]=[Vbrk_Vbrp.Vbrk_Vtweg]
-[Billing Date]=[Vbrk_Vbrp.Vbrk_Fkdat]
-[Accounting Document]=[Vbrk_Vbrp.Vbrk_Belnr]
-[Fiscal Year]=[Vbrk_Vbrp.Vbrk_Gjahr]
-[Posting Period]=[Vbrk_Vbrp.Vbrk_Poper]
-[Customer Group]=[Vbrk_Vbrp.Vbrk_Kdgrp]
-[Comp Code Key]=[Vbrk_Vbrp.Vbrk_Bukrs]
-[Header Net Value]=[Vbrk_Vbrp.Vbrk_Netwr]
-[Created By Header]=[Vbrk_Vbrp.Vbrk_Ernam]
-[Time]=[Vbrk_Vbrp.Vbrk_Erzet]
-[Si Header Create Date]=[Vbrk_Vbrp.Vbrk_Erdat]
-[Pric Procedure]=[Vbrk_Vbrp.Vbrk_Kalsm]
-[Si Doc Condition]=[Vbrk_Vbrp.Vbrk_Knumv]
-[Payer]=[Vbrk_Vbrp.Vbrk_Kunrg]
+[Invoice Number]=[VBRK_VBRP.VBRK_VBELN]
+[Bill Type Key]=[VBRK_VBRP.VBRK_FKART]
+[BillingCategory]=[VBRK_VBRP.VBRK_FKTYP]
+[Header Doc cat]=[VBRK_VBRP.VBRK_VBTYP]
+[Currency Key]=[VBRK_VBRP.VBRK_WAERK]
+[Sales Org Key]=[VBRK_VBRP.VBRK_VKORG]
+[Distr Channel]=[VBRK_VBRP.VBRK_VTWEG]
+[Billing Date]=[VBRK_VBRP.VBRK_FKDAT]
+[Accounting Document]=[VBRK_VBRP.VBRK_BELNR]
+[Fiscal Year]=[VBRK_VBRP.VBRK_GJAHR]
+[Posting period]=[VBRK_VBRP.VBRK_POPER]
+[Customer Group]=[VBRK_VBRP.VBRK_KDGRP]
+[Comp Code Key]=[VBRK_VBRP.VBRK_BUKRS]
+[Header Net Value]=[VBRK_VBRP.VBRK_NETWR]
+[Created by Header]=[VBRK_VBRP.VBRK_ERNAM]
+[Time]=[VBRK_VBRP.VBRK_ERZET]
+[SI Header Create Date]=[VBRK_VBRP.VBRK_ERDAT]
+[Pric procedure]=[VBRK_VBRP.VBRK_KALSM]
+[SI Doc Condition]=[VBRK_VBRP.VBRK_KNUMV]
+[Payer]=[VBRK_VBRP.VBRK_KUNRG]
 
-// For Intercompany Invoices, I.E. Fkart=Ziv Or Zivs, Payer Should Be Used As Customer
-If [Vbrk_Vbrp.Vbrk_Fkart] In ('Ziv', 'Zivs')  Then
-  [Vcustomerkey] = [Vbrk_Vbrp.Vbrk_Kunrg]
-Else
-  [Vcustomerkey] = [Vbrk_Vbrp.Vbrk_Kunag]
+// For intercompany invoices, i.e. FKART=ZIV or ZIVS, payer should be used as customer
+IF [VBRK_VBRP.VBRK_FKART] IN ('ZIV', 'ZIVS')  THEN
+  [vCustomerKey] = [VBRK_VBRP.VBRK_KUNRG]
+ELSE
+  [vCustomerKey] = [VBRK_VBRP.VBRK_KUNAG]
    
-End If
+END IF
 
 
 //Regional Currency 
-If [Tbl_Dim_Sales_Region.Regional_Currency_Code] Is Not Null Then
-[Vregcurrency]=[Tbl_Dim_Sales_Region.Regional_Currency_Code]
-Else
-[Vregcurrency]=[Mregcurr]([Vcustomerkey] + '' + [Vbrk_Vbrp.Vbrk_Vkorg])
-End If
+IF [tbl_dim_sales_region.regional_currency_code] IS NOT NULL THEN
+[vRegCurrency]=[tbl_dim_sales_region.regional_currency_code]
+ELSE
+[vRegCurrency]=[mRegCurr]([vCustomerKey] + '' + [VBRK_VBRP.VBRK_VKORG])
+END IF
 
-[Customer Key] = [Vcustomerkey] 
-[Custarea Key] = [Vcustomerkey] + '' + [Vbrk_Vbrp.Vbrk_Vkorg]
-[Vsecuritykey] = [Vbrk_Vbrp.Vbrk_Bukrs] + '' + [Vbrk_Vbrp.Vbrp_Spart] + '' + [Vcustomerkey] 
+[Customer Key] = [vCustomerKey] 
+[CustArea Key] = [vCustomerKey] + '' + [VBRK_VBRP.VBRK_VKORG]
+[vSecurityKey] = [VBRK_VBRP.VBRK_VKORG] + '' + [VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
 
-[Si Cancellation Document]=[Vbrk_Vbrp.Vbrk_Sfakn]
-[Delivery Customer Key]=[Vdelcustomerkey]
-If [Vbrk_Vbrp.Vbrk_Aedat] Is Not Null Then
-[Si Header Change Date]=[Vbrk_Vbrp.Vbrk_Aedat]
-Else 
-[Si Header Change Date]=[Vbrk_Vbrp.Vbrk_Erdat]
-End If
-[Sales Invoice Number]=[Vbrk_Vbrp.Vbrp_Vbeln]
-[Sales Invoice Item]=[Vbrk_Vbrp.Vbrp_Posnr]
-[Sales Invoice Key]=[Vbrk_Vbrp.Vbrp_Vbeln]+''+[Vbrk_Vbrp.Vbrp_Posnr]
-[Higher-Lev_Item]=[Vbrk_Vbrp.Vbrp_Uepos]
-[Invoice Qty]=Float([Vbrk_Vbrp.Vbrp_Fkimg])
-[Si Sales Uom]=[Vbrk_Vbrp.Vbrp_Vrkme]
-[Numerator]=[Vbrk_Vbrp.Vbrp_Umvkz]
-[Denominator]=[Vbrk_Vbrp.Vbrp_Umvkn]
-[Si Base Uom]=[Vbrk_Vbrp.Vbrp_Meins]
-[Sales Net]=[Vsalesnet]
-[Si Originating Doc]=[Vbrk_Vbrp.Vbrp_Vbelv]
-[Si Originating Item]=[Vbrk_Vbrp.Vbrp_Posnv]
-[Si Reference Doc]=[Vbrk_Vbrp.Vbrp_Vgbel]
-[Si Reference Item]=[Vbrk_Vbrp.Vbrp_Vgpos]
-[Si Prec Doc Categ]=[Vbrk_Vbrp.Vbrp_Vgtyp]
-[Sales Order Number]=[Vbrk_Vbrp.Vbrp_Aubel]
-[Sales Order Item]=[Vbrk_Vbrp.Vbrp_Aupos]
-[Si Reference So Key]=[Vbrk_Vbrp.Vbrp_Aubel]+''+[Vbrk_Vbrp.Vbrp_Aupos]
-[Salesdocumentrefer]=[Vbrk_Vbrp.Vbrp_Auref]
-[Item Key]=[Vmatkey]
-[Ext Mat Group Key]=[Vbrk_Vbrp.Vbrp_Matkl]
-[Item Category]=[Vbrk_Vbrp.Vbrp_Pstyv]
-[Item Type]=[Vbrk_Vbrp.Vbrp_Posar]
-[Division Key]=[Vbrk_Vbrp.Vbrp_Spart]
-[Plant]=[Vbrk_Vbrp.Vbrp_Werks]
-[Country]=[Vbrk_Vbrp.Vbrp_Aland]
-[Sales Group]=[Vbrk_Vbrp.Vbrp_Vkgrp]
-[Sales Office Key]=[Vbrk_Vbrp.Vbrp_Vkbur]
-[Created By Line Item]=[Vbrk_Vbrp.Vbrp_Ernam]
-[Created On Line Item]=[Vbrk_Vbrp.Vbrp_Erdat]
-[Time_Vbrp_Erzet]=[Vbrk_Vbrp.Vbrp_Erzet]
-[Stor Location]=[Vbrk_Vbrp.Vbrp_Lgort]
-[Si Item Cost]=[Checkvalue]([Vbrk_Vbrp.Vbrp_Wavwr]) 
-[Si Item Subtotal 1]=[Checkvalue]([Vbrk_Vbrp.Vbrp_Kzwi1])
-[Si Item Subtotal 2]=[Checkvalue]([Vbrk_Vbrp.Vbrp_Kzwi2])
-[Si Item Subtotal 3]=[Checkvalue]([Vbrk_Vbrp.Vbrp_Kzwi3])
-[Si Item Subtotal 4]=[Checkvalue]([Vbrk_Vbrp.Vbrp_Kzwi4])
-[Si Item Subtotal 5]=[Checkvalue]([Vbrk_Vbrp.Vbrp_Kzwi5])
-[Si Item Subtotal 6]=[Checkvalue]([Vbrk_Vbrp.Vbrp_Kzwi6])
-[Exch_Rate Stats]=[Checkvalue]([Vbrk_Vbrp.Vbrp_Stcur])
-[Profit Center]=[Vbrk_Vbrp.Vbrp_Prctr]
-[Document Cat]=[Vbrk_Vbrp.Vbrp_Autyp]
-[Analysis Date]=[Vbrk_Vbrp.Vbrk_Fkdat]
-[Statistical Value] = [Vbrk_Vbrp.Vbrp_Kowrr]
-[Billing Rule] = [Vbrk_Vbrp.Vbrp_Fareg]
-[Returns] = [Vbrk_Vbrp.Vbrp_Shkzg]
-[Delmarker]=[Vbrk_Vbrp.Vbrp_Vbeln]+'_'+[Vbrk_Vbrp.Vbrp_Posnr]+'_Current'
-[Source] = 'Sap Ecc'
+[SI Cancellation Document]=[VBRK_VBRP.VBRK_SFAKN]
+[Delivery Customer Key]=[vDelCustomerKey]
+IF [VBRK_VBRP.VBRK_AEDAT] IS NOT NULL THEN
+[SI Header Change Date]=[VBRK_VBRP.VBRK_AEDAT]
+ELSE 
+[SI Header Change Date]=[VBRK_VBRP.VBRK_ERDAT]
+END IF
+[Sales Invoice Number]=[VBRK_VBRP.VBRP_VBELN]
+[Sales Invoice Item]=[VBRK_VBRP.VBRP_POSNR]
+[Sales Invoice Key]=[VBRK_VBRP.VBRP_VBELN]+''+[VBRK_VBRP.VBRP_POSNR]
+[Higher-lev_item]=[VBRK_VBRP.VBRP_UEPOS]
+[Invoice Qty]=FLOAT([VBRK_VBRP.VBRP_FKIMG])
+[SI Sales UoM]=[VBRK_VBRP.VBRP_VRKME]
+[Numerator]=[VBRK_VBRP.VBRP_UMVKZ]
+[Denominator]=[VBRK_VBRP.VBRP_UMVKN]
+[SI Base UoM]=[VBRK_VBRP.VBRP_MEINS]
+[Sales Net]=[vSalesNet]
+[SI Originating Doc]=[VBRK_VBRP.VBRP_VBELV]
+[SI Originating Item]=[VBRK_VBRP.VBRP_POSNV]
+[SI Reference Doc]=[VBRK_VBRP.VBRP_VGBEL]
+[SI Reference Item]=[VBRK_VBRP.VBRP_VGPOS]
+[SI Prec Doc Categ]=[VBRK_VBRP.VBRP_VGTYP]
+[Sales Order Number]=[VBRK_VBRP.VBRP_AUBEL]
+[Sales Order Item]=[VBRK_VBRP.VBRP_AUPOS]
+[SI Reference SO Key]=[VBRK_VBRP.VBRP_AUBEL]+''+[VBRK_VBRP.VBRP_AUPOS]
+[SalesDocumentRefer]=[VBRK_VBRP.VBRP_AUREF]
+[Item Key]=[vMatKey]
+[Ext Mat Group Key]=[VBRK_VBRP.VBRP_MATKL]
+[Item category]=[VBRK_VBRP.VBRP_PSTYV]
+[Item type]=[VBRK_VBRP.VBRP_POSAR]
+[Division Key]=[VBRK_VBRP.VBRP_SPART]
+[Plant]=[VBRK_VBRP.VBRP_WERKS]
+[Country]=[VBRK_VBRP.VBRP_ALAND]
+[Sales Group]=[VBRK_VBRP.VBRP_VKGRP]
+[Sales Office Key]=[VBRK_VBRP.VBRP_VKBUR]
+[Created by Line Item]=[VBRK_VBRP.VBRP_ERNAM]
+[Created on Line Item]=[VBRK_VBRP.VBRP_ERDAT]
+[Time_VBRP_ERZET]=[VBRK_VBRP.VBRP_ERZET]
+[Stor Location]=[VBRK_VBRP.VBRP_LGORT]
+[SI Item Cost]=[CheckValue]([VBRK_VBRP.VBRP_WAVWR]) 
+[SI Item Subtotal 1]=[CheckValue]([VBRK_VBRP.VBRP_KZWI1])
+[SI Item Subtotal 2]=[CheckValue]([VBRK_VBRP.VBRP_KZWI2])
+[SI Item Subtotal 3]=[CheckValue]([VBRK_VBRP.VBRP_KZWI3])
+[SI Item Subtotal 4]=[CheckValue]([VBRK_VBRP.VBRP_KZWI4])
+[SI Item Subtotal 5]=[CheckValue]([VBRK_VBRP.VBRP_KZWI5])
+[SI Item Subtotal 6]=[CheckValue]([VBRK_VBRP.VBRP_KZWI6])
+[Exch_rate stats]=[CheckValue]([VBRK_VBRP.VBRP_STCUR])
+[Profit Center]=[VBRK_VBRP.VBRP_PRCTR]
+[Document cat]=[VBRK_VBRP.VBRP_AUTYP]
+[Analysis Date]=[VBRK_VBRP.VBRK_FKDAT]
+[Statistical Value] = [VBRK_VBRP.VBRP_KOWRR]
+[Billing Rule] = [VBRK_VBRP.VBRP_FAREG]
+[Returns] = [VBRK_VBRP.VBRP_SHKZG]
+[DelMarker]=[VBRK_VBRP.VBRP_VBELN]+'_'+[VBRK_VBRP.VBRP_POSNR]+'_CURRENT'
+[Source] = 'SAP ECC'
 
-Print '2'
+PRINT '2'
 /*
-If Sum([Konv.Konv_Kwert]) Is Not Null Then
-Print '3.1'
-  [Vsalescost] = Float(Sum([Konv.Konv_Kwert])) * [Vmultiplier] * -1
-Else  
-Print '3.2'
-  [Vsalescost] = 0.00
-End If
+if SUM([KONV.KONV_KWERT]) IS NOT NULL THEN
+PRINT '3.1'
+  [vSalesCost] = FLOAT(SUM([KONV.KONV_KWERT])) * [vMultiplier] * -1
+else  
+PRINT '3.2'
+  [vSalesCost] = 0.00
+end if
 */
 
-If Sum([Bapi.Condition Value]) Is Not Null Then
-Print '3.1'
-  [Vsalescost] = Float(Sum([Bapi.Condition Value])) * [Vmultiplier] * -1
-Else  
-Print '3.2'
-  [Vsalescost] = 0.00
-End If
+if SUM([BAPI.Condition value]) IS NOT NULL THEN
+PRINT '3.1'
+  [vSalesCost] = FLOAT(SUM([BAPI.Condition value])) * [vMultiplier] * -1
+else  
+PRINT '3.2'
+  [vSalesCost] = 0.00
+end if
 
-[Sales Cogs Dc] = [Vsalescost]
+[Sales COGS DC] = [vSalesCost]
 
-Print '4'
-//Print 'In Konv '+Sum([Bapi.Condition Value])+' - '+[Vbrk_Vbrp.Vbrk_Knumv]
-
-
-Print '5'
+PRINT '4'
+//print 'IN KONV '+SUM([BAPI.Condition value])+' - '+[VBRK_VBRP.VBRK_KNUMV]
 
 
+PRINT '5'
 
-  [V_Rate_Home_To_Chf] = 1
-  If [Sc-Company.Comp Currency Key] <> 'Chf' Then
-    [V_Rate_Home_To_Chf] = [Homerates.Exchange Rate]
-  End If
-Print '[Sc-Company.Comp Currency Key]:'+[Sc-Company.Comp Currency Key]+' [V_Rate_Home_To_Chf] ='+[V_Rate_Home_To_Chf] 
-  [V_Rate_Chf_To_Reg] = 1
-  If [Vregcurrency] <> 'Chf' Then
-    [V_Rate_Chf_To_Reg] = [Regrates.Exchange Rate]
-  End If
-Print '[Vregcurrency]:'+[Vregcurrency]+' [V_Rate_Chf_To_Reg] ='+[V_Rate_Chf_To_Reg]   
 
-  If [V_Rate_Home_To_Chf] Is Null Then
-    [V_Rate_Home_To_Chf] = 1
-    Print 'Issue With '+[Vbrk_Vbrp.Vbrk_Vbeln]+' Rate For V_Rate_Home_To_Chf '+[Sc-Company.Comp Currency Key]+' Not Found - Set To 1'
-  End If
+
+  [v_rate_home_to_chf] = 1
+  IF [SC-Company.Comp Currency Key] <> 'CHF' THEN
+    [v_rate_home_to_chf] = [HomeRates.Exchange Rate]
+  END IF
+PRINT '[SC-Company.Comp Currency Key]:'+[SC-Company.Comp Currency Key]+' [v_rate_home_to_chf] ='+[v_rate_home_to_chf] 
+  [v_rate_chf_to_reg] = 1
+  IF [vRegCurrency] <> 'CHF' THEN
+    [v_rate_chf_to_reg] = [RegRates.Exchange Rate]
+  END IF
+PRINT '[vRegCurrency]:'+[vRegCurrency]+' [v_rate_chf_to_reg] ='+[v_rate_chf_to_reg]   
+
+  IF [v_rate_home_to_chf] IS NULL THEN
+    [v_rate_home_to_chf] = 1
+    PRINT 'ISSUE WITH '+[VBRK_VBRP.VBRK_VBELN]+' RATE FOR v_rate_home_to_chf '+[SC-Company.Comp Currency Key]+' NOT FOUND - SET TO 1'
+  END IF
   
-  If [V_Rate_Chf_To_Reg] Is Null Then
-    [V_Rate_Chf_To_Reg] = 1
-    Print 'Issue With '+[Vbrk_Vbrp.Vbrk_Vbeln]+' Rate For V_Rate_Chf_To_Reg '+[Vregcurrency]+' Not Found - Set To 1'
-  End If  
+  IF [v_rate_chf_to_reg] IS NULL THEN
+    [v_rate_chf_to_reg] = 1
+    PRINT 'ISSUE WITH '+[VBRK_VBRP.VBRK_VBELN]+' RATE FOR v_rate_chf_to_reg '+[vRegCurrency]+' NOT FOUND - SET TO 1'
+  END IF  
 
-[Currency Key Dc]=[Vsalescurr]
-[Ex Rate Dc]=1
-[Net Sales Dc]=[Vsalesnet]
+[Currency Key DC]=[vSalesCurr]
+[Ex Rate DC]=1
+[Net Sales DC]=[vSalesNet]
 
-[Currency Key Hc] = [Sc-Company.Comp Currency Key]
+[Currency Key HC] = [SC-Company.Comp Currency Key]
 
-   If [Vexcratetohc] > Float(0.00) Then
-    [Ex Rate Hc]=[Vexcratetohc]
-	[Vsalesnethc]=Ifnull([Vsalesnet],0.00)*[Vexcratetohc]
-	[Vsalescosthc]=Ifnull([Vsalescost],0.00)*[Vexcratetohc] 
-   Elseif [Vexcratetohc] < Float(0.00)
-    [Ex Rate Hc]=Float(1/([Vexcratetohc]*-1))
-    [Vsalesnethc]=Float(Ifnull([Vsalesnet],0.00)/([Vexcratetohc]*-1))
-    [Vsalescosthc]=Float(Ifnull([Vsalescost],0.00)/([Vexcratetohc]*-1))
-   End If
-   [Net Sales Hc]=[Vsalesnethc]
-   [Sales Cogs Hc]=[Vsalescosthc]
-
-
-[Currency Key Gc] = 'Chf'
-If [Sc-Company.Comp Currency Key] = 'Chf' Then
-  [Ex Rate Gc] = 1
-  [Vsalesnetgc] = [Vsalesnethc]
-  [Vsalescostgc] = [Vsalescosthc]
-Else
-  [Ex Rate Gc] = [V_Rate_Home_To_Chf]
-  [Vsalesnetgc] = Ifnull([Vsalesnethc],0.00)*[V_Rate_Home_To_Chf]
-  [Vsalescostgc] = Ifnull([Vsalescosthc],0.00)*[V_Rate_Home_To_Chf]
-End If   
-  [Net Sales Gc] = [Vsalesnetgc]
-  [Sales Cogs Gc] = [Vsalescostgc]
-
-[Currency Key Rc] = [Vregcurrency]
-If [Vregcurrency] = 'Chf' Then
-  [Ex Rate Rc] = 1
-  [Net Sales Rc] = [Vsalesnetgc]
-  [Sales Cogs Rc] = [Vsalescostgc]
-Else
-  [Ex Rate Rc] = Float(1/[V_Rate_Chf_To_Reg])
-  [Net Sales Rc] = Ifnull([Vsalesnetgc],0.00)/[V_Rate_Chf_To_Reg]
-  [Sales Cogs Rc] = Ifnull([Vsalescostgc],0.00)/[V_Rate_Chf_To_Reg]
-End If        
+   IF [vExcRatetoHC] > FLOAT(0.00) THEN
+    [Ex Rate HC]=[vExcRatetoHC]
+	[vSalesNetHC]=IFNULL([vSalesNet],0.00)*[vExcRatetoHC]
+	[vSalesCostHC]=IFNULL([vSalesCost],0.00)*[vExcRatetoHC] 
+   ELSEIF [vExcRatetoHC] < FLOAT(0.00)
+    [Ex Rate HC]=FLOAT(1/([vExcRatetoHC]*-1))
+    [vSalesNetHC]=FLOAT(IFNULL([vSalesNet],0.00)/([vExcRatetoHC]*-1))
+    [vSalesCostHC]=FLOAT(IFNULL([vSalesCost],0.00)/([vExcRatetoHC]*-1))
+   END IF
+   [Net Sales HC]=[vSalesNetHC]
+   [Sales COGS HC]=[vSalesCostHC]
 
 
-[Security Key] = 'N'+[Vsecuritykey]
+[Currency Key GC] = 'CHF'
+IF [SC-Company.Comp Currency Key] = 'CHF' THEN
+  [Ex Rate GC] = 1
+  [vSalesNetGC] = [vSalesNetHC]
+  [vSalesCostGC] = [vSalesCostHC]
+ELSE
+  [Ex Rate GC] = [v_rate_home_to_chf]
+  [vSalesNetGC] = IFNULL([vSalesNetHC],0.00)*[v_rate_home_to_chf]
+  [vSalesCostGC] = IFNULL([vSalesCostHC],0.00)*[v_rate_home_to_chf]
+END IF   
+  [Net Sales GC] = [vSalesNetGC]
+  [Sales COGS GC] = [vSalesCostGC]
 
-[Sales Icogs Hc] = 0.00
-[Sales Icogs Gc] = 0.00
-[Sales Icogs Rc] = 0.00
+[Currency Key RC] = [vRegCurrency]
+IF [vRegCurrency] = 'CHF' THEN
+  [Ex Rate RC] = 1
+  [Net Sales RC] = [vSalesNetGC]
+  [Sales COGS RC] = [vSalesCostGC]
+ELSE
+  [Ex Rate RC] = FLOAT(1/[v_rate_chf_to_reg])
+  [Net Sales RC] = IFNULL([vSalesNetGC],0.00)/[v_rate_chf_to_reg]
+  [Sales COGS RC] = IFNULL([vSalesCostGC],0.00)/[v_rate_chf_to_reg]
+END IF        
 
-Writerecord
 
-/* Icogs Block */
+[Security Key] = 'N'+[vSecurityKey]
 
-[Net Sales Dc] = 0.00
-[Net Sales Hc] = 0.00
-[Net Sales Gc] = 0.00
-[Net Sales Rc] = 0.00
-[Sales Cogs Dc] = 0.00
-[Sales Cogs Hc] = 0.00
-[Sales Cogs Gc] = 0.00
-[Sales Cogs Rc] = 0.00
+[Sales ICOGS HC] = 0.00
+[Sales ICOGS GC] = 0.00
+[Sales ICOGS RC] = 0.00
+
+WRITERECORD
+
+/* ICOGS Block */
+
+[Net Sales DC] = 0.00
+[Net Sales HC] = 0.00
+[Net Sales GC] = 0.00
+[Net Sales RC] = 0.00
+[Sales COGS DC] = 0.00
+[Sales COGS HC] = 0.00
+[Sales COGS GC] = 0.00
+[Sales COGS RC] = 0.00
 [Sales Net] = 0.00
 [Invoice Qty] = 0.00
 
-Print '6'
-Print (Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00)))
-// If Icogs Is Zero, User Cogs
-If (Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))) <> 0.00 Then
-  Print '6.1'
-  [Sales Icogs Hc]=(Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))*Float([Vbrk_Vbrp.Vbrp_Fkimg]))
-  If [Sc-Company.Comp Currency Key] = 'Chf' Then
-    [Vsalesicogsgc]=(Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))*Float([Vbrk_Vbrp.Vbrp_Fkimg]))
-  Else
-    [Vsalesicogsgc]=(Float(Ifnull([Sc-Icogs.Icogs Init Cost Price],0.00))*Float([Vbrk_Vbrp.Vbrp_Fkimg]))*[V_Rate_Home_To_Chf]
-  End If
-  [Sales Icogs Gc]=[Vsalesicogsgc]
-Else
-  Print '6.2'
-  [Sales Icogs Hc] = [Vsalescosthc]
-  [Sales Icogs Gc] = [Vsalescostgc]
-End If
-Print [Vsalesicogsgc]
+PRINT '6'
+PRINT (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00)))
+// If ICOGS is zero, user COGS
+IF (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))) <> 0.00 THEN
+  PRINT '6.1'
+  [Sales ICOGS HC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([VBRK_VBRP.VBRP_FKIMG]))
+  IF [SC-Company.Comp Currency Key] = 'CHF' THEN
+    [vSalesIcogsGC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([VBRK_VBRP.VBRP_FKIMG]))
+  ELSE
+    [vSalesIcogsGC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([VBRK_VBRP.VBRP_FKIMG]))*[v_rate_home_to_chf]
+  END IF
+  [Sales ICOGS GC]=[vSalesIcogsGC]
+ELSE
+  PRINT '6.2'
+  [Sales ICOGS HC] = [vSalesCostHC]
+  [Sales ICOGS GC] = [vSalesCostGC]
+END IF
+PRINT [vSalesIcogsGC]
 
-If [Vregcurrency] = 'Chf' Then
-  [Sales Icogs Rc]=[Vsalesicogsgc]
-Else
-  [Sales Icogs Rc]=[Vsalesicogsgc]/[V_Rate_Chf_To_Reg]
-End If  
+IF [vRegCurrency] = 'CHF' THEN
+  [Sales ICOGS RC]=[vSalesIcogsGC]
+ELSE
+  [Sales ICOGS RC]=[vSalesIcogsGC]/[v_rate_chf_to_reg]
+END IF  
 
-[Security Key] = 'Y'+[Vsecuritykey]
+[Security Key] = 'Y'+[vSecurityKey]
 
-Writerecord
+WRITERECORD

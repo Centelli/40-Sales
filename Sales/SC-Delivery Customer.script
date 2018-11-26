@@ -1,11 +1,11 @@
-[Delivery Customer Key] = [Kna1.Kna1_Kunnr]
-[Delivery Country Key] = [Kna1.Kna1_Land1]
+[Delivery Customer Key] = [KNA1.KNA1_KUNNR]
+[Delivery Country Key] = [KNA1.KNA1_LAND1]
 [Delivery Country] = [Country.Country]
-[Geographical Subregion Key] = [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Key]
-[Geographical Subregion] = [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Name]
-[Geographical Area Key] = [Sql_Dbo_Vw_Sql_Dim_Country.Area_Key]
-[Geographical Area] = [Sql_Dbo_Vw_Sql_Dim_Country.Area_Name]
-[Geographical Region Key] = [Sql_Dbo_Vw_Sql_Dim_Country.Region_Key]
-[Geographical Region] = [Sql_Dbo_Vw_Sql_Dim_Country.Region_Name]
-[Source] = 'Sap Ecc'
-Writerecord
+[Geographical SubRegion Key] = [SQL_DBO_vw_sql_dim_country.subregion_key]
+[Geographical SubRegion] = [SQL_DBO_vw_sql_dim_country.subregion_name]
+[Geographical Area Key] = [SQL_DBO_vw_sql_dim_country.area_key]
+[Geographical Area] = [SQL_DBO_vw_sql_dim_country.area_name]
+[Geographical Region Key] = [SQL_DBO_vw_sql_dim_country.region_key]
+[Geographical Region] = [SQL_DBO_vw_sql_dim_country.region_name]
+[Source] = 'SAP ECC'
+WRITERECORD

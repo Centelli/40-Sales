@@ -1,21 +1,25 @@
-Select [Vbak_Vbap_Vbep.Vbap_Vbeln], [Vbak_Vbap_Vbep.Vbap_Posnr], [Vbak_Vbap_Vbep.Vbak_Erdat], [Vbak_Vbap_Vbep.Vbak_Erzet], [Vbak_Vbap_Vbep.Vbak_Ernam], [Vbak_Vbap_Vbep.Vbak_Audat], [Vbak_Vbap_Vbep.Vbak_Vbtyp], [Vbak_Vbap_Vbep.Vbak_Trvog], [Vbak_Vbap_Vbep.Vbak_Auart], [Vbak_Vbap_Vbep.Vbak_Netwr], [Vbak_Vbap_Vbep.Vbak_Waerk], [Vbak_Vbap_Vbep.Vbak_Vkorg], [Vbak_Vbap_Vbep.Vbak_Vtweg], [Vbak_Vbap_Vbep.Vbak_Spart], [Vbak_Vbap_Vbep.Vbak_Vkgrp], [Vbak_Vbap_Vbep.Vbak_Vkbur], [Vbak_Vbap_Vbep.Vbak_Knumv], [Vbak_Vbap_Vbep.Vbak_Kalsm], [Vbak_Vbap_Vbep.Vbak_Bstnk], [Vbak_Vbap_Vbep.Vbak_Kunnr], [Vbak_Vbap_Vbep.Vbak_Aedat], [Vbak_Vbap_Vbep.Vbak_Bukrs_Vf], [Vbak_Vbap_Vbep.Vbap_Matnr], [Vbak_Vbap_Vbep.Vbap_Matkl], [Vbak_Vbap_Vbep.Vbap_Pstyv], [Vbak_Vbap_Vbep.Vbap_Abgru], [Vbak_Vbap_Vbep.Vbap_Zmeng], [Vbak_Vbap_Vbep.Vbap_Zieme], [Vbak_Vbap_Vbep.Vbap_Meins], [Vbak_Vbap_Vbep.Vbap_Kdmat], [Vbak_Vbap_Vbep.Vbap_Spart], [Vbak_Vbap_Vbep.Vbap_Netwr], [Vbak_Vbap_Vbep.Vbap_Waerk], [Vbak_Vbap_Vbep.Vbap_Kwmeng], [Vbak_Vbap_Vbep.Vbap_Lsmeng], [Vbak_Vbap_Vbep.Vbap_Kbmeng], [Vbak_Vbap_Vbep.Vbap_Klmeng], [Vbak_Vbap_Vbep.Vbap_Vrkme], [Vbak_Vbap_Vbep.Vbap_Vgbel], [Vbak_Vbap_Vbep.Vbap_Vgpos], [Vbak_Vbap_Vbep.Vbap_Werks], [Vbak_Vbap_Vbep.Vbap_Lgort], [Vbak_Vbap_Vbep.Vbap_Vstel], [Vbak_Vbap_Vbep.Vbap_Route], [Vbak_Vbap_Vbep.Vbap_Erdat], [Vbak_Vbap_Vbep.Vbap_Ernam], [Vbak_Vbap_Vbep.Vbap_Erzet], [Vbak_Vbap_Vbep.Vbap_Netpr], [Vbak_Vbap_Vbep.Vbap_Wavwr], [Vbak_Vbap_Vbep.Vbap_Kzwi1], [Vbak_Vbap_Vbep.Vbap_Kzwi2], [Vbak_Vbap_Vbep.Vbap_Kzwi3], [Vbak_Vbap_Vbep.Vbap_Kzwi4], [Vbak_Vbap_Vbep.Vbap_Kzwi5], [Vbak_Vbap_Vbep.Vbap_Kzwi6], [Vbak_Vbap_Vbep.Vbap_Stcur], [Vbak_Vbap_Vbep.Vbap_Aedat], [Vbak_Vbap_Vbep.Vbkd_Prsdt], [Vbak_Vbap_Vbep.Vbup_Lfsta], [Vbak_Vbap_Vbep.Vbup_Lfgsa], [Vbak_Vbap_Vbep.Vbup_Absta], [Vbak_Vbap_Vbep.Vbup_Gbsta], [Vbak_Vbap_Vbep.Vbap_Bedae], [Vbak_Vbap_Vbep.Vbap_Objnr], [Vbak_Vbap_Vbep.Vbap_Umvkn], [Vbak_Vbap_Vbep.Vbap_Umvkz], [Vbak_Vbap_Vbep.Vbep_Etenr], [Vbak_Vbap_Vbep.Vbep_Ettyp], [Vbak_Vbap_Vbep.Vbep_Edatu], [Vbak_Vbap_Vbep.Vbep_Ezeit], [Vbak_Vbap_Vbep.Vbep_Wmeng], [Vbak_Vbap_Vbep.Vbep_Bmeng], [Vbak_Vbap_Vbep.Vbep_Vrkme], [Vbak_Vbap_Vbep.Vbep_Lmeng], [Vbak_Vbap_Vbep.Vbep_Meins], [Vbak_Vbap_Vbep.Vbep_Etart], [Vbak_Vbap_Vbep.Vbep_Bdart], [Vbak_Vbap_Vbep.Vbpa_Kunnr], [Vbak_Vbap_Vbep.Vbkd_Kursk] From [Vbak_Vbap_Vbep] Where [Vbak_Vbap_Vbep.Vbak_Auart] Not In ('Zaf','Zag','Zla','Zln','Zpf','Zb1','Zb2','Zb3','Zka','Zkb','Zkk','Zkm','Zme','') 
-And [Vbak_Vbap_Vbep.Vbap_Pstyv] Not In ('B1N','G2Tx','Zaab','Zaae','Zaak','Zaas','Zafc','Zafn','Zagc','Zagd','Zagn','Zagx','Zann','Zasm','Zdlw','Zgab','Zgas','Zkaa','Zkaf','Zkag','Zkbn','Zkea','Zkls','Zknn','Zlnn','Zmen','Znlc','Znln','Znnn','Zpro','Zqal','Zrex','Ztal','Ztax','Zzz1','')
-Inner Join
-Select [Sc-Company.Comp Code Key],[Sc-Company.Comp Currency Key] From [Sc-Company] On [Sc-Company.Comp Code Key]=[Vbak_Vbap_Vbep.Vbak_Vkorg]
-Inner Join 
-Select [Tbl_Dim_Sales_Region.Sales_Office_Code], [Tbl_Dim_Sales_Region.Regional_Currency_Code]
-  From [Tbl_Dim_Sales_Region]
-    On [Tbl_Dim_Sales_Region.Sales_Office_Code] = [Vbak_Vbap_Vbep.Vbak_Vkbur]
-Left Outer Join 
-Select [Homerates.Exchange Rate]  From [Sc-Ex Rates] 'Homerates' On [Homerates.Valid From Date] <= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Homerates.Valid To Date] >= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Homerates.From Currency Key] = [Sc-Company.Comp Currency Key]
-Left Outer Join
-Select [Regrates.Exchange Rate]  From [Sc-Ex Rates] 'Regrates' On [Regrates.Valid From Date] <= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Regrates.Valid To Date] >= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Regrates.From Currency Key] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
-Left Outer Join 
-Select [Sc-Tcurf.Tcurf_Ffact], [Sc-Tcurf.Tcurf_Tfact]
-From [Sc-Tcurf]
-On [Sc-Tcurf.Tcurf_Kurst] = 'M' And [Sc-Tcurf.Tcurf_Fcurr] = [Vbak_Vbap_Vbep.Vbap_Waerk] And [Sc-Tcurf.Tcurf_Tcurr] = [Sc-Company.Comp Currency Key] And [Sc-Tcurf.From Date] <= [Vbak_Vbap_Vbep.Vbkd_Prsdt] And [Sc-Tcurf.To Date] >= [Vbak_Vbap_Vbep.Vbkd_Prsdt]
-Left Outer Join
-Select [Bd.Vbkd_Vbeln], [Bd.Vbkd_Posnr], [Bd.Vbkd_Prsdt], [Bd.Vbkd_Kursk]
-  From [Vbkd] 'Bd'
-    On [Bd.Vbkd_Vbeln] = [Vbak_Vbap_Vbep.Vbap_Vbeln] And [Bd.Vbkd_Posnr] = [Vbak_Vbap_Vbep.Vbap_Posnr]
-Order By [Vbak_Vbap_Vbep.Vbap_Vbeln], [Vbak_Vbap_Vbep.Vbap_Posnr],[Vbak_Vbap_Vbep.Vbep_Etenr]
+SELECT [VBAK_VBAP_VBEP.VBAP_VBELN], [VBAK_VBAP_VBEP.VBAP_POSNR], [VBAK_VBAP_VBEP.VBAK_ERDAT], [VBAK_VBAP_VBEP.VBAK_ERZET], [VBAK_VBAP_VBEP.VBAK_ERNAM], [VBAK_VBAP_VBEP.VBAK_AUDAT], [VBAK_VBAP_VBEP.VBAK_VBTYP], [VBAK_VBAP_VBEP.VBAK_TRVOG], [VBAK_VBAP_VBEP.VBAK_AUART], [VBAK_VBAP_VBEP.VBAK_NETWR], [VBAK_VBAP_VBEP.VBAK_WAERK], [VBAK_VBAP_VBEP.VBAK_VKORG], [VBAK_VBAP_VBEP.VBAK_VTWEG], [VBAK_VBAP_VBEP.VBAK_SPART], [VBAK_VBAP_VBEP.VBAK_VKGRP], [VBAK_VBAP_VBEP.VBAK_VKBUR], [VBAK_VBAP_VBEP.VBAK_KNUMV], [VBAK_VBAP_VBEP.VBAK_KALSM], [VBAK_VBAP_VBEP.VBAK_BSTNK], [VBAK_VBAP_VBEP.VBAK_KUNNR], [VBAK_VBAP_VBEP.VBAK_AEDAT], [VBAK_VBAP_VBEP.VBAK_BUKRS_VF], [VBAK_VBAP_VBEP.VBAP_MATNR], [VBAK_VBAP_VBEP.VBAP_MATKL], [VBAK_VBAP_VBEP.VBAP_PSTYV], [VBAK_VBAP_VBEP.VBAP_ABGRU], [VBAK_VBAP_VBEP.VBAP_ZMENG], [VBAK_VBAP_VBEP.VBAP_ZIEME], [VBAK_VBAP_VBEP.VBAP_MEINS], [VBAK_VBAP_VBEP.VBAP_KDMAT], [VBAK_VBAP_VBEP.VBAP_SPART], [VBAK_VBAP_VBEP.VBAP_NETWR], [VBAK_VBAP_VBEP.VBAP_WAERK], [VBAK_VBAP_VBEP.VBAP_KWMENG], [VBAK_VBAP_VBEP.VBAP_LSMENG], [VBAK_VBAP_VBEP.VBAP_KBMENG], [VBAK_VBAP_VBEP.VBAP_KLMENG], [VBAK_VBAP_VBEP.VBAP_VRKME], [VBAK_VBAP_VBEP.VBAP_VGBEL], [VBAK_VBAP_VBEP.VBAP_VGPOS], [VBAK_VBAP_VBEP.VBAP_WERKS], [VBAK_VBAP_VBEP.VBAP_LGORT], [VBAK_VBAP_VBEP.VBAP_VSTEL], [VBAK_VBAP_VBEP.VBAP_ROUTE], [VBAK_VBAP_VBEP.VBAP_ERDAT], [VBAK_VBAP_VBEP.VBAP_ERNAM], [VBAK_VBAP_VBEP.VBAP_ERZET], [VBAK_VBAP_VBEP.VBAP_NETPR], [VBAK_VBAP_VBEP.VBAP_WAVWR], [VBAK_VBAP_VBEP.VBAP_KZWI1], [VBAK_VBAP_VBEP.VBAP_KZWI2], [VBAK_VBAP_VBEP.VBAP_KZWI3], [VBAK_VBAP_VBEP.VBAP_KZWI4], [VBAK_VBAP_VBEP.VBAP_KZWI5], [VBAK_VBAP_VBEP.VBAP_KZWI6], [VBAK_VBAP_VBEP.VBAP_STCUR], [VBAK_VBAP_VBEP.VBAP_AEDAT], [VBAK_VBAP_VBEP.VBKD_PRSDT], [VBAK_VBAP_VBEP.VBUP_LFSTA], [VBAK_VBAP_VBEP.VBUP_LFGSA], [VBAK_VBAP_VBEP.VBUP_ABSTA], [VBAK_VBAP_VBEP.VBUP_GBSTA], [VBAK_VBAP_VBEP.VBAP_BEDAE], [VBAK_VBAP_VBEP.VBAP_OBJNR], [VBAK_VBAP_VBEP.VBAP_UMVKN], [VBAK_VBAP_VBEP.VBAP_UMVKZ], [VBAK_VBAP_VBEP.VBEP_ETENR], [VBAK_VBAP_VBEP.VBEP_ETTYP], [VBAK_VBAP_VBEP.VBEP_EDATU], [VBAK_VBAP_VBEP.VBEP_EZEIT], [VBAK_VBAP_VBEP.VBEP_WMENG], [VBAK_VBAP_VBEP.VBEP_BMENG], [VBAK_VBAP_VBEP.VBEP_VRKME], [VBAK_VBAP_VBEP.VBEP_LMENG], [VBAK_VBAP_VBEP.VBEP_MEINS], [VBAK_VBAP_VBEP.VBEP_ETART], [VBAK_VBAP_VBEP.VBEP_BDART], [VBAK_VBAP_VBEP.VBPA_KUNNR], [VBAK_VBAP_VBEP.VBKD_KURSK] FROM [VBAK_VBAP_VBEP] where [VBAK_VBAP_VBEP.VBAK_AUART] NOT IN ('ZAF','ZAG','ZLA','ZLN','ZPF','ZB1','ZB2','ZB3','ZKK','ZKM','ZME','ZKA','ZKB','ZOS','') 
+and [VBAK_VBAP_VBEP.VBAP_PSTYV] NOT IN ('ZAAB','ZAAE','ZAAS','ZAFC','ZAFN','ZAGC','ZAGD','ZAGN','ZAGX','ZANN','ZGAB','ZGAS','ZKAF','ZKAG','ZKEA','ZKLS','ZLAN','ZLNN','ZNLC','ZNLN','ZNNN','ZREX','ZTAX','ZZZ1','ZAAK','ZQAL','ZTAL','ZKNN','B1N','G2TX','ZASM','ZDLW','ZPRO','ZREP','IRRE','IRVE','IRAL','ZSTR','') 
+INNER JOIN
+SELECT [LEVEL(Company.Company).Comp Code Key],[LEVEL(Company.Company).Comp Currency Key] FROM [LEVEL(Company.Company)] ON [LEVEL(Company.Company).Comp Code Key]=[VBAK_VBAP_VBEP.VBAK_VKORG]
+INNER JOIN 
+SELECT [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.regional_currency_code]
+  FROM [tbl_dim_sales_region]
+    ON [tbl_dim_sales_region.sales_office_code] = [VBAK_VBAP_VBEP.VBAK_VKBUR]
+LEFT OUTER JOIN 
+SELECT [HomeRates.Exchange Rate]  FROM [SC-Ex Rates] 'HomeRates' ON [HomeRates.Valid From Date] <= [VBAK_VBAP_VBEP.VBKD_PRSDT] AND [HomeRates.Valid To Date] >= [VBAK_VBAP_VBEP.VBKD_PRSDT] AND [HomeRates.From Currency Key] = [LEVEL(Company.Company).Comp Currency Key]
+LEFT OUTER JOIN
+SELECT [RegRates.Exchange Rate]  FROM [SC-Ex Rates] 'RegRates' ON [RegRates.Valid From Date] <= [VBAK_VBAP_VBEP.VBKD_PRSDT] AND [RegRates.Valid To Date] >= [VBAK_VBAP_VBEP.VBKD_PRSDT] AND [RegRates.From Currency Key] = [tbl_dim_sales_region.regional_currency_code]
+LEFT OUTER JOIN 
+SELECT [SC-TCURF.TCURF_FFACT], [SC-TCURF.TCURF_TFACT]
+FROM [SC-TCURF]
+ON [SC-TCURF.TCURF_KURST] = 'M' AND [SC-TCURF.TCURF_FCURR] = [VBAK_VBAP_VBEP.VBAP_WAERK] AND [SC-TCURF.TCURF_TCURR] = [LEVEL(Company.Company).Comp Currency Key] AND [SC-TCURF.From Date] <= [VBAK_VBAP_VBEP.VBKD_PRSDT] AND [SC-TCURF.To Date] >= [VBAK_VBAP_VBEP.VBKD_PRSDT]
+LEFT OUTER JOIN
+SELECT [BD.VBKD_VBELN], [BD.VBKD_POSNR], [BD.VBKD_PRSDT], [BD.VBKD_KURSK]
+  FROM [VBKD] 'BD'
+    ON [BD.VBKD_VBELN] = [VBAK_VBAP_VBEP.VBAP_VBELN] AND [BD.VBKD_POSNR] = [VBAK_VBAP_VBEP.VBAP_POSNR] 
+LEFT OUTER JOIN
+SELECT [Level(Customer.Customer).Customer Type]
+  FROM [Level(Customer.Customer)]   
+    ON [Level(Customer.Customer).Customer Key] = [VBAK_VBAP_VBEP.VBAK_KUNNR]    
+ORDER BY [VBAK_VBAP_VBEP.VBAP_VBELN], [VBAK_VBAP_VBEP.VBAP_POSNR],[VBAK_VBAP_VBEP.VBEP_ETENR]

@@ -1,1 +1,9 @@
-Select [Active Directory.Hslinemanagergeid], [Active Directory.Mail], [Active Directory.Sn], [Active Directory.Givenname], [Active Directory.Dxrstate], [Active Directory.Hsgeid], [Active Directory.Cn], [Active Directory.C], [Active Directory.Hscompany], [Active Directory.Hscountrycode], [Active Directory.Manager] From [Active Directory] Where [Active Directory.Dxrstate] = 'Enabled' And [Active Directory.Mail] Like '%@Hubersuhner.Com'
+SELECT [md_outside_sales.hsLineManagerGEID], [md_outside_sales.mail], [md_outside_sales.sn], [md_outside_sales.givenName], [md_outside_sales.dxrState], [md_outside_sales.hsGEID], [md_outside_sales.cn], [md_outside_sales.c], [md_outside_sales.hsCompany], [md_outside_sales.hsCountryCode], [md_outside_sales.manager] FROM [md_outside_sales] where [md_outside_sales.dxrState] = 'ENABLED'
+LEFT OUTER JOIN 
+SELECT [ADR6.ADR6_ADDRNUMBER], [ADR6.ADR6_PERSNUMBER], [ADR6.ADR6_SMTP_ADDR] 
+  FROM [ADR6] 
+  ON  [md_outside_sales.mail] = [ADR6.ADR6_SMTP_ADDR]
+LEFT OUTER JOIN 
+SELECT [OutCust.KNA1_KUNNR], [OutCust.KNA1_LAND1], [OutCust.KNA1_NAME1], [OutCust.KNA1_NAME2], [OutCust.KNA1_ORT01], [OutCust.KNA1_PSTLZ], [OutCust.KNA1_REGIO], [OutCust.KNA1_SORTL], [OutCust.KNA1_STRAS], [OutCust.KNA1_ADRNR], [OutCust.KNA1_BRSCH], [OutCust.KNA1_KTOKD], [OutCust.KNA1_BRAN1], [OutCust.KNA1_KATR1], [OutCust.KNA1_KATR6], [OutCust.KNA1_KATR5]  
+  FROM [KNA1] 'OutCust' 
+    ON [ADR6.ADR6_ADDRNUMBER] = [OutCust.KNA1_ADRNR]
