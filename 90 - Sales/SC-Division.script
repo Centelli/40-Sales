@@ -1,0 +1,10 @@
+[Division Key]=[Division.Division Key]
+
+[Business Unit Key] = [tbl_dim_division.business_unit_key]
+[Business Unit Code] = [tbl_dim_division.business_unit_code]
+[Business Unit] = [tbl_dim_division.business_unit_name]
+[Technology Segment Code] = [tbl_dim_division.technology_segment_code]
+[Technology Segment] = [tbl_dim_division.technology_segment_name]
+[Division Code] = [tbl_dim_division.division_code] 
+[Division]=[tbl_dim_division.division_name]
+WRITERECORD

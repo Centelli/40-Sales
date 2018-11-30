@@ -1,0 +1,29 @@
+SELECT [KNVV.KNVV_KUNNR], [KNVV.KNVV_VKORG], [KNVV.KNVV_VTWEG], [KNVV.KNVV_SPART], [KNVV.KNVV_VKBUR], [KNVV.TVKO_BUKRS] FROM [KNVV]
+LEFT OUTER JOIN
+SELECT [InSales.KNVP_PARVW], [InSales.KNVP_KUNN2] 
+  FROM [KNVP] 'InSales'
+    ON [KNVV.KNVV_KUNNR]=[InSales.KNVP_KUNNR] AND [KNVV.KNVV_VKORG]=[InSales.KNVP_VKORG] AND [KNVV.KNVV_VTWEG]=[InSales.KNVP_VTWEG] AND [KNVV.KNVV_SPART]=[InSales.KNVP_SPART] AND [InSales.KNVP_PARVW] = 'ZM' AND [InSales.KNVP_PARZA] = '000'
+LEFT OUTER JOIN 
+SELECT [OutSales.KNVP_PARVW], [OutSales.KNVP_KUNN2] 
+  FROM [KNVP] 'OutSales'
+    ON [KNVV.KNVV_KUNNR]=[OutSales.KNVP_KUNNR] AND [KNVV.KNVV_VKORG]=[OutSales.KNVP_VKORG] AND [KNVV.KNVV_VTWEG]=[OutSales.KNVP_VTWEG] AND [KNVV.KNVV_SPART]=[OutSales.KNVP_SPART] AND [OutSales.KNVP_PARVW] = 'VE'
+LEFT OUTER JOIN
+SELECT [tbl_dim_sales_region.sales_region_code], [tbl_dim_sales_region.sales_subregion_code], [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.sales_office_name], [tbl_dim_sales_region.regional_currency_code]
+  FROM [tbl_dim_sales_region]
+    ON [tbl_dim_sales_region.sales_office_code] = [KNVV.KNVV_VKBUR]
+LEFT OUTER JOIN	
+SELECT [InCust.KNA1_KUNNR], [InCust.KNA1_LAND1], [InCust.KNA1_NAME1], [InCust.KNA1_NAME2], [InCust.KNA1_ORT01], [InCust.KNA1_PSTLZ], [InCust.KNA1_REGIO], [InCust.KNA1_SORTL], [InCust.KNA1_STRAS], [InCust.KNA1_ADRNR], [InCust.KNA1_BRSCH], [InCust.KNA1_KTOKD], [InCust.KNA1_BRAN1], [InCust.KNA1_KATR1], [InCust.KNA1_KATR6] 
+  FROM [KNA1] 'InCust' 
+    ON [InCust.KNA1_KUNNR] = [InSales.KNVP_KUNN2] 
+LEFT OUTER JOIN 
+SELECT [OutCust.KNA1_KUNNR], [OutCust.KNA1_LAND1], [OutCust.KNA1_NAME1], [OutCust.KNA1_NAME2], [OutCust.KNA1_ORT01], [OutCust.KNA1_PSTLZ], [OutCust.KNA1_REGIO], [OutCust.KNA1_SORTL], [OutCust.KNA1_STRAS], [OutCust.KNA1_ADRNR], [OutCust.KNA1_BRSCH], [OutCust.KNA1_KTOKD], [OutCust.KNA1_BRAN1], [OutCust.KNA1_KATR1], [OutCust.KNA1_KATR6] 
+  FROM [KNA1] 'OutCust' 
+    ON [OutCust.KNA1_KUNNR] = [OutSales.KNVP_KUNN2] 
+LEFT OUTER JOIN 
+SELECT [ADR6.ADR6_ADDRNUMBER], [ADR6.ADR6_PERSNUMBER], [ADR6.ADR6_SMTP_ADDR] 
+  FROM [ADR6] 
+  ON [ADR6.ADR6_ADDRNUMBER] = [OutCust.KNA1_ADRNR] 
+LEFT OUTER JOIN 
+SELECT [SC-Employee Hierarchy.Name], [SC-Employee Hierarchy.AD ID], [SC-Employee Hierarchy.Manager AD ID], [SC-Employee Hierarchy.Manager Name], [SC-Employee Hierarchy.Managerx2 AD ID], [SC-Employee Hierarchy.Managerx2 Name], [SC-Employee Hierarchy.Managerx3 AD ID], [SC-Employee Hierarchy.Managerx3 Name], [SC-Employee Hierarchy.Managerx4 AD ID], [SC-Employee Hierarchy.Managerx4 Name] 
+  FROM [SC-Employee Hierarchy] 
+  ON [SC-Employee Hierarchy.Email ID] = [ADR6.ADR6_SMTP_ADDR]

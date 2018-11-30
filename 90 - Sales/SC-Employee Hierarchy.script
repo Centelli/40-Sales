@@ -1,0 +1,68 @@
+Dim [mADRecord] as Map(Varchar(50),Varchar(100))
+Dim [mEmailID] as Map(Varchar(50),VARCHAR(241))
+//Dim [mHierarchy] as Map(Varchar(50), Varchar(50))
+Dim [vHigherLevelADID] as Varchar(50)
+Dim [vHigherLevelName] as Varchar(100)
+Dim [vDepth] as integer = 0
+
+
+IF [SC-Active Directory.Manager AD ID] <> [SC-Active Directory.AD ID]) THEN
+   AddParentChild([SC-Active Directory.Manager AD ID],[SC-Active Directory.AD ID])
+ELSE
+   AddParentChild('',[SC-Active Directory.AD ID])
+END IF
+
+[mADRecord]([SC-Active Directory.AD ID]) = [SC-Active Directory.First Name] + ' ' + [SC-Active Directory.Last Name]
+//[mHierarchy]([SC-Active Directory.AD ID]) = [SC-Active Directory.Manager AD ID]
+[mEmailID]([SC-Active Directory.AD ID]) = [SC-Active Directory.Email ID]
+
+Complete
+  [vDepth] = GetLevelAttribute('NumLevels')
+  While NextChild()
+    print GetLevelAttribute('CurrentDepth') + ':' + GetLevelValue(GetLevelAttribute('CurrentDepth')) 
+    // + ':' + Getlevelvalue(GetLevelAttribute('CurrentDepth')-1) + ':' + Getlevelvalue(GetLevelAttribute('CurrentDepth')-2)
+    [AD ID]=GetLevelValue(GetLevelAttribute('CurrentDepth'))
+    [Name] = [mADRecord](GetLevelValue(GetLevelAttribute('CurrentDepth')))
+    [Email ID]=[mEmailID](GetLevelValue(GetLevelAttribute('CurrentDepth')))
+    [vHigherLevelADID] = ''
+    [vHigherLevelName] = ''
+
+    IF GetLevelAttribute('CurrentDepth') > 1 THEN
+    	[Manager AD ID] = GetLevelValue(GetLevelAttribute('CurrentDepth')-1)
+    	[Manager Name] = [mADRecord](GetLevelValue(GetLevelAttribute('CurrentDepth')-1))
+    	[vHigherLevelADID] = GetLevelValue(GetLevelAttribute('CurrentDepth')-1)
+    	[vHigherLevelName] = [mADRecord](GetLevelValue(GetLevelAttribute('CurrentDepth')-1))
+    ELSE
+    	[Manager AD ID] = [vHigherLevelADID]
+    	[Manager Name] = [vHigherLevelName]
+    END IF
+    IF GetLevelAttribute('CurrentDepth') > 2 THEN
+		[Managerx2 AD ID] = GetLevelValue(GetLevelAttribute('CurrentDepth')-2)
+	    [Managerx2 Name] = [mADRecord](GetLevelValue(GetLevelAttribute('CurrentDepth')-2))
+    	[vHigherLevelADID] = GetLevelValue(GetLevelAttribute('CurrentDepth')-2)
+    	[vHigherLevelName] = [mADRecord](GetLevelValue(GetLevelAttribute('CurrentDepth')-2))
+    ELSE
+    	[Managerx2 AD ID] = [vHigherLevelADID]
+    	[Managerx2 Name] = [vHigherLevelName]
+    END IF
+    IF GetLevelAttribute('CurrentDepth') > 3 THEN
+	    [Managerx3 AD ID] = GetLevelValue(GetLevelAttribute('CurrentDepth')-3)
+	    [Managerx3 Name] = [mADRecord](GetLevelValue(GetLevelAttribute('CurrentDepth')-3))
+    	[vHigherLevelADID] = GetLevelValue(GetLevelAttribute('CurrentDepth')-3)
+    	[vHigherLevelName] = [mADRecord](GetLevelValue(GetLevelAttribute('CurrentDepth')-3))
+    ELSE
+    	[Managerx3 AD ID] = [vHigherLevelADID]
+    	[Managerx3 Name] = [vHigherLevelName]
+    END IF
+    IF GetLevelAttribute('CurrentDepth') > 4 THEN
+	    [Managerx4 AD ID] = GetLevelValue(GetLevelAttribute('CurrentDepth')-4)
+	    [Managerx4 Name] = [mADRecord](GetLevelValue(GetLevelAttribute('CurrentDepth')-4))
+    	[vHigherLevelADID] = GetLevelValue(GetLevelAttribute('CurrentDepth')-4)
+    	[vHigherLevelName] = [mADRecord](GetLevelValue(GetLevelAttribute('CurrentDepth')-4))
+    ELSE
+    	[Managerx4 AD ID] = [vHigherLevelADID]
+    	[Managerx4 Name] = [vHigherLevelName]
+    END IF
+    WriteRecord
+  End While
+End Complete

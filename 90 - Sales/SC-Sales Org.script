@@ -1,0 +1,4 @@
+[Sales Org Key]=[Sales Org.Sales Org Key]
+[Sales Org]=[Sales Org.Sales Org]
+[Source]=GETCOLUMNVALUE(2)
+WRITERECORD

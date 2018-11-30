@@ -1,0 +1,6 @@
+SELECT [Division.Division Key], [Division.Division]
+  FROM [Division]
+INNER JOIN
+SELECT [tbl_dim_division.business_unit_key], [tbl_dim_division.business_unit_code], [tbl_dim_division.business_unit_name], [tbl_dim_division.technology_segment_code], [tbl_dim_division.technology_segment_name], [tbl_dim_division.division_code], [tbl_dim_division.division_name]
+  FROM [tbl_dim_division]
+  ON [Division.Division Key]=[tbl_dim_division.business_unit_key]

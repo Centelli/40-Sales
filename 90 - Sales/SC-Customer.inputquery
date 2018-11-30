@@ -1,0 +1,26 @@
+SELECT [KNA1.KNA1_KUNNR], [KNA1.KNA1_LAND1], [KNA1.KNA1_NAME1], [KNA1.KNA1_NAME2], [KNA1.KNA1_ORT01], [KNA1.KNA1_PSTLZ], [KNA1.KNA1_REGIO], [KNA1.KNA1_SORTL], [KNA1.KNA1_STRAS], [KNA1.KNA1_ADRNR], [KNA1.KNA1_BRSCH], [KNA1.KNA1_KTOKD], [KNA1.KNA1_BRAN1], [KNA1.KNA1_KATR1], [KNA1.KNA1_KATR6]
+  FROM [KNA1]
+LEFT OUTER JOIN
+SELECT [Country.Country Key], [Country.Country]
+  FROM [Country]
+  ON [KNA1.KNA1_LAND1] = [Country.Country Key]
+LEFT OUTER JOIN
+SELECT [tbl_dim_customer_type.customer_type_code], [tbl_dim_customer_type.customer_type_name]
+  FROM [tbl_dim_customer_type]
+    ON [KNA1.KNA1_KTOKD] = [tbl_dim_customer_type.customer_account_group_code] OR ([KNA1.KNA1_KTOKD] IS NULL AND [tbl_dim_customer_type.customer_account_group_code] = 'Z001')
+LEFT OUTER JOIN
+SELECT [tbl_dim_customer_group.customer_group_code], [tbl_dim_customer_group.customer_group_name], [tbl_dim_customer_group.customer_group_parent_name]
+  FROM [tbl_dim_customer_group]
+    ON [tbl_dim_customer_group.active_flag]='1' AND ([KNA1.KNA1_KATR6]=[tbl_dim_customer_group.customer_group_code] OR ([KNA1.KNA1_KATR6] IS NULL AND [tbl_dim_customer_group.customer_group_code] IS NULL) OR ([KNA1.KNA1_KATR6] = 'Z00' AND [tbl_dim_customer_group.customer_group_code] IS NULL))
+LEFT OUTER JOIN
+SELECT [tbl_dim_market.market_segment_stat_code], [tbl_dim_market.market_segment_name], [tbl_dim_market.market_name], [tbl_dim_market.market_code]
+  FROM [tbl_dim_market]
+    ON ([KNA1.KNA1_BRAN1] = [tbl_dim_market.market_segment_code]) OR ([KNA1.KNA1_BRAN1] IS NULL AND [tbl_dim_market.market_segment_code] IS NULL)
+LEFT OUTER JOIN
+SELECT [tbl_dim_market_role.market_role_name], [tbl_dim_market_role.market_role_group_name], [tbl_dim_market_role.sales_partner_name]
+  FROM [tbl_dim_market_role]
+    ON ([KNA1.KNA1_KATR1] = [tbl_dim_market_role.market_role_code]) OR ([KNA1.KNA1_KATR1] IS NULL AND [tbl_dim_market_role.market_role_code] IS NULL)
+LEFT OUTER JOIN
+SELECT [tbl_dim_country.country_iso_alpha_code], [tbl_dim_country.subregion_key], [tbl_dim_country.subregion_name], [tbl_dim_country.area_key], [tbl_dim_country.area_name], [tbl_dim_country.region_key], [tbl_dim_country.region_name]
+  FROM [tbl_dim_country]
+  ON [KNA1.KNA1_LAND1] = [tbl_dim_country.country_iso_alpha_code]

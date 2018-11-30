@@ -1,0 +1,108 @@
+Dim [vSalesDate] as Date
+//Dim [vSalesCurr] as Varchar(10)
+//Dim [vMatKey] as Varchar(18)
+//Dim [vOrderNet] as Float
+Dim [vOrderQty] as Float
+Dim [vVBAP_STCUR] as Float
+Dim [vChangeDate] as date
+
+Dim [vOrderNetHC] as Float
+Dim [vOrderNetGC] as Float
+
+Dim [mHomeCurr] as MAP(Varchar(4),Varchar(4)) = SELECT [Company Code.Comp Code Key],[Company Code.Comp Currency Key] FROM [Company Code]
+
+Dim [v_rate_home_to_chf] as Float
+Dim [v_rate_chf_to_reg] as Float
+
+//[vMatKey]=[SQL_M2_vw_migration_fact_orders.VBAP_MATNR]
+//[vOrderNet]=[SQL_M2_vw_migration_fact_orders.VBAP_NETWR]
+[vOrderQty]=[SC-Orders M2 Fin.Order Qty]
+[vSalesDate]=[SQL_M2_vw_migration_fact_orders.VBAK_AUDAT]
+//[vSalesCurr]=[SQL_M2_vw_migration_fact_orders.VBAP_WAERK]
+[vVBAP_STCUR]=[SQL_M2_vw_migration_fact_orders.VBAP_STCUR]
+
+  [Sales Order Number]=[SQL_M2_vw_migration_fact_orders.VBAP_VBELN]
+  [Sales Order Item]=[SQL_M2_vw_migration_fact_orders.VBAP_POSNR]
+  [Sales Order ScL Line]='0001'
+  [Sales Order Key]=[SQL_M2_vw_migration_fact_orders.VBAP_VBELN]+''+[SQL_M2_vw_migration_fact_orders.VBAP_POSNR]
+  [SO Header Create Date]=[SQL_M2_vw_migration_fact_orders.VBAP_ERDAT]
+//  [Time Header]=[SQL_M2_vw_migration_fact_orders.VBAK_ERZET]
+//  [Created by Header]=[SQL_M2_vw_migration_fact_orders.VBAK_ERNAM]
+  [SO Date]=[SQL_M2_vw_migration_fact_orders.VBAK_AUDAT]
+  [SO Document Category]=[SQL_M2_vw_migration_fact_orders.VBAK_VBTYP]
+  [SO Document Type]=[SQL_M2_vw_migration_fact_orders.VBAK_AUART]
+//  [Currency Header]=[SQL_M2_vw_migration_fact_orders.VBAK_WAERK]
+  [Sales Org Key]=[SQL_M2_vw_migration_fact_orders.VBAK_VKORG]
+  [Comp Code Key] = [SQL_M2_vw_migration_fact_orders.VBAK_BUKRS_VF]
+//  [Distr Channel]=[SQL_M2_vw_migration_fact_orders.VBAK_VTWEG]
+  [Division Header]=[SQL_M2_vw_migration_fact_orders.VBAK_SPART]
+//  [Sales Group]=[SQL_M2_vw_migration_fact_orders.VBAK_VKGRP]
+  [Sales Office Key]=[SQL_M2_vw_migration_fact_orders.VBAK_VKBUR]
+  [SO Doc Condition]=[SQL_M2_vw_migration_fact_orders.VBAK_KNUMV]
+//  [Pric procedure]=[SQL_M2_vw_migration_fact_orders.VBAK_KALSM]
+//  [PO Number]=[SQL_M2_vw_migration_fact_orders.VBAK_BSTNK]
+  [Customer Key]=[SQL_M2_vw_migration_fact_orders.VBAK_KUNNR]
+  [SO Header Change Date]=[SQL_M2_vw_migration_fact_orders.VBAK_AEDAT]
+//  [CCodeToBeBilled]=[SQL_M2_vw_migration_fact_orders.VBAK_BUKRS_VF]
+  [Item Key]=[SQL_M2_vw_migration_fact_orders.VBAP_MATNR]
+//  [Ext Mat Group Key]=[SQL_M2_vw_migration_fact_orders.VBAP_MATKL]
+  [Item category]=[SQL_M2_vw_migration_fact_orders.VBAP_PSTYV]
+//  [Rejection Reason Key]=[SQL_M2_vw_migration_fact_orders.VBAP_ABGRU]
+  [Base Unit]=[SQL_M2_vw_migration_fact_orders.VBAP_MEINS]
+//  [Cust Material]=[SQL_M2_vw_migration_fact_orders.VBAP_KDMAT]
+  [Division Key]=[SQL_M2_vw_migration_fact_orders.VBAP_SPART]
+ // [Order Net]=[vOrderNet]
+  //[Currency Key]=[SQL_M2_vw_migration_fact_orders.VBAP_WAERK]
+  [Order Qty]=[vOrderQty]
+//  [Reference doc]=[SQL_M2_vw_migration_fact_orders.VBAP_VGBEL]
+//  [Reference item]=[SQL_M2_vw_migration_fact_orders.VBAP_VGPOS]
+  [Plant]=[SQL_M2_vw_migration_fact_orders.VBAP_WERKS]
+  [Created on Line Item]=[SQL_M2_vw_migration_fact_orders.VBAP_ERDAT]
+//  [Created by Line Item]=[SQL_M2_vw_migration_fact_orders.VBAP_ERNAM]
+//  [Time Line Item]=[SQL_M2_vw_migration_fact_orders.VBAP_ERZET]
+//  [Net price]=[SQL_M2_vw_migration_fact_orders.VBAP_NETPR]
+  //[SO Item Cost]=[SQL_M2_vw_migration_fact_orders.VBAP_WAVWR]
+//  [Requirement Type Key] = [SQL_M2_vw_migration_fact_orders.VBAP_BEDAE]
+//  [Object Number] = [SQL_M2_vw_migration_fact_orders.VBAP_OBJNR]
+  [Delivery Customer Key]='DEL_I2_'+[SQL_M2_vw_migration_fact_orders.Customer_Delivery_Country]
+//  [Exch rate stats]=[SQL_M2_vw_migration_fact_orders.VBAP_STCUR]
+  IF [SQL_M2_vw_migration_fact_orders.VBAP_AEDAT] IS NOT NULL THEN
+    [vChangeDate] = [SQL_M2_vw_migration_fact_orders.VBAP_AEDAT]
+  ELSE
+    [vChangeDate] = [SQL_M2_vw_migration_fact_orders.VBAP_ERDAT]
+  END IF
+
+  [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_orders.VBAK_VKORG])) + [SQL_M2_vw_migration_fact_orders.VBAK_VKORG] + [SQL_M2_vw_migration_fact_orders.VBAP_SPART] + '' + [SQL_M2_vw_migration_fact_orders.VBAK_KUNNR] 
+  
+  [Analysis Date]=[vChangeDate]
+  [Changed on Line Item]=[vChangeDate]
+  [Change Date]=[vChangeDate]
+  
+
+  [Pricing Date]=[vChangeDate]
+  [CustArea Key] = [SQL_M2_vw_migration_fact_orders.VBAK_KUNNR] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_orders.VBAK_VKORG]))+ [SQL_M2_vw_migration_fact_orders.VBAK_VKORG] 
+  [SO Order Delivery Status]=[SQL_M2_vw_migration_fact_orders.VBUP_LFSTA]
+  [SO Item Delivery Status]=[SQL_M2_vw_migration_fact_orders.VBUP_LFGSA]
+  [SO Item Rejection Status]=[SQL_M2_vw_migration_fact_orders.VBUP_ABSTA]
+  [SO Item Overall Status]=[SQL_M2_vw_migration_fact_orders.VBUP_GBSTA]
+  [RecType] = 'New Record'
+  [DelMarker] = [SQL_M2_vw_migration_fact_orders.VBAP_VBELN]+'_'+[SQL_M2_vw_migration_fact_orders.VBAP_POSNR]+'_CURRENT'
+  [Source] = 'M2'
+
+
+  [Currency Key DC]=[SC-Orders M2 Fin.Currency Key DC]
+  [Ex Rate DC]=1
+  [Order Intake DC]=[SC-Orders M2 Fin.Order Intake DC]
+  
+  [Currency Key HC] = [SC-Orders M2 Fin.Currency Key HC]
+  [Order Intake HC] = [SC-Orders M2 Fin.Order Intake HC]
+
+  [Currency Key GC] = [SC-Orders M2 Fin.Currency Key GC]
+  [Order Intake GC] = [SC-Orders M2 Fin.Order Intake GC]
+
+  [Currency Key RC] = [SC-Orders M2 Fin.Currency Key RC]
+  [Order Intake RC] = [SC-Orders M2 Fin.Order Intake RC]
+  
+  [Current Record] = 1
+
+WRITERECORD

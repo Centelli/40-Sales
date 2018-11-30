@@ -1,0 +1,2 @@
+SELECT [SQL_DBO_vw_sql_dim_country.country_iso_alpha_code], [SQL_DBO_vw_sql_dim_country.subregion_key], [SQL_DBO_vw_sql_dim_country.subregion_name], [SQL_DBO_vw_sql_dim_country.area_key], [SQL_DBO_vw_sql_dim_country.country_name], [SQL_DBO_vw_sql_dim_country.area_name], [SQL_DBO_vw_sql_dim_country.region_key], [SQL_DBO_vw_sql_dim_country.region_name]
+  FROM [SQL_DBO_vw_sql_dim_country]
