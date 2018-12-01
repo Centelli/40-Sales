@@ -1,110 +1,110 @@
-Dim [Vordqty] As Float
-Dim [Vschedqty] As Float
+DIM [vOrdQty] as Float
+DIM [vSchedQty] as Float
 
-[Sales Order Number]=[Sc-Orders Sl.Sales Order Number]
-[Sales Order Item]=[Sc-Orders Sl.Sales Order Item]
-[Sales Order Scl Line]=[Sc-Orders Sl.Sales Order Scl Line]
-[So Date]=[Sc-Orders Sl.So Date]
-[So Document Category]=[Sc-Orders Sl.So Document Category]
-[So Transaction Group]=[Sc-Orders Sl.So Transaction Group]
-[So Document Type]=[Sc-Orders Sl.So Document Type]
-[Sales Org Key]=[Sc-Orders Sl.Sales Org Key]
-[Distr Channel]=[Sc-Orders Sl.Distr Channel]
-[Sales Office Key]=[Sc-Orders Sl.Sales Office Key]
-[So Doc Condition]=[Sc-Orders Sl.So Doc Condition]
-[Customer Key]=[Sc-Orders Sl.Customer Key]
-[So Header Change Date]=[Sc-Orders Sl.So Header Change Date]
-[Item Key]=[Sc-Orders Sl.Item Key]
-[Item Category]=[Sc-Orders Sl.Item Category]
-[Rejection Reason Key]=[Sc-Orders Sl.Rejection Reason Key]
-[Base Unit]=[Sc-Orders Sl.Base Unit]
-[Division Key]=[Sc-Orders Sl.Division Key]
-[Plant]=[Sc-Orders Sl.Plant]
-[So Item Cost]=[Sc-Orders Sl.So Item Cost]
-[Analysis Date]=[Sc-Orders Sl.Analysis Date]
-[Pricing Date]=[Sc-Orders Sl.Pricing Date]
-[Sales Order Key]=[Sc-Orders Sl.Sales Order Key]
-[Current Record]=[Sc-Orders Sl.Current Record]
-[Custarea Key]=[Sc-Orders Sl.Custarea Key]
-[So Item Delivery Status]=[Sc-Orders Sl.So Item Delivery Status]
-[So Order Delivery Status]=[Sc-Orders Sl.So Order Delivery Status]
-[So Item Rejection Status]=[Sc-Orders Sl.So Item Rejection Status]
-[So Item Overall Status]=[Sc-Orders Sl.So Item Overall Status]
-[Change Date]=[Sc-Orders Sl.Change Date]
-[So Item Cost Dc]=[Sc-Orders Sl.So Item Cost Dc]
-[So Item Cost Gc]=[Sc-Orders Sl.So Item Cost Gc]
-[So Item Cost Hc]=[Sc-Orders Sl.So Item Cost Hc]
-[So Item Cost Rc]=[Sc-Orders Sl.So Item Cost Rc]
-[Requirement Type Key]=[Sc-Orders Sl.Requirement Type Key]
-[Object Number]=[Sc-Orders Sl.Object Number]
-[Delivery Customer Key]=[Sc-Orders Sl.Delivery Customer Key]
-[Comp Code Key]=[Sc-Orders Sl.Comp Code Key]
-[Scl Delivery Date]=[Sc-Orders Sl.Scl Delivery Date]
-[Scl Category]=[Sc-Orders Sl.Scl Category]
-[Scl Type]=[Sc-Orders Sl.Scl Type]
-[Scl Requirement Type]=[Sc-Orders Sl.Scl Requirement Type]
-[Scl Quantity]=[Sc-Orders Sl.Scl Quantity]
-[Security Key] = [Sc-Orders Sl.Security Key]
+[Sales Order Number]=[SC-Orders SL.Sales Order Number]
+[Sales Order Item]=[SC-Orders SL.Sales Order Item]
+[Sales Order ScL Line]=[SC-Orders SL.Sales Order ScL Line]
+[SO Date]=[SC-Orders SL.SO Date]
+[SO Document Category]=[SC-Orders SL.SO Document Category]
+[SO Transaction Group]=[SC-Orders SL.SO Transaction Group]
+[SO Document Type]=[SC-Orders SL.SO Document Type]
+[Sales Org Key]=[SC-Orders SL.Sales Org Key]
+[Distr Channel]=[SC-Orders SL.Distr Channel]
+[Sales Office Key]=[SC-Orders SL.Sales Office Key]
+[SO Doc Condition]=[SC-Orders SL.SO Doc Condition]
+[Customer Key]=[SC-Orders SL.Customer Key]
+[SO Header Change Date]=[SC-Orders SL.SO Header Change Date]
+[Item Key]=[SC-Orders SL.Item Key]
+[Item category]=[SC-Orders SL.Item category]
+[Rejection Reason Key]=[SC-Orders SL.Rejection Reason Key]
+[Base Unit]=[SC-Orders SL.Base Unit]
+[Division Key]=[SC-Orders SL.Division Key]
+[Plant]=[SC-Orders SL.Plant]
+[SO Item Cost]=[SC-Orders SL.SO Item Cost]
+[Analysis Date]=[SC-Orders SL.Analysis Date]
+[Pricing Date]=[SC-Orders SL.Pricing Date]
+[Sales Order Key]=[SC-Orders SL.Sales Order Key]
+[Current Record]=[SC-Orders SL.Current Record]
+[CustArea Key]=[SC-Orders SL.CustArea Key]
+[SO Item Delivery Status]=[SC-Orders SL.SO Item Delivery Status]
+[SO Order Delivery Status]=[SC-Orders SL.SO Order Delivery Status]
+[SO Item Rejection Status]=[SC-Orders SL.SO Item Rejection Status]
+[SO Item Overall Status]=[SC-Orders SL.SO Item Overall Status]
+[Change Date]=[SC-Orders SL.Change Date]
+[SO Item Cost DC]=[SC-Orders SL.SO Item Cost DC]
+[SO Item Cost GC]=[SC-Orders SL.SO Item Cost GC]
+[SO Item Cost HC]=[SC-Orders SL.SO Item Cost HC]
+[SO Item Cost RC]=[SC-Orders SL.SO Item Cost RC]
+[Requirement Type Key]=[SC-Orders SL.Requirement Type Key]
+[Object Number]=[SC-Orders SL.Object Number]
+[Delivery Customer Key]=[SC-Orders SL.Delivery Customer Key]
+[Comp Code Key]=[SC-Orders SL.Comp Code Key]
+[ScL Delivery Date]=[SC-Orders SL.ScL Delivery Date]
+[ScL Category]=[SC-Orders SL.ScL Category]
+[ScL Type]=[SC-Orders SL.ScL Type]
+[ScL Requirement Type]=[SC-Orders SL.ScL Requirement Type]
+[ScL Quantity]=[SC-Orders SL.ScL Quantity]
+[Security Key] = [SC-Orders SL.Security Key]
 
 
-Dim [Mcurrentorders] As Map(Varchar(16), Varchar(10)) = Select [Grain(Sc-Orders Sl Update).# Sales Order Key], [Grain(Sc-Orders Sl Update).Sales Order Number] From [Grain(Sc-Orders Sl Update)] Where [Grain(Sc-Orders Sl Update).# Current Record] = '1'
+DIM [mCurrentOrders] AS MAP(VARCHAR(16), VARCHAR(10)) = SELECT [Grain(SC-Orders SL Update).# Sales Order Key], [Grain(SC-Orders SL Update).Sales Order Number] FROM [Grain(SC-Orders SL Update)] WHERE [Grain(SC-Orders SL Update).# Current Record] = '1'
 
 /*
-If Order Schedule Line Exists Then This Is An Update Record
+If order schedule line exists then this is an Update record
 */
-If [Mcurrentorders]([Sc-Orders Sl.Sales Order Key]) Is Null Then
- [Rectype]=[Sc-Orders Sl.Rectype]
-Else
- [Rectype]='Update'
-End If
-[Source]=[Sc-Orders Sl.Source]
-[Delmarker]=[Sc-Orders Sl.Delmarker]
+IF [mCurrentOrders]([SC-Orders SL.Sales Order Key]) IS NULL THEN
+ [RecType]=[SC-Orders SL.RecType]
+ELSE
+ [RecType]='Update'
+END IF
+[Source]=[SC-Orders SL.Source]
+[DelMarker]=[SC-Orders SL.DelMarker]
 
 
 /*
 Backlog Calculations
 */
 
-[Vordqty]=Ifnull([Sc-Orders Sl.Order Qty],0.00)
-[Vschedqty]=Ifnull([Sc-Orders Sl.Scl Quantity],0.00)
+[vOrdQty]=IFNULL([SC-Orders SL.Order Qty],0.00)
+[vSchedQty]=IFNULL([SC-Orders SL.ScL Quantity],0.00)
 /* 
-  If A Reason For Rejection Is Set, Then Following Logic Applies:
-    Abgru = Zl --> No Change
-    Abgru Is Not Blank, Then Open Order Quantity Is Cancelled And Order Net = Delivered Qty
+  If a reason for rejection is set, then following logic applies:
+    ABGRU = ZL --> No change
+    ABGRU is not blank, then open order quantity is cancelled and order net = delivered qty
 */
-If [Sc-Orders Sl.Rejection Reason Key] Is Not Null And [Sc-Orders Sl.Rejection Reason Key] <> 'Zl' Then
- [Vschedqty]=0.00 
-End If
+if [SC-Orders SL.Rejection Reason Key] is not null and [SC-Orders SL.Rejection Reason Key] <> 'ZL' then
+ [vSchedQty]=0.00 
+END IF
 
 /*
-Qty To Come From Schedule Line Not Order
+Qty to come from Schedule Line NOT Order
 */
-[Order Qty]=[Vschedqty]
+[Order Qty]=[vSchedQty]
 
 
 
-[Currency Key Dc]=[Sc-Orders Sl.Currency Key Dc]
-[Ex Rate Dc]=[Sc-Orders Sl.Ex Rate Dc]
+[Currency Key DC]=[SC-Orders SL.Currency Key DC]
+[Ex Rate DC]=[SC-Orders SL.Ex Rate DC]
 
-[Currency Key Gc]=[Sc-Orders Sl.Currency Key Gc]
-[Ex Rate Gc]=[Sc-Orders Sl.Ex Rate Gc]
+[Currency Key GC]=[SC-Orders SL.Currency Key GC]
+[Ex Rate GC]=[SC-Orders SL.Ex Rate GC]
 
-[Currency Key Hc]=[Sc-Orders Sl.Currency Key Hc]
-[Ex Rate Hc]=[Sc-Orders Sl.Ex Rate Hc]
+[Currency Key HC]=[SC-Orders SL.Currency Key HC]
+[Ex Rate HC]=[SC-Orders SL.Ex Rate HC]
 
-[Currency Key Rc]=[Sc-Orders Sl.Currency Key Rc]
-[Ex Rate Rc]=[Sc-Orders Sl.Ex Rate Rc]
+[Currency Key RC]=[SC-Orders SL.Currency Key RC]
+[Ex Rate RC]=[SC-Orders SL.Ex Rate RC]
 
-If [Vordqty] > 0.00 Then
-[Order Intake Dc]=[Vschedqty]*(Ifnull([Sc-Orders Sl.Order Intake Dc],0.00)/[Vordqty])
-[Order Intake Gc]=[Vschedqty]*(Ifnull([Sc-Orders Sl.Order Intake Gc],0.00)/[Vordqty])
-[Order Intake Hc]=[Vschedqty]*(Ifnull([Sc-Orders Sl.Order Intake Hc],0.00)/[Vordqty])
-[Order Intake Rc]=[Vschedqty]*(Ifnull([Sc-Orders Sl.Order Intake Rc],0.00)/[Vordqty])
-Else
-[Order Intake Dc]=0.00
-[Order Intake Gc]=0.00
-[Order Intake Hc]=0.00
-[Order Intake Rc]=0.00
-End If
+IF [vOrdQty] > 0.00 THEN
+[Order Intake DC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake DC],0.00)/[vOrdQty])
+[Order Intake GC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake GC],0.00)/[vOrdQty])
+[Order Intake HC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake HC],0.00)/[vOrdQty])
+[Order Intake RC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake RC],0.00)/[vOrdQty])
+ELSE
+[Order Intake DC]=0.00
+[Order Intake GC]=0.00
+[Order Intake HC]=0.00
+[Order Intake RC]=0.00
+END IF
 
-Writerecord
+WRITERECORD

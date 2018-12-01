@@ -1,2 +1,2 @@
-Select [Sql Workdays.Ident], [Sql Workdays.Day_Key], [Sql Workdays.Day_Code], [Sql Workdays.Day_Type], [Sql Workdays.Sales_Max_Count], [Sql Workdays.Sales_Act_Count], [Sql Workdays.Order_Max_Count], [Sql Workdays.Order_Act_Count] From [Sql Workdays] 
-Order By [Sql Workdays.Day_Code] Asc
+SELECT [SQL Workdays.ident], [SQL Workdays.day_key], [SQL Workdays.day_code], [SQL Workdays.day_type], [SQL Workdays.sales_max_count], [SQL Workdays.sales_act_count], [SQL Workdays.order_max_count], [SQL Workdays.order_act_count] FROM [SQL Workdays] 
+ORDER BY [SQL Workdays.day_code] ASC

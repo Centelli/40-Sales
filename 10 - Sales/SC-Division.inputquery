@@ -1,6 +1,6 @@
-Select [Division.Division Key], [Division.Division]
-  From [Division]
-Inner Join
-Select [Tbl_Dim_Division.Business_Unit_Key], [Tbl_Dim_Division.Business_Unit_Code], [Tbl_Dim_Division.Business_Unit_Name], [Tbl_Dim_Division.Technology_Segment_Code], [Tbl_Dim_Division.Technology_Segment_Name], [Tbl_Dim_Division.Division_Code], [Tbl_Dim_Division.Division_Name]
-  From [Tbl_Dim_Division]
-  On [Division.Division Key]=[Tbl_Dim_Division.Business_Unit_Key]
+SELECT [Division.Division Key], [Division.Division]
+  FROM [Division]
+INNER JOIN
+SELECT [tbl_dim_division.business_unit_key], [tbl_dim_division.business_unit_code], [tbl_dim_division.business_unit_name], [tbl_dim_division.technology_segment_code], [tbl_dim_division.technology_segment_name], [tbl_dim_division.division_code], [tbl_dim_division.division_name]
+  FROM [tbl_dim_division]
+  ON [Division.Division Key]=[tbl_dim_division.business_unit_key]

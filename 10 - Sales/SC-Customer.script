@@ -1,65 +1,62 @@
+DIM [vDefaultCustGroupParent] AS Varchar(20) = SELECT [tbl_dim_customer_group.customer_group_parent_name] FROM [tbl_dim_customer_group] WHERE [tbl_dim_customer_group.customer_group_parent_code] = 'Z00'
+DIM [vDefaultMarketName] AS VARCHAR(28) = SELECT [tbl_dim_market.market_name] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+DIM [vDefaultMarketKey] AS VARCHAR(28) = SELECT [tbl_dim_market.market_code] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segment_name] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+
 [Country Key] = [Country.Country Key]
-[Customer Key]=[Kna1.Kna1_Kunnr]
-[Country Key]=[Kna1.Kna1_Land1]
-[Customer]=[Kna1.Kna1_Name1]
-[Customer Name 2]=[Kna1.Kna1_Name2]
-[City]=[Kna1.Kna1_Ort01]
-[Postal Code]=[Kna1.Kna1_Pstlz]
-//[Region]=[Kna1.Kna1_Regio]
-[Search Term]=[Kna1.Kna1_Sortl]
-[Customer Address1]=[Kna1.Kna1_Stras]
-[Address Key]=[Kna1.Kna1_Adrnr]
-[Account Group]=[Kna1.Kna1_Ktokd]
-[Market Segment Key]=[Kna1.Kna1_Bran1]
-[Market Role Key]=[Kna1.Kna1_Katr1]
-[Conscustomer]=[Conscustom.Conscustomer]
+[Customer Key]=[KNA1.KNA1_KUNNR]
+[Country Key]=[KNA1.KNA1_LAND1]
+[Customer]=[KNA1.KNA1_NAME1]
+[Customer Name 2]=[KNA1.KNA1_NAME2]
+[City]=[KNA1.KNA1_ORT01]
+[Postal Code]=[KNA1.KNA1_PSTLZ]
+//[Region]=[KNA1.KNA1_REGIO]
+[Search term]=[KNA1.KNA1_SORTL]
+[Customer Address1]=[KNA1.KNA1_STRAS]
+[Address Key]=[KNA1.KNA1_ADRNR]
+[Account group]=[KNA1.KNA1_KTOKD]
+
+[Market Role Key]=[KNA1.KNA1_KATR1]
 [Customer Country] = [Country.Country]
-[Market Role] = [Tbl_Dim_Market_Role.Market_Role_Name]
+[Market Role] = [tbl_dim_market_role.market_role_name]
 
-[Source] = 'Sap Ecc'
+[Source] = 'SAP ECC'
 
-[Geographical Subregion Key] = [Tbl_Dim_Country.Subregion_Key]
-[Geographical Subregion] = [Tbl_Dim_Country.Subregion_Name]
-[Geographical Area Key] = [Tbl_Dim_Country.Area_Key]
-[Geographical Area] = [Tbl_Dim_Country.Area_Name]
-[Geographical Region Key] = [Tbl_Dim_Country.Region_Key]
-[Geographical Region] = [Tbl_Dim_Country.Region_Name]
+[Geographical SubRegion Key] = [tbl_dim_country.subregion_key]
+[Geographical SubRegion] = [tbl_dim_country.subregion_name]
+[Geographical Area Key] = [tbl_dim_country.area_key]
+[Geographical Area] = [tbl_dim_country.area_name]
+[Geographical Region Key] = [tbl_dim_country.region_key]
+[Geographical Region] = [tbl_dim_country.region_name]
 
-[Market] = [Tbl_Dim_Market.Market_Name]
-[Market Segment] = [Tbl_Dim_Market.Market_Segment_Name]
-[Market Key] = [Tbl_Dim_Market.Market_Code]
+PRINT [KNA1.KNA1_KUNNR] + ' - ' + [KNA1.KNA1_BRAN1] + ' - ' + [tbl_dim_market.market_segment_stat_code]
+
+IF [tbl_dim_market.market_segment_stat_code] = '0' THEN
+ [Market Segment Key]=[tbl_dim_market.market_segment_stat_code]
+ [Market] = [vDefaultMarketName]
+ [Market Segment] = [vDefaultMarketSegment]
+ [Market Key] = [vDefaultMarketKey]
+ELSE
+ [Market Segment Key]=[KNA1.KNA1_BRAN1]
+ [Market] = [tbl_dim_market.market_name]
+ [Market Segment] = [tbl_dim_market.market_segment_name]
+ [Market Key] = [tbl_dim_market.market_code]
+END IF
 
 
-[Customer Type]=[Tbl_Dim_Customer_Type.Customer_Type_Name]
+[Customer Type]=[tbl_dim_customer_type.customer_type_name]
 
-[Customer Sub Type]=Ifnull([Tbl_Dim_Customer_Group.Customer_Group_Parent_Name],'Other Customers')
+[Customer Group]=IFNULL([tbl_dim_customer_group.customer_group_name],'Other Customers')
+[Customer Group Parent]=IFNULL([tbl_dim_customer_group.customer_group_parent_name],[vDefaultCustGroupParent])
 
-//[Customer Group]=[Tbl_Dim_Customer_Group.Customer_Group_Parent_Name]
-//[Customer / Customer Group]=[Kna1.Kna1_Name1]
+[Sales Partner]=[tbl_dim_market_role.sales_partner_name]
+[Market Role Group]=[tbl_dim_market_role.market_role_group_name]
 
-[Sales Partner]=[Tbl_Dim_Market_Role.Sales_Partner_Name]
-[Market Role Group]=[Tbl_Dim_Market_Role.Market_Role_Group_Name]
 
-If [Kna1.Kna1_Ktokd] = 'Z007' Then
- If [Tbl_Dim_Market.Market_Name] = 'H+S Group' Then
-  [Customer Group]=[Kna1.Kna1_Name1] 
-  [Customer / Customer Group]=[Kna1.Kna1_Name1]
- End If 
-Elseif [Kna1.Kna1_Ktokd] In ('Z011', 'Z012') Then
- [Customer Group]= 'Others'
- [Customer / Customer Group]= 'Others'
-Else
- If [Conscustom.Conscustomer] Is Null Then
-  [Customer Group]='Other Customers'
-  [Customer / Customer Group]=[Kna1.Kna1_Name1]
- Elseif [Tbl_Dim_Customer_Group.Customer_Group_Parent_Name] = 'Key Accounts' Then
-  [Customer Group]=[Conscustom.Conscustomer] 	
-  [Customer / Customer Group]=[Conscustom.Conscustomer]
- Else
-  [Customer Group]=[Conscustom.Conscustomer]	
-  [Customer / Customer Group]=[Conscustom.Conscustomer] 
- End If
-End If 
- 
+IF IFNULL([tbl_dim_customer_group.customer_group_name],'Other Customers')='Other Customers' THEN
+ [Customer / Customer Group]=[KNA1.KNA1_NAME1]
+ELSE
+ [Customer / Customer Group]=[tbl_dim_customer_group.customer_group_name]
+END IF
 
-Writerecord
+WRITERECORD

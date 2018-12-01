@@ -1,10 +1,10 @@
-Select [Sql_I2_Vw_Mara.Mara_Matnr], [Sql_I2_Vw_Mara.Mara_Extwg], [Sql_I2_Vw_Mara.Mara_Spart], [Sql_I2_Vw_Mara.Mara_Meins], [Sql_I2_Vw_Mara.Makt_Maktx]
-  From [Sql_I2_Vw_Mara]
-Left Outer Join
-Select [Ext Material Group.Ext Mat Group Key], [Ext Material Group.Ext Mat Group]
-  From [Ext Material Group]
-  On [Ext Material Group.Ext Mat Group Key] = [Sql_I2_Vw_Mara.Mara_Extwg]
-Left Outer Join 
-Select [Structure_Dimension_Item.Item Group Code], [Structure_Dimension_Item.Item Group Name], [Structure_Dimension_Item.Product Group Code], [Structure_Dimension_Item.Product Group Name], [Structure_Dimension_Item.Product Unit Code], [Structure_Dimension_Item.Product Unit Name], [Structure_Dimension_Item.Product Division Code], [Structure_Dimension_Item.Product Division Name], [Structure_Dimension_Item.Product Segment Code], [Structure_Dimension_Item.Product Segment Name], [Structure_Dimension_Item.Solution Code], [Structure_Dimension_Item.Solution Name]
-  From [Structure_Dimension_Item]
-    On [Structure_Dimension_Item.Item Group Code] = [Sql_I2_Vw_Mara.Mara_Extwg]
+SELECT [SQL_I2_vw_MARA.MARA_MATNR], [SQL_I2_vw_MARA.MARA_EXTWG], [SQL_I2_vw_MARA.MARA_SPART], [SQL_I2_vw_MARA.MARA_MEINS], [SQL_I2_vw_MARA.MAKT_MAKTX], [SQL_I2_vw_MARA.Source]
+  FROM [SQL_I2_vw_MARA]
+LEFT OUTER JOIN
+SELECT [Ext Material Group.Ext Mat Group Key], [Ext Material Group.Ext Mat Group]
+  FROM [Ext Material Group]
+  ON [Ext Material Group.Ext Mat Group Key] = [SQL_I2_vw_MARA.MARA_EXTWG]
+LEFT OUTER JOIN 
+SELECT [Structure_Dimension_Item.item group code], [Structure_Dimension_Item.item group name], [Structure_Dimension_Item.product group code], [Structure_Dimension_Item.product group name], [Structure_Dimension_Item.product unit code], [Structure_Dimension_Item.product unit name], [Structure_Dimension_Item.product division code], [Structure_Dimension_Item.product division name], [Structure_Dimension_Item.product segment code], [Structure_Dimension_Item.product segment name], [Structure_Dimension_Item.solution code], [Structure_Dimension_Item.solution name]
+  FROM [Structure_Dimension_Item]
+    ON [Structure_Dimension_Item.item group code] = [SQL_I2_vw_MARA.MARA_EXTWG]

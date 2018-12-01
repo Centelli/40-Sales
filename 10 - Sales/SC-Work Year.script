@@ -1,44 +1,44 @@
-Dim [Vfullcount] As Integer
-Dim [Vworkcount] As Integer
+DIM [vFullCount] AS INTEGER
+DIM [vWorkCount] AS INTEGER
 
-Dim [Vprevyearmonth] As Varchar(6)
-Dim [Vcurryearmonth] As Varchar(6)
+DIM [vPrevYearMonth] AS VARCHAR(6)
+DIM [vCurrYearMonth] AS VARCHAR(6)
 
-[Vcurryearmonth] = Datepart(Year,[Sql Workdays.Day_Code]) + '' + Format(Datepart(Month,[Sql Workdays.Day_Code]), '00')
+[vCurrYearMonth] = DATEPART(YEAR,[SQL Workdays.day_code]) + '' + format(DATEPART(MONTH,[SQL Workdays.day_code]), '00')
 
-Print [Sql Workdays.Day_Code]
-Print 'Prev:' + [Vprevyearmonth]
-Print 'Curr:' +  [Vcurryearmonth] 
-Print 'Cnts:' + [Vfullcount] + ' ' + [Vworkcount]
+PRINT [SQL Workdays.day_code]
+PRINT 'Prev:' + [vPrevYearMonth]
+PRINT 'Curr:' +  [vCurrYearMonth] 
+PRINT 'Cnts:' + [vFullCount] + ' ' + [vWorkCount]
 
-If [Vprevyearmonth] Is Not Null Then
+IF [vPrevYearMonth] IS NOT NULL THEN
 
-  [Yearmonth]=[Vprevyearmonth] 
-  [Year]=Substring([Vprevyearmonth],0,4)
-  [Vfullcount] = [Vfullcount]+1
-   If [Sql Workdays.Day_Type] = 1 And [Vprevyearmonth] = [Vcurryearmonth] Then
-    [Vworkcount] = [Vworkcount]+1
-   End If
+  [YearMonth]=[vPrevYearMonth] 
+  [Year]=SUBSTRING([vPrevYearMonth],0,4)
+  [vFullCount] = [vFullCount]+1
+   IF [SQL Workdays.day_type] = 1 AND [vPrevYearMonth] = [vCurrYearMonth] THEN
+    [vWorkCount] = [vWorkCount]+1
+   END IF
 
-  If [Vprevyearmonth]<> [Vcurryearmonth] Then
-   [Fullcount] = [Vfullcount]
-   [Workcount] = [Vworkcount]
-   Writerecord
-   [Vfullcount]=0
-   [Vworkcount]=0
-   If [Sql Workdays.Day_Type] = 1 Then
-    [Vworkcount] = [Vworkcount]+1
-   End If
-   [Vprevyearmonth] = [Vcurryearmonth] 
-  End If
+  IF [vPrevYearMonth]<> [vCurrYearMonth] THEN
+   [FullCount] = [vFullCount]
+   [WorkCount] = [vWorkCount]
+   WRITERECORD
+   [vFullCount]=0
+   [vWorkCount]=0
+   IF [SQL Workdays.day_type] = 1 THEN
+    [vWorkCount] = [vWorkCount]+1
+   END IF
+   [vPrevYearMonth] = [vCurrYearMonth] 
+  END IF
 
-End If
+END IF
 
 
-If [Vprevyearmonth] Is Null Then
-[Vfullcount] = [Vfullcount]+1
- If [Sql Workdays.Day_Type] = 1 Then
-  [Vworkcount] = [Vworkcount]+1
- End If
-[Vprevyearmonth] = [Vcurryearmonth] 
-End If
+IF [vPrevYearMonth] IS NULL THEN
+[vFullCount] = [vFullCount]+1
+ IF [SQL Workdays.day_type] = 1 THEN
+  [vWorkCount] = [vWorkCount]+1
+ END IF
+[vPrevYearMonth] = [vCurrYearMonth] 
+END IF

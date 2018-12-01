@@ -1,7 +1,7 @@
-Select [Sc-Item.Item Key], [Sc-Item.Item Type], [Sc-Item.Industry Sector], [Sc-Item.Item Group Key], [Sc-Item.Old Mat Num], [Sc-Item.Base Uom], [Sc-Item.Laboratory], [Sc-Item.Item Division Key], [Sc-Item.Ean], [Sc-Item.Item], [Sc-Item.Division], [Sc-Item.Item Group], [Sc-Item.Product Group Key], [Sc-Item.Product Group], [Sc-Item.Product Unit Key], [Sc-Item.Product Unit], [Sc-Item.Product Division Key], [Sc-Item.Product Division], [Sc-Item.Product Segment Key], [Sc-Item.Product Segment], [Sc-Item.Solution Key], [Sc-Item.Solution]
-  From [Sc-Item] Where [Sc-Item.Item Type] = 'Zkma'
-Inner Join
-Select [Vbak_Vbap_Vbep.Vbap_Matkl]
-  From [Vbak_Vbap_Vbep] Where [Vbak_Vbap_Vbep.Vbak_Auart] Not In ('Zaf','Zag','Zla','Zln','Zpf','Zb1','Zb2','Zb3','Zka','Zkb','Zkk','Zkm','Zme','') 
-And [Vbak_Vbap_Vbep.Vbap_Pstyv] Not In ('B1N','G2Tx','Zaab','Zaae','Zaak','Zaas','Zafc','Zafn','Zagc','Zagd','Zagn','Zagx','Zann','Zasm','Zdlw','Zgab','Zgas','Zkaa','Zkaf','Zkag','Zkbn','Zkea','Zkls','Zknn','Zlnn','Zmen','Znlc','Znln','Znnn','Zpro','Zqal','Zrex','Ztal','Ztax','Zzz1','')
-   On [Sc-Item.Item Key]=[Vbak_Vbap_Vbep.Vbap_Matnr]
+SELECT [SC-Item.Item Key], [SC-Item.Item Type], [SC-Item.Industry sector], [SC-Item.Item Group Key], [SC-Item.Old Mat Num], [SC-Item.Base UoM], [SC-Item.Laboratory], [SC-Item.Item Division Key], [SC-Item.EAN], [SC-Item.Item], [SC-Item.Division], [SC-Item.Item Group], [SC-Item.Product Group Key], [SC-Item.Product Group], [SC-Item.Product Unit Key], [SC-Item.Product Unit], [SC-Item.Product Division Key], [SC-Item.Product Division], [SC-Item.Product Segment Key], [SC-Item.Product Segment], [SC-Item.Solution Key], [SC-Item.Solution]
+  FROM [SC-Item] WHERE [SC-Item.Item Type] = 'ZKMA'
+INNER JOIN
+SELECT [VBAK_VBAP_VBEP.VBAP_MATKL]
+  FROM [VBAK_VBAP_VBEP] WHERE [VBAK_VBAP_VBEP.VBAK_AUART] NOT IN ('ZAF','ZAG','ZLA','ZLN','ZPF','ZB1','ZB2','ZB3','ZKA','ZKB','ZKK','ZKM','ZME','') 
+and [VBAK_VBAP_VBEP.VBAP_PSTYV] NOT IN ('B1N','G2TX','ZAAB','ZAAE','ZAAK','ZAAS','ZAFC','ZAFN','ZAGC','ZAGD','ZAGN','ZAGX','ZANN','ZASM','ZDLW','ZGAB','ZGAS','ZKAA','ZKAF','ZKAG','ZKBN','ZKEA','ZKLS','ZKNN','ZLNN','ZMEN','ZNLC','ZNLN','ZNNN','ZPRO','ZQAL','ZREX','ZTAL','ZTAX','ZZZ1','')
+   ON [SC-Item.Item Key]=[VBAK_VBAP_VBEP.VBAP_MATNR]

@@ -1,3 +1,3 @@
-Select [Tcurf.Tcurf_Kurst], [Tcurf.Tcurf_Fcurr], [Tcurf.Tcurf_Tcurr], [Tcurf.Tcurf_Ffact], [Tcurf.Tcurf_Tfact]
-  From [Tcurf]
-Where [Tcurf.Tcurf_Kurst] = 'M'
+SELECT [TCURF.TCURF_KURST], [TCURF.TCURF_FCURR], [TCURF.TCURF_TCURR], [TCURF.TCURF_FFACT], [TCURF.TCURF_TFACT]
+  FROM [TCURF]
+WHERE [TCURF.TCURF_KURST] = 'M'

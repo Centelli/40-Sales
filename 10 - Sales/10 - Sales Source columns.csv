@@ -11,7 +11,7 @@ SC-Customer,Address Key,Varchar,34,,
 SC-Customer,Market Role Key,Varchar,10,Customer,Customer
 SC-Customer,Account group,Varchar,10,Customer,Customer
 SC-Customer,Market Segment Key,Varchar,10,Customer,Customer
-SC-Customer,ConsCustomer,Varchar,20,Customer,Customer
+SC-Customer,ConsCustomer,Varchar,20,,
 SC-Customer,Customer Country,Varchar,15,Customer,Customer
 SC-Customer,Market Role,Varchar,20,Customer,Customer
 SC-Customer,Market,Varchar,28,Customer,Customer
@@ -25,9 +25,9 @@ SC-Customer,Geographical Area Key,Varchar,2,Customer,Customer
 SC-Customer,Geographical Area,Varchar,18,Customer,Customer
 SC-Customer,Geographical Region Key,Varchar,2,Customer,Customer
 SC-Customer,Geographical Region,Varchar,13,Customer,Customer
-SC-Customer,Customer Sub Type,Varchar,20,Customer,Customer
-SC-Customer,Customer Group,Varchar,20,Customer,Customer
-SC-Customer,Customer / Customer Group,Varchar,20,Customer,Customer
+SC-Customer,Customer Group Parent,Varchar,20,Customer,Customer
+SC-Customer,Customer Group,Varchar,77,Customer,Customer
+SC-Customer,Customer / Customer Group,Varchar,77,Customer,Customer
 SC-Customer,Sales Partner,Varchar,20,Customer,Customer
 SC-Customer,Market Role Group,Varchar,20,Customer,Customer
 SC-Customer,Source,Varchar,10,Customer,Customer
@@ -197,32 +197,32 @@ VBRK_VBRP,VBRP_FAREG,Varchar,1,,
 VBRK_VBRP,VBRP_FKLMG,Varchar,17,,
 KNA1,KNA1_KUNNR,Varchar,10,,
 KNA1,KNA1_LAND1,Varchar,2,,
-KNA1,KNA1_NAME1,Varchar,81,,
-KNA1,KNA1_NAME2,Varchar,97,,
+KNA1,KNA1_NAME1,Varchar,39,,
+KNA1,KNA1_NAME2,Varchar,41,,
 KNA1,KNA1_ORT01,Varchar,35,,
-KNA1,KNA1_PSTLZ,Varchar,18,,
-KNA1,KNA1_REGIO,Varchar,8,,
-KNA1,KNA1_SORTL,Varchar,66,,
-KNA1,KNA1_STRAS,Varchar,58,,
+KNA1,KNA1_PSTLZ,Varchar,10,,
+KNA1,KNA1_REGIO,Varchar,3,,
+KNA1,KNA1_SORTL,Varchar,15,,
+KNA1,KNA1_STRAS,Varchar,42,,
 KNA1,KNA1_ADRNR,Varchar,34,,
-KNA1,KNA1_BRSCH,Varchar,10,,
-KNA1,KNA1_KTOKD,Varchar,10,,
+KNA1,KNA1_BRSCH,Varchar,4,,
+KNA1,KNA1_KTOKD,Varchar,4,,
 KNA1,KNA1_BRAN1,Varchar,7,,
-KNA1,KNA1_KATR1,Varchar,7,,
-KNA1,KNA1_KATR6,Varchar,7,,
+KNA1,KNA1_KATR1,Varchar,2,,
+KNA1,KNA1_KATR6,Varchar,3,,
 KNA1,KNA1_KATR5,Varchar,2,,
 MARA,MARA_MATNR,Varchar,18,,
 MARA,MARA_MTART,Varchar,4,,
 MARA,MARA_MBRSH,Varchar,1,,
 MARA,MARA_MATKL,Varchar,7,,
-MARA,MARA_BISMT,Varchar,18,,
+MARA,MARA_BISMT,Varchar,17,,
 MARA,MARA_MEINS,Varchar,3,,
 MARA,MARA_LABOR,Varchar,3,,
 MARA,MARA_SPART,Integer,2,,
 MARA,MARA_EAN11,Integer,36,,
-MARA,MAKT_MAKTX,Varchar,75,,
-MARA,MAKT_MAKTG,Varchar,40,,
-MARA,MARA_EXTWG,Varchar,18,,
+MARA,MAKT_MAKTX,Varchar,44,,
+MARA,MAKT_MAKTG,Varchar,44,,
+MARA,MARA_EXTWG,Varchar,6,,
 KONV,KONV_KNUMV,Varchar,10,,
 KONV,KONV_KPOSN,Varchar,6,,
 KONV,KONV_STUNR,Integer,3,,
@@ -252,11 +252,11 @@ VBPA,VBPA_PERNR,Varchar,16,,
 VBPA,VBPA_PARNR,Integer,10,,
 VBPA,VBPA_ADRNR,Varchar,20,,
 Company Code,Comp Code Key,Varchar,4,,
-Company Code,Comp Name,Varchar,25,,
-Company Code,City,Varchar,25,,
+Company Code,Comp Name,Varchar,23,,
+Company Code,City,Varchar,21,,
 Company Code,Comp Country Key,Varchar,2,,
 Company Code,Comp Currency Key,Varchar,3,,
-Company Code,Chart Of Accts,Varchar,4,,
+Company Code,Chart Of Accts,Integer,4,,
 Company Code,Max Exch Rate Dev,Integer,2,,
 Company Code,Fi Year Variant,Varchar,2,,
 Company Code,CoCd->CO Area,Integer,1,,
@@ -274,7 +274,7 @@ Company Code,Cash mgmnt comp_code,None,0,,
 Company Code,Activate CM,Varchar,1,,
 Company Code,Propose value date,Varchar,1,,
 Company Code,Net Discount Base,Varchar,1,,
-Company Code,Cred_Contr_Area,Varchar,4,,
+Company Code,Cred_Contr_Area,Integer,4,,
 Company Code,Net Tax Base,Varchar,1,,
 Company Code,Sample acct rules,None,0,,
 Company Code,Business area FS,Varchar,1,,
@@ -330,7 +330,7 @@ Company Code,Shopping Cart,None,0,,
 Company Code,Activ_AADrivton,None,0,,
 Sales Org,Sales Org Key,Varchar,4,,
 Sales Org,Sales Org,Varchar,19,,
-Sales Office,Sales Office Key,Varchar,8,,
+Sales Office,Sales Office Key,Integer,8,,
 Sales Office,Sales Office,Varchar,19,,
 Sales Document,Sales Doc_ Type,Varchar,4,,
 Sales Document,Document cat_,Varchar,1,,
@@ -361,7 +361,7 @@ Country,Super region,None,0,,
 Industry,Industry Key,Varchar,4,,
 Industry,Industry,Varchar,14,,
 Structure_Dimension_Item,item group code,Varchar,6,,
-Structure_Dimension_Item,item group name,Varchar,20,,
+Structure_Dimension_Item,item group name,Varchar,36,,
 Structure_Dimension_Item,product group code,Varchar,5,,
 Structure_Dimension_Item,product group name,Varchar,27,,
 Structure_Dimension_Item,product unit code,Varchar,9,,
@@ -385,21 +385,22 @@ SC-Delivery Customer,Source,Varchar,10,Delivery Country,Delivery Country
 ConsCustom,ConsCustomer Key,Varchar,3,,
 ConsCustom,ConsCustomer,Varchar,20,,
 SC-Company,Comp Code Key,Varchar,4,Company,Company
-SC-Company,Comp Name,Varchar,25,Company,Company
+SC-Company,Comp Name,Varchar,50,Company,Company
 SC-Company,City,Varchar,25,,
 SC-Company,Comp Country Key,Varchar,2,Company,Company
 SC-Company,Comp Currency Key,Varchar,4,Company,Company
 SC-Company,Orig Comp Code Key,Varchar,4,,
+SC-Company,Source,Varchar,10,Company,Company
 KNVP,KNVP_KUNNR,Varchar,10,,
-KNVP,KNVP_VKORG,Integer,4,,
-KNVP,KNVP_VTWEG,Integer,2,,
-KNVP,KNVP_SPART,Integer,2,,
+KNVP,KNVP_VKORG,Varchar,4,,
+KNVP,KNVP_VTWEG,Varchar,2,,
+KNVP,KNVP_SPART,Varchar,2,,
 KNVP,KNVP_PARVW,Varchar,2,,
-KNVP,KNVP_PARZA,Integer,3,,
+KNVP,KNVP_PARZA,Varchar,3,,
 KNVP,KNVP_KUNN2,Varchar,10,,
 KNVP,KNVP_LIFNR,Varchar,10,,
-KNVP,KNVP_PERNR,Integer,8,,
-KNVP,KNVP_PARNR,Integer,10,,
+KNVP,KNVP_PERNR,Varchar,8,,
+KNVP,KNVP_PARNR,Varchar,10,,
 KNVP,KNVP_KNREF,Varchar,30,,
 KNVP,KNVP_DEFPA,Varchar,1,,
 SC-Customer Sales Area,CustArea Key,Varchar,22,Customer Sales Area,Customer Sales Area
@@ -469,6 +470,7 @@ KNVV,KNVV_VWERK,Integer,4,,
 KNVV,KNVV_VKGRP,Varchar,3,,
 KNVV,KNVV_VKBUR,Varchar,4,,
 KNVV,KNVV_VSORT,Integer,4,,
+KNVV,TVKO_BUKRS,Varchar,4,,
 SC-Order Extract,VBAP_VBELN,Varchar,10,Order Extract,Order Extract
 SC-Order Extract,VBAP_POSNR,Varchar,6,Order Extract,Order Extract
 SC-Order Extract,VBAK_ERDAT,Date,10,Order Extract,Order Extract
@@ -536,7 +538,7 @@ SQL Sales Budget Forecast,version,Varchar,3,,
 SQL Sales Budget Forecast,comp_code,Varchar,3,,
 SQL Sales Budget Forecast,comp_type,Varchar,10,,
 SQL Sales Budget Forecast,sap_comp_code,Varchar,4,,
-SQL Sales Budget Forecast,customer_code,Varchar,10,,
+SQL Sales Budget Forecast,customer_code,Varchar,13,,
 SQL Sales Budget Forecast,sales_rep_code,Varchar,10,,
 SQL Sales Budget Forecast,legacy_flag,Varchar,1,,
 SQL Sales Budget Forecast,curr_code,Varchar,3,,
@@ -548,6 +550,8 @@ SQL Sales Budget Forecast,division_code,Varchar,2,,
 SQL Sales Budget Forecast,div_comp_code,Varchar,3,,
 SQL Sales Budget Forecast,month_code,Integer,2,,
 SQL Sales Budget Forecast,sales_office_key,Varchar,4,,
+SQL Sales Budget Forecast,sales_rep_email,Varchar,37,,
+SQL Sales Budget Forecast,sales_org_key,Varchar,4,,
 SQL Workdays,ident,Integer,4,,
 SQL Workdays,day_key,Integer,5,,
 SQL Workdays,day_code,DateTime,23,,
@@ -559,7 +563,7 @@ SQL Workdays,order_act_count,Integer,1,,
 SQL Workdays,AUDIT_USER,Varchar,19,,
 SQL Workdays,AUDIT_TIME,DateTime,23,,
 SC-Budget Forecast,Analysis Date,Date,10,Analysis Date,Analysis Date
-SC-Budget Forecast,Customer Key,Varchar,18,Customer,Customer
+SC-Budget Forecast,Customer Key,Varchar,20,Customer,Customer
 SC-Budget Forecast,Sales Org Key,Varchar,8,Sales Org,Sales Org
 SC-Budget Forecast,Division Key,Varchar,2,Division,Division
 SC-Budget Forecast,CustArea Key,Varchar,24,Customer Sales Area,Customer Sales Area
@@ -573,6 +577,11 @@ SC-Budget Forecast,Budget GC,Float,11,,
 SC-Budget Forecast,Forecast HC,Float,11,,
 SC-Budget Forecast,Forecast GC,Float,11,,
 SC-Budget Forecast,Security Key,Varchar,25,Security Key,Security Key
+SC-Budget Forecast,Delivery Customer Key,Varchar,18,Delivery Country,Delivery Country
+SC-Budget Forecast,Budget RC,Float,11,,
+SC-Budget Forecast,Forecast RC,Float,11,,
+SC-Budget Forecast,Currency Key RC,Varchar,3,Budget Forecast,Budget Forecast
+SC-Budget Forecast,Ex Rate RC,Float,11,Budget Forecast,Budget Forecast
 SC-Work Year,YearMonth,Varchar,6,,
 SC-Work Year,FullCount,Integer,3,,
 SC-Work Year,WorkCount,Integer,3,,
@@ -760,7 +769,7 @@ SC-Item,Product Segment,Varchar,24,Item,Item
 SC-Item,Solution Key,Varchar,2,Item,Item
 SC-Item,Solution,Varchar,22,Item,Item
 SC-Item,Source,Varchar,10,Item,Item
-SC-Customer New Biz,Customer Key,Varchar,10,Customer,Customer
+SC-Customer New Biz,Customer Key,Varchar,20,Customer,Customer
 SC-Customer New Biz,Country Key,Varchar,3,Customer,Customer
 SC-Customer New Biz,Customer,Varchar,77,Customer,Customer
 SC-Customer New Biz,Customer Name 2,Varchar,96,Customer,Customer
@@ -769,29 +778,30 @@ SC-Customer New Biz,Search term,Varchar,65,,
 SC-Customer New Biz,Customer Address1,Varchar,57,Customer,Customer
 SC-Customer New Biz,Account group,Varchar,10,Customer,Customer
 SC-Customer New Biz,Market Segment Key,Varchar,10,Customer,Customer
-SC-Customer New Biz,ConsCustomer,Varchar,20,Customer,Customer
+SC-Customer New Biz,ConsCustomer,Varchar,20,,
 SC-Customer New Biz,Customer Country,Varchar,15,Customer,Customer
 SC-Customer New Biz,Market Role,Varchar,20,Customer,Customer
 SC-Customer New Biz,Source,Varchar,10,Customer,Customer
 SC-Customer New Biz,Customer Address2,Varchar,100,Customer,Customer
 SC-Customer New Biz,Market Key,Varchar,7,Customer,Customer
-SC-Customer New Biz,Market,Varchar,20,Customer,Customer
-SC-Customer New Biz,Market Segment,Varchar,20,Customer,Customer
+SC-Customer New Biz,Market,Varchar,28,Customer,Customer
+SC-Customer New Biz,Market Segment,Varchar,28,Customer,Customer
 SC-Customer New Biz,Geographical SubRegion Key,Varchar,2,Customer,Customer
 SC-Customer New Biz,Geographical SubRegion,Varchar,22,Customer,Customer
 SC-Customer New Biz,Geographical Area Key,Varchar,2,Customer,Customer
 SC-Customer New Biz,Geographical Area,Varchar,18,Customer,Customer
 SC-Customer New Biz,Geographical Region Key,Varchar,2,Customer,Customer
 SC-Customer New Biz,Geographical Region,Varchar,13,Customer,Customer
-SC-Customer New Biz,Customer Sub Type,Varchar,20,Customer,Customer
-SC-Customer New Biz,Customer Group,Varchar,20,Customer,Customer
+SC-Customer New Biz,Customer Group Parent,Varchar,20,Customer,Customer
+SC-Customer New Biz,Customer Group,Varchar,77,Customer,Customer
 SC-Customer New Biz,Sales Partner,Varchar,20,Customer,Customer
 SC-Customer New Biz,Market Role Group,Varchar,20,Customer,Customer
 SC-Customer New Biz,Customer Type,Varchar,10,Customer,Customer
+SC-Customer New Biz,Customer / Customer Group,Varchar,77,Customer,Customer
 SC-CustSales Area Budget,CustArea Key,Varchar,24,Customer Sales Area,Customer Sales Area
 SC-CustSales Area Budget,Inside Sales Key,Varchar,10,Customer Sales Area,Customer Sales Area
 SC-CustSales Area Budget,Outside Sales Key,Varchar,10,Customer Sales Area,Customer Sales Area
-SC-CustSales Area Budget,Customer Key,Varchar,18,Customer Sales Area,Customer Sales Area
+SC-CustSales Area Budget,Customer Key,Varchar,20,Customer Sales Area,Customer Sales Area
 SC-CustSales Area Budget,Source,Varchar,10,Customer Sales Area,Customer Sales Area
 SC-CustSales Area Budget,Comp Code Key,Varchar,4,Customer Sales Area,Customer Sales Area
 SC-CustSales Area Budget,Sales Office Key,Varchar,4,Customer Sales Area,Customer Sales Area
@@ -822,7 +832,7 @@ SQL Customer New Biz,market_sub_segment_name,Varchar,28,,
 SQL Customer New Biz,market_role_code,Varchar,3,,
 SQL Customer New Biz,market_role_name,Varchar,13,,
 SQL Customer New Biz,customer_group_name,Varchar,6,,
-SQL Customer New Biz,market_sub_segment_code,Varchar,10,,
+SQL Customer New Biz,market_sub_segment_code,Varchar,7,,
 SC-Item VC,Item Key,Varchar,30,Item,Item
 SC-Item VC,Item Type,Varchar,9,Item,Item
 SC-Item VC,Industry sector,Varchar,2,,
@@ -943,8 +953,10 @@ SQL_I2_vw_MARA,MARA_MATNR,Varchar,30,,
 SQL_I2_vw_MARA,MARA_EXTWG,Varchar,6,,
 SQL_I2_vw_MARA,MARA_SPART,Varchar,2,,
 SQL_I2_vw_MARA,MARA_MTART,Varchar,0,,
-SQL_I2_vw_MARA,MARA_MEINS,Varchar,4,,
-SQL_I2_vw_MARA,MAKT_MAKTX,Varchar,98,,
+SQL_I2_vw_MARA,MARA_MEINS,Varchar,6,,
+SQL_I2_vw_MARA,MAKT_MAKTX,Varchar,101,,
+SQL_I2_vw_MARA,fin_comp_code,Varchar,3,,
+SQL_I2_vw_MARA,Source,Varchar,2,,
 SC-Item I2,Item Key,Varchar,30,Item,Item
 SC-Item I2,Item Type,Varchar,8,Item,Item
 SC-Item I2,Industry sector,Varchar,2,,
@@ -980,11 +992,11 @@ SC-Customer I2,Address Key,Varchar,34,,
 SC-Customer I2,Market Role Key,Varchar,10,,
 SC-Customer I2,Account group,Varchar,10,Customer,Customer
 SC-Customer I2,Market Segment Key,Varchar,10,Customer,Customer
-SC-Customer I2,ConsCustomer,Varchar,28,Customer,Customer
+SC-Customer I2,ConsCustomer,Varchar,28,,
 SC-Customer I2,Customer Country,Varchar,15,Customer,Customer
 SC-Customer I2,Market Role,Varchar,20,Customer,Customer
 SC-Customer I2,Market,Varchar,28,Customer,Customer
-SC-Customer I2,Market Segment,Varchar,20,Customer,Customer
+SC-Customer I2,Market Segment,Varchar,28,Customer,Customer
 SC-Customer I2,Source,Varchar,10,Customer,Customer
 SC-Customer I2,Customer Address2,Varchar,100,Customer,Customer
 SC-Customer I2,Market Key,Varchar,7,Customer,Customer
@@ -994,9 +1006,9 @@ SC-Customer I2,Geographical Area Key,Varchar,2,Customer,Customer
 SC-Customer I2,Geographical Area,Varchar,18,Customer,Customer
 SC-Customer I2,Geographical Region Key,Varchar,2,Customer,Customer
 SC-Customer I2,Geographical Region,Varchar,13,Customer,Customer
-SC-Customer I2,Customer Sub Type,Varchar,20,Customer,Customer
-SC-Customer I2,Customer Group,Varchar,20,Customer,Customer
-SC-Customer I2,Customer / Customer Group,Varchar,20,Customer,Customer
+SC-Customer I2,Customer Group Parent,Varchar,20,Customer,Customer
+SC-Customer I2,Customer Group,Varchar,77,Customer,Customer
+SC-Customer I2,Customer / Customer Group,Varchar,77,Customer,Customer
 SC-Customer I2,Sales Partner,Varchar,20,Customer,Customer
 SC-Customer I2,Market Role Group,Varchar,20,Customer,Customer
 SC-Customer I2,Customer Type,Varchar,10,Customer,Customer
@@ -1230,11 +1242,11 @@ SQL_I2_vw_dim_customer,Country Key,Varchar,2,,
 SQL_I2_vw_dim_customer,customer_longname,Varchar,123,,
 SQL_I2_vw_dim_customer,market_sub_segment_code,Varchar,7,,
 SQL_I2_vw_dim_customer,market_sub_segment_name,Varchar,28,,
-SQL_I2_vw_dim_customer,market_role_code,Varchar,3,,
+SQL_I2_vw_dim_customer,market_role_code,Varchar,2,,
 SQL_I2_vw_dim_customer,market_role_name,Varchar,21,,
 SQL_I2_vw_dim_customer,customer_group_name,Varchar,26,,
 SQL_I2_vw_dim_customer,customer_type,Varchar,7,,
-SQL_I2_vw_dim_customer,salesrep_code,Varchar,9,,
+SQL_I2_vw_dim_customer,salesrep_code,Varchar,10,,
 SQL_I2_vw_dim_customer,salesrep_name,Varchar,35,,
 SQL_I2_vw_dim_customer,specialist_code,Varchar,9,,
 SQL_I2_vw_dim_customer,specialist_name,Varchar,100,,
@@ -1309,7 +1321,7 @@ VBAK_VBAP_VBEP,VBAP_VBELN,Varchar,10,,
 VBAK_VBAP_VBEP,VBAP_POSNR,Varchar,6,,
 VBAK_VBAP_VBEP,VBAK_ERDAT,Date,10,,
 VBAK_VBAP_VBEP,VBAK_ERZET,Varchar,8,,
-VBAK_VBAP_VBEP,VBAK_ERNAM,Varchar,8,,
+VBAK_VBAP_VBEP,VBAK_ERNAM,Varchar,12,,
 VBAK_VBAP_VBEP,VBAK_AUDAT,Date,10,,
 VBAK_VBAP_VBEP,VBAK_VBTYP,Varchar,1,,
 VBAK_VBAP_VBEP,VBAK_TRVOG,Integer,1,,
@@ -1350,7 +1362,7 @@ VBAK_VBAP_VBEP,VBAP_LGORT,Varchar,4,,
 VBAK_VBAP_VBEP,VBAP_VSTEL,Varchar,4,,
 VBAK_VBAP_VBEP,VBAP_ROUTE,Varchar,2,,
 VBAK_VBAP_VBEP,VBAP_ERDAT,Date,10,,
-VBAK_VBAP_VBEP,VBAP_ERNAM,Varchar,8,,
+VBAK_VBAP_VBEP,VBAP_ERNAM,Varchar,12,,
 VBAK_VBAP_VBEP,VBAP_ERZET,Varchar,8,,
 VBAK_VBAP_VBEP,VBAP_NETPR,Varchar,18,,
 VBAK_VBAP_VBEP,VBAP_WAVWR,Varchar,18,,
@@ -1520,7 +1532,7 @@ SQL_DBO_vw_sql_dim_country,AUDIT_USER,Varchar,7,,
 SQL_DBO_vw_sql_dim_country,AUDIT_TIME,DateTime,23,,
 SC-User Access,User,Varchar,50,User Access,User Access
 SC-User Access,User Security Key,Varchar,29,User Access,User Access
-SC-User Access,Detail,Varchar,50,User Access,User Access
+SC-User Access,Detail,Varchar,77,User Access,User Access
 SC-User Access,Source,Varchar,10,User Access,User Access
 SC-User Access,Customer Key,Varchar,18,Customer,Customer
 SC-User Access,Role,Varchar,10,User Access,User Access
@@ -1553,6 +1565,7 @@ SC-Active Directory,Last Name,Varchar,50,,
 SC-Active Directory,First Name,Varchar,50,,
 SC-Active Directory,AD ID,Varchar,50,,
 SC-Active Directory,Manager AD ID,Varchar,100,,
+SC-Active Directory,KATR5,Varchar,10,,
 SC-Employee Hierarchy,Name,Varchar,100,,
 SC-Employee Hierarchy,AD ID,Varchar,50,,
 SC-Employee Hierarchy,Manager AD ID,Varchar,50,,
@@ -1644,10 +1657,10 @@ SQL_I2_vw_dim_company,Sales Office Key,Varchar,4,,
 SQL_I2_vw_dim_company,VKORG,Varchar,4,,
 SQL_I2_vw_dim_company,Order Type Code,Varchar,3,,
 SQL_I2_vw_dim_company,Item_Prefix,Varchar,2,,
-SQL_I2_vw_dim_company,Interface,Varchar,2,,
+SQL_I2_vw_dim_company,Source,Varchar,2,,
 SQL_I2_vw_dim_company,LAND1,Varchar,2,,
 SQL_I2_vw_dim_company,WAERS,Varchar,3,,
-SQL_I2_vw_dim_company,comp_name,Varchar,20,,
+SQL_I2_vw_dim_company,comp_name,Varchar,50,,
 Region-SubRegion-Hierarchy,Region,Varchar,4,,
 Region-SubRegion-Hierarchy,SubRegion,Varchar,6,,
 Region-SubRegion-Hierarchy,Sales Office Key,Varchar,4,,
@@ -1790,12 +1803,12 @@ tbl_dim_customer_type,customer_type_code,Varchar,1,,
 tbl_dim_customer_type,customer_type_name,Varchar,8,,
 tbl_dim_customer_type,active,Varchar,1,,
 tbl_dim_customer_type,remark,Varchar,19,,
-tbl_dim_division,business_unit_key,Varchar,7,,
+tbl_dim_division,business_unit_key,Varchar,2,,
 tbl_dim_division,business_unit_code,Varchar,4,,
 tbl_dim_division,business_unit_name,Varchar,33,,
-tbl_dim_division,technology_segment_code,Varchar,7,,
+tbl_dim_division,technology_segment_code,Varchar,4,,
 tbl_dim_division,technology_segment_name,Varchar,33,,
-tbl_dim_division,division_code,Varchar,7,,
+tbl_dim_division,division_code,Varchar,4,,
 tbl_dim_division,division_name,Varchar,22,,
 tbl_dim_market,market_segment_code,Varchar,7,,
 tbl_dim_market,market_segment_stat_code,Varchar,6,,
@@ -1808,16 +1821,15 @@ tbl_dim_market_role,market_role_code,Varchar,2,,
 tbl_dim_market_role,market_role_name,Varchar,21,,
 tbl_dim_market_role,market_role_stat_code,Varchar,2,,
 tbl_dim_market_role,market_role_group_name,Varchar,21,,
-tbl_dim_market_role,sales_partner_code,Integer,1,,
+tbl_dim_market_role,sales_partner_code,Varchar,1,,
 tbl_dim_market_role,sales_partner_name,Varchar,16,,
-tbl_dim_market_role,active_flag,Integer,1,,
+tbl_dim_market_role,active_flag,Varchar,1,,
 tbl_dim_market_role,Remark,Varchar,0,,
 tbl_dim_sales_region,sales_region_code,Varchar,4,,
 tbl_dim_sales_region,sales_subregion_code,Varchar,4,,
 tbl_dim_sales_region,sales_office_code,Varchar,33,,
 tbl_dim_sales_region,sales_office_name,Varchar,20,,
 tbl_dim_sales_region,regional_currency_code,Varchar,3,,
-tbl_dim_sales_region,Origin,Varchar,8,,
 SC-Division,Division Key,Varchar,2,Division,Division
 SC-Division,Division,Varchar,33,Division,Division
 SC-Division,Business Unit Key,Varchar,7,Division,Division
@@ -1834,16 +1846,18 @@ VBKD,VBKD_PRSDT,Date,10,,
 VBKD,VBKD_FKDAT,Date,10,,
 SQL_I2_vw_Sales_Org,Sales Org Key,Varchar,4,,
 SQL_I2_vw_Sales_Org,Sales Org,Varchar,18,,
+SQL_I2_vw_Sales_Org,Source,Varchar,2,,
 SC-Sales Org,Sales Org Key,Varchar,4,Sales Org,Sales Org
 SC-Sales Org,Sales Org,Varchar,19,Sales Org,Sales Org
-SQL_vw_bi_ICOGS,item_code,Varchar,18,,
+SC-Sales Org,Source,Varchar,10,Sales Org,Sales Org
+SQL_vw_bi_ICOGS,item_code,Varchar,30,,
 SQL_vw_bi_ICOGS,plant_code,Varchar,4,,
 SQL_vw_bi_ICOGS,last_cost_price_trans_date,DateTime,23,,
 SQL_vw_bi_ICOGS,cost_price,Float,11,,
 SQL_vw_bi_ICOGS,valid_from,DateTime,23,,
 SQL_vw_bi_ICOGS,valid_to,DateTime,23,,
 SQL_vw_bi_ICOGS,calc_date,DateTime,23,,
-SQL_vw_bi_ICOGS,init_cost_price,Float,10,,
+SQL_vw_bi_ICOGS,init_cost_price,Float,11,,
 SQL_vw_bi_ICOGS,icogs_status,Integer,1,,
 User_Defaults,User Email,Varchar,200,User Defaults,User Defaults
 User_Defaults,Sales Region,Varchar,4,User Defaults,User Defaults
@@ -1858,12 +1872,12 @@ ZBI_BIRST_ZbapiSalesorderGet,Condition Type,Varchar,4,,
 ZBI_BIRST_ZbapiSalesorderGet,Condition pricing date,Date,10,,
 ZBI_BIRST_ZbapiSalesorderGet,Calculation type for condition,Varchar,1,,
 ZBI_BIRST_ZbapiSalesorderGet,Condition base value,Float,11,,
-ZBI_BIRST_ZbapiSalesorderGet,Rate condition amount or percentage,Float,11,,
+ZBI_BIRST_ZbapiSalesorderGet,Rate condition amount or percentage,Float,12,,
 ZBI_BIRST_ZbapiSalesorderGet,Currency Key,Varchar,3,,
-ZBI_BIRST_ZbapiSalesorderGet,Condition exchange rate for conversion to local currency,Float,8,,
+ZBI_BIRST_ZbapiSalesorderGet,Condition exchange rate for conversion to local currency,Float,9,,
 ZBI_BIRST_ZbapiSalesorderGet,Condition pricing unit,Integer,3,,
 ZBI_BIRST_ZbapiSalesorderGet,Condition unit in the document,Varchar,3,,
-ZBI_BIRST_ZbapiSalesorderGet,Numerator for converting condition units to base units,Integer,2,,
+ZBI_BIRST_ZbapiSalesorderGet,Numerator for converting condition units to base units,Integer,4,,
 ZBI_BIRST_ZbapiSalesorderGet,Denominator for converting condition units to base units,Integer,1,,
 ZBI_BIRST_ZbapiSalesorderGet,"Condition category examples: tax, freight, price, cost",Varchar,1,,
 ZBI_BIRST_ZbapiSalesorderGet,Condition is used for statistics,Varchar,1,,
@@ -1929,3 +1943,374 @@ SC-TCURF,To Date,Date,10,,
 SC-TCURF,TCURF_Count,Integer,3,,
 SC-Delivery Partner Default,VBPA_VBELN,Varchar,10,,
 SC-Delivery Partner Default,VBPA_POSNR,Varchar,6,,
+SQL_M2_vw_migration_fact_sales,VBRK_AEDAT,DateTime,23,,
+SQL_M2_vw_migration_fact_sales,VBRK_BUKRS,Varchar,4,,
+SQL_M2_vw_migration_fact_sales,VBRK_ERDAT,DateTime,23,,
+SQL_M2_vw_migration_fact_sales,VBRK_ERNAM,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRK_FKART,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRK_FKDAT,DateTime,23,,
+SQL_M2_vw_migration_fact_sales,VBRK_KNUMV,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRK_KUNAG,Varchar,18,,
+SQL_M2_vw_migration_fact_sales,VBRK_KUNRG,Varchar,18,,
+SQL_M2_vw_migration_fact_sales,VBRK_SFAKN,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRK_SPART,Varchar,2,,
+SQL_M2_vw_migration_fact_sales,VBRK_VBELN,Varchar,13,,
+SQL_M2_vw_migration_fact_sales,VBRK_VKORG,Varchar,4,,
+SQL_M2_vw_migration_fact_sales,VBRK_VTWEG,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRK_WAERK,Varchar,3,,
+SQL_M2_vw_migration_fact_sales,VBRP_AUBEL,Varchar,13,,
+SQL_M2_vw_migration_fact_sales,VBRP_AUPOS,Varchar,6,,
+SQL_M2_vw_migration_fact_sales,VBRP_FKIMG,Float,11,,
+SQL_M2_vw_migration_fact_sales,VBRP_MATNR,Varchar,30,,
+SQL_M2_vw_migration_fact_sales,VBRP_MEINS,Varchar,4,,
+SQL_M2_vw_migration_fact_sales,VBRP_NETWR,Float,12,,
+SQL_M2_vw_migration_fact_sales,VBRP_POSNR,Varchar,6,,
+SQL_M2_vw_migration_fact_sales,VBRP_POSNV,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_PRCTR,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_PSTYV,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_SPART,Varchar,2,,
+SQL_M2_vw_migration_fact_sales,VBRP_STCUR,Varchar,1,,
+SQL_M2_vw_migration_fact_sales,VBRP_VBELN,Varchar,13,,
+SQL_M2_vw_migration_fact_sales,VBRP_VBELV,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_VGBEL,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_VGPOS,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_VGTYP,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_VKBUR,Varchar,4,,
+SQL_M2_vw_migration_fact_sales,VBRP_VRKME,Varchar,4,,
+SQL_M2_vw_migration_fact_sales,COGS,Float,13,,
+SQL_M2_vw_migration_fact_sales,VBRP_WERKS,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,ICOGS,Float,13,,
+SQL_M2_vw_migration_fact_sales,VBPA_KUNNR,Varchar,18,,
+SQL_M2_vw_migration_fact_sales,VBRP_KURSK,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_SHKZG,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRK_KURRF,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_KOWRR,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_FAREG,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,VBRP_FKLMG,Varchar,0,,
+SQL_M2_vw_migration_fact_sales,Customer_Delivery_Country,Varchar,2,,
+SQL_M2_vw_migration_fact_sales,birst_customer_group_code,Varchar,3,,
+SQL_M2_vw_migration_fact_sales,birst_account_group_code,Varchar,4,,
+SQL_M2_vw_migration_fact_sales,curr_type_code,Varchar,2,,
+SQL_M2_vw_migration_fact_sales,sap_created_date,Varchar,8,,
+SC-Invoices M2 Curr,VBRP_VBELN,Varchar,13,,
+SC-Invoices M2 Curr,VBRP_POSNR,Integer,6,,
+SC-Invoices M2 Curr,Currency Key DC,Varchar,3,,
+SC-Invoices M2 Curr,Net Sales DC,Float,11,,
+SC-Invoices M2 Curr,Sales COGS DC,Float,11,,
+SC-Invoices M2 Curr,Sales ICOGS DC,Float,11,,
+SC-Invoices M2 Curr,Currency Key HC,Varchar,3,,
+SC-Invoices M2 Curr,Net Sales HC,Float,11,,
+SC-Invoices M2 Curr,Sales COGS HC,Float,11,,
+SC-Invoices M2 Curr,Sales ICOGS HC,Float,11,,
+SC-Invoices M2 Curr,Currency Key GC,Varchar,3,,
+SC-Invoices M2 Curr,Net Sales GC,Float,11,,
+SC-Invoices M2 Curr,Sales COGS GC,Float,11,,
+SC-Invoices M2 Curr,Sales ICOGS GC,Float,11,,
+SC-Invoices M2 Curr,Currency Key RC,Varchar,3,,
+SC-Invoices M2 Curr,Net Sales RC,Float,11,,
+SC-Invoices M2 Curr,Sales COGS RC,Float,11,,
+SC-Invoices M2 Curr,Sales ICOGS RC,Float,11,,
+SC-Invoices M2,Invoice Number,Varchar,13,,
+SC-Invoices M2,Bill Type Key,Varchar,4,Bill Type,Bill Type
+SC-Invoices M2,BillingCategory,Varchar,1,,
+SC-Invoices M2,Header Doc cat,Varchar,1,,
+SC-Invoices M2,Currency Key,Varchar,5,,
+SC-Invoices M2,Sales Org Key,Varchar,4,Sales Org,Sales Org
+SC-Invoices M2,Distr Channel,Integer,2,,
+SC-Invoices M2,Billing Date,Date,10,,
+SC-Invoices M2,Fiscal Year,Integer,4,,
+SC-Invoices M2,Posting period,Integer,3,,
+SC-Invoices M2,Comp Code Key,Varchar,4,Company,Company
+SC-Invoices M2,Header Net Value,Number,21,,
+SC-Invoices M2,Created by Line Item,Varchar,24,,
+SC-Invoices M2,Time,Integer,6,,
+SC-Invoices M2,SI Header Create Date,Date,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,Pric procedure,Varchar,6,,
+SC-Invoices M2,SI Doc Condition,Integer,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,Payer,Varchar,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,Customer Key,Varchar,18,Customer,Customer
+SC-Invoices M2,SI Header Change Date,Date,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,SI Cancellation Document,Varchar,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,Delivery Customer Key,Varchar,18,Delivery Country,Delivery Country
+SC-Invoices M2,Sales Invoice Number,Varchar,13,Sales Invoices,Sales Invoices
+SC-Invoices M2,Sales Invoice Item,Integer,6,Sales Invoices,Sales Invoices
+SC-Invoices M2,Higher-lev_item,Integer,6,,
+SC-Invoices M2,Invoice Qty,Float,12,,
+SC-Invoices M2,SI Sales UoM,Varchar,3,Sales Invoices,Sales Invoices
+SC-Invoices M2,Numerator,Float,3,,
+SC-Invoices M2,Denominator,Float,3,,
+SC-Invoices M2,SI Base UoM,Varchar,3,Sales Invoices,Sales Invoices
+SC-Invoices M2,Sales Net,Float,11,,
+SC-Invoices M2,SI Originating Doc,Varchar,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,SI Originating Item,Varchar,6,Sales Invoices,Sales Invoices
+SC-Invoices M2,SI Reference Doc,Varchar,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,SI Reference Item,Varchar,6,Sales Invoices,Sales Invoices
+SC-Invoices M2,SI Prec Doc Categ,Varchar,1,Sales Invoices,Sales Invoices
+SC-Invoices M2,Sales Order Number,Varchar,13,Sales Invoices,Sales Invoices
+SC-Invoices M2,Sales Order Item,Varchar,6,Sales Invoices,Sales Invoices
+SC-Invoices M2,SalesDocumentRefer,Varchar,2,,
+SC-Invoices M2,Item Key,Varchar,30,Item,Item
+SC-Invoices M2,Ext Mat Group Key,Varchar,9,,
+SC-Invoices M2,Item category,Varchar,4,Sales Invoices,Sales Invoices
+SC-Invoices M2,Item type,Varchar,2,,
+SC-Invoices M2,Division Key,Varchar,2,Division,Division
+SC-Invoices M2,Plant,Integer,8,Sales Invoices,Sales Invoices
+SC-Invoices M2,Country,Varchar,6,,
+SC-Invoices M2,Sales Office Key,Varchar,8,,
+SC-Invoices M2,Created by Header,Varchar,12,Sales Invoices,Sales Invoices
+SC-Invoices M2,Created on Line Item,Date,10,,
+SC-Invoices M2,Time_VBRP_ERZET,Integer,6,,
+SC-Invoices M2,Stor Location,Varchar,8,,
+SC-Invoices M2,SI Item Cost,Float,10,,
+SC-Invoices M2,SI Item Subtotal 1,Float,11,,
+SC-Invoices M2,SI Item Subtotal 2,Float,11,,
+SC-Invoices M2,SI Item Subtotal 3,Float,11,,
+SC-Invoices M2,SI Item Subtotal 4,Float,11,,
+SC-Invoices M2,SI Item Subtotal 5,Float,11,,
+SC-Invoices M2,SI Item Subtotal 6,Float,11,,
+SC-Invoices M2,Exch_rate stats,Float,3,,
+SC-Invoices M2,Profit Center,Varchar,20,Sales Invoices,Sales Invoices
+SC-Invoices M2,Document cat,Varchar,2,,
+SC-Invoices M2,Accounting Document,Varchar,20,,
+SC-Invoices M2,Customer Group,Varchar,4,,
+SC-Invoices M2,Sales Group,Varchar,6,,
+SC-Invoices M2,Currency Key DC,Varchar,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,Ex Rate DC,Float,11,Sales Invoices,Sales Invoices
+SC-Invoices M2,Net Sales DC,Float,11,,
+SC-Invoices M2,Currency Key GC,Varchar,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,Ex Rate GC,Float,11,Sales Invoices,Sales Invoices
+SC-Invoices M2,Net Sales GC,Float,11,,
+SC-Invoices M2,Currency Key HC,Varchar,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,Ex Rate HC,Float,11,Sales Invoices,Sales Invoices
+SC-Invoices M2,Net Sales HC,Float,11,,
+SC-Invoices M2,Analysis Date,Date,10,Analysis Date,Analysis Date
+SC-Invoices M2,Sales Invoice Key,Varchar,19,Sales Invoices,Sales Invoices
+SC-Invoices M2,SI Reference SO Key,Varchar,19,Sales Invoices,Sales Invoices
+SC-Invoices M2,Sales COGS DC,Float,18,,
+SC-Invoices M2,Sales COGS HC,Float,18,,
+SC-Invoices M2,Sales COGS GC,Float,18,,
+SC-Invoices M2,CustArea Key,Varchar,22,Customer Sales Area,Customer Sales Area
+SC-Invoices M2,Sales ICOGS HC,Float,18,,
+SC-Invoices M2,Sales ICOGS GC,Float,18,,
+SC-Invoices M2,Billing Rule,Varchar,1,Sales Invoices,Sales Invoices
+SC-Invoices M2,Statistical Value,Varchar,1,Sales Invoices,Sales Invoices
+SC-Invoices M2,Returns,Varchar,1,Sales Invoices,Sales Invoices
+SC-Invoices M2,Source,Varchar,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,Security Key,Varchar,25,Security Key,Security Key
+SC-Invoices M2,Currency Key RC,Varchar,10,Sales Invoices,Sales Invoices
+SC-Invoices M2,Ex Rate RC,Float,11,Sales Invoices,Sales Invoices
+SC-Invoices M2,Net Sales RC,Float,11,,
+SC-Invoices M2,Sales COGS RC,Float,18,,
+SC-Invoices M2,Sales ICOGS RC,Float,18,,
+SC-Invoices M2,DelMarker,Varchar,40,Sales Invoices,Sales Invoices
+SQL_M2_vw_migration_fact_orders,VBAK_AEDAT,DateTime,23,,
+SQL_M2_vw_migration_fact_orders,VBAK_AUART,Varchar,3,,
+SQL_M2_vw_migration_fact_orders,VBAK_AUDAT,Varchar,0,,
+SQL_M2_vw_migration_fact_orders,VBAK_KNUMV,Varchar,6,,
+SQL_M2_vw_migration_fact_orders,VBAK_KUNNR,Varchar,18,,
+SQL_M2_vw_migration_fact_orders,VBAK_BUKRS_VF,Varchar,4,,
+SQL_M2_vw_migration_fact_orders,VBAK_SPART,Varchar,2,,
+SQL_M2_vw_migration_fact_orders,VBAK_TRVOG,Varchar,0,,
+SQL_M2_vw_migration_fact_orders,VBAK_VBTYP,Varchar,0,,
+SQL_M2_vw_migration_fact_orders,VBAK_VKBUR,Varchar,4,,
+SQL_M2_vw_migration_fact_orders,VBAK_VKORG,Varchar,4,,
+SQL_M2_vw_migration_fact_orders,VBAK_VRWEG,Varchar,0,,
+SQL_M2_vw_migration_fact_orders,VBAK_ABGRU,Varchar,2,,
+SQL_M2_vw_migration_fact_orders,VBAP_AEDAT,DateTime,23,,
+SQL_M2_vw_migration_fact_orders,VBAP_ERDAT,DateTime,23,,
+SQL_M2_vw_migration_fact_orders,VBAP_KWMENG,Float,13,,
+SQL_M2_vw_migration_fact_orders,VBAP_KZWI1,Integer,4,,
+SQL_M2_vw_migration_fact_orders,VBAP_KZWI2,Integer,4,,
+SQL_M2_vw_migration_fact_orders,VBAP_KZWI3,Integer,4,,
+SQL_M2_vw_migration_fact_orders,VBAP_KZWI4,Integer,1,,
+SQL_M2_vw_migration_fact_orders,VBAP_KZWI5,Integer,3,,
+SQL_M2_vw_migration_fact_orders,VBAP_KZWI6,Integer,2,,
+SQL_M2_vw_migration_fact_orders,VBAP_MATNR,Varchar,30,,
+SQL_M2_vw_migration_fact_orders,VBAP_MEINS,Varchar,3,,
+SQL_M2_vw_migration_fact_orders,VBAP_NETWR,Float,21,,
+SQL_M2_vw_migration_fact_orders,VBAP_POSNR,Varchar,6,,
+SQL_M2_vw_migration_fact_orders,VBAP_PSTYV,Varchar,4,,
+SQL_M2_vw_migration_fact_orders,VBAP_SPART,Varchar,2,,
+SQL_M2_vw_migration_fact_orders,VBAP_STCUR,Float,18,,
+SQL_M2_vw_migration_fact_orders,VBAP_VBELN,Varchar,13,,
+SQL_M2_vw_migration_fact_orders,VBAP_WAERK,Varchar,3,,
+SQL_M2_vw_migration_fact_orders,VBAP_WAVWR,Varchar,0,,
+SQL_M2_vw_migration_fact_orders,VBAP_WERKS,Varchar,4,,
+SQL_M2_vw_migration_fact_orders,VKBD_PRSDT,Varchar,0,,
+SQL_M2_vw_migration_fact_orders,VBUP_ABSTA,Varchar,1,,
+SQL_M2_vw_migration_fact_orders,VBUP_GBSTA,Varchar,1,,
+SQL_M2_vw_migration_fact_orders,VBUP_LFGSA,Varchar,0,,
+SQL_M2_vw_migration_fact_orders,VBUP_LFSTA,Varchar,1,,
+SQL_M2_vw_migration_fact_orders,COGS,Varchar,0,,
+SQL_M2_vw_migration_fact_orders,ICOGS,Varchar,0,,
+SQL_M2_vw_migration_fact_orders,Customer_Delivery_Country,Varchar,2,,
+SQL_M2_vw_migration_fact_orders,last_order_position_flag,Integer,1,,
+SQL_M2_vw_migration_fact_orders,birst_customer_group_code,Varchar,3,,
+SQL_M2_vw_migration_fact_orders,birst_account_group_code,Varchar,4,,
+SQL_M2_vw_migration_fact_orders,curr_type_code,Varchar,2,,
+SQL_M2_vw_migration_fact_orders,Interface,Varchar,2,,
+SC-Orders M2,Sales Order Number,Varchar,13,Sales Order,Sales Order
+SC-Orders M2,Sales Order Item,Varchar,6,Sales Order,Sales Order
+SC-Orders M2,SO Header Create Date,Date,10,,
+SC-Orders M2,Time Header,Integer,6,,
+SC-Orders M2,Created by Header,Varchar,24,,
+SC-Orders M2,SO Date,Date,10,Sales Order,Sales Order
+SC-Orders M2,SO Document Category,Varchar,1,Sales Order,Sales Order
+SC-Orders M2,SO Transaction Group,Integer,1,Sales Order,Sales Order
+SC-Orders M2,SO Document Type,Varchar,4,Sales Order,Sales Order
+SC-Orders M2,Net value Header,Float,12,,
+SC-Orders M2,Currency Header,Varchar,3,,
+SC-Orders M2,Sales Org Key,Varchar,4,Sales Org,Sales Org
+SC-Orders M2,Distr Channel,Varchar,2,Sales Order,Sales Order
+SC-Orders M2,Division Header,Varchar,2,,
+SC-Orders M2,Sales Group,Varchar,6,,
+SC-Orders M2,Sales Office Key,Varchar,8,,
+SC-Orders M2,SO Doc Condition,Integer,10,Sales Order,Sales Order
+SC-Orders M2,Pric procedure,Varchar,6,,
+SC-Orders M2,PO Number,Varchar,255,,
+SC-Orders M2,Customer Key,Varchar,18,Customer,Customer
+SC-Orders M2,SO Header Change Date,Date,10,Sales Order,Sales Order
+SC-Orders M2,CCodeToBeBilled,Varchar,4,,
+SC-Orders M2,Item Key,Varchar,30,Item,Item
+SC-Orders M2,Ext Mat Group Key,Varchar,9,,
+SC-Orders M2,Item category,Varchar,4,Sales Order,Sales Order
+SC-Orders M2,Rejection Reason Key,Varchar,2,Reason For Rejection,
+SC-Orders M2,Target quantity,Float,5,,
+SC-Orders M2,Target qty UoM,Varchar,3,,
+SC-Orders M2,Base Unit,Varchar,2,Sales Order,Sales Order
+SC-Orders M2,Cust Material,Varchar,35,,
+SC-Orders M2,Division Key,Varchar,2,Division,Division
+SC-Orders M2,Order Net,Float,12,,
+SC-Orders M2,Currency Key,Varchar,3,,
+SC-Orders M2,Order Qty,Float,11,,
+SC-Orders M2,Required DlvQty,Float,5,,
+SC-Orders M2,CumConfirmedQty Header,Float,11,,
+SC-Orders M2,CumConfirmedQty Line Item,Float,12,,
+SC-Orders M2,Sales unit,Varchar,3,,
+SC-Orders M2,Reference doc,Varchar,10,,
+SC-Orders M2,Reference item,Integer,6,,
+SC-Orders M2,Plant,Integer,4,Sales Order,Sales Order
+SC-Orders M2,Stor Location,Integer,4,,
+SC-Orders M2,Shipping Point,Varchar,4,,
+SC-Orders M2,Route,Varchar,2,,
+SC-Orders M2,Created on Line Item,Date,10,,
+SC-Orders M2,Created by Line Item,Varchar,24,,
+SC-Orders M2,Time Line Item,Integer,6,,
+SC-Orders M2,Net price,Varchar,12,,
+SC-Orders M2,SO Item Cost,Float,11,,
+SC-Orders M2,SO Item Subtotal 1,Float,13,,
+SC-Orders M2,SO Item Subtotal 2,Float,13,,
+SC-Orders M2,SO Item Subtotal 3,Float,12,,
+SC-Orders M2,SO Item Subtotal 4,Float,11,,
+SC-Orders M2,SO Item Subtotal 5,Float,10,,
+SC-Orders M2,SO Item Subtotal 6,Float,7,,
+SC-Orders M2,Exch rate stats,Float,3,,
+SC-Orders M2,Changed on Line Item,Date,10,,
+SC-Orders M2,Currency Key DC,Varchar,10,Sales Order,Sales Order
+SC-Orders M2,Ex Rate DC,Float,11,Sales Order,Sales Order
+SC-Orders M2,Order Intake DC,Float,11,,
+SC-Orders M2,Currency Key GC,Varchar,10,Sales Order,Sales Order
+SC-Orders M2,Ex Rate GC,Float,11,Sales Order,Sales Order
+SC-Orders M2,Order Intake GC,Float,11,,
+SC-Orders M2,Currency Key HC,Varchar,10,Sales Order,Sales Order
+SC-Orders M2,Ex Rate HC,Float,11,Sales Order,Sales Order
+SC-Orders M2,Order Intake HC,Float,11,,
+SC-Orders M2,Analysis Date,Date,10,Analysis Date,Analysis Date
+SC-Orders M2,Pricing Date,Date,10,Sales Order,Sales Order
+SC-Orders M2,Sales Order Key,Varchar,19,Sales Order,Sales Order
+SC-Orders M2,Current Record,Integer,1,Sales Order,Sales Order
+SC-Orders M2,CustArea Key,Varchar,22,Customer Sales Area,Customer Sales Area
+SC-Orders M2,SO Item Delivery Status,Varchar,1,Sales Order,Sales Order
+SC-Orders M2,SO Order Delivery Status,Varchar,1,Sales Order,Sales Order
+SC-Orders M2,SO Item Rejection Status,Varchar,1,Sales Order,Sales Order
+SC-Orders M2,SO Item Overall Status,Varchar,1,Sales Order,Sales Order
+SC-Orders M2,Change Date,Date,10,Sales Order,Sales Order
+SC-Orders M2,DelMarker,Varchar,100,Sales Order,Sales Order
+SC-Orders M2,Source,Varchar,10,Sales Order,Sales Order
+SC-Orders M2,SO Item Cost DC,Float,11,,
+SC-Orders M2,SO Item Cost GC,Float,11,,
+SC-Orders M2,SO Item Cost HC,Float,11,,
+SC-Orders M2,Requirement Type Key,Varchar,3,Sales Order,Sales Order
+SC-Orders M2,Object Number,Varchar,18,Sales Order,Sales Order
+SC-Orders M2,Comp Code Key,Varchar,4,Company,Company
+SC-Orders M2,Delivery Customer Key,Varchar,18,Delivery Country,Delivery Country
+SC-Orders M2,Security Key,Varchar,25,Security Key,Security Key
+SC-Orders M2,Currency Key RC,Varchar,10,Sales Order,Sales Order
+SC-Orders M2,Ex Rate RC,Float,11,Sales Order,Sales Order
+SC-Orders M2,Order Intake RC,Float,11,,
+SC-Orders M2,SO Item Cost RC,Float,11,,
+SC-Orders M2,RecType,Varchar,10,Sales Order,Sales Order
+SC-Orders M2,Sales Order ScL Line,Varchar,4,Sales Order,Sales Order
+SC-Invoices M2 Fin,VBRP_VBELN,Varchar,13,,
+SC-Invoices M2 Fin,VBRP_POSNR,Integer,6,,
+SC-Invoices M2 Fin,Currency Key DC,Varchar,3,,
+SC-Invoices M2 Fin,Net Sales DC,Float,11,,
+SC-Invoices M2 Fin,Sales COGS DC,Float,11,,
+SC-Invoices M2 Fin,Sales ICOGS DC,Float,11,,
+SC-Invoices M2 Fin,Currency Key HC,Varchar,3,,
+SC-Invoices M2 Fin,Net Sales HC,Float,11,,
+SC-Invoices M2 Fin,Sales COGS HC,Float,11,,
+SC-Invoices M2 Fin,Sales ICOGS HC,Float,11,,
+SC-Invoices M2 Fin,Currency Key GC,Varchar,3,,
+SC-Invoices M2 Fin,Net Sales GC,Float,11,,
+SC-Invoices M2 Fin,Sales COGS GC,Float,11,,
+SC-Invoices M2 Fin,Sales ICOGS GC,Float,11,,
+SC-Invoices M2 Fin,Currency Key RC,Varchar,3,,
+SC-Invoices M2 Fin,Net Sales RC,Float,11,,
+SC-Invoices M2 Fin,Sales COGS RC,Float,11,,
+SC-Invoices M2 Fin,Sales ICOGS RC,Float,11,,
+SC-Orders M2 Curr,VBAP_VBELN,Varchar,13,,
+SC-Orders M2 Curr,VBAP_POSNR,Varchar,6,,
+SC-Orders M2 Curr,VBAP_AEDAT,DateTime,23,,
+SC-Orders M2 Curr,VBAK_KUNNR,Varchar,18,,
+SC-Orders M2 Curr,VBAP_SPART,Varchar,2,,
+SC-Orders M2 Curr,VBAP_MATNR,Varchar,30,,
+SC-Orders M2 Curr,Customer_Delivery_Country,Varchar,2,,
+SC-Orders M2 Curr,Currency Key DC,Varchar,3,,
+SC-Orders M2 Curr,Order Intake DC,Float,11,,
+SC-Orders M2 Curr,Currency Key HC,Varchar,3,,
+SC-Orders M2 Curr,Order Intake HC,Float,11,,
+SC-Orders M2 Curr,Currency Key GC,Varchar,3,,
+SC-Orders M2 Curr,Order Intake GC,Float,11,,
+SC-Orders M2 Curr,Currency Key RC,Varchar,3,,
+SC-Orders M2 Curr,Order Intake RC,Float,11,,
+SC-Orders M2 Curr,Order Qty,Float,11,,
+SC-Orders M2 Fin,VBAP_VBELN,Varchar,13,,
+SC-Orders M2 Fin,VBAP_POSNR,Varchar,6,,
+SC-Orders M2 Fin,VBAP_AEDAT,DateTime,23,,
+SC-Orders M2 Fin,VBAK_KUNNR,Varchar,18,,
+SC-Orders M2 Fin,VBAP_SPART,Varchar,2,,
+SC-Orders M2 Fin,VBAP_MATNR,Varchar,30,,
+SC-Orders M2 Fin,Customer_Delivery_Country,Varchar,2,,
+SC-Orders M2 Fin,Currency Key DC,Varchar,3,,
+SC-Orders M2 Fin,Order Intake DC,Float,11,,
+SC-Orders M2 Fin,Currency Key HC,Varchar,3,,
+SC-Orders M2 Fin,Order Intake HC,Float,11,,
+SC-Orders M2 Fin,Currency Key GC,Varchar,3,,
+SC-Orders M2 Fin,Order Intake GC,Float,11,,
+SC-Orders M2 Fin,Currency Key RC,Varchar,3,,
+SC-Orders M2 Fin,Order Intake RC,Float,11,,
+SC-Orders M2 Fin,Order Qty,Float,11,,
+md_outside_sales,hsLineManagerGEID,Varchar,11,,
+md_outside_sales,mail,Varchar,48,,
+md_outside_sales,sn,Varchar,22,,
+md_outside_sales,givenName,Varchar,19,,
+md_outside_sales,dxrState,Varchar,8,,
+md_outside_sales,hsGEID,Varchar,11,,
+md_outside_sales,cn,Varchar,19,,
+md_outside_sales,c,Varchar,2,,
+md_outside_sales,hsCompany,Varchar,36,,
+md_outside_sales,hsCountryCode,Varchar,2,,
+md_outside_sales,manager,Varchar,64,,
+RK_TEST,Name,Varchar,100,,
+RK_TEST,AD ID,Varchar,50,,
+RK_TEST,Manager AD ID,Varchar,50,,
+RK_TEST,Manager Name,Varchar,100,,
+RK_TEST,Managerx2 AD ID,Varchar,50,,
+RK_TEST,Managerx2 Name,Varchar,100,,
+RK_TEST,Managerx3 AD ID,Varchar,50,,
+RK_TEST,Managerx3 Name,Varchar,100,,
+RK_TEST,Managerx4 AD ID,Varchar,50,,
+RK_TEST,Managerx4 Name,Varchar,100,,
+RK_TEST,Email ID,Varchar,241,,
+RK_TEST,KATR5,Varchar,10,,

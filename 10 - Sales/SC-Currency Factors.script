@@ -1,31 +1,31 @@
-Function [Checkvalue]([Input] As Varchar(21)) As Float
-  If [Input] Is Not Null Then
-    If (Substring([Input],Length([Input])-1,Length([Input]))) = '-' Then
-     Return Float(Substring([Input],0,Length([Input])-1)) * -1
-    Else
-      Return Float([Input])
-    End If
-  Else
-    Return Float(0.00)
-  End If
-End Function 
+FUNCTION [CheckValue]([Input] as Varchar(21)) as Float
+  IF [Input] IS NOT NULL THEN
+    IF (SUBSTRING([Input],LENGTH([Input])-1,LENGTH([Input]))) = '-' THEN
+     return float(SUBSTRING([Input],0,LENGTH([Input])-1)) * -1
+    ELSE
+      return float([Input])
+    END IF
+  ELSE
+    RETURN float(0.00)
+  END IF
+End function 
 
-Dim [Vfromtoratio] As Float
+DIM [vFromToRatio] AS FLOAT
 
-[From Currency] = [Tcurf.Tcurf_Fcurr]
-[To Currency] = [Tcurf.Tcurf_Tcurr]
-[From_To Curr] = [Tcurf.Tcurf_Fcurr] + '_' + [Tcurf.Tcurf_Tcurr]
-[From Ratio] = [Checkvalue]([Tcurf.Tcurf_Ffact])
-[To Ratio] = [Checkvalue]([Tcurf.Tcurf_Tfact])
+[From Currency] = [TCURF.TCURF_FCURR]
+[To Currency] = [TCURF.TCURF_TCURR]
+[From_To Curr] = [TCURF.TCURF_FCURR] + '_' + [TCURF.TCURF_TCURR]
+[From Ratio] = [CheckValue]([TCURF.TCURF_FFACT])
+[To Ratio] = [CheckValue]([TCURF.TCURF_TFACT])
 
-If [Checkvalue]([Tcurf.Tcurf_Ffact]) = Float(0.00) Then
- [Vfromtoratio]=1.00
-Elseif [Checkvalue]([Tcurf.Tcurf_Tfact]) = Float(0.00) Then
- [Vfromtoratio]=[Checkvalue]([Tcurf.Tcurf_Ffact])
-Else
- [Vfromtoratio]=Float([Checkvalue]([Tcurf.Tcurf_Ffact]))/Float([Checkvalue]([Tcurf.Tcurf_Tfact]))
-End If
+IF [CheckValue]([TCURF.TCURF_FFACT]) = float(0.00) THEN
+ [vFromToRatio]=1.00
+ELSEIF [CheckValue]([TCURF.TCURF_TFACT]) = float(0.00) THEN
+ [vFromToRatio]=[CheckValue]([TCURF.TCURF_FFACT])
+ELSE
+ [vFromToRatio]=FLOAT([CheckValue]([TCURF.TCURF_FFACT]))/FLOAT([CheckValue]([TCURF.TCURF_TFACT]))
+END IF
 
-[From_To Ratio] = [Vfromtoratio]
+[From_To Ratio] = [vFromToRatio]
 
-Writerecord
+WRITERECORD

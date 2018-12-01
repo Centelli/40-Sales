@@ -1,39 +1,39 @@
-[Custarea Key]= [Sql_I2_Vw_Dim_Customer.Customer_Code]+Substring('0000',0,4-Length(Trim([Sql_I2_Vw_Dim_Customer.Sales_Org_Key])))+ Trim([Sql_I2_Vw_Dim_Customer.Sales_Org_Key])
+[CustArea Key]= [SQL_I2_vw_dim_customer.customer_code]+substring('0000',0,4-length(trim([SQL_I2_vw_dim_customer.sales_org_key])))+ trim([SQL_I2_vw_dim_customer.sales_org_key])
 
-[Outside Sales Key]=Ifnull([Sql_I2_Vw_Dim_Customer.Salesrep_Code],'Na')
+[Outside Sales Key]=IFNULL([SQL_I2_vw_dim_customer.salesrep_code],'NA')
 
-[Inside Sales Key]=Ifnull([Sql_I2_Vw_Dim_Customer.Specialist_Code],'Na')
+[Inside Sales Key]=IFNULL([SQL_I2_vw_dim_customer.specialist_code],'NA')
 
-[Customer Key]=[Sql_I2_Vw_Dim_Customer.Customer_Code]
-[Comp Code Key]=[Sql_I2_Vw_Dim_Customer.Sap_Comp_Code]
-[Sales Office Key]=[Sql_I2_Vw_Dim_Customer.Sales_Office_Key]
+[Customer Key]=[SQL_I2_vw_dim_customer.customer_code]
+[Comp Code Key]=[SQL_I2_vw_dim_customer.sap_comp_code]
+[Sales Office Key]=[SQL_I2_vw_dim_customer.sales_office_key]
 
-[Source]=[Sql_I2_Vw_Dim_Customer.Source]
+[Source]=[SQL_I2_vw_dim_customer.Source]
 
-[Sales Office Key] = [Tbl_Dim_Sales_Region.Sales_Office_Code]
-[Sales Office] = [Tbl_Dim_Sales_Region.Sales_Office_Name]
-If [Tbl_Dim_Sales_Region.Regional_Currency_Code] = 'Rmb' Then
- [Rc Currency Key] = 'Cny'
-Else
- [Rc Currency Key] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
-End If
-[Sales Region]=[Tbl_Dim_Sales_Region.Sales_Region_Code]
-[Sales Subregion]=[Tbl_Dim_Sales_Region.Sales_Subregion_Code]
+[Sales Office Key] = [tbl_dim_sales_region.sales_office_code]
+[Sales Office] = [tbl_dim_sales_region.sales_office_name]
+IF [tbl_dim_sales_region.regional_currency_code] = 'RMB' THEN
+ [RC Currency Key] = 'CNY'
+ELSE
+ [RC Currency Key] = [tbl_dim_sales_region.regional_currency_code]
+END IF
+[Sales Region]=[tbl_dim_sales_region.sales_region_code]
+[Sales SubRegion]=[tbl_dim_sales_region.sales_subregion_code]
 
-[Outside Sales]=[Sql_I2_Vw_Dim_Customer.Salesrep_Name]
-//[Outside Sales Ag]=[Outcust.Kna1_Ktokd]
-[Outside Sales Email Address]=[Sql_I2_Vw_Dim_Customer.Salesrep_Email]
-[Outside Sales Ad Id]=[Sc-Employee Hierarchy.Ad Id]
-[Rsm Ad Id]=[Sc-Employee Hierarchy.Manager Ad Id]
-[Rsm]=[Sc-Employee Hierarchy.Manager Name]
-[Md/Gm Ad Id]=[Sc-Employee Hierarchy.Managerx2 Ad Id]
-[Md/Gm]=[Sc-Employee Hierarchy.Managerx2 Name]
-[Rmd Ad Id]=[Sc-Employee Hierarchy.Managerx3 Ad Id]
-[Rmd]=[Sc-Employee Hierarchy.Managerx3 Name]
-[Global Sales Ad Id]=[Sc-Employee Hierarchy.Managerx4 Ad Id]
-[Global Sales]=[Sc-Employee Hierarchy.Managerx4 Name]
+[Outside Sales]=[SQL_I2_vw_dim_customer.salesrep_name]
+//[Outside Sales AG]=[OutCust.KNA1_KTOKD]
+[Outside Sales Email Address]=[SQL_I2_vw_dim_customer.salesrep_email]
+[Outside Sales AD ID]=[SC-Employee Hierarchy.AD ID]
+[RSM AD ID]=[SC-Employee Hierarchy.Manager AD ID]
+[RSM]=[SC-Employee Hierarchy.Manager Name]
+[MD/GM AD ID]=[SC-Employee Hierarchy.Managerx2 AD ID]
+[MD/GM]=[SC-Employee Hierarchy.Managerx2 Name]
+[RMD AD ID]=[SC-Employee Hierarchy.Managerx3 AD ID]
+[RMD]=[SC-Employee Hierarchy.Managerx3 Name]
+[Global Sales AD ID]=[SC-Employee Hierarchy.Managerx4 AD ID]
+[Global Sales]=[SC-Employee Hierarchy.Managerx4 Name]
 
-[Inside Sales]=[Sql_I2_Vw_Dim_Customer.Specialist_Name]
-//[Insales Ag]=[Incust.Kna1_Ktokd]
+[Inside Sales]=[SQL_I2_vw_dim_customer.specialist_name]
+//[InSales AG]=[InCust.KNA1_KTOKD]
 
-Writerecord
+WRITERECORD

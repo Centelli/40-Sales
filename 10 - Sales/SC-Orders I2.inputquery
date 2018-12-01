@@ -1,13 +1,13 @@
-Select [Sql_I2_Vw_Vbak_Vbap.Vbak_Aedat], [Sql_I2_Vw_Vbak_Vbap.Vbak_Auart], [Sql_I2_Vw_Vbak_Vbap.Vbak_Audat], [Sql_I2_Vw_Vbak_Vbap.Vbak_Knumv], [Sql_I2_Vw_Vbak_Vbap.Vbak_Kunnr], [Sql_I2_Vw_Vbak_Vbap.Vbak_Spart], [Sql_I2_Vw_Vbak_Vbap.Vbak_Trvog], [Sql_I2_Vw_Vbak_Vbap.Vbak_Vbtyp], [Sql_I2_Vw_Vbak_Vbap.Vbak_Vkbur], [Sql_I2_Vw_Vbak_Vbap.Vbak_Vkorg], [Sql_I2_Vw_Vbak_Vbap.Vbak_Vrweg], [Sql_I2_Vw_Vbak_Vbap.Vbak_Abgru], [Sql_I2_Vw_Vbak_Vbap.Vbap_Aedat], [Sql_I2_Vw_Vbak_Vbap.Vbap_Erdat], [Sql_I2_Vw_Vbak_Vbap.Vbap_Kwmeng], [Sql_I2_Vw_Vbak_Vbap.Vbap_Kzwi1], [Sql_I2_Vw_Vbak_Vbap.Vbap_Kzwi2], [Sql_I2_Vw_Vbak_Vbap.Vbap_Kzwi3], [Sql_I2_Vw_Vbak_Vbap.Vbap_Kzwi4], [Sql_I2_Vw_Vbak_Vbap.Vbap_Kzwi5], [Sql_I2_Vw_Vbak_Vbap.Vbap_Kzwi6], [Sql_I2_Vw_Vbak_Vbap.Vbap_Matnr], [Sql_I2_Vw_Vbak_Vbap.Vbap_Meins], [Sql_I2_Vw_Vbak_Vbap.Vbap_Netwr], [Sql_I2_Vw_Vbak_Vbap.Vbap_Posnr], [Sql_I2_Vw_Vbak_Vbap.Vbap_Pstyv], [Sql_I2_Vw_Vbak_Vbap.Vbap_Spart], [Sql_I2_Vw_Vbak_Vbap.Vbap_Stcur], [Sql_I2_Vw_Vbak_Vbap.Vbap_Vbeln], [Sql_I2_Vw_Vbak_Vbap.Vbap_Waerk], [Sql_I2_Vw_Vbak_Vbap.Vbap_Wavwr], [Sql_I2_Vw_Vbak_Vbap.Vbap_Werks], [Sql_I2_Vw_Vbak_Vbap.Vkbd_Prsdt], [Sql_I2_Vw_Vbak_Vbap.Vbup_Absta], [Sql_I2_Vw_Vbak_Vbap.Vbup_Gbsta], [Sql_I2_Vw_Vbak_Vbap.Vbup_Lfgsa], [Sql_I2_Vw_Vbak_Vbap.Vbup_Lfsta], [Sql_I2_Vw_Vbak_Vbap.Customer_Delivery_Country], [Sql_I2_Vw_Vbak_Vbap.Vbak_Bukrs_Vf] From [Sql_I2_Vw_Vbak_Vbap] 
-Inner Join
-Select [Sc-Company.Comp Code Key],[Sc-Company.Comp Currency Key] From [Sc-Company] On [Sc-Company.Comp Code Key]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Bukrs_Vf]
-Inner Join 
-Select Distinct [Sc-Customer Sales Area I2.Sales Office Key],[Sc-Customer Sales Area I2.Rc Currency Key] From [Sc-Customer Sales Area I2] On [Sc-Customer Sales Area I2.Sales Office Key]=[Sql_I2_Vw_Vbak_Vbap.Vbak_Vkbur] And [Sc-Customer Sales Area I2.Customer Key] = [Sql_I2_Vw_Vbak_Vbap.Vbak_Kunnr]
-Left Outer Join
-Select [Homerates.Exchange Rate]  From [Sc-Ex Rates] 'Homerates' On [Homerates.Valid From Date] <= [Sql_I2_Vw_Vbak_Vbap.Vkbd_Prsdt] And [Homerates.Valid To Date] >= [Sql_I2_Vw_Vbak_Vbap.Vkbd_Prsdt] And [Homerates.From Currency Key] = [Sc-Company.Comp Currency Key]
-Left Outer Join
-Select [Regrates.Exchange Rate]  From [Sc-Ex Rates] 'Regrates' On [Regrates.Valid From Date] <= [Sql_I2_Vw_Vbak_Vbap.Vkbd_Prsdt] And [Regrates.Valid To Date] >= [Sql_I2_Vw_Vbak_Vbap.Vkbd_Prsdt] And [Regrates.From Currency Key] = [Sc-Customer Sales Area I2.Rc Currency Key]
-Left Outer Join 
-Select [Sql_I2_Vw_Dim_Customer.Customer_Code], [Sql_I2_Vw_Dim_Customer.Salesrep_Code],[Sql_I2_Vw_Dim_Customer.Specialist_Code]
-  From [Sql_I2_Vw_Dim_Customer]
-On [Sql_I2_Vw_Vbak_Vbap.Vbak_Kunnr] = [Sql_I2_Vw_Dim_Customer.Customer_Code]
+SELECT [SQL_I2_vw_VBAK_VBAP.VBAK_AEDAT], [SQL_I2_vw_VBAK_VBAP.VBAK_AUART], [SQL_I2_vw_VBAK_VBAP.VBAK_AUDAT], [SQL_I2_vw_VBAK_VBAP.VBAK_KNUMV], [SQL_I2_vw_VBAK_VBAP.VBAK_KUNNR], [SQL_I2_vw_VBAK_VBAP.VBAK_SPART], [SQL_I2_vw_VBAK_VBAP.VBAK_TRVOG], [SQL_I2_vw_VBAK_VBAP.VBAK_VBTYP], [SQL_I2_vw_VBAK_VBAP.VBAK_VKBUR], [SQL_I2_vw_VBAK_VBAP.VBAK_VKORG], [SQL_I2_vw_VBAK_VBAP.VBAK_VRWEG], [SQL_I2_vw_VBAK_VBAP.VBAK_ABGRU], [SQL_I2_vw_VBAK_VBAP.VBAP_AEDAT], [SQL_I2_vw_VBAK_VBAP.VBAP_ERDAT], [SQL_I2_vw_VBAK_VBAP.VBAP_KWMENG], [SQL_I2_vw_VBAK_VBAP.VBAP_KZWI1], [SQL_I2_vw_VBAK_VBAP.VBAP_KZWI2], [SQL_I2_vw_VBAK_VBAP.VBAP_KZWI3], [SQL_I2_vw_VBAK_VBAP.VBAP_KZWI4], [SQL_I2_vw_VBAK_VBAP.VBAP_KZWI5], [SQL_I2_vw_VBAK_VBAP.VBAP_KZWI6], [SQL_I2_vw_VBAK_VBAP.VBAP_MATNR], [SQL_I2_vw_VBAK_VBAP.VBAP_MEINS], [SQL_I2_vw_VBAK_VBAP.VBAP_NETWR], [SQL_I2_vw_VBAK_VBAP.VBAP_POSNR], [SQL_I2_vw_VBAK_VBAP.VBAP_PSTYV], [SQL_I2_vw_VBAK_VBAP.VBAP_SPART], [SQL_I2_vw_VBAK_VBAP.VBAP_STCUR], [SQL_I2_vw_VBAK_VBAP.VBAP_VBELN], [SQL_I2_vw_VBAK_VBAP.VBAP_WAERK], [SQL_I2_vw_VBAK_VBAP.VBAP_WAVWR], [SQL_I2_vw_VBAK_VBAP.VBAP_WERKS], [SQL_I2_vw_VBAK_VBAP.VKBD_PRSDT], [SQL_I2_vw_VBAK_VBAP.VBUP_ABSTA], [SQL_I2_vw_VBAK_VBAP.VBUP_GBSTA], [SQL_I2_vw_VBAK_VBAP.VBUP_LFGSA], [SQL_I2_vw_VBAK_VBAP.VBUP_LFSTA], [SQL_I2_vw_VBAK_VBAP.Customer_Delivery_Country], [SQL_I2_vw_VBAK_VBAP.VBAK_BUKRS_VF] FROM [SQL_I2_vw_VBAK_VBAP] 
+INNER JOIN
+SELECT [SC-Company.Comp Code Key],[SC-Company.Comp Currency Key] FROM [SC-Company] ON [SC-Company.Comp Code Key]=[SQL_I2_vw_VBAK_VBAP.VBAK_BUKRS_VF]
+INNER JOIN 
+SELECT DISTINCT [SC-Customer Sales Area I2.Sales Office Key],[SC-Customer Sales Area I2.RC Currency Key] FROM [SC-Customer Sales Area I2] ON [SC-Customer Sales Area I2.Sales Office Key]=[SQL_I2_vw_VBAK_VBAP.VBAK_VKBUR] AND [SC-Customer Sales Area I2.Customer Key] = [SQL_I2_vw_VBAK_VBAP.VBAK_KUNNR]
+LEFT OUTER JOIN
+SELECT [HomeRates.Exchange Rate]  FROM [SC-Ex Rates] 'HomeRates' ON [HomeRates.Valid From Date] <= [SQL_I2_vw_VBAK_VBAP.VKBD_PRSDT] AND [HomeRates.Valid To Date] >= [SQL_I2_vw_VBAK_VBAP.VKBD_PRSDT] AND [HomeRates.From Currency Key] = [SC-Company.Comp Currency Key]
+LEFT OUTER JOIN
+SELECT [RegRates.Exchange Rate]  FROM [SC-Ex Rates] 'RegRates' ON [RegRates.Valid From Date] <= [SQL_I2_vw_VBAK_VBAP.VKBD_PRSDT] AND [RegRates.Valid To Date] >= [SQL_I2_vw_VBAK_VBAP.VKBD_PRSDT] AND [RegRates.From Currency Key] = [SC-Customer Sales Area I2.RC Currency Key]
+LEFT OUTER JOIN 
+SELECT [SQL_I2_vw_dim_customer.customer_code], [SQL_I2_vw_dim_customer.salesrep_code],[SQL_I2_vw_dim_customer.specialist_code]
+  FROM [SQL_I2_vw_dim_customer]
+ON [SQL_I2_vw_VBAK_VBAP.VBAK_KUNNR] = [SQL_I2_vw_dim_customer.customer_code]

@@ -1,26 +1,26 @@
-Select [Sql_I2_Vw_Dim_Customer.Comp_Code], [Sql_I2_Vw_Dim_Customer.Div_Comp_Code], [Sql_I2_Vw_Dim_Customer.Comp_Type], [Sql_I2_Vw_Dim_Customer.Sap_Comp_Code], [Sql_I2_Vw_Dim_Customer.Legacy_Flag], [Sql_I2_Vw_Dim_Customer.Customer_Key], [Sql_I2_Vw_Dim_Customer.Customer_Code], [Sql_I2_Vw_Dim_Customer.Customer_Name1], [Sql_I2_Vw_Dim_Customer.Customer Address1], [Sql_I2_Vw_Dim_Customer.Customer Address2], [Sql_I2_Vw_Dim_Customer.Country Key], [Sql_I2_Vw_Dim_Customer.Customer_Longname], [Sql_I2_Vw_Dim_Customer.Market_Sub_Segment_Code], [Sql_I2_Vw_Dim_Customer.Market_Sub_Segment_Name], [Sql_I2_Vw_Dim_Customer.Market_Role_Code], [Sql_I2_Vw_Dim_Customer.Market_Role_Name], [Sql_I2_Vw_Dim_Customer.Customer_Group_Name], [Sql_I2_Vw_Dim_Customer.Customer_Type], [Sql_I2_Vw_Dim_Customer.Salesrep_Code], [Sql_I2_Vw_Dim_Customer.Salesrep_Name], [Sql_I2_Vw_Dim_Customer.Customer_Group_Code], [Sql_I2_Vw_Dim_Customer.Customer_Account_Group_Code], [Sql_I2_Vw_Dim_Customer.Source]
-  From [Sql_I2_Vw_Dim_Customer]
-Left Outer Join
-Select [Country.Country Key], [Country.Country]
-  From [Country]
-  On [Sql_I2_Vw_Dim_Customer.Country Key] = [Country.Country Key]
-Left Outer Join
-Select [Tbl_Dim_Market.Market_Segment_Name], [Tbl_Dim_Market.Market_Name], [Tbl_Dim_Market.Market_Code]
-  From [Tbl_Dim_Market]
-    On [Sql_I2_Vw_Dim_Customer.Market_Sub_Segment_Code] = [Tbl_Dim_Market.Market_Segment_Code]
-Left Outer Join
-Select [Tbl_Dim_Country.Country_Iso_Alpha_Code], [Tbl_Dim_Country.Subregion_Key], [Tbl_Dim_Country.Subregion_Name], [Tbl_Dim_Country.Area_Key], [Tbl_Dim_Country.Area_Name], [Tbl_Dim_Country.Region_Key], [Tbl_Dim_Country.Region_Name]
-  From [Tbl_Dim_Country]
-  On [Sql_I2_Vw_Dim_Customer.Country Key] = [Tbl_Dim_Country.Country_Iso_Alpha_Code]
-Left Outer Join
-Select [Tbl_Dim_Market_Role.Market_Role_Name], [Tbl_Dim_Market_Role.Market_Role_Group_Name], [Tbl_Dim_Market_Role.Sales_Partner_Name]
-  From [Tbl_Dim_Market_Role]
-    On [Sql_I2_Vw_Dim_Customer.Market_Role_Code] = [Tbl_Dim_Market_Role.Market_Role_Code]
-Left Outer Join
-Select [Tbl_Dim_Customer_Group.Customer_Group_Code], [Tbl_Dim_Customer_Group.Customer_Group_Name], [Tbl_Dim_Customer_Group.Customer_Group_Parent_Name]
-  From [Tbl_Dim_Customer_Group]
-    On [Sql_I2_Vw_Dim_Customer.Customer_Group_Code]=[Tbl_Dim_Customer_Group.Customer_Group_Code]
-Left Outer Join
-Select [Tbl_Dim_Customer_Type.Customer_Type_Code], [Tbl_Dim_Customer_Type.Customer_Type_Name]
-  From [Tbl_Dim_Customer_Type]
-    On [Sql_I2_Vw_Dim_Customer.Customer_Account_Group_Code] = [Tbl_Dim_Customer_Type.Customer_Account_Group_Code]
+SELECT [SQL_I2_vw_dim_customer.comp_code], [SQL_I2_vw_dim_customer.div_comp_code], [SQL_I2_vw_dim_customer.comp_type], [SQL_I2_vw_dim_customer.sap_comp_code], [SQL_I2_vw_dim_customer.legacy_flag], [SQL_I2_vw_dim_customer.customer_key], [SQL_I2_vw_dim_customer.customer_code], [SQL_I2_vw_dim_customer.Customer_name1], [SQL_I2_vw_dim_customer.Customer Address1], [SQL_I2_vw_dim_customer.Customer Address2], [SQL_I2_vw_dim_customer.Country Key], [SQL_I2_vw_dim_customer.customer_longname], [SQL_I2_vw_dim_customer.market_sub_segment_code], [SQL_I2_vw_dim_customer.market_sub_segment_name], [SQL_I2_vw_dim_customer.market_role_code], [SQL_I2_vw_dim_customer.market_role_name], [SQL_I2_vw_dim_customer.customer_group_name], [SQL_I2_vw_dim_customer.customer_type], [SQL_I2_vw_dim_customer.salesrep_code], [SQL_I2_vw_dim_customer.salesrep_name], [SQL_I2_vw_dim_customer.customer_group_code], [SQL_I2_vw_dim_customer.customer_account_group_code], [SQL_I2_vw_dim_customer.Source]
+  FROM [SQL_I2_vw_dim_customer]
+LEFT OUTER JOIN
+SELECT [Country.Country Key], [Country.Country]
+  FROM [Country]
+  ON [SQL_I2_vw_dim_customer.Country Key] = [Country.Country Key]
+LEFT OUTER JOIN
+SELECT [tbl_dim_market.market_segment_stat_code], [tbl_dim_market.market_segment_name], [tbl_dim_market.market_name], [tbl_dim_market.market_code]
+  FROM [tbl_dim_market]
+    ON ([SQL_I2_vw_dim_customer.market_sub_segment_code] = [tbl_dim_market.market_segment_code]) OR ([SQL_I2_vw_dim_customer.market_sub_segment_code] IS NULL AND [tbl_dim_market.market_segment_code] IS NULL)
+LEFT OUTER JOIN
+SELECT [tbl_dim_country.country_iso_alpha_code], [tbl_dim_country.subregion_key], [tbl_dim_country.subregion_name], [tbl_dim_country.area_key], [tbl_dim_country.area_name], [tbl_dim_country.region_key], [tbl_dim_country.region_name]
+  FROM [tbl_dim_country]
+  ON [SQL_I2_vw_dim_customer.Country Key] = [tbl_dim_country.country_iso_alpha_code]
+LEFT OUTER JOIN
+SELECT [tbl_dim_market_role.market_role_name], [tbl_dim_market_role.market_role_group_name], [tbl_dim_market_role.sales_partner_name]
+  FROM [tbl_dim_market_role]
+    ON ([SQL_I2_vw_dim_customer.market_role_code] = [tbl_dim_market_role.market_role_code]) OR ([SQL_I2_vw_dim_customer.market_role_code] IS NULL AND [tbl_dim_market_role.market_role_code] IS NULL)
+LEFT OUTER JOIN
+SELECT [tbl_dim_customer_group.customer_group_code], [tbl_dim_customer_group.customer_group_name], [tbl_dim_customer_group.customer_group_parent_code], [tbl_dim_customer_group.customer_group_parent_name]
+  FROM [tbl_dim_customer_group]
+    ON [tbl_dim_customer_group.active_flag]='1' AND ([SQL_I2_vw_dim_customer.customer_group_code]=[tbl_dim_customer_group.customer_group_code] OR ([SQL_I2_vw_dim_customer.customer_group_code] IS NULL AND [tbl_dim_customer_group.customer_group_code] IS NULL))
+LEFT OUTER JOIN
+SELECT [tbl_dim_customer_type.customer_type_code], [tbl_dim_customer_type.customer_type_name]
+  FROM [tbl_dim_customer_type]
+    ON [SQL_I2_vw_dim_customer.customer_account_group_code] = [tbl_dim_customer_type.customer_account_group_code] OR ([SQL_I2_vw_dim_customer.customer_account_group_code] IS NULL AND [tbl_dim_customer_type.customer_account_group_code] IS NULL)

@@ -1,134 +1,134 @@
-/* Setting Common Values Between Both Records */
+/* Setting common values between both records */
 
-[Sales Order Number]=[Grain(Sc-Orders Sl History).Sales Order Number]
-[Sales Order Item]=[Grain(Sc-Orders Sl History).Sales Order Item]
-[Sales Order Scl Line]=[Grain(Sc-Orders Sl History).# Sales Order Scl Line]
-[Sales Order Key]=[Grain(Sc-Orders Sl History).# Sales Order Key]
-[So Date]=[Level(Sales Order.Sales Order).So Date]
-[So Document Category]=[Level(Sales Order.Sales Order).So Document Category]
-[So Transaction Group]=[Level(Sales Order.Sales Order).So Transaction Group]
-[So Document Type]=[Level(Sales Order.Sales Order).So Document Type]
-[Sales Org Key]=[Grain(Sc-Orders Sl History).Sales Org Key]
+[Sales Order Number]=[Grain(SC-Orders SL History).Sales Order Number]
+[Sales Order Item]=[Grain(SC-Orders SL History).Sales Order Item]
+[Sales Order ScL Line]=[Grain(SC-Orders SL History).# Sales Order ScL Line]
+[Sales Order Key]=[Grain(SC-Orders SL History).# Sales Order Key]
+[SO Date]=[Level(Sales Order.Sales Order).SO Date]
+[SO Document Category]=[Level(Sales Order.Sales Order).SO Document Category]
+[SO Transaction Group]=[Level(Sales Order.Sales Order).SO Transaction Group]
+[SO Document Type]=[Level(Sales Order.Sales Order).SO Document Type]
+[Sales Org Key]=[Grain(SC-Orders SL History).Sales Org Key]
 [Distr Channel]=[Level(Sales Order.Sales Order).Distr Channel]
-//[Sales Office Key]=[Grain(Sc-Orders Sl History).Sales Office Key]
-[So Doc Condition]=[Level(Sales Order.Sales Order).So Doc Condition]
-[Customer Key]=[Grain(Sc-Orders Sl History).Customer Key]
-[Item Key]=[Grain(Sc-Orders Sl History).Item Key]
-[Item Category]=[Level(Sales Order.Sales Order).Item Category]
-[Rejection Reason Key]=[Grain(Sc-Orders Sl History).Rejection Reason Key]
+//[Sales Office Key]=[Grain(SC-Orders SL History).Sales Office Key]
+[SO Doc Condition]=[Level(Sales Order.Sales Order).SO Doc Condition]
+[Customer Key]=[Grain(SC-Orders SL History).Customer Key]
+[Item Key]=[Grain(SC-Orders SL History).Item Key]
+[Item category]=[Level(Sales Order.Sales Order).Item category]
+[Rejection Reason Key]=[Grain(SC-Orders SL History).Rejection Reason Key]
 [Base Unit]=[Level(Sales Order.Sales Order).Base Unit]
-[Division Key]=[Grain(Sc-Orders Sl History).Division Key]
+[Division Key]=[Grain(SC-Orders SL History).Division Key]
 [Plant]=[Level(Sales Order.Sales Order).Plant]
-[Custarea Key]=[Grain(Sc-Orders Sl History).Custarea Key]
-[So Item Delivery Status]=[Level(Sales Order.Sales Order).So Item Delivery Status]
-[So Order Delivery Status]=[Level(Sales Order.Sales Order).So Order Delivery Status]
-[So Item Rejection Status]=[Level(Sales Order.Sales Order).So Item Rejection Status]
-[So Item Overall Status]=[Level(Sales Order.Sales Order).So Item Overall Status]
+[CustArea Key]=[Grain(SC-Orders SL History).CustArea Key]
+[SO Item Delivery Status]=[Level(Sales Order.Sales Order).SO Item Delivery Status]
+[SO Order Delivery Status]=[Level(Sales Order.Sales Order).SO Order Delivery Status]
+[SO Item Rejection Status]=[Level(Sales Order.Sales Order).SO Item Rejection Status]
+[SO Item Overall Status]=[Level(Sales Order.Sales Order).SO Item Overall Status]
 [Requirement Type Key]=[Level(Sales Order.Sales Order).Requirement Type Key]
 [Object Number]=[Level(Sales Order.Sales Order).Object Number]
-[Delivery Customer Key]=[Grain(Sc-Orders Sl History).Delivery Customer Key]
-[Comp Code Key]=[Grain(Sc-Orders Sl History).Comp Code Key]
-[Security Key]=[Grain(Sc-Orders Sl History).# Security Key]
-[Scl Delivery Date]=[Level(Sales Order.Sales Order).Scl Delivery Date]
-[Scl Category]=[Level(Sales Order.Sales Order).Scl Category]
-[Scl Type]=[Level(Sales Order.Sales Order).Scl Type]
-[Scl Requirement Type]=[Level(Sales Order.Sales Order).Scl Requirement Type]
-[Scl Quantity]=[Level(Sales Order.Sales Order).Scl Quantity]
+[Delivery Customer Key]=[Grain(SC-Orders SL History).Delivery Customer Key]
+[Comp Code Key]=[Grain(SC-Orders SL History).Comp Code Key]
+[Security Key]=[Grain(SC-Orders SL History).# Security Key]
+[ScL Delivery Date]=[Level(Sales Order.Sales Order).ScL Delivery Date]
+[ScL Category]=[Level(Sales Order.Sales Order).ScL Category]
+[ScL Type]=[Level(Sales Order.Sales Order).ScL Type]
+[ScL Requirement Type]=[Level(Sales Order.Sales Order).ScL Requirement Type]
+[ScL Quantity]=[Level(Sales Order.Sales Order).ScL Quantity]
 
-/* Begin Of Negate Fact Table */
+/* Begin of negate fact table */
 /*
-Negation Takes The Latest Records Dates, If Schedule Line Negation Take So Item Date From Src
+Negation takes the latest records dates, If Schedule Line Negation take SO Item Date from SRC
 */
-[So Header Change Date]=[Src.So Header Change Date]
-[Analysis Date]=[Src.Analysis Date]
-[Pricing Date]=[Src.Pricing Date]
-[Change Date]=[Src.Analysis Date]
+[SO Header Change Date]=[SRC.SO Header Change Date]
+[Analysis Date]=[SRC.Analysis Date]
+[Pricing Date]=[SRC.Pricing Date]
+[Change Date]=[SRC.Analysis Date]
 
 /*
-Delmarker, Source & Current Record 
+DelMarker, Source & Current Record 
 */
-[Delmarker]=[Grain(Sc-Orders Sl History).Sales Order Number]+'_'+[Grain(Sc-Orders Sl History).Sales Order Item]+'_'+[Grain(Sc-Orders Sl History).# Sales Order Scl Line]+'_'+Format([Src.Analysis Date],'Yyyymmdd')+'_Negation_'+Getvariable('Loadnumber')+'_'+Random()
-//Print [Grain(Sc-Orders Sl History).Sales Order Number]+'_'+[Grain(Sc-Orders Sl History).Sales Order Item]+'_'+[Grain(Sc-Orders Sl History).# Sales Order Scl Line]+'_'+Format([Src.Analysis Date],'Yyyymmdd')+'_Negation_'+Getvariable('Loadnumber')+'_'+Random()
+[DelMarker]=[Grain(SC-Orders SL History).Sales Order Number]+'_'+[Grain(SC-Orders SL History).Sales Order Item]+'_'+[Grain(SC-Orders SL History).# Sales Order ScL Line]+'_'+format([SRC.Analysis Date],'yyyyMMdd')+'_Negation_'+GETVARIABLE('LoadNumber')+'_'+RANDOM()
+//PRINT [Grain(SC-Orders SL History).Sales Order Number]+'_'+[Grain(SC-Orders SL History).Sales Order Item]+'_'+[Grain(SC-Orders SL History).# Sales Order ScL Line]+'_'+format([SRC.Analysis Date],'yyyyMMdd')+'_Negation_'+GETVARIABLE('LoadNumber')+'_'+RANDOM()
 
-[Source]=[Grain(Sc-Orders Sl History).# Source]
-[Rectype]='Negation'
+[Source]=[Grain(SC-Orders SL History).# Source]
+[RecType]='Negation'
 [Current Record]=0
 
 /*
-Negation Of Values
+Negation of Values
 */
-[Order Qty]=Ifnull([Grain(Sc-Orders Sl History).Order Qty],0.0)*-1
+[Order Qty]=IFNULL([Grain(SC-Orders SL History).Order Qty],0.0)*-1
 
-[Currency Key Dc]=[Level(Sales Order.Sales Order).Currency Key Dc]
-[Ex Rate Dc]=[Level(Sales Order.Sales Order).Ex Rate Dc]
-[Order Intake Dc]=Ifnull([Grain(Sc-Orders Sl History).# Order Intake Dc],0.0)*-1
-[So Item Cost Dc]=Ifnull([Grain(Sc-Orders Sl History).# So Item Cost Dc],0.0)*-1
+[Currency Key DC]=[Level(Sales Order.Sales Order).Currency Key DC]
+[Ex Rate DC]=[Level(Sales Order.Sales Order).Ex Rate DC]
+[Order Intake DC]=IFNULL([Grain(SC-Orders SL History).# Order Intake DC],0.0)*-1
+[SO Item Cost DC]=IFNULL([Grain(SC-Orders SL History).# SO Item Cost DC],0.0)*-1
 
-[Currency Key Gc]=[Level(Sales Order.Sales Order).Currency Key Gc]
-[Ex Rate Gc]=[Level(Sales Order.Sales Order).Ex Rate Gc]
-[Order Intake Gc]=Ifnull([Grain(Sc-Orders Sl History).# Order Intake Gc],0.0)*-1
-[So Item Cost Gc]=Ifnull([Grain(Sc-Orders Sl History).# So Item Cost Gc],0.0)*-1
+[Currency Key GC]=[Level(Sales Order.Sales Order).Currency Key GC]
+[Ex Rate GC]=[Level(Sales Order.Sales Order).Ex Rate GC]
+[Order Intake GC]=IFNULL([Grain(SC-Orders SL History).# Order Intake GC],0.0)*-1
+[SO Item Cost GC]=IFNULL([Grain(SC-Orders SL History).# SO Item Cost GC],0.0)*-1
 
-[Currency Key Hc]=[Level(Sales Order.Sales Order).Currency Key Hc]
-[Ex Rate Hc]=[Level(Sales Order.Sales Order).Ex Rate Hc]
-[Order Intake Hc]=Ifnull([Grain(Sc-Orders Sl History).# Order Intake Hc],0.0)*-1
-[So Item Cost Hc]=Ifnull([Grain(Sc-Orders Sl History).# So Item Cost Hc],0.0)*-1
+[Currency Key HC]=[Level(Sales Order.Sales Order).Currency Key HC]
+[Ex Rate HC]=[Level(Sales Order.Sales Order).Ex Rate HC]
+[Order Intake HC]=IFNULL([Grain(SC-Orders SL History).# Order Intake HC],0.0)*-1
+[SO Item Cost HC]=IFNULL([Grain(SC-Orders SL History).# SO Item Cost HC],0.0)*-1
 
-[Currency Key Rc]=[Level(Sales Order.Sales Order).Currency Key Rc]
-[Ex Rate Rc]=[Level(Sales Order.Sales Order).Ex Rate Rc]
-[Order Intake Rc]=Ifnull([Grain(Sc-Orders Sl History).# Order Intake Rc],0.0)*-1
-[So Item Cost Rc]=Ifnull([Grain(Sc-Orders Sl History).# So Item Cost Rc],0.0)*-1
+[Currency Key RC]=[Level(Sales Order.Sales Order).Currency Key RC]
+[Ex Rate RC]=[Level(Sales Order.Sales Order).Ex Rate RC]
+[Order Intake RC]=IFNULL([Grain(SC-Orders SL History).# Order Intake RC],0.0)*-1
+[SO Item Cost RC]=IFNULL([Grain(SC-Orders SL History).# SO Item Cost RC],0.0)*-1
 
-Writerecord
+WRITERECORD
 
-/*End Negate Old Value*/
+/*END NEGATE OLD VALUE*/
 
 
 
 
 /*
-Inactive Takes The Dates From The Fact
+Inactive takes the Dates from the Fact
 */
-[So Header Change Date]=[Level(Sales Order.Sales Order).So Header Change Date]
-[Analysis Date]=[Grain(Sc-Orders Sl History).Analysis Date]
+[SO Header Change Date]=[Level(Sales Order.Sales Order).SO Header Change Date]
+[Analysis Date]=[Grain(SC-Orders SL History).Analysis Date]
 [Pricing Date]=[Level(Sales Order.Sales Order).Pricing Date]
 [Change Date]=[Level(Sales Order.Sales Order).Change Date]
 
 /*
-Delmarker, Source & Current Record 
+DelMarker, Source & Current Record 
 */
-[Delmarker]=[Grain(Sc-Orders Sl History).Sales Order Number]+'_'+[Grain(Sc-Orders Sl History).Sales Order Item]+'_'+[Grain(Sc-Orders Sl History).# Sales Order Scl Line]+'_'+Format([Grain(Sc-Orders Sl History).Analysis Date],'Yyyymmdd')+'_Inactive_'+Getvariable('Loadnumber')+'_'+Random()
-//Print [Grain(Sc-Orders Sl History).Sales Order Number]+'_'+[Grain(Sc-Orders Sl History).Sales Order Item]+'_'+[Grain(Sc-Orders Sl History).# Sales Order Scl Line]+'_'+Format([Grain(Sc-Orders Sl History).Analysis Date],'Yyyymmdd')+'_Inactive_'+Getvariable('Loadnumber')+'_'+Random()
+[DelMarker]=[Grain(SC-Orders SL History).Sales Order Number]+'_'+[Grain(SC-Orders SL History).Sales Order Item]+'_'+[Grain(SC-Orders SL History).# Sales Order ScL Line]+'_'+format([Grain(SC-Orders SL History).Analysis Date],'yyyyMMdd')+'_Inactive_'+GETVARIABLE('LoadNumber')+'_'+RANDOM()
+//PRINT [Grain(SC-Orders SL History).Sales Order Number]+'_'+[Grain(SC-Orders SL History).Sales Order Item]+'_'+[Grain(SC-Orders SL History).# Sales Order ScL Line]+'_'+format([Grain(SC-Orders SL History).Analysis Date],'yyyyMMdd')+'_Inactive_'+GETVARIABLE('LoadNumber')+'_'+RANDOM()
 
-[Source]=[Grain(Sc-Orders Sl History).# Source]
-[Rectype]='Inactive'
+[Source]=[Grain(SC-Orders SL History).# Source]
+[RecType]='Inactive'
 [Current Record]=0
 
 /*
-Use Values From Fact
+Use Values from Fact
 */
 
-[Order Qty]=Ifnull([Grain(Sc-Orders Sl History).Order Qty],0.0)
-[Currency Key Dc]=[Level(Sales Order.Sales Order).Currency Key Dc]
-[Ex Rate Dc]=[Level(Sales Order.Sales Order).Ex Rate Dc]
-[Order Intake Dc]=[Grain(Sc-Orders Sl History).# Order Intake Dc]
-[So Item Cost Dc]=[Grain(Sc-Orders Sl History).# So Item Cost Dc]
+[Order Qty]=IFNULL([Grain(SC-Orders SL History).Order Qty],0.0)
+[Currency Key DC]=[Level(Sales Order.Sales Order).Currency Key DC]
+[Ex Rate DC]=[Level(Sales Order.Sales Order).Ex Rate DC]
+[Order Intake DC]=[Grain(SC-Orders SL History).# Order Intake DC]
+[SO Item Cost DC]=[Grain(SC-Orders SL History).# SO Item Cost DC]
 
-[Currency Key Gc]=[Level(Sales Order.Sales Order).Currency Key Gc]
-[Ex Rate Gc]=[Level(Sales Order.Sales Order).Ex Rate Gc]
-[Order Intake Gc]=[Grain(Sc-Orders Sl History).# Order Intake Gc]
-[So Item Cost Gc]=[Grain(Sc-Orders Sl History).# So Item Cost Gc]
+[Currency Key GC]=[Level(Sales Order.Sales Order).Currency Key GC]
+[Ex Rate GC]=[Level(Sales Order.Sales Order).Ex Rate GC]
+[Order Intake GC]=[Grain(SC-Orders SL History).# Order Intake GC]
+[SO Item Cost GC]=[Grain(SC-Orders SL History).# SO Item Cost GC]
 
-[Currency Key Hc]=[Level(Sales Order.Sales Order).Currency Key Hc]
-[Ex Rate Hc]=[Level(Sales Order.Sales Order).Ex Rate Hc]
-[Order Intake Hc]=[Grain(Sc-Orders Sl History).# Order Intake Hc]
-[So Item Cost Hc]=[Grain(Sc-Orders Sl History).# So Item Cost Hc]
+[Currency Key HC]=[Level(Sales Order.Sales Order).Currency Key HC]
+[Ex Rate HC]=[Level(Sales Order.Sales Order).Ex Rate HC]
+[Order Intake HC]=[Grain(SC-Orders SL History).# Order Intake HC]
+[SO Item Cost HC]=[Grain(SC-Orders SL History).# SO Item Cost HC]
 
-[Currency Key Rc]=[Level(Sales Order.Sales Order).Currency Key Rc]
-[Ex Rate Rc]=[Level(Sales Order.Sales Order).Ex Rate Rc]
-[Order Intake Rc]=[Grain(Sc-Orders Sl History).# Order Intake Rc]
-[So Item Cost Rc]=[Grain(Sc-Orders Sl History).# So Item Cost Rc]
+[Currency Key RC]=[Level(Sales Order.Sales Order).Currency Key RC]
+[Ex Rate RC]=[Level(Sales Order.Sales Order).Ex Rate RC]
+[Order Intake RC]=[Grain(SC-Orders SL History).# Order Intake RC]
+[SO Item Cost RC]=[Grain(SC-Orders SL History).# SO Item Cost RC]
 
-Writerecord
+WRITERECORD
 
-/*End Set Old Record In Fact Table To Inactive*/
+/*END Set old record in fact table to inactive*/

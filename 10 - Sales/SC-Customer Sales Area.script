@@ -1,38 +1,38 @@
-Print [Knvv.Knvv_Kunnr]+'_'+[Knvv.Knvv_Vkorg]
-Print 'In: '+[Insales.Knvp_Kunn2]+' Out: '+[Outsales.Knvp_Kunn2]
+PRINT [KNVV.KNVV_KUNNR]+'_'+[KNVV.KNVV_VKORG]
+PRINT 'IN: '+[InSales.KNVP_KUNN2]+' OUT: '+[OutSales.KNVP_KUNN2]
 
-[Custarea Key]=[Knvv.Knvv_Kunnr]+''+[Knvv.Knvv_Vkorg]
-[Inside Sales Key]=[Insales.Knvp_Kunn2]
-[Outside Sales Key]=[Outsales.Knvp_Kunn2]
-[Customer Key]=[Knvv.Knvv_Kunnr]
-[Comp Code Key]=[Knvv.Knvv_Vkorg]
-[Sales Office Key] = [Knvv.Knvv_Vkbur]
-[Source]='Sap Ecc'
+[CustArea Key]=[KNVV.KNVV_KUNNR]+''+[KNVV.KNVV_VKORG]
+[Inside Sales Key]=[InSales.KNVP_KUNN2]
+[Outside Sales Key]=[OutSales.KNVP_KUNN2]
+[Customer Key]=[KNVV.KNVV_KUNNR]
+[Comp Code Key]=[KNVV.TVKO_BUKRS]
+[Sales Office Key] = [KNVV.KNVV_VKBUR]
+[Source]='SAP ECC'
 
-[Sales Office] = [Tbl_Dim_Sales_Region.Sales_Office_Name]
-If [Tbl_Dim_Sales_Region.Regional_Currency_Code] = 'Rmb' Then
- [Rc Currency Key] = 'Cny'
-Else
- [Rc Currency Key] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
-End If
-[Sales Region]=[Tbl_Dim_Sales_Region.Sales_Region_Code]
-[Sales Subregion]=[Tbl_Dim_Sales_Region.Sales_Subregion_Code]
+[Sales Office] = [tbl_dim_sales_region.sales_office_name]
+IF [tbl_dim_sales_region.regional_currency_code] = 'RMB' THEN
+ [RC Currency Key] = 'CNY'
+ELSE
+ [RC Currency Key] = [tbl_dim_sales_region.regional_currency_code]
+END IF
+[Sales Region]=[tbl_dim_sales_region.sales_region_code]
+[Sales SubRegion]=[tbl_dim_sales_region.sales_subregion_code]
 
 
-[Outside Sales]=[Outcust.Kna1_Name1]
-[Outside Sales Ag]=[Outcust.Kna1_Ktokd]
-[Outside Sales Email Address]=[Adr6.Adr6_Smtp_Addr]
-[Outside Sales Ad Id]=[Sc-Employee Hierarchy.Ad Id]
-[Rsm Ad Id]=[Sc-Employee Hierarchy.Manager Ad Id]
-[Rsm]=[Sc-Employee Hierarchy.Manager Name]
-[Md/Gm Ad Id]=[Sc-Employee Hierarchy.Managerx2 Ad Id]
-[Md/Gm]=[Sc-Employee Hierarchy.Managerx2 Name]
-[Rmd Ad Id]=[Sc-Employee Hierarchy.Managerx3 Ad Id]
-[Rmd]=[Sc-Employee Hierarchy.Managerx3 Name]
-[Global Sales Ad Id]=[Sc-Employee Hierarchy.Managerx4 Ad Id]
-[Global Sales]=[Sc-Employee Hierarchy.Managerx4 Name]
+[Outside Sales]=[OutCust.KNA1_NAME1]
+[Outside Sales AG]=[OutCust.KNA1_KTOKD]
+[Outside Sales Email Address]=[ADR6.ADR6_SMTP_ADDR]
+[Outside Sales AD ID]=[SC-Employee Hierarchy.AD ID]
+[RSM AD ID]=[SC-Employee Hierarchy.Manager AD ID]
+[RSM]=[SC-Employee Hierarchy.Manager Name]
+[MD/GM AD ID]=[SC-Employee Hierarchy.Managerx2 AD ID]
+[MD/GM]=[SC-Employee Hierarchy.Managerx2 Name]
+[RMD AD ID]=[SC-Employee Hierarchy.Managerx3 AD ID]
+[RMD]=[SC-Employee Hierarchy.Managerx3 Name]
+[Global Sales AD ID]=[SC-Employee Hierarchy.Managerx4 AD ID]
+[Global Sales]=[SC-Employee Hierarchy.Managerx4 Name]
 
-[Inside Sales]=[Incust.Kna1_Name1]
-[Inside Sales Ag]=[Incust.Kna1_Ktokd]
+[Inside Sales]=[InCust.KNA1_NAME1]
+[Inside Sales AG]=[InCust.KNA1_KTOKD]
 
-Writerecord
+WRITERECORD

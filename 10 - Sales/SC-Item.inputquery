@@ -1,14 +1,14 @@
-Select [Mara.Mara_Matnr], [Mara.Mara_Mtart], [Mara.Mara_Mbrsh], [Mara.Mara_Matkl], [Mara.Mara_Bismt], [Mara.Mara_Meins], [Mara.Mara_Labor], [Mara.Mara_Spart], [Mara.Mara_Ean11], [Mara.Makt_Maktx], [Mara.Makt_Maktg], [Mara.Mara_Extwg]
-  From [Mara]
-Inner Join
-Select [Division.Division Key], [Division.Division]
-  From [Division]
-  On [Division.Division Key] = [Mara.Mara_Spart]
-Inner Join
-Select [Ext Material Group.Ext Mat Group Key], [Ext Material Group.Ext Mat Group]
-  From [Ext Material Group]
-  On [Ext Material Group.Ext Mat Group Key] = [Mara.Mara_Extwg]
-Left Outer Join 
-Select [Structure_Dimension_Item.Item Group Code], [Structure_Dimension_Item.Item Group Name], [Structure_Dimension_Item.Product Group Code], [Structure_Dimension_Item.Product Group Name], [Structure_Dimension_Item.Product Unit Code], [Structure_Dimension_Item.Product Unit Name], [Structure_Dimension_Item.Product Division Code], [Structure_Dimension_Item.Product Division Name], [Structure_Dimension_Item.Product Segment Code], [Structure_Dimension_Item.Product Segment Name], [Structure_Dimension_Item.Solution Code], [Structure_Dimension_Item.Solution Name]
-  From [Structure_Dimension_Item]
-    On [Structure_Dimension_Item.Item Group Code] = [Mara.Mara_Extwg]
+SELECT [MARA.MARA_MATNR], [MARA.MARA_MTART], [MARA.MARA_MBRSH], [MARA.MARA_MATKL], [MARA.MARA_BISMT], [MARA.MARA_MEINS], [MARA.MARA_LABOR], [MARA.MARA_SPART], [MARA.MARA_EAN11], [MARA.MAKT_MAKTX], [MARA.MAKT_MAKTG], [MARA.MARA_EXTWG]
+  FROM [MARA]
+INNER JOIN
+SELECT [Division.Division Key], [Division.Division]
+  FROM [Division]
+  ON [Division.Division Key] = [MARA.MARA_SPART]
+INNER JOIN
+SELECT [Ext Material Group.Ext Mat Group Key], [Ext Material Group.Ext Mat Group]
+  FROM [Ext Material Group]
+  ON [Ext Material Group.Ext Mat Group Key] = [MARA.MARA_EXTWG]
+LEFT OUTER JOIN 
+SELECT [Structure_Dimension_Item.item group code], [Structure_Dimension_Item.item group name], [Structure_Dimension_Item.product group code], [Structure_Dimension_Item.product group name], [Structure_Dimension_Item.product unit code], [Structure_Dimension_Item.product unit name], [Structure_Dimension_Item.product division code], [Structure_Dimension_Item.product division name], [Structure_Dimension_Item.product segment code], [Structure_Dimension_Item.product segment name], [Structure_Dimension_Item.solution code], [Structure_Dimension_Item.solution name]
+  FROM [Structure_Dimension_Item]
+    ON [Structure_Dimension_Item.item group code] = [MARA.MARA_EXTWG]

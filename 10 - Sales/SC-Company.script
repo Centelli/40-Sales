@@ -3,4 +3,5 @@
 [City]=[Company Code.City]
 [Comp Country Key]=[Company Code.Comp Country Key]
 [Comp Currency Key]=[Company Code.Comp Currency Key]
-Writerecord
+[Source]=GETCOLUMNVALUE(5)
+WRITERECORD

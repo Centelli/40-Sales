@@ -1,4 +1,4 @@
-[Vbpa_Vbeln]=[Vbpa.Vbpa_Vbeln]
-[Vbpa_Posnr]=Min([Vbpa.Vbpa_Posnr])
+[VBPA_VBELN]=[VBPA.VBPA_VBELN]
+[VBPA_POSNR]=MIN([VBPA.VBPA_POSNR])
 
-Writerecord
+WRITERECORD
