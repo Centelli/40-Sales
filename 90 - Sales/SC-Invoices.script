@@ -7,7 +7,7 @@ Dim [vExcRatetoHC] as Float
 Dim [vMultiplier] as FLOAT
 Dim [vMatKey] as Varchar(18)
 Dim [vCustomerKey] as Varchar(18)
-Dim [vDelCustomerKey] as Varchar(18)
+Dim [vDelCustomerKey] as Varchar(10)
 DIM [vRegCurrency] as Varchar(4)
 
 Dim [vSecurityKey] as Varchar(25)
@@ -41,8 +41,6 @@ End function
 [vSalesDate] = [VBRK_VBRP.VBRK_FKDAT]
 [vSalesCurr] = [VBRK_VBRP.VBRK_WAERK]
 [vSalesNet] = [CheckValue]([VBRK_VBRP.VBRP_NETWR])
-
-
 
 // Take header rate unless it is blank, in which case take line item exchange rate
 IF [VBRK_VBRP.VBRK_KURRF] IS NOT NULL THEN
@@ -84,16 +82,16 @@ IF [mVCItems]([VBRK_VBRP.VBRP_MATNR]) IS NOT NULL THEN
 ELSE 
   [vMatKey]=[VBRK_VBRP.VBRP_MATNR]
 END IF 
-
+PRINT '[DelPart.VBPA_KUNNR]:'+[DelPart.VBPA_KUNNR]
 IF [DelPart.VBPA_KUNNR] IS NOT NULL THEN
  [vDelCustomerKey]=[DelPart.VBPA_KUNNR]
 ELSE
  [vDelCustomerKey]=[DefDelPart.VBPA_KUNNR]
 END IF
-
-      
-                                            
-                      
+PRINT '[vDelCustomerKey]:'+[vDelCustomerKey]
+/* Sales Doc Number */
+Dim [vSalesDoc] as Varchar(10) = [VBRK_VBRP.VBRK_VBELN]
+Dim [vSalesDocItem] as Varchar(10) = [VBRK_VBRP.VBRP_POSNR]
 
 [Invoice Number]=[VBRK_VBRP.VBRK_VBELN]
 [Bill Type Key]=[VBRK_VBRP.VBRK_FKART]
@@ -134,7 +132,7 @@ END IF
 
 [Customer Key] = [vCustomerKey] 
 [CustArea Key] = [vCustomerKey] + '' + [VBRK_VBRP.VBRK_VKORG]
-[vSecurityKey] = [VBRK_VBRP.VBRK_BUKRS] + '' + [VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = [VBRK_VBRP.VBRK_VKORG] + '' + [VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
 
 [SI Cancellation Document]=[VBRK_VBRP.VBRK_SFAKN]
 [Delivery Customer Key]=[vDelCustomerKey]
@@ -205,12 +203,7 @@ end if
 
 if SUM([BAPI.Condition value]) IS NOT NULL THEN
 PRINT '3.1'
-// HUB-578 (30Nov18) - Set ICOGS and COGS for credit/debit memo to zero
-   if [VBRK_VBRP.VBRP_PSTYV] = 'ZG2N' or [VBRK_VBRP.VBRP_PSTYV] = 'ZL2N' then
-     [vSalesCost] = 0
-   else
-     [vSalesCost] = FLOAT(SUM([BAPI.Condition value])) * [vMultiplier] * -1
-  end if
+  [vSalesCost] = FLOAT(SUM([BAPI.Condition value])) * [vMultiplier] * -1
 else  
 PRINT '3.2'
   [vSalesCost] = 0.00
@@ -255,8 +248,8 @@ PRINT '[vRegCurrency]:'+[vRegCurrency]+' [v_rate_chf_to_reg] ='+[v_rate_chf_to_r
 
    IF [vExcRatetoHC] > FLOAT(0.00) THEN
     [Ex Rate HC]=[vExcRatetoHC]
-  [vSalesNetHC]=IFNULL([vSalesNet],0.00)*[vExcRatetoHC]
-  [vSalesCostHC]=IFNULL([vSalesCost],0.00)*[vExcRatetoHC] 
+	[vSalesNetHC]=IFNULL([vSalesNet],0.00)*[vExcRatetoHC]
+	[vSalesCostHC]=IFNULL([vSalesCost],0.00)*[vExcRatetoHC] 
    ELSEIF [vExcRatetoHC] < FLOAT(0.00)
     [Ex Rate HC]=FLOAT(1/([vExcRatetoHC]*-1))
     [vSalesNetHC]=FLOAT(IFNULL([vSalesNet],0.00)/([vExcRatetoHC]*-1))
@@ -313,12 +306,8 @@ WRITERECORD
 [Invoice Qty] = 0.00
 
 PRINT '6'
-
-// HUB-578 (30Nov18) - Set ICOGS and COGS for credit/debit memo to zero
-   if [VBRK_VBRP.VBRP_PSTYV] <> 'ZL2N' and [VBRK_VBRP.VBRP_PSTYV] <> 'ZG2N' then
-
 PRINT (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00)))
-// If ICOGS is zero, use COGS
+// If ICOGS is zero, user COGS
 IF (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))) <> 0.00 THEN
   PRINT '6.1'
   [Sales ICOGS HC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([VBRK_VBRP.VBRP_FKIMG]))
@@ -340,11 +329,6 @@ IF [vRegCurrency] = 'CHF' THEN
 ELSE
   [Sales ICOGS RC]=[vSalesIcogsGC]/[v_rate_chf_to_reg]
 END IF  
-ELSE
-  [Sales ICOGS RC] = 0
-  [Sales ICOGS GC] = 0
-  [Sales ICOGS HC] = 0
-END IF
 
 [Security Key] = 'Y'+[vSecurityKey]
 
