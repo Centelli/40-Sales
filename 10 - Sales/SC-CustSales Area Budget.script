@@ -1,0 +1,39 @@
+If [Sql Sales Budget Forecast.Customer_Type] = 'New Biz' Then
+[Custarea Key]=[Sql Sales Budget Forecast.Customer_Code]+''+[Sql Sales Budget Forecast.Sales_Rep_Code]
+Else
+[Custarea Key]=[Sql Sales Budget Forecast.Customer_Code]+''+[Sql Sales Budget Forecast.Sap_Comp_Code]+ '' + '1000'
+End If
+
+
+[Outside Sales Key]=[Sql Sales Budget Forecast.Sales_Rep_Code]
+
+[Customer Key]=[Sql Sales Budget Forecast.Customer_Code]
+[Source]='New Biz'
+[Comp Code Key]=[Sql Sales Budget Forecast.Div_Comp_Code]
+[Sales Office Key]=[Sql Sales Budget Forecast.Sales_Office_Key]
+
+
+[Sales Office] = [Tbl_Dim_Sales_Region.Sales_Office_Name]
+If [Tbl_Dim_Sales_Region.Regional_Currency_Code] = 'Rmb' Then
+ [Rc Currency Key] = 'Cny'
+Else
+ [Rc Currency Key] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
+End If
+[Sales Region]=[Tbl_Dim_Sales_Region.Sales_Region_Code]
+[Sales Subregion]=[Tbl_Dim_Sales_Region.Sales_Subregion_Code]
+
+[Outside Sales]=[Outcust.Kna1_Name1]
+[Outside Sales Ag]=[Outcust.Kna1_Ktokd]
+[Outside Sales Email Address]=[Adr6.Adr6_Smtp_Addr]
+[Outside Sales Ad Id]=[Sc-Employee Hierarchy.Ad Id]
+[Rsm Ad Id]=[Sc-Employee Hierarchy.Manager Ad Id]
+[Rsm]=[Sc-Employee Hierarchy.Manager Name]
+[Md/Gm Ad Id]=[Sc-Employee Hierarchy.Managerx2 Ad Id]
+[Md/Gm]=[Sc-Employee Hierarchy.Managerx2 Name]
+[Rmd Ad Id]=[Sc-Employee Hierarchy.Managerx3 Ad Id]
+[Rmd]=[Sc-Employee Hierarchy.Managerx3 Name]
+[Global Sales Ad Id]=[Sc-Employee Hierarchy.Managerx4 Ad Id]
+[Global Sales]=[Sc-Employee Hierarchy.Managerx4 Name]
+
+
+Writerecord

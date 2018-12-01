@@ -1,0 +1,30 @@
+Select [Sclagg.Sales Order Number], [Sclagg.Sales Order Item], 
+Sum([Sclagg.Scl Quantity]), 
+Sum([Sclagg.Order Qty]),
+[Sclagg.Currency Key Dc], 
+[Sclagg.Ex Rate Dc], 
+Sum([Sclagg.Order Intake Dc]), 
+Sum([Sclagg.So Item Cost Dc]), 
+[Sclagg.Currency Key Gc], 
+[Sclagg.Ex Rate Gc], 
+Sum([Sclagg.Order Intake Gc]), 
+Sum([Sclagg.So Item Cost Gc]), 
+[Sclagg.Currency Key Hc], 
+[Sclagg.Ex Rate Hc], 
+Sum([Sclagg.Order Intake Hc]), 
+Sum([Sclagg.So Item Cost Hc]), 
+[Sclagg.Currency Key Rc], 
+[Sclagg.Ex Rate Rc], 
+Sum([Sclagg.Order Intake Rc]), 
+Sum([Sclagg.So Item Cost Rc]) 
+ From [Sc-Orders Sl Update] 'Sclagg' 
+Inner Join
+Select [Sc-Orders Sl Update.Sales Order Number], [Sc-Orders Sl Update.Sales Order Item], [Sc-Orders Sl Update.So Date], [Sc-Orders Sl Update.So Document Category], [Sc-Orders Sl Update.So Transaction Group], [Sc-Orders Sl Update.So Document Type], [Sc-Orders Sl Update.Sales Org Key], [Sc-Orders Sl Update.Distr Channel], [Sc-Orders Sl Update.Sales Office Key], [Sc-Orders Sl Update.Customer Key], [Sc-Orders Sl Update.So Header Change Date], [Sc-Orders Sl Update.Item Key], [Sc-Orders Sl Update.Item Category], [Sc-Orders Sl Update.Rejection Reason Key], [Sc-Orders Sl Update.Base Unit], [Sc-Orders Sl Update.Division Key], [Sc-Orders Sl Update.Plant], [Sc-Orders Sl Update.Analysis Date], [Sc-Orders Sl Update.Pricing Date], [Sc-Orders Sl Update.Sales Order Key], [Sc-Orders Sl Update.Current Record], [Sc-Orders Sl Update.Custarea Key], [Sc-Orders Sl Update.So Item Delivery Status], [Sc-Orders Sl Update.So Order Delivery Status], [Sc-Orders Sl Update.So Item Rejection Status], [Sc-Orders Sl Update.So Item Overall Status], [Sc-Orders Sl Update.Change Date], [Sc-Orders Sl Update.Delmarker], [Sc-Orders Sl Update.Source], [Sc-Orders Sl Update.Requirement Type Key], [Sc-Orders Sl Update.Object Number], [Sc-Orders Sl Update.Comp Code Key], [Sc-Orders Sl Update.So Doc Condition], [Sc-Orders Sl Update.Delivery Customer Key], [Sc-Orders Sl Update.Security Key], [Sc-Orders Sl Update.Rectype]
+ From [Sc-Orders Sl Update] 
+ On [Sc-Orders Sl Update.Sales Order Number]=[Sclagg.Sales Order Number] And [Sc-Orders Sl Update.Sales Order Item]=[Sclagg.Sales Order Item] And [Sc-Orders Sl Update.Sales Order Scl Line] = '0001' And [Sc-Orders Sl Update.Rejection Reason Key] Is Null 
+Inner Join 
+Select [Sc-Orders Sl.Sales Order Number], [Sc-Orders Sl.Sales Order Item], [Sc-Orders Sl.Order Qty], [Sc-Orders Sl.Order Intake Dc], [Sc-Orders Sl.Order Intake Gc], [Sc-Orders Sl.Order Intake Hc], [Sc-Orders Sl.Order Intake Rc], [Sc-Orders Sl.So Item Cost Dc], [Sc-Orders Sl.So Item Cost Hc], [Sc-Orders Sl.So Item Cost Gc], [Sc-Orders Sl.So Item Cost Rc] From [Sc-Orders Sl] 
+On [Sc-Orders Sl.Sales Order Number]=[Sclagg.Sales Order Number] And [Sc-Orders Sl.Sales Order Item]=[Sclagg.Sales Order Item] And [Sc-Orders Sl.Sales Order Scl Line] = '0001'  And [Sc-Orders Sl Update.Rejection Reason Key] Is Null 
+Left Outer Join 
+Select [Sc-Invoices.Sales Order Number], [Sc-Invoices.Sales Order Item], Sum([Sc-Invoices.Invoice Qty]) From [Sc-Invoices] 
+ On [Sc-Invoices.Sales Order Number]=[Sclagg.Sales Order Number] And [Sc-Invoices.Sales Order Item]=[Sclagg.Sales Order Item] And [Sc-Invoices.Bill Type Key] = 'Zf2'

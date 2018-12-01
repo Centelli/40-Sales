@@ -1,0 +1,30 @@
+Select [Kna1.Kna1_Kunnr], [Kna1.Kna1_Land1], [Kna1.Kna1_Name1], [Kna1.Kna1_Name2], [Kna1.Kna1_Ort01], [Kna1.Kna1_Pstlz], [Kna1.Kna1_Regio], [Kna1.Kna1_Sortl], [Kna1.Kna1_Stras], [Kna1.Kna1_Adrnr], [Kna1.Kna1_Brsch], [Kna1.Kna1_Ktokd], [Kna1.Kna1_Bran1], [Kna1.Kna1_Katr1], [Kna1.Kna1_Katr6]
+  From [Kna1]
+Left Outer Join
+Select [Country.Country Key], [Country.Country]
+  From [Country]
+  On [Kna1.Kna1_Land1] = [Country.Country Key]
+Left Outer Join
+Select [Conscustom.Conscustomer Key], [Conscustom.Conscustomer]
+  From [Conscustom]
+  On [Kna1.Kna1_Katr6] = [Conscustom.Conscustomer Key]
+Left Outer Join
+Select [Tbl_Dim_Customer_Type.Customer_Type_Code], [Tbl_Dim_Customer_Type.Customer_Type_Name]
+  From [Tbl_Dim_Customer_Type]
+    On [Kna1.Kna1_Ktokd] = [Tbl_Dim_Customer_Type.Customer_Account_Group_Code]
+Left Outer Join
+Select [Tbl_Dim_Customer_Group.Customer_Group_Code], [Tbl_Dim_Customer_Group.Customer_Group_Name], [Tbl_Dim_Customer_Group.Customer_Group_Parent_Name]
+  From [Tbl_Dim_Customer_Group]
+    On [Kna1.Kna1_Katr6]=[Tbl_Dim_Customer_Group.Customer_Group_Code]
+Left Outer Join
+Select [Tbl_Dim_Market.Market_Segment_Name], [Tbl_Dim_Market.Market_Name], [Tbl_Dim_Market.Market_Code]
+  From [Tbl_Dim_Market]
+    On [Kna1.Kna1_Bran1] = [Tbl_Dim_Market.Market_Segment_Code]
+Left Outer Join
+Select [Tbl_Dim_Market_Role.Market_Role_Name], [Tbl_Dim_Market_Role.Market_Role_Group_Name], [Tbl_Dim_Market_Role.Sales_Partner_Name]
+  From [Tbl_Dim_Market_Role]
+    On [Kna1.Kna1_Katr1] = [Tbl_Dim_Market_Role.Market_Role_Code]
+Left Outer Join
+Select [Tbl_Dim_Country.Country_Iso_Alpha_Code], [Tbl_Dim_Country.Subregion_Key], [Tbl_Dim_Country.Subregion_Name], [Tbl_Dim_Country.Area_Key], [Tbl_Dim_Country.Area_Name], [Tbl_Dim_Country.Region_Key], [Tbl_Dim_Country.Region_Name]
+  From [Tbl_Dim_Country]
+  On [Kna1.Kna1_Land1] = [Tbl_Dim_Country.Country_Iso_Alpha_Code]

@@ -1,0 +1,10 @@
+Select [Kna1.Kna1_Kunnr], [Kna1.Kna1_Land1]
+  From [Kna1]
+Left Outer Join
+Select [Country.Country Key], [Country.Country]
+  From [Country]
+  On [Kna1.Kna1_Land1] = [Country.Country Key]
+Left Outer Join
+Select [Sql_Dbo_Vw_Sql_Dim_Country.Country_Iso_Alpha_Code], [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Area_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Area_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Region_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Region_Name]
+  From [Sql_Dbo_Vw_Sql_Dim_Country]
+  On [Kna1.Kna1_Land1]=[Sql_Dbo_Vw_Sql_Dim_Country.Country_Iso_Alpha_Code]

@@ -1,0 +1,8 @@
+Select [Sql Workdays.Ident], [Sql Workdays.Day_Key], [Sql Workdays.Day_Code], [Sql Workdays.Day_Type], [Sql Workdays.Sales_Max_Count], [Sql Workdays.Sales_Act_Count], [Sql Workdays.Order_Max_Count], [Sql Workdays.Order_Act_Count] 
+  From [Sql Workdays] 
+Inner Join
+Select [Sql Sales Budget Forecast.Version], [Sql Sales Budget Forecast.Div_Comp_Code], [Sql Sales Budget Forecast.Comp_Code], [Sql Sales Budget Forecast.Comp_Type], [Sql Sales Budget Forecast.Sap_Comp_Code], [Sql Sales Budget Forecast.Customer_Code], [Sql Sales Budget Forecast.Sales_Rep_Code], [Sql Sales Budget Forecast.Legacy_Flag], [Sql Sales Budget Forecast.Curr_Code], [Sql Sales Budget Forecast.Year_Code], [Sql Sales Budget Forecast.Value], [Sql Sales Budget Forecast.Rate_To_Chf], [Sql Sales Budget Forecast.Customer_Type], [Sql Sales Budget Forecast.Division_Code], [Sql Sales Budget Forecast.Month_Code] 
+  From [Sql Sales Budget Forecast]
+  On Datepart(Year,[Sql Workdays.Day_Code]) = [Sql Sales Budget Forecast.Year_Code] 
+  And Datepart(Month,[Sql Workdays.Day_Code]) = [Sql Sales Budget Forecast.Month_Code] 
+Order By [Sql Workdays.Day_Code]

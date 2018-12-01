@@ -1,0 +1,39 @@
+[Custarea Key]= [Sql_I2_Vw_Dim_Customer.Customer_Code]+Substring('0000',0,4-Length(Trim([Sql_I2_Vw_Dim_Customer.Sales_Org_Key])))+ Trim([Sql_I2_Vw_Dim_Customer.Sales_Org_Key])
+
+[Outside Sales Key]=Ifnull([Sql_I2_Vw_Dim_Customer.Salesrep_Code],'Na')
+
+[Inside Sales Key]=Ifnull([Sql_I2_Vw_Dim_Customer.Specialist_Code],'Na')
+
+[Customer Key]=[Sql_I2_Vw_Dim_Customer.Customer_Code]
+[Comp Code Key]=[Sql_I2_Vw_Dim_Customer.Sap_Comp_Code]
+[Sales Office Key]=[Sql_I2_Vw_Dim_Customer.Sales_Office_Key]
+
+[Source]=[Sql_I2_Vw_Dim_Customer.Source]
+
+[Sales Office Key] = [Tbl_Dim_Sales_Region.Sales_Office_Code]
+[Sales Office] = [Tbl_Dim_Sales_Region.Sales_Office_Name]
+If [Tbl_Dim_Sales_Region.Regional_Currency_Code] = 'Rmb' Then
+ [Rc Currency Key] = 'Cny'
+Else
+ [Rc Currency Key] = [Tbl_Dim_Sales_Region.Regional_Currency_Code]
+End If
+[Sales Region]=[Tbl_Dim_Sales_Region.Sales_Region_Code]
+[Sales Subregion]=[Tbl_Dim_Sales_Region.Sales_Subregion_Code]
+
+[Outside Sales]=[Sql_I2_Vw_Dim_Customer.Salesrep_Name]
+//[Outside Sales Ag]=[Outcust.Kna1_Ktokd]
+[Outside Sales Email Address]=[Sql_I2_Vw_Dim_Customer.Salesrep_Email]
+[Outside Sales Ad Id]=[Sc-Employee Hierarchy.Ad Id]
+[Rsm Ad Id]=[Sc-Employee Hierarchy.Manager Ad Id]
+[Rsm]=[Sc-Employee Hierarchy.Manager Name]
+[Md/Gm Ad Id]=[Sc-Employee Hierarchy.Managerx2 Ad Id]
+[Md/Gm]=[Sc-Employee Hierarchy.Managerx2 Name]
+[Rmd Ad Id]=[Sc-Employee Hierarchy.Managerx3 Ad Id]
+[Rmd]=[Sc-Employee Hierarchy.Managerx3 Name]
+[Global Sales Ad Id]=[Sc-Employee Hierarchy.Managerx4 Ad Id]
+[Global Sales]=[Sc-Employee Hierarchy.Managerx4 Name]
+
+[Inside Sales]=[Sql_I2_Vw_Dim_Customer.Specialist_Name]
+//[Insales Ag]=[Incust.Kna1_Ktokd]
+
+Writerecord
