@@ -42,8 +42,6 @@ End function
 [vSalesCurr] = [VBRK_VBRP.VBRK_WAERK]
 [vSalesNet] = [CheckValue]([VBRK_VBRP.VBRP_NETWR])
 
-
-
 // Take header rate unless it is blank, in which case take line item exchange rate
 IF [VBRK_VBRP.VBRK_KURRF] IS NOT NULL THEN
  [vExcRatetoHC] = [CheckValue]([VBRK_VBRP.VBRK_KURRF])
@@ -84,16 +82,17 @@ IF [mVCItems]([VBRK_VBRP.VBRP_MATNR]) IS NOT NULL THEN
 ELSE 
   [vMatKey]=[VBRK_VBRP.VBRP_MATNR]
 END IF 
+PRINT '[DelPart.VBPA_KUNNR]:'+[DelPart.VBPA_KUNNR]
 
 IF [DelPart.VBPA_KUNNR] IS NOT NULL THEN
  [vDelCustomerKey]=[DelPart.VBPA_KUNNR]
 ELSE
  [vDelCustomerKey]=[DefDelPart.VBPA_KUNNR]
 END IF
-
-      
-                                            
-                      
+PRINT '[vDelCustomerKey]:'+[vDelCustomerKey]
+/* Sales Doc Number */
+Dim [vSalesDoc] as Varchar(10) = [VBRK_VBRP.VBRK_VBELN]
+Dim [vSalesDocItem] as Varchar(10) = [VBRK_VBRP.VBRP_POSNR]
 
 [Invoice Number]=[VBRK_VBRP.VBRK_VBELN]
 [Bill Type Key]=[VBRK_VBRP.VBRK_FKART]
@@ -134,7 +133,7 @@ END IF
 
 [Customer Key] = [vCustomerKey] 
 [CustArea Key] = [vCustomerKey] + '' + [VBRK_VBRP.VBRK_VKORG]
-[vSecurityKey] = [VBRK_VBRP.VBRK_BUKRS] + '' + [VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = [VBRK_VBRP.VBRK_VKORG] + '' + [VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
 
 [SI Cancellation Document]=[VBRK_VBRP.VBRK_SFAKN]
 [Delivery Customer Key]=[vDelCustomerKey]
