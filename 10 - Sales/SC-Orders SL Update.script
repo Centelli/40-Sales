@@ -1,6 +1,6 @@
 DIM [vOrdQty] as Float
 DIM [vSchedQty] as Float
-
+print [SC-Orders SL.Sales Order Number] + ':' + [SC-Orders SL.Sales Order Item] + ':' + [SC-Orders SL.Sales Order ScL Line]
 [Sales Order Number]=[SC-Orders SL.Sales Order Number]
 [Sales Order Item]=[SC-Orders SL.Sales Order Item]
 [Sales Order ScL Line]=[SC-Orders SL.Sales Order ScL Line]
@@ -47,15 +47,18 @@ DIM [vSchedQty] as Float
 [Security Key] = [SC-Orders SL.Security Key]
 
 
-DIM [mCurrentOrders] AS MAP(VARCHAR(16), VARCHAR(10)) = SELECT [Grain(SC-Orders SL Update).# Sales Order Key], [Grain(SC-Orders SL Update).Sales Order Number] FROM [Grain(SC-Orders SL Update)] WHERE [Grain(SC-Orders SL Update).# Current Record] = '1'
+/* DIM [mCurrentOrders] AS MAP(VARCHAR(16), VARCHAR(10)) = SELECT [Grain(SC-Orders SL Update).# Sales Order Key], [Grain(SC-Orders SL Update).Sales Order Number] FROM [Grain(SC-Orders SL Update)] WHERE [Grain(SC-Orders SL Update).# Current Record] = '1'
+*/ 
 
 /*
 If order schedule line exists then this is an Update record
 */
-IF [mCurrentOrders]([SC-Orders SL.Sales Order Key]) IS NULL THEN
+IF [Grain(SC-Orders SL Update).Sales Order Number] IS NULL THEN
  [RecType]=[SC-Orders SL.RecType]
+print [SC-Orders SL.Sales Order Key] + ':' + [SC-Orders SL.RecType]
 ELSE
  [RecType]='Update'
+print [SC-Orders SL.Sales Order Key] + ':Update'
 END IF
 [Source]=[SC-Orders SL.Source]
 [DelMarker]=[SC-Orders SL.DelMarker]
