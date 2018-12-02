@@ -7,7 +7,7 @@ Dim [vExcRatetoHC] as Float
 Dim [vMultiplier] as FLOAT
 Dim [vMatKey] as Varchar(18)
 Dim [vCustomerKey] as Varchar(18)
-Dim [vDelCustomerKey] as Varchar(10)
+Dim [vDelCustomerKey] as Varchar(18)
 DIM [vRegCurrency] as Varchar(4)
 
 Dim [vSecurityKey] as Varchar(25)
@@ -203,7 +203,12 @@ end if
 
 if SUM([BAPI.Condition value]) IS NOT NULL THEN
 PRINT '3.1'
-  [vSalesCost] = FLOAT(SUM([BAPI.Condition value])) * [vMultiplier] * -1
+// HUB-578 (30Nov18) - Set ICOGS and COGS for credit/debit memo to zero
+   if [VBRK_VBRP.VBRP_PSTYV] = 'ZG2N' or [VBRK_VBRP.VBRP_PSTYV] = 'ZL2N' then
+     [vSalesCost] = 0
+   else
+     [vSalesCost] = FLOAT(SUM([BAPI.Condition value])) * [vMultiplier] * -1
+  end if
 else  
 PRINT '3.2'
   [vSalesCost] = 0.00
@@ -306,8 +311,12 @@ WRITERECORD
 [Invoice Qty] = 0.00
 
 PRINT '6'
+
+// HUB-578 (30Nov18) - Set ICOGS and COGS for credit/debit memo to zero
+   if [VBRK_VBRP.VBRP_PSTYV] <> 'ZL2N' and [VBRK_VBRP.VBRP_PSTYV] <> 'ZG2N' then
+
 PRINT (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00)))
-// If ICOGS is zero, user COGS
+// If ICOGS is zero, use COGS
 IF (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))) <> 0.00 THEN
   PRINT '6.1'
   [Sales ICOGS HC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([VBRK_VBRP.VBRP_FKIMG]))
@@ -329,7 +338,11 @@ IF [vRegCurrency] = 'CHF' THEN
 ELSE
   [Sales ICOGS RC]=[vSalesIcogsGC]/[v_rate_chf_to_reg]
 END IF  
-
+ELSE
+  [Sales ICOGS RC] = 0
+  [Sales ICOGS GC] = 0
+  [Sales ICOGS HC] = 0
+END IF
 [Security Key] = 'Y'+[vSecurityKey]
 
 WRITERECORD
