@@ -83,6 +83,7 @@ ELSE
   [vMatKey]=[VBRK_VBRP.VBRP_MATNR]
 END IF 
 PRINT '[DelPart.VBPA_KUNNR]:'+[DelPart.VBPA_KUNNR]
+
 IF [DelPart.VBPA_KUNNR] IS NOT NULL THEN
  [vDelCustomerKey]=[DelPart.VBPA_KUNNR]
 ELSE
@@ -343,6 +344,7 @@ ELSE
   [Sales ICOGS GC] = 0
   [Sales ICOGS HC] = 0
 END IF
+
 [Security Key] = 'Y'+[vSecurityKey]
 
 WRITERECORD
