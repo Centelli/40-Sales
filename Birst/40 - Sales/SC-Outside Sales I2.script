@@ -1,4 +1,0 @@
-[Out Sales Key]=[Sql_I2_Vw_Dim_Customer.Salesrep_Code]
-[Outside Sales]=[Sql_I2_Vw_Dim_Customer.Salesrep_Name]
-[Outsales Ag]='Na'
-Writerecord

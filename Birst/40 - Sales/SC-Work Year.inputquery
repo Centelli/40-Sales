@@ -1,2 +1,0 @@
-Select [Sql Workdays.Ident], [Sql Workdays.Day_Key], [Sql Workdays.Day_Code], [Sql Workdays.Day_Type], [Sql Workdays.Sales_Max_Count], [Sql Workdays.Sales_Act_Count], [Sql Workdays.Order_Max_Count], [Sql Workdays.Order_Act_Count] From [Sql Workdays] 
-Order By [Sql Workdays.Day_Code] Asc

@@ -1,1 +1,0 @@
-Select [Sql_Vw_Bi_Icogs.Item_Code], [Sql_Vw_Bi_Icogs.Plant_Code], [Sql_Vw_Bi_Icogs.Last_Cost_Price_Trans_Date], [Sql_Vw_Bi_Icogs.Cost_Price], [Sql_Vw_Bi_Icogs.Valid_From], [Sql_Vw_Bi_Icogs.Valid_To], [Sql_Vw_Bi_Icogs.Calc_Date], [Sql_Vw_Bi_Icogs.Init_Cost_Price], [Sql_Vw_Bi_Icogs.Icogs_Status] From [Sql_Vw_Bi_Icogs]

@@ -1,3 +1,0 @@
-Select [Company Code.Comp Code Key], [Company Code.Comp Name], [Company Code.City], [Company Code.Comp Country Key], [Company Code.Comp Currency Key] From [Company Code]
-Union 
-Select [Sql_I2_Vw_Dim_Company.Bukrs], [Sql_I2_Vw_Dim_Company.Comp_Name], [Sql_I2_Vw_Dim_Company.Bukrs], [Sql_I2_Vw_Dim_Company.Land1], [Sql_I2_Vw_Dim_Company.Waers] From [Sql_I2_Vw_Dim_Company]

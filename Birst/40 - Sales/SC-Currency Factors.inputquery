@@ -1,3 +1,0 @@
-Select [Tcurf.Tcurf_Kurst], [Tcurf.Tcurf_Fcurr], [Tcurf.Tcurf_Tcurr], [Tcurf.Tcurf_Ffact], [Tcurf.Tcurf_Tfact]
-  From [Tcurf]
-Where [Tcurf.Tcurf_Kurst] = 'M'

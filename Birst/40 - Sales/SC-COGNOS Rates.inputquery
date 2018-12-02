@@ -1,1 +1,0 @@
-Select [Sql_Ccr_Fastnet_Xomrv.Perakt], [Sql_Ccr_Fastnet_Xomrv.Vkod], [Sql_Ccr_Fastnet_Xomrv.Kurstyp], [Sql_Ccr_Fastnet_Xomrv.Enhet], [Sql_Ccr_Fastnet_Xomrv.Kurs] From [Sql_Ccr_Fastnet_Xomrv] Where [Sql_Ccr_Fastnet_Xomrv.Kurstyp] <> 'D'

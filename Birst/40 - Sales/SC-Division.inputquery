@@ -1,6 +1,0 @@
-Select [Division.Division Key], [Division.Division]
-  From [Division]
-Inner Join
-Select [Tbl_Dim_Division.Business_Unit_Key], [Tbl_Dim_Division.Business_Unit_Code], [Tbl_Dim_Division.Business_Unit_Name], [Tbl_Dim_Division.Technology_Segment_Code], [Tbl_Dim_Division.Technology_Segment_Name], [Tbl_Dim_Division.Division_Code], [Tbl_Dim_Division.Division_Name]
-  From [Tbl_Dim_Division]
-  On [Division.Division Key]=[Tbl_Dim_Division.Business_Unit_Key]

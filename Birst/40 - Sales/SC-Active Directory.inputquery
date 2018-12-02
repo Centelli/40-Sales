@@ -1,1 +1,0 @@
-Select [Active Directory.Hslinemanagergeid], [Active Directory.Mail], [Active Directory.Sn], [Active Directory.Givenname], [Active Directory.Dxrstate], [Active Directory.Hsgeid], [Active Directory.Cn], [Active Directory.C], [Active Directory.Hscompany], [Active Directory.Hscountrycode], [Active Directory.Manager] From [Active Directory]
