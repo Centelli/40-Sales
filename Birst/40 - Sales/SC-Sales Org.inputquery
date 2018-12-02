@@ -1,3 +1,0 @@
-Select [Sales Org.Sales Org Key], [Sales Org.Sales Org] From [Sales Org]
-Union 
-Select [Sql_I2_Vw_Sales_Org.Sales Org Key], [Sql_I2_Vw_Sales_Org.Sales Org] From [Sql_I2_Vw_Sales_Org]

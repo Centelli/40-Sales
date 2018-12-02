@@ -1,6 +1,0 @@
-Select [Grain(Sc-Security Input).# User], [Grain(Sc-Security Input).# Security Mask], [Grain(Sc-Security Input).# Cust Role Entity], [Grain(Sc-Security Input).# Cust Role Code], [Grain(Sc-Security Input).# Cust Role Name], [Grain(Sc-Security Input).# Icogs], [Grain(Sc-Security Input).# Role], [Grain(Sc-Security Input).# Sales Office Key]
-  From [Grain(Sc-Security Input)] 
-Right Outer Join
-Select [Level(Security Key.Security Key).Security Key]
-  From [Level(Security Key.Security Key)]
-  On [Level(Security Key.Security Key).Security Key] Like [Grain(Sc-Security Input).Security Mask]

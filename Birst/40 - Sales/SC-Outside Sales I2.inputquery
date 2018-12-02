@@ -1,1 +1,0 @@
-Select Distinct [Sql_I2_Vw_Dim_Customer.Salesrep_Code], [Sql_I2_Vw_Dim_Customer.Salesrep_Name] From [Sql_I2_Vw_Dim_Customer]

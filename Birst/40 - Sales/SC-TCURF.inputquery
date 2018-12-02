@@ -1,4 +1,0 @@
-Select [Tcurf.Tcurf_Kurst], [Tcurf.Tcurf_Fcurr], [Tcurf.Tcurf_Tcurr], [Tcurf.Tcurf_Gdatu], [Tcurf.Tcurf_Ffact], [Tcurf.Tcurf_Tfact], [Tcurf.Tcurf_Abwct], [Tcurf.Tcurf_Abwga] From [Tcurf] Where [Tcurf.Tcurf_Kurst] = 'M' 
-Inner Join 
-Select [Qcount.Tcurf_Fcurr],[Qcount.Tcurf_Tcurr], Count([Qcount.Tcurf_Gdatu]) From [Tcurf] 'Qcount' On [Qcount.Tcurf_Kurst] = 'M' And [Qcount.Tcurf_Fcurr] = [Tcurf.Tcurf_Fcurr] And [Qcount.Tcurf_Tcurr] = [Tcurf.Tcurf_Tcurr]
-Order By Count([Qcount.Tcurf_Gdatu]) Desc, [Tcurf.Tcurf_Fcurr], [Tcurf.Tcurf_Tcurr], [Tcurf.Tcurf_Gdatu]

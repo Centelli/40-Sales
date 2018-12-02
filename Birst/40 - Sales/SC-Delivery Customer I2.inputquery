@@ -1,2 +1,0 @@
-Select [Sql_Dbo_Vw_Sql_Dim_Country.Country_Iso_Alpha_Code], [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Subregion_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Area_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Country_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Area_Name], [Sql_Dbo_Vw_Sql_Dim_Country.Region_Key], [Sql_Dbo_Vw_Sql_Dim_Country.Region_Name]
-  From [Sql_Dbo_Vw_Sql_Dim_Country]
