@@ -47,16 +47,26 @@ print [SC-Orders SL.Sales Order Number] + ':' + [SC-Orders SL.Sales Order Item] 
 [Security Key] = [SC-Orders SL.Security Key]
 
 
-DIM [mCurrentOrders] AS MAP(VARCHAR(16), VARCHAR(10)) = SELECT [Grain(SC-Orders SL Update).# Sales Order Key], [Grain(SC-Orders SL Update).Sales Order Number] FROM [Grain(SC-Orders SL Update)] WHERE [Grain(SC-Orders SL Update).# Current Record] = '1'
+/* DIM [mCurrentOrders] AS MAP(VARCHAR(16), VARCHAR(10)) = SELECT [Grain(SC-Orders SL Update).# Sales Order Key], [Grain(SC-Orders SL Update).Sales Order Number] FROM [Grain(SC-Orders SL Update)] WHERE [Grain(SC-Orders SL Update).# Current Record] = '1'
 
-/*
+
 If order schedule line exists then this is an Update record
-*/
+
 IF [mCurrentOrders]([SC-Orders SL.Sales Order Key]) IS NULL THEN
  [RecType]=[SC-Orders SL.RecType]
 ELSE
  [RecType]='Update'
 END IF
+*/
+
+IF [Grain(SC-Orders SL Update).# Sales Order Key] <> [SC-Orders SL.Sales Order Key] THEN
+ [RecType]=[SC-Orders SL.RecType]
+ print [SC-Orders SL.Sales Order Key] + ':' + [SC-Orders SL.Sales Order ScL Line] + ':' + [SC-Orders SL.RecType] + ':' + [SC-Orders SL.ScL Quantity]
+ELSE
+ [RecType]='Update'
+print [SC-Orders SL.Sales Order Key] + ':' + [SC-Orders SL.Sales Order ScL Line] + ':Update:' + [SC-Orders SL.ScL Quantity]
+END IF
+
 [Source]=[SC-Orders SL.Source]
 [DelMarker]=[SC-Orders SL.DelMarker]
 
