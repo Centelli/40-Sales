@@ -82,7 +82,7 @@ tbl_dim_market,False,1.1.Files
 tbl_dim_market_role,False,1.1.Files
 tbl_dim_sales_region,False,1.1.Files
 SC-Division,False,1.2.Dimensions
-VBKD,False,1.1.Transaction
+VBKD,False,1.1.Transaction;ST_VBKD
 SQL_I2_vw_Sales_Org,False,1.1.SQL Sources
 SC-Sales Org,False,1.2.Dimensions;SC-Sales Org
 SQL_vw_bi_ICOGS,False,1.1.SQL Sources
