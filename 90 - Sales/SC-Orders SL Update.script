@@ -59,6 +59,8 @@ ELSE
 END IF
 */
 
+/* HUB-560 - optimisation of Orders SL Update data load to remove map function and move it to a join */
+
 IF [Grain(SC-Orders SL Update).# Sales Order Key] <> [SC-Orders SL.Sales Order Key] THEN
  [RecType]=[SC-Orders SL.RecType]
  print [SC-Orders SL.Sales Order Key] + ':' + [SC-Orders SL.Sales Order ScL Line] + ':' + [SC-Orders SL.RecType] + ':' + [SC-Orders SL.ScL Quantity]
