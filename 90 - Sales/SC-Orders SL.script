@@ -103,7 +103,8 @@ END IF
   IF [VBAK_VBAP_VBEP.VBAK_AUART] IN ('ZL2','ZG2') THEN
     [vSchedLineQty] = ifnull([vOrderQtyVBAP],0.00)
   ELSE
-    [vSchedLineQty] = IFNULL(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBEP_LMENG])),0.00)
+// HUB-595 --> Change quantity from confirmed quantity (VBEP_LMENG) to ordered quantity (VBEP_WMENG)
+    [vSchedLineQty] = IFNULL(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBEP_WMENG])),0.00)
   END IF
 /* 
   If a reason for rejection is set, then following logic applies:
