@@ -23,7 +23,7 @@ Dim [vSalesIcogsGC] as Float
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
 
-print [VBRK_VBRP.VBRK_VBELN]
+print 'Processing Invoice: ' + [VBRK_VBRP.VBRK_VBELN]
 
 FUNCTION [CheckValue]([Input] as Varchar(15)) as Float
 IF [Input] IS NOT NULL THEN
