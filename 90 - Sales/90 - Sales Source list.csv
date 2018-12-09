@@ -11,7 +11,7 @@ Sales Org,False,1.1.Configuration
 Sales Office,False,1.1.Configuration
 Sales Document,False,1.1.Configuration
 Item Category,False,1.1.Configuration
-Bill Type,False,1.1.Configuration
+Bill Type,False,1.1.Configuration;Aggregate
 Industry Code,False,1.1.Configuration
 Reason for Rejection,False,1.1.Configuration
 Division,False,1.1.Configuration
