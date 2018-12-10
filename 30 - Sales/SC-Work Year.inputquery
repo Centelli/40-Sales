@@ -1,2 +1,0 @@
-SELECT [SQL Workdays.ident], [SQL Workdays.day_key], [SQL Workdays.day_code], [SQL Workdays.day_type], [SQL Workdays.sales_max_count], [SQL Workdays.sales_act_count], [SQL Workdays.order_max_count], [SQL Workdays.order_act_count] FROM [SQL Workdays] 
-ORDER BY [SQL Workdays.day_code] ASC

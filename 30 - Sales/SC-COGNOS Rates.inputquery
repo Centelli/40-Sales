@@ -1,1 +1,0 @@
-SELECT [SQL_CCR_Fastnet_xomrv.perakt], [SQL_CCR_Fastnet_xomrv.vkod], [SQL_CCR_Fastnet_xomrv.kurstyp], [SQL_CCR_Fastnet_xomrv.enhet], [SQL_CCR_Fastnet_xomrv.kurs] FROM [SQL_CCR_Fastnet_xomrv] where [SQL_CCR_Fastnet_xomrv.kurstyp] <> 'D'

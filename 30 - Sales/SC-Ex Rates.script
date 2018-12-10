@@ -1,6 +1,0 @@
-[From Currency Key]=[Level(Exchange Rates.Exchange Rates).From Currency Key]
-[To Currency Key]=[Level(Exchange Rates.Exchange Rates).To Currency Key]
-[Valid From Date]=[Level(Exchange Rates.Exchange Rates).Valid From Date] 
-[Valid To Date]=[Level(Exchange Rates.Exchange Rates).Valid To Date]
-[Exchange Rate]=[Level(Exchange Rates.Exchange Rates).Exchange Rate]
-WRITERECORD

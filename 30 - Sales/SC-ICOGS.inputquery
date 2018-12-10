@@ -1,1 +1,0 @@
-SELECT [SQL_vw_bi_ICOGS.item_code], [SQL_vw_bi_ICOGS.plant_code], [SQL_vw_bi_ICOGS.last_cost_price_trans_date], [SQL_vw_bi_ICOGS.cost_price], [SQL_vw_bi_ICOGS.valid_from], [SQL_vw_bi_ICOGS.valid_to], [SQL_vw_bi_ICOGS.calc_date], [SQL_vw_bi_ICOGS.init_cost_price], [SQL_vw_bi_ICOGS.icogs_status] FROM [SQL_vw_bi_ICOGS]
