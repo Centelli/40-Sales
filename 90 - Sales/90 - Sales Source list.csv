@@ -99,3 +99,4 @@ SC-Invoices M2 Fin,False,1.7.M2 Curr Invoices
 SC-Orders M2 Curr,False,1.7.M2 Curr Orders;SC-Orders M2 Curr
 SC-Orders M2 Fin,False,1.7.M2 Curr Orders;SC-Orders M2 Fin
 md_outside_sales,False,md_outside_sales
+SC-Invoices Warmup,False,1.4.Invoices;SC-Invoices Warmup

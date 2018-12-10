@@ -101,3 +101,4 @@ SC-Orders M2 Fin,False,1.7.M2 Curr Orders;SC-Orders M2 Fin
 md_outside_sales,False,md_outside_sales
 RK_TEST,False,RK_TEST
 SC-Addresses,True,SC-Addresses
+SC-Invoices Warmup,False,1.4.Invoices;SC-Invoices Warmup

@@ -15,6 +15,8 @@ Dim [vSecurityKey] as Varchar(25)
 Dim [vSalesNetHC] as Float
 Dim [vSalesCostHC] as Float
 Dim [vSalesIcogsHC] as Float
+Dim [vICOGSInitCostPrice] as Float
+Dim [vICOGSStatus] as integer
 
 Dim [vSalesNetGC] as Float
 Dim [vSalesCostGC] as Float
@@ -23,7 +25,7 @@ Dim [vSalesIcogsGC] as Float
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
 
-print [VBRK_VBRP.VBRK_VBELN]
+print [SC-Invoices Warmup.VBRK_VBELN]
 
 FUNCTION [CheckValue]([Input] as Varchar(15)) as Float
 IF [Input] IS NOT NULL THEN
@@ -37,16 +39,18 @@ ELSE
 END IF
 End function 
 
-[vSalesOrg] = [VBRK_VBRP.VBRK_BUKRS]
-[vSalesDate] = [VBRK_VBRP.VBRK_FKDAT]
-[vSalesCurr] = [VBRK_VBRP.VBRK_WAERK]
-[vSalesNet] = [CheckValue]([VBRK_VBRP.VBRP_NETWR])
+[vSalesOrg] = [SC-Invoices Warmup.VBRK_BUKRS]
+[vSalesDate] = [SC-Invoices Warmup.VBRK_FKDAT]
+[vSalesCurr] = [SC-Invoices Warmup.VBRK_WAERK]
+[vSalesNet] = [CheckValue]([SC-Invoices Warmup.VBRP_NETWR])
 
 // Take header rate unless it is blank, in which case take line item exchange rate
-IF [VBRK_VBRP.VBRK_KURRF] IS NOT NULL THEN
- [vExcRatetoHC] = [CheckValue]([VBRK_VBRP.VBRK_KURRF])
+IF [SC-Invoices Warmup.VBRK_KURRF] IS NOT NULL AND [SC-Invoices Warmup.VBRK_KURRF] <> '0.0' THEN
+ print '0.51: Taking header exchange rate to HC - ' + [CheckValue]([SC-Invoices Warmup.VBRK_KURRF])
+ [vExcRatetoHC] = [CheckValue]([SC-Invoices Warmup.VBRK_KURRF])
 ELSE
- [vExcRatetoHC] = [CheckValue]([VBRK_VBRP.VBRP_KURSK])
+ print '0.52: Taking header exchange rate to HC - ' + [CheckValue]([SC-Invoices Warmup.VBRP_KURSK])
+ [vExcRatetoHC] = [CheckValue]([SC-Invoices Warmup.VBRP_KURSK])
 END IF
 
 // USE TCURF DATA to apply SAP factor, applied to DC to HC Ex RATE
@@ -61,13 +65,13 @@ END IF
 
 // IF credit memo, apart from credit memo cancellation (type Zs2), reverse sign
 //  What about invoice cancellations?
-IF [VBRK_VBRP.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1') then
+IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1') then
  [vMultiplier] = -1.00
 else
  [vMultiplier] = 1.00
 end if
 
-PRINT '1'
+PRINT '1: Basics, starting with vSalesNet variable calc'
 
 [vSalesNet] = [vSalesNet] * [vMultiplier]
 
@@ -77,10 +81,10 @@ DIM [mVCItems] AS MAP(Varchar(18),Varchar(18)) = SELECT [SC-Item.Item Key], [SC-
 /*
 Item Key manipulation for VC items 
 */  
-IF [mVCItems]([VBRK_VBRP.VBRP_MATNR]) IS NOT NULL THEN
-  [vMatKey]=[VBRK_VBRP.VBRP_MATKL]+''+SUBSTRING([VBRK_VBRP.VBRP_MATNR],LENGTH([VBRK_VBRP.VBRP_MATNR])-9,LENGTH([VBRK_VBRP.VBRP_MATNR]))
+IF [mVCItems]([SC-Invoices Warmup.VBRP_MATNR]) IS NOT NULL THEN
+  [vMatKey]=[SC-Invoices Warmup.VBRP_MATKL]+''+SUBSTRING([SC-Invoices Warmup.VBRP_MATNR],LENGTH([SC-Invoices Warmup.VBRP_MATNR])-9,LENGTH([SC-Invoices Warmup.VBRP_MATNR]))
 ELSE 
-  [vMatKey]=[VBRK_VBRP.VBRP_MATNR]
+  [vMatKey]=[SC-Invoices Warmup.VBRP_MATNR]
 END IF 
 PRINT '[DelPart.VBPA_KUNNR]:'+[DelPart.VBPA_KUNNR]
 
@@ -91,107 +95,107 @@ ELSE
 END IF
 PRINT '[vDelCustomerKey]:'+[vDelCustomerKey]
 /* Sales Doc Number */
-Dim [vSalesDoc] as Varchar(10) = [VBRK_VBRP.VBRK_VBELN]
-Dim [vSalesDocItem] as Varchar(10) = [VBRK_VBRP.VBRP_POSNR]
+Dim [vSalesDoc] as Varchar(10) = [SC-Invoices Warmup.VBRK_VBELN]
+Dim [vSalesDocItem] as Varchar(10) = [SC-Invoices Warmup.VBRP_POSNR]
 
-[Invoice Number]=[VBRK_VBRP.VBRK_VBELN]
-[Bill Type Key]=[VBRK_VBRP.VBRK_FKART]
-[BillingCategory]=[VBRK_VBRP.VBRK_FKTYP]
-[Header Doc cat]=[VBRK_VBRP.VBRK_VBTYP]
-[Currency Key]=[VBRK_VBRP.VBRK_WAERK]
-[Sales Org Key]=[VBRK_VBRP.VBRK_VKORG]
-[Distr Channel]=[VBRK_VBRP.VBRK_VTWEG]
-[Billing Date]=[VBRK_VBRP.VBRK_FKDAT]
-[Accounting Document]=[VBRK_VBRP.VBRK_BELNR]
-[Fiscal Year]=[VBRK_VBRP.VBRK_GJAHR]
-[Posting period]=[VBRK_VBRP.VBRK_POPER]
-[Customer Group]=[VBRK_VBRP.VBRK_KDGRP]
-[Comp Code Key]=[VBRK_VBRP.VBRK_BUKRS]
-[Header Net Value]=[VBRK_VBRP.VBRK_NETWR]
-[Created by Header]=[VBRK_VBRP.VBRK_ERNAM]
-[Time]=[VBRK_VBRP.VBRK_ERZET]
-[SI Header Create Date]=[VBRK_VBRP.VBRK_ERDAT]
-[Pric procedure]=[VBRK_VBRP.VBRK_KALSM]
-[SI Doc Condition]=[VBRK_VBRP.VBRK_KNUMV]
-[Payer]=[VBRK_VBRP.VBRK_KUNRG]
+[Invoice Number]=[SC-Invoices Warmup.VBRK_VBELN]
+[Bill Type Key]=[SC-Invoices Warmup.VBRK_FKART]
+[BillingCategory]=[SC-Invoices Warmup.VBRK_FKTYP]
+[Header Doc cat]=[SC-Invoices Warmup.VBRK_VBTYP]
+[Currency Key]=[SC-Invoices Warmup.VBRK_WAERK]
+[Sales Org Key]=[SC-Invoices Warmup.VBRK_VKORG]
+[Distr Channel]=[SC-Invoices Warmup.VBRK_VTWEG]
+[Billing Date]=[SC-Invoices Warmup.VBRK_FKDAT]
+[Accounting Document]=[SC-Invoices Warmup.VBRK_BELNR]
+[Fiscal Year]=[SC-Invoices Warmup.VBRK_GJAHR]
+[Posting period]=[SC-Invoices Warmup.VBRK_POPER]
+[Customer Group]=[SC-Invoices Warmup.VBRK_KDGRP]
+[Comp Code Key]=[SC-Invoices Warmup.VBRK_BUKRS]
+[Header Net Value]=[SC-Invoices Warmup.VBRK_NETWR]
+[Created by Header]=[SC-Invoices Warmup.VBRK_ERNAM]
+[Time]=[SC-Invoices Warmup.VBRK_ERZET]
+[SI Header Create Date]=[SC-Invoices Warmup.VBRK_ERDAT]
+[Pric procedure]=[SC-Invoices Warmup.VBRK_KALSM]
+[SI Doc Condition]=[SC-Invoices Warmup.VBRK_KNUMV]
+[Payer]=[SC-Invoices Warmup.VBRK_KUNRG]
 
 // For intercompany invoices, i.e. FKART=ZIV or ZIVS, payer should be used as customer
-IF [VBRK_VBRP.VBRK_FKART] IN ('ZIV', 'ZIVS')  THEN
-  [vCustomerKey] = [VBRK_VBRP.VBRK_KUNRG]
+IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZIV', 'ZIVS')  THEN
+  [vCustomerKey] = [SC-Invoices Warmup.VBRK_KUNRG]
 ELSE
-  [vCustomerKey] = [VBRK_VBRP.VBRK_KUNAG]
+  [vCustomerKey] = [SC-Invoices Warmup.VBRK_KUNAG]
    
 END IF
 
 
 //Regional Currency 
-IF [tbl_dim_sales_region.regional_currency_code] IS NOT NULL THEN
-[vRegCurrency]=[tbl_dim_sales_region.regional_currency_code]
+IF [SC-Invoices Warmup.regional_currency_code] IS NOT NULL THEN
+[vRegCurrency]=[SC-Invoices Warmup.regional_currency_code]
 ELSE
-[vRegCurrency]=[mRegCurr]([vCustomerKey] + '' + [VBRK_VBRP.VBRK_VKORG])
+[vRegCurrency]=[mRegCurr]([vCustomerKey] + '' + [SC-Invoices Warmup.VBRK_VKORG])
 END IF
 
 [Customer Key] = [vCustomerKey] 
-[CustArea Key] = [vCustomerKey] + '' + [VBRK_VBRP.VBRK_VKORG]
-[vSecurityKey] = [VBRK_VBRP.VBRK_VKORG] + '' + [VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
+[CustArea Key] = [vCustomerKey] + '' + [SC-Invoices Warmup.VBRK_VKORG]
+[vSecurityKey] = [SC-Invoices Warmup.VBRK_VKORG] + '' + [SC-Invoices Warmup.VBRP_SPART] + '' + [vCustomerKey] 
 
-[SI Cancellation Document]=[VBRK_VBRP.VBRK_SFAKN]
+[SI Cancellation Document]=[SC-Invoices Warmup.VBRK_SFAKN]
 [Delivery Customer Key]=[vDelCustomerKey]
-IF [VBRK_VBRP.VBRK_AEDAT] IS NOT NULL THEN
-[SI Header Change Date]=[VBRK_VBRP.VBRK_AEDAT]
+IF [SC-Invoices Warmup.VBRK_AEDAT] IS NOT NULL THEN
+[SI Header Change Date]=[SC-Invoices Warmup.VBRK_AEDAT]
 ELSE 
-[SI Header Change Date]=[VBRK_VBRP.VBRK_ERDAT]
+[SI Header Change Date]=[SC-Invoices Warmup.VBRK_ERDAT]
 END IF
-[Sales Invoice Number]=[VBRK_VBRP.VBRP_VBELN]
-[Sales Invoice Item]=[VBRK_VBRP.VBRP_POSNR]
-[Sales Invoice Key]=[VBRK_VBRP.VBRP_VBELN]+''+[VBRK_VBRP.VBRP_POSNR]
-[Higher-lev_item]=[VBRK_VBRP.VBRP_UEPOS]
-[Invoice Qty]=FLOAT([VBRK_VBRP.VBRP_FKIMG])
-[SI Sales UoM]=[VBRK_VBRP.VBRP_VRKME]
-[Numerator]=[VBRK_VBRP.VBRP_UMVKZ]
-[Denominator]=[VBRK_VBRP.VBRP_UMVKN]
-[SI Base UoM]=[VBRK_VBRP.VBRP_MEINS]
+[Sales Invoice Number]=[SC-Invoices Warmup.VBRP_VBELN]
+[Sales Invoice Item]=[SC-Invoices Warmup.VBRP_POSNR]
+[Sales Invoice Key]=[SC-Invoices Warmup.VBRP_VBELN]+''+[SC-Invoices Warmup.VBRP_POSNR]
+[Higher-lev_item]=[SC-Invoices Warmup.VBRP_UEPOS]
+[Invoice Qty]=FLOAT([SC-Invoices Warmup.VBRP_FKIMG])
+[SI Sales UoM]=[SC-Invoices Warmup.VBRP_VRKME]
+[Numerator]=[SC-Invoices Warmup.VBRP_UMVKZ]
+[Denominator]=[SC-Invoices Warmup.VBRP_UMVKN]
+[SI Base UoM]=[SC-Invoices Warmup.VBRP_MEINS]
 [Sales Net]=[vSalesNet]
-[SI Originating Doc]=[VBRK_VBRP.VBRP_VBELV]
-[SI Originating Item]=[VBRK_VBRP.VBRP_POSNV]
-[SI Reference Doc]=[VBRK_VBRP.VBRP_VGBEL]
-[SI Reference Item]=[VBRK_VBRP.VBRP_VGPOS]
-[SI Prec Doc Categ]=[VBRK_VBRP.VBRP_VGTYP]
-[Sales Order Number]=[VBRK_VBRP.VBRP_AUBEL]
-[Sales Order Item]=[VBRK_VBRP.VBRP_AUPOS]
-[SI Reference SO Key]=[VBRK_VBRP.VBRP_AUBEL]+''+[VBRK_VBRP.VBRP_AUPOS]
-[SalesDocumentRefer]=[VBRK_VBRP.VBRP_AUREF]
+[SI Originating Doc]=[SC-Invoices Warmup.VBRP_VBELV]
+[SI Originating Item]=[SC-Invoices Warmup.VBRP_POSNV]
+[SI Reference Doc]=[SC-Invoices Warmup.VBRP_VGBEL]
+[SI Reference Item]=[SC-Invoices Warmup.VBRP_VGPOS]
+[SI Prec Doc Categ]=[SC-Invoices Warmup.VBRP_VGTYP]
+[Sales Order Number]=[SC-Invoices Warmup.VBRP_AUBEL]
+[Sales Order Item]=[SC-Invoices Warmup.VBRP_AUPOS]
+[SI Reference SO Key]=[SC-Invoices Warmup.VBRP_AUBEL]+''+[SC-Invoices Warmup.VBRP_AUPOS]
+[SalesDocumentRefer]=[SC-Invoices Warmup.VBRP_AUREF]
 [Item Key]=[vMatKey]
-[Ext Mat Group Key]=[VBRK_VBRP.VBRP_MATKL]
-[Item category]=[VBRK_VBRP.VBRP_PSTYV]
-[Item type]=[VBRK_VBRP.VBRP_POSAR]
-[Division Key]=[VBRK_VBRP.VBRP_SPART]
-[Plant]=[VBRK_VBRP.VBRP_WERKS]
-[Country]=[VBRK_VBRP.VBRP_ALAND]
-[Sales Group]=[VBRK_VBRP.VBRP_VKGRP]
-[Sales Office Key]=[VBRK_VBRP.VBRP_VKBUR]
-[Created by Line Item]=[VBRK_VBRP.VBRP_ERNAM]
-[Created on Line Item]=[VBRK_VBRP.VBRP_ERDAT]
-[Time_VBRP_ERZET]=[VBRK_VBRP.VBRP_ERZET]
-[Stor Location]=[VBRK_VBRP.VBRP_LGORT]
-[SI Item Cost]=[CheckValue]([VBRK_VBRP.VBRP_WAVWR]) 
-[SI Item Subtotal 1]=[CheckValue]([VBRK_VBRP.VBRP_KZWI1])
-[SI Item Subtotal 2]=[CheckValue]([VBRK_VBRP.VBRP_KZWI2])
-[SI Item Subtotal 3]=[CheckValue]([VBRK_VBRP.VBRP_KZWI3])
-[SI Item Subtotal 4]=[CheckValue]([VBRK_VBRP.VBRP_KZWI4])
-[SI Item Subtotal 5]=[CheckValue]([VBRK_VBRP.VBRP_KZWI5])
-[SI Item Subtotal 6]=[CheckValue]([VBRK_VBRP.VBRP_KZWI6])
-[Exch_rate stats]=[CheckValue]([VBRK_VBRP.VBRP_STCUR])
-[Profit Center]=[VBRK_VBRP.VBRP_PRCTR]
-[Document cat]=[VBRK_VBRP.VBRP_AUTYP]
-[Analysis Date]=[VBRK_VBRP.VBRK_FKDAT]
-[Statistical Value] = [VBRK_VBRP.VBRP_KOWRR]
-[Billing Rule] = [VBRK_VBRP.VBRP_FAREG]
-[Returns] = [VBRK_VBRP.VBRP_SHKZG]
-[DelMarker]=[VBRK_VBRP.VBRP_VBELN]+'_'+[VBRK_VBRP.VBRP_POSNR]+'_CURRENT'
+[Ext Mat Group Key]=[SC-Invoices Warmup.VBRP_MATKL]
+[Item category]=[SC-Invoices Warmup.VBRP_PSTYV]
+[Item type]=[SC-Invoices Warmup.VBRP_POSAR]
+[Division Key]=[SC-Invoices Warmup.VBRP_SPART]
+[Plant]=[SC-Invoices Warmup.VBRP_WERKS]
+[Country]=[SC-Invoices Warmup.VBRP_ALAND]
+[Sales Group]=[SC-Invoices Warmup.VBRP_VKGRP]
+[Sales Office Key]=[SC-Invoices Warmup.VBRP_VKBUR]
+[Created by Line Item]=[SC-Invoices Warmup.VBRP_ERNAM]
+[Created on Line Item]=[SC-Invoices Warmup.VBRP_ERDAT]
+[Time_VBRP_ERZET]=[SC-Invoices Warmup.VBRP_ERZET]
+[Stor Location]=[SC-Invoices Warmup.VBRP_LGORT]
+[SI Item Cost]=[CheckValue]([SC-Invoices Warmup.VBRP_WAVWR]) 
+[SI Item Subtotal 1]=[CheckValue]([SC-Invoices Warmup.VBRP_KZWI1])
+[SI Item Subtotal 2]=[CheckValue]([SC-Invoices Warmup.VBRP_KZWI2])
+[SI Item Subtotal 3]=[CheckValue]([SC-Invoices Warmup.VBRP_KZWI3])
+[SI Item Subtotal 4]=[CheckValue]([SC-Invoices Warmup.VBRP_KZWI4])
+[SI Item Subtotal 5]=[CheckValue]([SC-Invoices Warmup.VBRP_KZWI5])
+[SI Item Subtotal 6]=[CheckValue]([SC-Invoices Warmup.VBRP_KZWI6])
+[Exch_rate stats]=[CheckValue]([SC-Invoices Warmup.VBRP_STCUR])
+[Profit Center]=[SC-Invoices Warmup.VBRP_PRCTR]
+[Document cat]=[SC-Invoices Warmup.VBRP_AUTYP]
+[Analysis Date]=[SC-Invoices Warmup.VBRK_FKDAT]
+[Statistical Value] = [SC-Invoices Warmup.VBRP_KOWRR]
+[Billing Rule] = [SC-Invoices Warmup.VBRP_FAREG]
+[Returns] = [SC-Invoices Warmup.VBRP_SHKZG]
+[DelMarker]=[SC-Invoices Warmup.VBRP_VBELN]+'_'+[SC-Invoices Warmup.VBRP_POSNR]+'_CURRENT'
 [Source] = 'SAP ECC'
 
-PRINT '2'
+PRINT '2: Starting COGS'
 /*
 if SUM([KONV.KONV_KWERT]) IS NOT NULL THEN
 PRINT '3.1'
@@ -203,33 +207,34 @@ end if
 */
 
 if SUM([BAPI.Condition value]) IS NOT NULL THEN
-PRINT '3.1'
 // HUB-578 (30Nov18) - Set ICOGS and COGS for credit/debit memo to zero
-   if [VBRK_VBRP.VBRP_PSTYV] = 'ZG2N' or [VBRK_VBRP.VBRP_PSTYV] = 'ZL2N' then
+   if [SC-Invoices Warmup.VBRP_PSTYV] = 'ZG2N' or [SC-Invoices Warmup.VBRP_PSTYV] = 'ZL2N' then
      [vSalesCost] = 0
    else
+     PRINT '3.1: Received COGS from pricing conditions' + (FLOAT(SUM([BAPI.Condition value])) * [vMultiplier] * -1)
      [vSalesCost] = FLOAT(SUM([BAPI.Condition value])) * [vMultiplier] * -1
   end if
 else  
-PRINT '3.2'
+PRINT '3.2: No COGS from pricing conditions so setting to zero'
   [vSalesCost] = 0.00
 end if
 
 [Sales COGS DC] = [vSalesCost]
 
-PRINT '4'
-//print 'IN KONV '+SUM([BAPI.Condition value])+' - '+[VBRK_VBRP.VBRK_KNUMV]
+PRINT '4: Just for fun'
+//print 'IN KONV '+SUM([BAPI.Condition value])+' - '+[SC-Invoices Warmup.VBRK_KNUMV]
 
 
-PRINT '5'
+PRINT '5: Net Sales Block'
 
 
 
   [v_rate_home_to_chf] = 1
-  IF [SC-Company.Comp Currency Key] <> 'CHF' THEN
+
+  IF [SC-Invoices Warmup.Comp Currency Key] <> 'CHF' THEN
     [v_rate_home_to_chf] = [HomeRates.Exchange Rate]
   END IF
-PRINT '[SC-Company.Comp Currency Key]:'+[SC-Company.Comp Currency Key]+' [v_rate_home_to_chf] ='+[v_rate_home_to_chf] 
+  PRINT '[SC-Invoices Warmup.Comp Currency Key]:'+[SC-Invoices Warmup.Comp Currency Key]+' [v_rate_home_to_chf] ='+[v_rate_home_to_chf] 
   [v_rate_chf_to_reg] = 1
   IF [vRegCurrency] <> 'CHF' THEN
     [v_rate_chf_to_reg] = [RegRates.Exchange Rate]
@@ -238,24 +243,24 @@ PRINT '[vRegCurrency]:'+[vRegCurrency]+' [v_rate_chf_to_reg] ='+[v_rate_chf_to_r
 
   IF [v_rate_home_to_chf] IS NULL THEN
     [v_rate_home_to_chf] = 1
-    PRINT 'ISSUE WITH '+[VBRK_VBRP.VBRK_VBELN]+' RATE FOR v_rate_home_to_chf '+[SC-Company.Comp Currency Key]+' NOT FOUND - SET TO 1'
+    PRINT 'ISSUE WITH '+[SC-Invoices Warmup.VBRK_VBELN]+' RATE FOR v_rate_home_to_chf '+[SC-Invoices Warmup.Comp Currency Key]+' NOT FOUND - SET TO 1'
   END IF
   
   IF [v_rate_chf_to_reg] IS NULL THEN
     [v_rate_chf_to_reg] = 1
-    PRINT 'ISSUE WITH '+[VBRK_VBRP.VBRK_VBELN]+' RATE FOR v_rate_chf_to_reg '+[vRegCurrency]+' NOT FOUND - SET TO 1'
+    PRINT 'ISSUE WITH '+[SC-Invoices Warmup.VBRK_VBELN]+' RATE FOR v_rate_chf_to_reg '+[vRegCurrency]+' NOT FOUND - SET TO 1'
   END IF  
 
 [Currency Key DC]=[vSalesCurr]
 [Ex Rate DC]=1
 [Net Sales DC]=[vSalesNet]
 
-[Currency Key HC] = [SC-Company.Comp Currency Key]
+ [Currency Key HC] = [SC-Invoices Warmup.Comp Currency Key]
 
    IF [vExcRatetoHC] > FLOAT(0.00) THEN
     [Ex Rate HC]=[vExcRatetoHC]
-	[vSalesNetHC]=IFNULL([vSalesNet],0.00)*[vExcRatetoHC]
-	[vSalesCostHC]=IFNULL([vSalesCost],0.00)*[vExcRatetoHC] 
+  [vSalesNetHC]=IFNULL([vSalesNet],0.00)*[vExcRatetoHC]
+  [vSalesCostHC]=IFNULL([vSalesCost],0.00)*[vExcRatetoHC] 
    ELSEIF [vExcRatetoHC] < FLOAT(0.00)
     [Ex Rate HC]=FLOAT(1/([vExcRatetoHC]*-1))
     [vSalesNetHC]=FLOAT(IFNULL([vSalesNet],0.00)/([vExcRatetoHC]*-1))
@@ -266,7 +271,7 @@ PRINT '[vRegCurrency]:'+[vRegCurrency]+' [v_rate_chf_to_reg] ='+[v_rate_chf_to_r
 
 
 [Currency Key GC] = 'CHF'
-IF [SC-Company.Comp Currency Key] = 'CHF' THEN
+ IF [SC-Invoices Warmup.Comp Currency Key] = 'CHF' THEN
   [Ex Rate GC] = 1
   [vSalesNetGC] = [vSalesNetHC]
   [vSalesCostGC] = [vSalesCostHC]
@@ -311,24 +316,36 @@ WRITERECORD
 [Sales Net] = 0.00
 [Invoice Qty] = 0.00
 
-PRINT '6'
+PRINT '6: Processing ICOGS'
 
 // HUB-578 (30Nov18) - Set ICOGS and COGS for credit/debit memo to zero
-   if [VBRK_VBRP.VBRP_PSTYV] <> 'ZL2N' and [VBRK_VBRP.VBRP_PSTYV] <> 'ZG2N' then
+   if [SC-Invoices Warmup.VBRP_PSTYV] <> 'ZL2N' and [SC-Invoices Warmup.VBRP_PSTYV] <> 'ZG2N' then
 
-PRINT (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00)))
+// HUB-591 for intercompany invoices and change in logic for ICOGS Status
+// If first two characters of company are the same as first two characters of plant, then normal else intercompany
+IF substring([SC-Invoices Warmup.VBRK_BUKRS],0,2) = substring([SC-Invoices Warmup.VBRP_WERKS],0,2) then
+  [vICOGSInitCostPrice] = FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))
+  [vICOGSStatus] = [SC-ICOGS.ICOGS Status]
+ELSE
+print '6.05: Using Intercompany COGS'
+  [vICOGSInitCostPrice] = FLOAT(IFNULL([InterCompICOGS.ICOGS Init Cost Price],0.00))
+  [vICOGSStatus] = [InterCompICOGS.ICOGS Status]
+END IF
+
+PRINT 'ICOGS Rate: ' + [vICOGSInitCostPrice]
 // If ICOGS is zero, use COGS
-IF (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))) <> 0.00 THEN
-  PRINT '6.1'
-  [Sales ICOGS HC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([VBRK_VBRP.VBRP_FKIMG]))
-  IF [SC-Company.Comp Currency Key] = 'CHF' THEN
-    [vSalesIcogsGC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([VBRK_VBRP.VBRP_FKIMG]))
+IF [vICOGSInitCostPrice] <> 0.00 AND [vICOGSStatus] <> 2 AND [vICOGSStatus] <> 6 THEN
+  PRINT '6.1: Calculating ICOGS using ' + [vICOGSInitCostPrice]
+  [Sales ICOGS HC]=[vICOGSInitCostPrice]*FLOAT([SC-Invoices Warmup.VBRP_FKIMG])
+  IF [SC-Invoices Warmup.Comp Currency Key] = 'CHF' THEN
+    [vSalesIcogsGC]=[vICOGSInitCostPrice]*FLOAT([SC-Invoices Warmup.VBRP_FKIMG])
   ELSE
-    [vSalesIcogsGC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([VBRK_VBRP.VBRP_FKIMG]))*[v_rate_home_to_chf]
+    [vSalesIcogsGC]=[vICOGSInitCostPrice]*FLOAT([SC-Invoices Warmup.VBRP_FKIMG])*[v_rate_home_to_chf]
   END IF
   [Sales ICOGS GC]=[vSalesIcogsGC]
 ELSE
-  PRINT '6.2'
+  PRINT '6.2: ICOGS Rate is zero so setting to COGS'
+  PRINT 'Basis for ICOGS: Company- ' + [SC-Invoices Warmup.VBRK_BUKRS] + ':Plant-' + [SC-Invoices Warmup.VBRP_WERKS] + ': Date-' + format([SC-Invoices Warmup.VBRK_FKDAT],'yyyy-MM-dd') + ': Material Key-' + [SC-Invoices Warmup.VBRP_MATNR]
   [Sales ICOGS HC] = [vSalesCostHC]
   [Sales ICOGS GC] = [vSalesCostGC]
 END IF
