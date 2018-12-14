@@ -1,0 +1,47 @@
+DIM [vCustomerKey] as VARCHAR(20)
+
+
+IF [SQL Sales Budget Forecast.customer_type] = 'new biz' THEN
+[vCustomerKey]=[SQL Sales Budget Forecast.customer_code]+''+[SQL Sales Budget Forecast.sales_rep_code]
+ELSE
+[vCustomerKey]=[SQL Sales Budget Forecast.customer_code]
+END IF
+
+[Customer Key]=[vCustomerKey]
+
+IF [SQL Sales Budget Forecast.comp_type] = 'SAP' THEN
+  [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.sap_comp_code]+ '' + '1000'
+ELSE
+  [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.div_comp_code]
+END IF
+
+[Outside Sales Key]=[SQL Sales Budget Forecast.sales_rep_code]
+
+[Source]='New Biz'
+[Comp Code Key]=[SQL Sales Budget Forecast.div_comp_code]
+[Sales Office Key]=[SQL Sales Budget Forecast.sales_office_key]
+
+[Sales Office] = [tbl_dim_sales_region.sales_office_name]
+IF [tbl_dim_sales_region.regional_currency_code] = 'RMB' THEN
+ [RC Currency Key] = 'CNY'
+ELSE
+ [RC Currency Key] = [tbl_dim_sales_region.regional_currency_code]
+END IF
+[Sales Region]=[tbl_dim_sales_region.sales_region_code]
+[Sales SubRegion]=[tbl_dim_sales_region.sales_subregion_code]
+
+[Outside Sales]=[SC-Employee Hierarchy.Name]
+//[Outside Sales AG]=[OutCust.KNA1_KTOKD]
+[Outside Sales Email Address]=[SQL Sales Budget Forecast.sales_rep_email]
+[Outside Sales AD ID]=[SC-Employee Hierarchy.AD ID]
+[RSM AD ID]=[SC-Employee Hierarchy.Manager AD ID]
+[RSM]=[SC-Employee Hierarchy.Manager Name]
+[MD/GM AD ID]=[SC-Employee Hierarchy.Managerx2 AD ID]
+[MD/GM]=[SC-Employee Hierarchy.Managerx2 Name]
+[RMD AD ID]=[SC-Employee Hierarchy.Managerx3 AD ID]
+[RMD]=[SC-Employee Hierarchy.Managerx3 Name]
+[Global Sales AD ID]=[SC-Employee Hierarchy.Managerx4 AD ID]
+[Global Sales]=[SC-Employee Hierarchy.Managerx4 Name]
+
+
+WRITERECORD

@@ -1,0 +1,102 @@
+Source Name,Disabled,Processing Groups
+SC-Customer,False,1.2.Dimensions;SC-Customer
+SC-Invoices,False,SC-Invoices;1.4.Invoices
+VBRK_VBRP,False,1.1.Transaction;2.Invoices;3.Staging;4.ST_VBRK_VBRP
+KNA1,False,1.1.Master;2.Customer;3.Staging;4.ST_KNA1
+MARA,False,1.1.Master;2.Material;3.Staging;4.ST_MARA
+KONV,False,1.1.Transaction;2.Pricing;3.Staging;4.ST_KONV
+VBPA,False,1.1.Transaction;2.Partner Functions;3.Staging;4.ST_VBPA
+Company Code,False,1.1.Configuration
+Sales Org,False,1.1.Configuration
+Sales Office,False,1.1.Configuration
+Sales Document,False,1.1.Configuration
+Item Category,False,1.1.Configuration
+Bill Type,False,1.1.Configuration;Aggregate
+Industry Code,False,1.1.Configuration
+Reason for Rejection,False,1.1.Configuration
+Division,False,1.1.Configuration
+Currency,False,1.1.Configuration
+Market Role,False,1.1.Configuration
+Ext Material Group,False,1.1.Configuration
+Country,False,1.1.Configuration
+Industry,False,1.1.Configuration
+Structure_Dimension_Item,False,1.1.Files
+SC-Delivery Customer,False,1.2.Dimensions
+ConsCustom,False,1.1.Configuration
+SC-Company,False,1.2.Dimensions;SC-Company
+KNVP,False,1.1.Master;4.ST_KNVP
+SC-Customer Sales Area,False,1.2.Dimensions;SC-Customer Sales Area
+KNVV,False,1.1.Master
+SC-Order Extract,False,SC-Order Extract
+SQL Sales Budget Forecast,False,1.1.SQL Sources
+SQL Workdays,False,1.1.SQL Sources
+SC-Budget Forecast,False,1.5.Budget Forecast
+SC-Work Year,False,1.2.Dimensions;SC-Work Year
+SC-ICOGS,False,1.2.Dimensions;SC-ICOGS
+SC-Workdays,False,SC-Workdays;1.2.Dimensions
+SQL_DM_VW_GENERAL_VBAK_VBAP,False,ST_SQL_DM;Data Migration
+SC-DM-Orders,False,SC-DM-Orders;Scripts;Data Migration
+SC-Item,False,1.2.Dimensions;SC-Item
+SC-Customer New Biz,False,1.2.Dimensions;SC-Customer New Biz
+SC-CustSales Area Budget,False,1.2.Dimensions;SC-Customer Sales Area Budget
+SQL Customer New Biz,False,1.1.SQL Sources
+SC-Item VC,False,1.2.Dimensions;SC-Item VC
+SC-Invoices I2,False,1.4.Invoices I2
+SQL_I2_vw_MARA,False,1.1.SQL Sources
+SC-Item I2,False,1.2.Dimensions I2;SC-Item I2
+SC-Customer I2,False,1.2.Dimensions I2;SC-Customer I2
+SQL_I2_vw_VBRK_VBRP,False,1.1.SQL Sources
+SC-Customer Sales Area I2,False,1.2.Dimensions I2;SC-Customer Sales Area I2
+SQL_I2_vw_VBAK_VBAP,False,1.1.SQL Sources;SQL_I2_VBAK_VBAP
+SC-Orders I2,False,1.3.Orders I2
+TCURF,False,1.1.Transaction;ST-TCURF
+SC-Currency Factors,False,1.2.Dimensions;SC-Currency Factors
+SQL_I2_vw_dim_customer,False,1.1.SQL Sources
+SC-Orders SL,False,SC-Orders SL;1.3.Orders SL
+VBAK_VBAP_VBEP,False,1.1.Transaction;4.ST_VBAK_VBAP_VBEP
+SC-Orders SL History,False,SC-Orders SL History;1.3.Orders SL
+SC-Orders SL Update,False,SC-Orders SL Update;1.3.Orders SL
+SQL_DBO_vw_sql_dim_country,False,1.1.SQL Sources
+SC-User Access,False,1.2.User Access
+SC-Ex Rates,False,1.2.Dimensions
+SQL_CCR_Fastnet_xomrv,False,1.1.SQL Sources
+Key Account,False,
+ADR6,False,1.1.Master
+SC-Active Directory,False,1.2.Dimensions;SC-Active Directory
+SC-Employee Hierarchy,False,1.2.Dimensions;SC-Employee Hierarchy
+Active Directory,False,1.1.Hierarchies;ST-Active Directory
+SC-COGNOS Rates,False,1.5.COGNOS
+SC-COGNOS,True,SC-COGNOS;1.5.COGNOS
+SC-COGNOS Daily,False,1.5.COGNOS
+SC-COGNOS RK,True,
+SC-Delivery Customer I2,False,1.2.Dimensions I2
+SQL_I2_vw_dim_company,False,1.1.SQL Sources
+Region-SubRegion-Hierarchy,False,
+SC-Orders SL Backlog,True,SC-Orders SL Backlog;1.3.Orders SL
+SC-Backlog,False,1.5.Backlog;SC-Backlog
+tbl_dim_country,False,1.1.Files
+tbl_dim_customer_group,False,1.1.Files
+tbl_dim_customer_type,False,1.1.Files
+tbl_dim_division,False,1.1.Files
+tbl_dim_market,False,1.1.Files
+tbl_dim_market_role,False,1.1.Files
+tbl_dim_sales_region,False,1.1.Files
+SC-Division,False,1.2.Dimensions
+VBKD,False,1.1.Transaction;ST_VBKD
+SQL_I2_vw_Sales_Org,False,1.1.SQL Sources
+SC-Sales Org,False,1.2.Dimensions;SC-Sales Org
+SQL_vw_bi_ICOGS,False,1.1.SQL Sources
+User_Defaults,False,User Deafults
+ZBI_BIRST_ZbapiSalesorderGet,False,1.1.Transaction;2.Pricing;3.Staging;4.ST_BAPI_Pricing
+SC-TCURF,False,1.2.Dimensions;SC-TCURF
+SC-Delivery Partner Default,False,1.4.Invoices;SC-Delivery Partner Default
+SQL_M2_vw_migration_fact_sales,False,1.6.Migration Sources;SQL_M2_vw_migration_fact_sales
+SC-Invoices M2 Curr,False,1.7.M2 Curr Invoices
+SC-Invoices M2,False,1.9.Invoices M2;SC-Invoices M2
+SQL_M2_vw_migration_fact_orders,False,1.6.Migration Sources;SQL_M2_vw_migration_fact_orders
+SC-Orders M2,False,1.8.Orders M2;SC-Orders M2
+SC-Invoices M2 Fin,False,1.7.M2 Curr Invoices
+SC-Orders M2 Curr,False,1.7.M2 Curr Orders;SC-Orders M2 Curr
+SC-Orders M2 Fin,False,1.7.M2 Curr Orders;SC-Orders M2 Fin
+md_outside_sales,False,md_outside_sales
+SC-Invoices Warmup,False,1.4.Invoices;SC-Invoices Warmup

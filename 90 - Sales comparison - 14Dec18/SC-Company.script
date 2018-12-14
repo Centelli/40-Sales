@@ -1,0 +1,7 @@
+[Comp Code Key]=[Company Code.Comp Code Key]
+[Comp Name]=[Company Code.Comp Name]
+[City]=[Company Code.City]
+[Comp Country Key]=[Company Code.Comp Country Key]
+[Comp Currency Key]=[Company Code.Comp Currency Key]
+[Source]=GETCOLUMNVALUE(5)
+WRITERECORD

@@ -1,0 +1,44 @@
+DIM [vFullCount] AS INTEGER
+DIM [vWorkCount] AS INTEGER
+
+DIM [vPrevYearMonth] AS VARCHAR(6)
+DIM [vCurrYearMonth] AS VARCHAR(6)
+
+[vCurrYearMonth] = DATEPART(YEAR,[SQL Workdays.day_code]) + '' + format(DATEPART(MONTH,[SQL Workdays.day_code]), '00')
+
+PRINT [SQL Workdays.day_code]
+PRINT 'Prev:' + [vPrevYearMonth]
+PRINT 'Curr:' +  [vCurrYearMonth] 
+PRINT 'Cnts:' + [vFullCount] + ' ' + [vWorkCount]
+
+IF [vPrevYearMonth] IS NOT NULL THEN
+
+  [YearMonth]=[vPrevYearMonth] 
+  [Year]=SUBSTRING([vPrevYearMonth],0,4)
+  [vFullCount] = [vFullCount]+1
+   IF [SQL Workdays.day_type] = 1 AND [vPrevYearMonth] = [vCurrYearMonth] THEN
+    [vWorkCount] = [vWorkCount]+1
+   END IF
+
+  IF [vPrevYearMonth]<> [vCurrYearMonth] THEN
+   [FullCount] = [vFullCount]
+   [WorkCount] = [vWorkCount]
+   WRITERECORD
+   [vFullCount]=0
+   [vWorkCount]=0
+   IF [SQL Workdays.day_type] = 1 THEN
+    [vWorkCount] = [vWorkCount]+1
+   END IF
+   [vPrevYearMonth] = [vCurrYearMonth] 
+  END IF
+
+END IF
+
+
+IF [vPrevYearMonth] IS NULL THEN
+[vFullCount] = [vFullCount]+1
+ IF [SQL Workdays.day_type] = 1 THEN
+  [vWorkCount] = [vWorkCount]+1
+ END IF
+[vPrevYearMonth] = [vCurrYearMonth] 
+END IF

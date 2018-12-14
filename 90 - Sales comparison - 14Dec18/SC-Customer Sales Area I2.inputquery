@@ -1,0 +1,10 @@
+SELECT [SQL_I2_vw_dim_customer.div_comp_code], [SQL_I2_vw_dim_customer.sap_comp_code], [SQL_I2_vw_dim_customer.customer_code], [SQL_I2_vw_dim_customer.salesrep_code], [SQL_I2_vw_dim_customer.specialist_code], [SQL_I2_vw_dim_customer.sales_office_key], [SQL_I2_vw_dim_customer.salesrep_email], [SQL_I2_vw_dim_customer.salesrep_name], [SQL_I2_vw_dim_customer.specialist_name], [SQL_I2_vw_dim_customer.Source], [SQL_I2_vw_dim_customer.sales_org_key]
+  FROM [SQL_I2_vw_dim_customer]
+LEFT OUTER JOIN
+SELECT [tbl_dim_sales_region.sales_region_code], [tbl_dim_sales_region.sales_subregion_code], [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.sales_office_name], [tbl_dim_sales_region.regional_currency_code]
+  FROM [tbl_dim_sales_region]
+    ON [tbl_dim_sales_region.sales_office_code] = [SQL_I2_vw_dim_customer.sales_office_key]
+LEFT OUTER JOIN 
+SELECT [SC-Employee Hierarchy.Name], [SC-Employee Hierarchy.AD ID], [SC-Employee Hierarchy.Manager AD ID], [SC-Employee Hierarchy.Manager Name], [SC-Employee Hierarchy.Managerx2 AD ID], [SC-Employee Hierarchy.Managerx2 Name], [SC-Employee Hierarchy.Managerx3 AD ID], [SC-Employee Hierarchy.Managerx3 Name], [SC-Employee Hierarchy.Managerx4 AD ID], [SC-Employee Hierarchy.Managerx4 Name] 
+  FROM [SC-Employee Hierarchy] 
+  ON [SC-Employee Hierarchy.Email ID] = [SQL_I2_vw_dim_customer.salesrep_email]

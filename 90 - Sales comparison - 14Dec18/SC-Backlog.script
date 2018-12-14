@@ -1,0 +1,176 @@
+PRINT 'Order: '+[Grain(SC-Orders SL Update).Sales Order Number]+' Item: '+[Grain(SC-Orders SL Update).Sales Order Item]+' ScL: '+[Grain(SC-Orders SL Update).Sales Order ScL Line]
+PRINT 'Order: '+[Grain(SC-Orders SL Update).# RecType]
+DIM [vOrdKey] as Varchar(16)
+DIM [vPrevKey] as Varchar(16) = null
+
+DIM [vInvRemain] as Float
+
+DIM [vOrdQty] as Float
+DIM [vInvQty] as Float
+DIM [vSchedQty] as Float
+
+DIM [mInvQty] as Map(Varchar(16), Float) = SELECT [Grain(SC-Invoices).# SI Reference SO Key], SUM([Grain(SC-Invoices).Invoice Qty]) FROM [Grain(SC-Invoices)] WHERE [Grain(SC-Invoices).Bill Type Key] = 'ZF2'
+
+[vOrdKey]=[Grain(SC-Orders SL Update).Sales Order Number]+''+[Grain(SC-Orders SL Update).Sales Order Item]
+[vSchedQty]=[Grain(SC-Orders SL Update).Order Qty]
+
+PRINT 'Order Key '+[vOrdKey]
+PRINT 'Order Qty '+MAX([SRC.Order Qty])
+PRINT 'Order Net DC '+MAX([SRC.Order Intake DC])
+PRINT 'Invoice Qty '+[mInvQty]([vOrdKey])
+
+[Sales Order Number]=[Grain(SC-Orders SL Update).Sales Order Number]
+[Sales Order Item]=[Grain(SC-Orders SL Update).Sales Order Item]
+[Sales Order ScL Line]=[Grain(SC-Orders SL Update).Sales Order ScL Line]
+[SO Date]=[Level(Sales Order.Sales Order).SO Date]
+[SO Document Category]=[Level(Sales Order.Sales Order).SO Document Category]
+[SO Transaction Group]=[Level(Sales Order.Sales Order).SO Transaction Group]
+[SO Document Type]=[Level(Sales Order.Sales Order).SO Document Type]
+[Sales Org Key]=[Grain(SC-Orders SL Update).Sales Org Key]
+[Distr Channel]=[Level(Sales Order.Sales Order).Distr Channel]
+//[Sales Office Key]=[Grain(SC-Orders SL Update).Sales Office Key]
+[Customer Key]=[Grain(SC-Orders SL Update).Customer Key]
+[SO Header Change Date]=[Level(Sales Order.Sales Order).SO Header Change Date]
+[Item Key]=[Grain(SC-Orders SL Update).Item Key]
+[Item category]=[Level(Sales Order.Sales Order).Item category]
+[Rejection Reason Key]=[Grain(SC-Orders SL Update).Rejection Reason Key]
+[Base Unit]=[Level(Sales Order.Sales Order).Base Unit]
+[Division Key]=[Grain(SC-Orders SL Update).Division Key]
+[Plant]=[Level(Sales Order.Sales Order).Plant]
+//[SO Item Cost]=[Grain(SC-Orders SL Update).SO Item Cost]
+[Currency Key DC]=[Level(Sales Order.Sales Order).Currency Key DC]
+[Ex Rate DC]=[Level(Sales Order.Sales Order).Ex Rate DC]
+[Currency Key GC]=[Level(Sales Order.Sales Order).Currency Key GC]
+[Ex Rate GC]=[Level(Sales Order.Sales Order).Ex Rate GC]
+[Currency Key HC]=[Level(Sales Order.Sales Order).Currency Key HC]
+[Ex Rate HC]=[Level(Sales Order.Sales Order).Ex Rate HC]
+//[Analysis Date]=[Grain(SC-Orders SL Update).Analysis Date]
+[Analysis Date]=NOWDATE
+[Pricing Date]=[Level(Sales Order.Sales Order).Pricing Date]
+[Sales Order Key]=[Level(Sales Order.Sales Order).Sales Order Key]
+[Current Record]=[Level(Sales Order.Sales Order).Current Record]
+[CustArea Key]=[Grain(SC-Orders SL Update).CustArea Key]
+[SO Item Delivery Status]=[Level(Sales Order.Sales Order).SO Item Delivery Status]
+[SO Order Delivery Status]=[Level(Sales Order.Sales Order).SO Order Delivery Status]
+[SO Item Rejection Status]=[Level(Sales Order.Sales Order).SO Item Rejection Status]
+[SO Item Overall Status]=[Level(Sales Order.Sales Order).SO Item Overall Status]
+[Change Date]=[Level(Sales Order.Sales Order).Change Date]
+[DelMarker]=[Level(Sales Order.Sales Order).DelMarker]
+[Source]=[Level(Sales Order.Sales Order).Source]
+[Requirement Type Key]=[Level(Sales Order.Sales Order).Requirement Type Key]
+[Object Number]=[Level(Sales Order.Sales Order).Object Number]
+[Comp Code Key]=[Grain(SC-Orders SL Update).Comp Code Key]
+[ScL Delivery Date]=[Level(Sales Order.Sales Order).ScL Delivery Date]
+[ScL Category]=[Level(Sales Order.Sales Order).ScL Category]
+[ScL Type]=[Level(Sales Order.Sales Order).ScL Type]
+[ScL Requirement Type]=[Level(Sales Order.Sales Order).ScL Requirement Type]
+[ScL Quantity]=[Level(Sales Order.Sales Order).ScL Quantity]
+[SO Doc Condition]=[Level(Sales Order.Sales Order).SO Doc Condition]
+[Delivery Customer Key]=[Grain(SC-Orders SL Update).Delivery Customer Key]
+[Security Key]=[Grain(SC-Orders SL Update).Security Key]
+[Currency Key RC]=[Level(Sales Order.Sales Order).Currency Key RC]
+[Ex Rate RC]=[Level(Sales Order.Sales Order).Ex Rate RC]
+[RecType]='Backlog'//[Level(Sales Order.Sales Order).RecType]
+
+/*
+If order Qty NULL means no order line data for this schedule line (theoretically shouldn't happen...)
+*/
+IF MAX([SRC.Order Qty]) IS NOT NULL THEN
+	IF [vSchedQty] IS NULL THEN
+	  [vSchedQty]=0.0
+	END IF
+
+	IF [vPrevKey] IS NOT NULL THEN
+	  PRINT 'vKey:' + [vOrdKey] + ' pKey:'+ [vPrevKey] 
+	  PRINT 'Sch Line:' + [Grain(SC-Orders SL Update).Sales Order ScL Line] + ' Sch Qty:' + [vSchedQty]
+	  /* Still the same Order Line ? */
+	  IF [vPrevKey] = [vOrdKey] THEN
+		PRINT 'vInvQty:' + [vInvQty] + ' vOrdQty:'+ [vOrdQty]
+		PRINT 'vInvRemain:' + [vInvRemain] + ' Grain(Schedule Line Qty):'+ [vSchedQty]
+		IF [vInvRemain] IS NULL THEN
+		  [vInvRemain]=0.0
+		END IF
+		IF [vInvRemain] >= [vSchedQty] THEN
+		  [Backlog Qty]=0.0
+		  [vInvRemain]=([vInvRemain] - [vSchedQty])
+		  [Backlog Intake DC]=0.0
+		  [Backlog Intake GC]=0.0
+		  [Backlog Intake HC]=0.0
+		  [Backlog Intake RC]=0.0
+		ELSE
+		  [Backlog Qty]=[vSchedQty]-[vInvRemain]
+		  [vInvRemain]=0.0
+		  [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake DC]))
+		  [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake GC]))
+		  [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake HC]))
+		  [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake RC]))
+		END IF 
+	  ELSE
+	   [vInvRemain] = [mInvQty]([vOrdKey])
+	   [vInvQty] = [mInvQty]([vOrdKey])
+	   [vOrdQty] = MAX([SRC.Order Qty])
+	   PRINT 'vInvQty:' + [vInvQty] + ' vOrdQty:'+ [vOrdQty]
+	   PRINT 'vInvRemain:' + [vInvRemain] + ' Grain(Schedule Line Qty):'+ [vSchedQty]
+		IF [vInvRemain] IS NULL THEN
+		  [vInvRemain]=0.0
+		END IF
+		 IF [vInvRemain] >= [vSchedQty] THEN
+		  [Backlog Qty]=0.0
+		  [vInvRemain]=([vInvRemain] - [vSchedQty])
+		  [Backlog Intake DC]=0.0
+		  [Backlog Intake GC]=0.0
+		  [Backlog Intake HC]=0.0
+		  [Backlog Intake RC]=0.0
+		 ELSE
+		  [Backlog Qty]=[vSchedQty]-[vInvRemain]
+		  [vInvRemain]=0.0
+          [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake DC]))
+          [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake GC]))
+          [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake HC]))
+          [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake RC]))
+		 END IF 
+	  END IF
+
+	END IF
+
+
+
+	/* Handle First Record */
+	IF [vPrevKey] IS NULL THEN
+	PRINT 'vKey:' + [vOrdKey]
+	PRINT 'Sch Line:' + [Grain(SC-Orders SL Update).Sales Order ScL Line] + ' Sch Qty:' + [vSchedQty]
+	[vInvRemain] = [mInvQty]([vOrdKey])
+	[vInvQty] = [mInvQty]([vOrdKey])
+	[vOrdQty] = MAX([SRC.Order Qty])
+	PRINT 'vInvQty:' + [vInvQty] + ' vOrdQty:'+ [vOrdQty]
+	PRINT 'vInvRemain:' + [vInvRemain] + ' Grain(Schedule Line Qty):'+ [vSchedQty]
+		
+	IF [vInvRemain] IS NULL THEN
+	  [vInvRemain]=0.0
+	END IF
+	 IF [vInvRemain] >= [vSchedQty] THEN
+	  [Backlog Qty]=0.0
+	  [vInvRemain]=([vInvRemain] - [vSchedQty])
+      [Backlog Intake DC]=0.0
+	  [Backlog Intake GC]=0.0
+	  [Backlog Intake HC]=0.0
+	  [Backlog Intake RC]=0.0
+	 ELSE
+	  [Backlog Qty]=[vSchedQty]-[vInvRemain]
+	  [vInvRemain]=0.0
+      [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake DC]))
+      [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake GC]))
+      [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake HC]))
+      [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake RC]))
+	 END IF 
+
+
+	END IF
+	[vPrevKey]=[vOrdKey]
+
+	WRITERECORD
+ELSE 
+    PRINT 'Order NOT FOUND:'
+	PRINT 'Order Key '+[vOrdKey]
+	
+END IF

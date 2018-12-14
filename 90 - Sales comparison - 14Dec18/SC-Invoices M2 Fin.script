@@ -1,0 +1,19 @@
+[VBRP_VBELN]=[SC-Invoices M2 Curr.VBRP_VBELN]
+[VBRP_POSNR]=[SC-Invoices M2 Curr.VBRP_POSNR]
+[Currency Key DC]=MAX([SC-Invoices M2 Curr.Currency Key DC])
+[Net Sales DC]=SUM([SC-Invoices M2 Curr.Net Sales DC])
+[Sales COGS DC]=SUM([SC-Invoices M2 Curr.Sales COGS DC])
+[Sales ICOGS DC]=SUM([SC-Invoices M2 Curr.Sales ICOGS DC])
+[Currency Key HC]=MAX([SC-Invoices M2 Curr.Currency Key HC])
+[Net Sales HC]=SUM([SC-Invoices M2 Curr.Net Sales HC])
+[Sales COGS HC]=SUM([SC-Invoices M2 Curr.Sales COGS HC])
+[Sales ICOGS HC]=SUM([SC-Invoices M2 Curr.Sales ICOGS HC])
+[Currency Key GC]=MAX([SC-Invoices M2 Curr.Currency Key GC])
+[Net Sales GC]=SUM([SC-Invoices M2 Curr.Net Sales GC])
+[Sales COGS GC]=SUM([SC-Invoices M2 Curr.Sales COGS GC])
+[Sales ICOGS GC]=SUM([SC-Invoices M2 Curr.Sales ICOGS GC])
+[Currency Key RC]=MAX([SC-Invoices M2 Curr.Currency Key RC])
+[Net Sales RC]=SUM([SC-Invoices M2 Curr.Net Sales RC])
+[Sales COGS RC]=SUM([SC-Invoices M2 Curr.Sales COGS RC])
+[Sales ICOGS RC]=SUM([SC-Invoices M2 Curr.Sales ICOGS RC])
+WRITERECORD
