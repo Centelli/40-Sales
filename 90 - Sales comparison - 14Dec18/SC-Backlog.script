@@ -44,7 +44,6 @@ PRINT 'Invoice Qty '+[mInvQty]([vOrdKey])
 [Ex Rate GC]=[Level(Sales Order.Sales Order).Ex Rate GC]
 [Currency Key HC]=[Level(Sales Order.Sales Order).Currency Key HC]
 [Ex Rate HC]=[Level(Sales Order.Sales Order).Ex Rate HC]
-//[Analysis Date]=[Grain(SC-Orders SL Update).Analysis Date]
 [Analysis Date]=NOWDATE
 [Pricing Date]=[Level(Sales Order.Sales Order).Pricing Date]
 [Sales Order Key]=[Level(Sales Order.Sales Order).Sales Order Key]

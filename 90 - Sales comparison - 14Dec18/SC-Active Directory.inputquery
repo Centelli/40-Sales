@@ -1,4 +1,4 @@
-SELECT [md_outside_sales.hsLineManagerGEID], [md_outside_sales.mail], [md_outside_sales.sn], [md_outside_sales.givenName], [md_outside_sales.dxrState], [md_outside_sales.hsGEID], [md_outside_sales.cn], [md_outside_sales.c], [md_outside_sales.hsCompany], [md_outside_sales.hsCountryCode], [md_outside_sales.manager] FROM [md_outside_sales] where [md_outside_sales.dxrState] = 'ENABLED'
+SELECT [md_outside_sales.hsLineManagerGEID], [md_outside_sales.mail], [md_outside_sales.sn], [md_outside_sales.givenName], [md_outside_sales.dxrState], [md_outside_sales.hsGEID], [md_outside_sales.cn], [md_outside_sales.c], [md_outside_sales.hsCompany], [md_outside_sales.hsCountryCode], [md_outside_sales.manager] FROM [md_outside_sales] where [md_outside_sales.dxrState] = 'ENABLED' 
 LEFT OUTER JOIN 
 SELECT [ADR6.ADR6_ADDRNUMBER], [ADR6.ADR6_PERSNUMBER], [ADR6.ADR6_SMTP_ADDR] 
   FROM [ADR6] 

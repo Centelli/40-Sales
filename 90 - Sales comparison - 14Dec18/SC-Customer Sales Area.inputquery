@@ -6,7 +6,7 @@ SELECT [InSales.KNVP_PARVW], [InSales.KNVP_KUNN2]
 LEFT OUTER JOIN 
 SELECT [OutSales.KNVP_PARVW], [OutSales.KNVP_KUNN2] 
   FROM [KNVP] 'OutSales'
-    ON [KNVV.KNVV_KUNNR]=[OutSales.KNVP_KUNNR] AND [KNVV.KNVV_VKORG]=[OutSales.KNVP_VKORG] AND [KNVV.KNVV_VTWEG]=[OutSales.KNVP_VTWEG] AND [KNVV.KNVV_SPART]=[OutSales.KNVP_SPART] AND [OutSales.KNVP_PARVW] = 'VE'
+    ON [KNVV.KNVV_KUNNR]=[OutSales.KNVP_KUNNR] AND [KNVV.KNVV_VKORG]=[OutSales.KNVP_VKORG] AND [KNVV.KNVV_VTWEG]=[OutSales.KNVP_VTWEG] AND [KNVV.KNVV_SPART]=[OutSales.KNVP_SPART] AND [OutSales.KNVP_PARVW] = 'VE' 
 LEFT OUTER JOIN
 SELECT [tbl_dim_sales_region.sales_region_code], [tbl_dim_sales_region.sales_subregion_code], [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.sales_office_name], [tbl_dim_sales_region.regional_currency_code]
   FROM [tbl_dim_sales_region]

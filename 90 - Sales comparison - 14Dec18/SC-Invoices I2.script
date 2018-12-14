@@ -98,7 +98,7 @@ Dim [vSalesDocItem] as Varchar(10) = [SQL_I2_vw_VBRK_VBRP.VBRP_POSNR]
 
 [Customer Key] = [vCustomerKey]
 [CustArea Key] = [vCustomerKey] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_VKORG]))+ [SQL_I2_vw_VBRK_VBRP.VBRK_VKORG] 
-[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_VKORG])) + [SQL_I2_vw_VBRK_VBRP.VBRK_VKORG] + '' + [SQL_I2_vw_VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_BUKRS])) + [SQL_I2_vw_VBRK_VBRP.VBRK_BUKRS] + '' + [SQL_I2_vw_VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
 
 //[SI Cancellation Document]=[SQL_I2_vw_VBRK_VBRP.VBRK_SFAKN]
 [Delivery Customer Key]='DEL_I2_'+[SQL_I2_vw_VBRK_VBRP.Customer_Delivery_Country]

@@ -51,8 +51,7 @@ Dim [vSalesDocItem] as Varchar(10) = [SQL_M2_vw_migration_fact_sales.VBRP_POSNR]
 
 [Customer Key] = [vCustomerKey]
 [CustArea Key] = [vCustomerKey] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG]))+ [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] 
-[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG])) + [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] + '' + [SQL_M2_vw_migration_fact_sales.VBRP_SPART] + '' + [vCustomerKey] 
-print SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG])) + [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] + '' + [SQL_M2_vw_migration_fact_sales.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_BUKRS])) + [SQL_M2_vw_migration_fact_sales.VBRK_BUKRS] + '' + [SQL_M2_vw_migration_fact_sales.VBRP_SPART] + '' + [vCustomerKey] 
 
 [Delivery Customer Key]='DEL_I2_'+[SQL_M2_vw_migration_fact_sales.Customer_Delivery_Country]
 IF [SQL_M2_vw_migration_fact_sales.VBRK_AEDAT] IS NOT NULL THEN
