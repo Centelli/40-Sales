@@ -1,5 +1,9 @@
 [CustArea Key]= [SQL_I2_vw_dim_customer.customer_code]+substring('0000',0,4-length(trim([SQL_I2_vw_dim_customer.sales_org_key])))+ trim([SQL_I2_vw_dim_customer.sales_org_key])
 
+// HUB-344 - Changed to be based on sales_org_key rather than sap_comp_code
+// [CustArea Key]= [SQL_I2_vw_dim_customer.customer_code]+substring('0000',0,4-length(trim([SQL_I2_vw_dim_customer.sap_comp_code])))+ trim([SQL_I2_vw_dim_customer.sap_comp_code])
+
+
 [Outside Sales Key]=IFNULL([SQL_I2_vw_dim_customer.salesrep_code],'NA')
 
 [Inside Sales Key]=IFNULL([SQL_I2_vw_dim_customer.specialist_code],'NA')
