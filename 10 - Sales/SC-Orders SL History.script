@@ -50,7 +50,12 @@ DelMarker, Source & Current Record
 [DelMarker]=[Grain(SC-Orders SL History).Sales Order Number]+'_'+[Grain(SC-Orders SL History).Sales Order Item]+'_'+[Grain(SC-Orders SL History).# Sales Order ScL Line]+'_'+format([SRC.Analysis Date],'yyyyMMdd')+'_Negation_'+GETVARIABLE('LoadNumber')+'_'+RANDOM()
 //PRINT [Grain(SC-Orders SL History).Sales Order Number]+'_'+[Grain(SC-Orders SL History).Sales Order Item]+'_'+[Grain(SC-Orders SL History).# Sales Order ScL Line]+'_'+format([SRC.Analysis Date],'yyyyMMdd')+'_Negation_'+GETVARIABLE('LoadNumber')+'_'+RANDOM()
 
+IF [Grain(SC-Orders SL History).# Source] = 'SAP ECC' then
 [Source]=[Grain(SC-Orders SL History).# Source]
+ELSE
+[Source] = 'SAP ECC'
+END IF
+
 [RecType]='Negation'
 [Current Record]=0
 

@@ -107,6 +107,8 @@ Qty to come from Schedule Line NOT Order
 [Currency Key RC]=[SC-Orders SL.Currency Key RC]
 [Ex Rate RC]=[SC-Orders SL.Ex Rate RC]
 
+print [SC-Orders SL.Sales Order Number] + ':' + [SC-Orders SL.Sales Order ScL Line] + ':' + [vSchedQty]+ ':' + [vOrdQty] + ':' + [SC-Orders SL.Order Intake DC] + ':' + [SC-Orders SL.Order Intake HC] + ':' + [SC-Orders SL.Order Intake RC] + ':' + [SC-Orders SL.Order Intake GC]
+
 IF [vOrdQty] > 0.00 THEN
 [Order Intake DC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake DC],0.00)/[vOrdQty])
 [Order Intake GC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake GC],0.00)/[vOrdQty])
