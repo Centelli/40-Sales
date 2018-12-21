@@ -1,6 +1,6 @@
 Source Name,Disabled,Processing Groups
 SC-Customer,False,1.2.Dimensions;SC-Customer
-SC-Invoices,False,SC-Invoices;1.4.Invoices
+SC-Invoices,False,Invoices-Join;1.4.Invoices
 VBRK_VBRP,False,1.1.Transaction;2.Invoices;3.Staging;4.ST_VBRK_VBRP
 KNA1,False,1.1.Master;2.Customer;3.Staging;4.ST_KNA1
 MARA,False,1.1.Master;2.Material;3.Staging;4.ST_MARA
@@ -11,7 +11,7 @@ Sales Org,False,1.1.Configuration
 Sales Office,False,1.1.Configuration
 Sales Document,False,1.1.Configuration
 Item Category,False,1.1.Configuration
-Bill Type,False,1.1.Configuration;Aggregate
+Bill Type,False,1.1.Configuration
 Industry Code,False,1.1.Configuration
 Reason for Rejection,False,1.1.Configuration
 Division,False,1.1.Configuration
@@ -34,7 +34,7 @@ SC-Budget Forecast,False,1.5.Budget Forecast
 SC-Work Year,False,1.2.Dimensions;SC-Work Year
 SC-ICOGS,False,1.2.Dimensions;SC-ICOGS
 SC-Workdays,False,SC-Workdays;1.2.Dimensions
-SQL_DM_VW_GENERAL_VBAK_VBAP,False,ST_SQL_DM;Data Migration
+SQL_DM_VW_GENERAL_VBAK_VBAP,True,ST_SQL_DM;Data Migration
 SC-DM-Orders,False,SC-DM-Orders;Scripts;Data Migration
 SC-Item,False,1.2.Dimensions;SC-Item
 SC-Customer New Biz,False,1.2.Dimensions;SC-Customer New Biz
@@ -56,17 +56,17 @@ SC-Orders SL,False,SC-Orders SL;1.3.Orders SL
 VBAK_VBAP_VBEP,False,1.1.Transaction;4.ST_VBAK_VBAP_VBEP
 SC-Orders SL History,False,SC-Orders SL History;1.3.Orders SL
 SC-Orders SL Update,False,SC-Orders SL Update;1.3.Orders SL
-SQL_DBO_vw_sql_dim_country,False,1.1.SQL Sources
+SQL_DBO_vw_sql_dim_country,True,1.1.SQL Sources
 SC-User Access,False,1.2.User Access
 SC-Ex Rates,False,1.2.Dimensions
 SQL_CCR_Fastnet_xomrv,False,1.1.SQL Sources
 Key Account,False,
-ADR6,False,1.1.Master
+ADR6,False,1.1.Master;ST-ADR6
 SC-Active Directory,False,1.2.Dimensions;SC-Active Directory
 SC-Employee Hierarchy,False,1.2.Dimensions;SC-Employee Hierarchy
 Active Directory,False,1.1.Hierarchies;ST-Active Directory
 SC-COGNOS Rates,False,1.5.COGNOS
-SC-COGNOS,True,SC-COGNOS;1.5.COGNOS
+SC-COGNOS,False,SC-COGNOS;1.5.COGNOS
 SC-COGNOS Daily,False,1.5.COGNOS
 SC-COGNOS RK,True,
 SC-Delivery Customer I2,False,1.2.Dimensions I2
@@ -82,14 +82,14 @@ tbl_dim_market,False,1.1.Files
 tbl_dim_market_role,False,1.1.Files
 tbl_dim_sales_region,False,1.1.Files
 SC-Division,False,1.2.Dimensions
-VBKD,False,1.1.Transaction;ST_VBKD
+VBKD,False,1.1.Transaction
 SQL_I2_vw_Sales_Org,False,1.1.SQL Sources
 SC-Sales Org,False,1.2.Dimensions;SC-Sales Org
 SQL_vw_bi_ICOGS,False,1.1.SQL Sources
 User_Defaults,False,User Deafults
 ZBI_BIRST_ZbapiSalesorderGet,False,1.1.Transaction;2.Pricing;3.Staging;4.ST_BAPI_Pricing
 SC-TCURF,False,1.2.Dimensions;SC-TCURF
-SC-Delivery Partner Default,False,1.4.Invoices;SC-Delivery Partner Default
+SC-Delivery Partner Default,False,1.4.Invoices
 SQL_M2_vw_migration_fact_sales,False,1.6.Migration Sources;SQL_M2_vw_migration_fact_sales
 SC-Invoices M2 Curr,False,1.7.M2 Curr Invoices
 SC-Invoices M2,False,1.9.Invoices M2;SC-Invoices M2
@@ -99,4 +99,6 @@ SC-Invoices M2 Fin,False,1.7.M2 Curr Invoices
 SC-Orders M2 Curr,False,1.7.M2 Curr Orders;SC-Orders M2 Curr
 SC-Orders M2 Fin,False,1.7.M2 Curr Orders;SC-Orders M2 Fin
 md_outside_sales,False,md_outside_sales
+RK_TEST,False,RK_TEST
+SC-Addresses,True,SC-Addresses
 SC-Invoices Warmup,False,1.4.Invoices;SC-Invoices Warmup

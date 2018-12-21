@@ -15,8 +15,8 @@ DIM [mInvQty] as Map(Varchar(16), Float) = SELECT [Grain(SC-Invoices).# SI Refer
 [vSchedQty]=[Grain(SC-Orders SL Update).Order Qty]
 
 PRINT 'Order Key '+[vOrdKey]
-PRINT 'Order Qty '+MAX([SRC.Order Qty])
-PRINT 'Order Net DC '+MAX([SRC.Order Intake DC])
+PRINT 'Order Qty '+AVG([SRC.Order Qty])
+PRINT 'Order Net DC '+AVG([SRC.Order Intake DC])
 PRINT 'Invoice Qty '+[mInvQty]([vOrdKey])
 
 [Sales Order Number]=[Grain(SC-Orders SL Update).Sales Order Number]
@@ -74,7 +74,7 @@ PRINT 'Invoice Qty '+[mInvQty]([vOrdKey])
 /*
 If order Qty NULL means no order line data for this schedule line (theoretically shouldn't happen...)
 */
-IF MAX([SRC.Order Qty]) IS NOT NULL THEN
+IF AVG([SRC.Order Qty]) IS NOT NULL THEN
 	IF [vSchedQty] IS NULL THEN
 	  [vSchedQty]=0.0
 	END IF
@@ -99,15 +99,15 @@ IF MAX([SRC.Order Qty]) IS NOT NULL THEN
 		ELSE
 		  [Backlog Qty]=[vSchedQty]-[vInvRemain]
 		  [vInvRemain]=0.0
-		  [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake DC]))
-		  [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake GC]))
-		  [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake HC]))
-		  [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake RC]))
+		  [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake DC]))
+		  [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake GC]))
+		  [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake HC]))
+		  [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake RC]))
 		END IF 
 	  ELSE
 	   [vInvRemain] = [mInvQty]([vOrdKey])
 	   [vInvQty] = [mInvQty]([vOrdKey])
-	   [vOrdQty] = MAX([SRC.Order Qty])
+	   [vOrdQty] = AVG([SRC.Order Qty])
 	   PRINT 'vInvQty:' + [vInvQty] + ' vOrdQty:'+ [vOrdQty]
 	   PRINT 'vInvRemain:' + [vInvRemain] + ' Grain(Schedule Line Qty):'+ [vSchedQty]
 		IF [vInvRemain] IS NULL THEN
@@ -123,10 +123,10 @@ IF MAX([SRC.Order Qty]) IS NOT NULL THEN
 		 ELSE
 		  [Backlog Qty]=[vSchedQty]-[vInvRemain]
 		  [vInvRemain]=0.0
-          [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake DC]))
-          [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake GC]))
-          [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake HC]))
-          [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake RC]))
+          [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake DC]))
+          [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake GC]))
+          [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake HC]))
+          [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake RC]))
 		 END IF 
 	  END IF
 
@@ -140,7 +140,7 @@ IF MAX([SRC.Order Qty]) IS NOT NULL THEN
 	PRINT 'Sch Line:' + [Grain(SC-Orders SL Update).Sales Order ScL Line] + ' Sch Qty:' + [vSchedQty]
 	[vInvRemain] = [mInvQty]([vOrdKey])
 	[vInvQty] = [mInvQty]([vOrdKey])
-	[vOrdQty] = MAX([SRC.Order Qty])
+	[vOrdQty] = AVG([SRC.Order Qty])
 	PRINT 'vInvQty:' + [vInvQty] + ' vOrdQty:'+ [vOrdQty]
 	PRINT 'vInvRemain:' + [vInvRemain] + ' Grain(Schedule Line Qty):'+ [vSchedQty]
 		
@@ -157,10 +157,10 @@ IF MAX([SRC.Order Qty]) IS NOT NULL THEN
 	 ELSE
 	  [Backlog Qty]=[vSchedQty]-[vInvRemain]
 	  [vInvRemain]=0.0
-      [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake DC]))
-      [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake GC]))
-      [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake HC]))
-      [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake RC]))
+      [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake DC]))
+      [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake GC]))
+      [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake HC]))
+      [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / AVG([SRC.Order Qty])) * AVG([SRC.Order Intake RC]))
 	 END IF 
 
 

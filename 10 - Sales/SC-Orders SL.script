@@ -37,6 +37,11 @@ Dim [vVBAP_WAVWRHC] as Float
 Dim [vOrderNetGC] as Float
 Dim [vVBAP_WAVWRGC] as Float
 
+Dim [vOrderNetRC] as Float
+
+// For Scheduling agreements
+Dim [mSchAgreement] as Map(Varchar(16), Float)
+
 PRINT '1'
 
 [vSalesDoc] = [VBAK_VBAP_VBEP.VBAP_VBELN]
@@ -138,14 +143,14 @@ ELSEIF [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] =
      [vSchedLineQty]=ifnull([vInvRemain],0.00)
      [vInvRemain]=0.0
     END IF 
-	PRINT '2.1 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
+  PRINT '2.1 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
    ELSE
     [vInvRemain] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
     [vInvQty] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
-	[vOrderQty]=ifnull([vInvQty],0.00)
-	[vInvNetSalesDC] = [mInvNetSalesDC]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
-	[vOrderNet]=ifnull([vInvNetSalesDC],0.00)
-	IF [vInvRemain] IS NULL THEN
+  [vOrderQty]=ifnull([vInvQty],0.00)
+  [vInvNetSalesDC] = [mInvNetSalesDC]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
+  [vOrderNet]=ifnull([vInvNetSalesDC],0.00)
+  IF [vInvRemain] IS NULL THEN
      [vInvRemain]=0.0
     END IF
     IF [vInvRemain] >= [vSchedQty] THEN
@@ -327,12 +332,14 @@ PRINT '[SC-Sales Office.RC Currency Key]:'+[tbl_dim_sales_region.regional_curren
   IF [tbl_dim_sales_region.regional_currency_code] = 'CHF' THEN
     [Ex Rate RC] = 1
     [Order Intake RC] = [vOrderNetGC]
+    [vOrderNetRC] = [vOrderNetGC]
     IF [VBAK_VBAP_VBEP.VBAP_WAVWR] IS NOT NULL THEN
      [SO Item Cost RC]=[vVBAP_WAVWRGC]
     END IF
   ELSE
     [Ex Rate RC] = FLOAT(1/[v_rate_chf_to_reg])
     [Order Intake RC] = FLOAT([vOrderNetGC]/[v_rate_chf_to_reg])
+    [vOrderNetRC] = FLOAT([vOrderNetGC]/[v_rate_chf_to_reg])
     IF [VBAK_VBAP_VBEP.VBAP_WAVWR] IS NOT NULL THEN
      [SO Item Cost RC]=FLOAT([vVBAP_WAVWRGC]/[v_rate_chf_to_reg])
     END IF
@@ -351,4 +358,25 @@ Do not write records for Customer Type 'Group'
 */  
 IF [Level(Customer.Customer).Customer Type] <> 'Group' THEN
 WRITERECORD
+
+Print '6: Processing delivered quantity for sceduling agreements'
+
+if [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' Then
+if [mSchAgreement]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR]) = null then
+  print [VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + [vOrderQty] + ':' + [vSchedLineQty] + [vOrderNet] + [vOrderNetHC] + [vOrderNetRC] + [vOrderNetGC]
+  [ScL Quantity] = [VBAK_VBAP_VBEP.VBLB_ABEFZ]
+  [ScL Delivery Date] = null
+  [ScL Category] = null
+  [ScL Type] = null
+  [ScL Requirement Type] = null
+  /* [Order Intake DC] = ([vOrderNet] / [vSchedLineQty])*[VBAK_VBAP_VBEP.VBLB_ABEFZ]
+  [Order Intake HC] = ([vOrderNetHC]/ [vSchedLineQty])*[VBAK_VBAP_VBEP.VBLB_ABEFZ]
+  [Order Intake RC] = ([vOrderNetRC]/ [vSchedLineQty])*[VBAK_VBAP_VBEP.VBLB_ABEFZ]
+  [Order Intake GC] = ([vOrderNetGC]/ [vSchedLineQty])*[VBAK_VBAP_VBEP.VBLB_ABEFZ] */
+  [Sales Order ScL Line] = '0000'
+  print 'Added delivery line for ' + [VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR]
+  WRITERECORD
+  [mSchAgreement]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR]) = [VBAK_VBAP_VBEP.VBLB_ABEFZ]
+end if
+end if
 END IF
