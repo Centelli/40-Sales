@@ -1,0 +1,9 @@
+Source Name,Disabled,Processing Groups
+vw_cockpit_map_company,False,
+vw_cockpit_map_divsion,False,
+vw_cockpit_user_roles,False,
+vw_cockpit_users,False,
+SC-Security Input,False,
+vw_cockpit_map_customer,False,
+Birst Modules,True,
+SC-Security Modules,False,

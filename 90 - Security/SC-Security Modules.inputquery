@@ -1,0 +1,6 @@
+SELECT DISTINCT [vw_cockpit_user_roles.Module]
+  FROM [vw_cockpit_user_roles] 
+INNER JOIN
+SELECT [vw_cockpit_users.mail]
+  FROM [vw_cockpit_users]
+  ON [vw_cockpit_user_roles.uid] = [vw_cockpit_users.uid]
