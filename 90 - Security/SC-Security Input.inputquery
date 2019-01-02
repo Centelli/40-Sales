@@ -2,7 +2,7 @@ SELECT [vw_cockpit_user_roles.icogs], [vw_cockpit_user_roles.comp_entity], [vw_c
   FROM [vw_cockpit_user_roles] 
 INNER JOIN
 SELECT [vw_cockpit_users.mail]
-  FROM [vw_cockpit_users] 
+  FROM [vw_cockpit_users]  
   ON [vw_cockpit_user_roles.uid] = [vw_cockpit_users.uid] 
 LEFT OUTER JOIN
 SELECT [vw_cockpit_map_company.comp_role_key], [vw_cockpit_map_company.bukrs], [vw_cockpit_map_company.VKBUR], [vw_cockpit_map_company.VKORG]
