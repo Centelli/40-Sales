@@ -1,0 +1,9 @@
+[SI Reference SO Key] = [Grain(SC-Invoices).# SI Reference SO Key]
+[Bill Type Key] = [Grain(SC-Invoices).Bill Type Key]
+[Customer Key] = [Grain(SC-Invoices).Customer Key]
+[Customer Type] = [Level(Customer.Customer).Customer Type]
+[Invoice Qty] = sum([Grain(SC-Invoices).Invoice Qty])
+
+if sum([Grain(SC-Invoices).Invoice Qty]) <> 0 then
+WRITERECORD
+end if

@@ -1,3 +1,6 @@
+print 'Processing New Record'
+print [Level(Sales Order.Sales Order).Sales Order Key] + ':' + [Invoice.SI Reference SO Key] + ':' + [Grain(SC-Orders SL Update).Sales Order ScL Line]+ ':' + [Level(Sales Order.Sales Order).SO Item Overall Status] + ':' + sum([Grain(SC-Orders SL Update).Order Qty])+ ':' + sum([Invoice.Invoice Qty])
+
 PRINT 'Order: '+[Grain(SC-Orders SL Update).Sales Order Number]+' Item: '+[Grain(SC-Orders SL Update).Sales Order Item]+' ScL: '+[Grain(SC-Orders SL Update).Sales Order ScL Line]
 PRINT 'Order: '+[Grain(SC-Orders SL Update).# RecType]
 DIM [vOrdKey] as Varchar(16)
@@ -9,15 +12,13 @@ DIM [vOrdQty] as Float
 DIM [vInvQty] as Float
 DIM [vSchedQty] as Float
 
-DIM [mInvQty] as Map(Varchar(16), Float) = SELECT [Grain(SC-Invoices).# SI Reference SO Key], SUM([Grain(SC-Invoices).Invoice Qty]) FROM [Grain(SC-Invoices)] WHERE [Grain(SC-Invoices).Bill Type Key] = 'ZF2'
-
 [vOrdKey]=[Grain(SC-Orders SL Update).Sales Order Number]+''+[Grain(SC-Orders SL Update).Sales Order Item]
-[vSchedQty]=[Grain(SC-Orders SL Update).Order Qty]
+[vSchedQty]=sum([Grain(SC-Orders SL Update).Order Qty])
 
 PRINT 'Order Key '+[vOrdKey]
-PRINT 'Order Qty '+MAX([SRC.Order Qty])
-PRINT 'Order Net DC '+MAX([SRC.Order Intake DC])
-PRINT 'Invoice Qty '+[mInvQty]([vOrdKey])
+PRINT 'Order Qty '+sum([Grain(SC-Orders SL Update).Order Qty])
+PRINT 'Order Net DC '+sum([Grain(SC-Orders SL Update).Order Intake DC])
+PRINT 'Invoice Qty '+sum([Invoice.Invoice Qty])
 
 [Sales Order Number]=[Grain(SC-Orders SL Update).Sales Order Number]
 [Sales Order Item]=[Grain(SC-Orders SL Update).Sales Order Item]
@@ -64,7 +65,7 @@ PRINT 'Invoice Qty '+[mInvQty]([vOrdKey])
 [ScL Category]=[Level(Sales Order.Sales Order).ScL Category]
 [ScL Type]=[Level(Sales Order.Sales Order).ScL Type]
 [ScL Requirement Type]=[Level(Sales Order.Sales Order).ScL Requirement Type]
-[ScL Quantity]=[Level(Sales Order.Sales Order).ScL Quantity]
+[ScL Quantity]=sum([Level(Sales Order.Sales Order).ScL Quantity])
 [SO Doc Condition]=[Level(Sales Order.Sales Order).SO Doc Condition]
 [Delivery Customer Key]=[Grain(SC-Orders SL Update).Delivery Customer Key]
 [Security Key]=[Grain(SC-Orders SL Update).Security Key]
@@ -75,22 +76,26 @@ PRINT 'Invoice Qty '+[mInvQty]([vOrdKey])
 /*
 If order Qty NULL means no order line data for this schedule line (theoretically shouldn't happen...)
 */
-IF MAX([SRC.Order Qty]) IS NOT NULL THEN
+IF sum([Grain(SC-Orders SL Update).Order Qty]) IS NOT NULL THEN
 	IF [vSchedQty] IS NULL THEN
 	  [vSchedQty]=0.0
 	END IF
 
 	IF [vPrevKey] IS NOT NULL THEN
+	  PRINT '[vPrevKey] is not null'
 	  PRINT 'vKey:' + [vOrdKey] + ' pKey:'+ [vPrevKey] 
 	  PRINT 'Sch Line:' + [Grain(SC-Orders SL Update).Sales Order ScL Line] + ' Sch Qty:' + [vSchedQty]
 	  /* Still the same Order Line ? */
 	  IF [vPrevKey] = [vOrdKey] THEN
+ 	    PRINT '[vPrevKey] is equal to [vOrdKey]'
 		PRINT 'vInvQty:' + [vInvQty] + ' vOrdQty:'+ [vOrdQty]
 		PRINT 'vInvRemain:' + [vInvRemain] + ' Grain(Schedule Line Qty):'+ [vSchedQty]
 		IF [vInvRemain] IS NULL THEN
 		  [vInvRemain]=0.0
 		END IF
 		IF [vInvRemain] >= [vSchedQty] THEN
+		  print '[vPrevKey] is not null, [vPrevKey] = [vOrdKey] and [vInvRemain] >= [vSchedQty]'
+		  print 'Updating backlog as :0'
 		  [Backlog Qty]=0.0
 		  [vInvRemain]=([vInvRemain] - [vSchedQty])
 		  [Backlog Intake DC]=0.0
@@ -98,23 +103,28 @@ IF MAX([SRC.Order Qty]) IS NOT NULL THEN
 		  [Backlog Intake HC]=0.0
 		  [Backlog Intake RC]=0.0
 		ELSE
+		  print '[vPrevKey] is not null, [vPrevKey] = [vOrdKey] and [vInvRemain] < [vSchedQty]'
+		  print 'Updating backlog as :' + ([vSchedQty]-[vInvRemain])
 		  [Backlog Qty]=[vSchedQty]-[vInvRemain]
 		  [vInvRemain]=0.0
-		  [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake DC]))
-		  [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake GC]))
-		  [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake HC]))
-		  [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake RC]))
+		  [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake DC]))
+		  [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake GC]))
+		  [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake HC]))
+		  [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake RC]))
 		END IF 
 	  ELSE
-	   [vInvRemain] = [mInvQty]([vOrdKey])
-	   [vInvQty] = [mInvQty]([vOrdKey])
-	   [vOrdQty] = MAX([SRC.Order Qty])
+ 	   PRINT '[vPrevKey] is not equal to [vOrdKey]'
+	   [vInvRemain] = sum([Invoice.Invoice Qty])
+	   [vInvQty] = sum([Invoice.Invoice Qty])
+	   [vOrdQty] = sum([Grain(SC-Orders SL Update).Order Qty])
 	   PRINT 'vInvQty:' + [vInvQty] + ' vOrdQty:'+ [vOrdQty]
 	   PRINT 'vInvRemain:' + [vInvRemain] + ' Grain(Schedule Line Qty):'+ [vSchedQty]
 		IF [vInvRemain] IS NULL THEN
 		  [vInvRemain]=0.0
 		END IF
 		 IF [vInvRemain] >= [vSchedQty] THEN
+     	  print '[vPrevKey] is not null, [vPrevKey] <> [vOrdKey] and [vInvRemain] >= [vSchedQty]'
+		  print 'Updating Backlog as :0'
 		  [Backlog Qty]=0.0
 		  [vInvRemain]=([vInvRemain] - [vSchedQty])
 		  [Backlog Intake DC]=0.0
@@ -122,26 +132,27 @@ IF MAX([SRC.Order Qty]) IS NOT NULL THEN
 		  [Backlog Intake HC]=0.0
 		  [Backlog Intake RC]=0.0
 		 ELSE
+      	  print '[vPrevKey] is not null, [vPrevKey] <> [vOrdKey] and [vInvRemain] < [vSchedQty]'
+      	  print 'Updating backlog as :' + ([vSchedQty]-[vInvRemain])
 		  [Backlog Qty]=[vSchedQty]-[vInvRemain]
 		  [vInvRemain]=0.0
-          [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake DC]))
-          [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake GC]))
-          [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake HC]))
-          [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake RC]))
+          [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake DC]))
+          [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake GC]))
+          [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake HC]))
+          [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake RC]))
 		 END IF 
 	  END IF
 
 	END IF
 
-
-
 	/* Handle First Record */
 	IF [vPrevKey] IS NULL THEN
+    PRINT '[vPrevKey] is null'
 	PRINT 'vKey:' + [vOrdKey]
 	PRINT 'Sch Line:' + [Grain(SC-Orders SL Update).Sales Order ScL Line] + ' Sch Qty:' + [vSchedQty]
-	[vInvRemain] = [mInvQty]([vOrdKey])
-	[vInvQty] = [mInvQty]([vOrdKey])
-	[vOrdQty] = MAX([SRC.Order Qty])
+	[vInvRemain] = sum([Invoice.Invoice Qty])
+	[vInvQty] = sum([Invoice.Invoice Qty])
+	[vOrdQty] = sum([Grain(SC-Orders SL Update).Order Qty])
 	PRINT 'vInvQty:' + [vInvQty] + ' vOrdQty:'+ [vOrdQty]
 	PRINT 'vInvRemain:' + [vInvRemain] + ' Grain(Schedule Line Qty):'+ [vSchedQty]
 		
@@ -158,10 +169,10 @@ IF MAX([SRC.Order Qty]) IS NOT NULL THEN
 	 ELSE
 	  [Backlog Qty]=[vSchedQty]-[vInvRemain]
 	  [vInvRemain]=0.0
-      [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake DC]))
-      [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake GC]))
-      [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake HC]))
-      [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / MAX([SRC.Order Qty])) * MAX([SRC.Order Intake RC]))
+      [Backlog Intake DC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake DC]))
+      [Backlog Intake GC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake GC]))
+      [Backlog Intake HC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake HC]))
+      [Backlog Intake RC]=((([vSchedQty]-[vInvRemain]) / sum([Grain(SC-Orders SL Update).Order Qty])) * sum([Grain(SC-Orders SL Update).Order Intake RC]))
 	 END IF 
 
 
