@@ -1876,7 +1876,7 @@ ZBI_BIRST_ZbapiSalesorderGet,Rate condition amount or percentage,Float,12,,,True
 ZBI_BIRST_ZbapiSalesorderGet,Currency Key,Varchar,3,,,True,False,False,
 ZBI_BIRST_ZbapiSalesorderGet,Condition exchange rate for conversion to local currency,Float,9,,,True,False,False,
 ZBI_BIRST_ZbapiSalesorderGet,Condition pricing unit,Integer,5,,,True,False,False,
-ZBI_BIRST_ZbapiSalesorderGet,Condition unit in the document,Varchar,2,,,True,False,False,
+ZBI_BIRST_ZbapiSalesorderGet,Condition unit in the document,Varchar,3,,,True,False,False,
 ZBI_BIRST_ZbapiSalesorderGet,Numerator for converting condition units to base units,Integer,5,,,True,False,False,
 ZBI_BIRST_ZbapiSalesorderGet,Denominator for converting condition units to base units,Integer,4,,,True,False,False,
 ZBI_BIRST_ZbapiSalesorderGet,"Condition category examples: tax, freight, price, cost",Varchar,1,,,True,False,False,
