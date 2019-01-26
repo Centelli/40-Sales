@@ -1,0 +1,1 @@
+SELECT [LEVEL(Customer Sales Area.Customer Sales Area).CustArea Key]  FROM [LEVEL(Customer Sales Area.Customer Sales Area)] WHERE [LEVEL(Customer Sales Area.Customer Sales Area).Source] = 'New Biz' AND [LEVEL(Customer Sales Area.Customer Sales Area).CustArea Key] NOT LIKE '00009%'

@@ -102,3 +102,4 @@ md_outside_sales,False,md_outside_sales
 RK_TEST,False,RK_TEST
 SC-Addresses,True,SC-Addresses
 SC-Invoices Warmup,False,1.4.Invoices;SC-Invoices Warmup
+SC-OrphanDelete,False,SC-OrpphanDelete

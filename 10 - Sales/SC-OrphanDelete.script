@@ -1,0 +1,9 @@
+[CustArea Key] = [LEVEL(Customer Sales Area.Customer Sales Area).CustArea Key]
+
+PRINT [LEVEL(Customer Sales Area.Customer Sales Area).CustArea Key]
+
+COMPLETE
+DELETE FROM [LEVEL(Customer Sales Area.Customer Sales Area)] WHERE [LEVEL(Customer Sales Area.Customer Sales Area).Source] = 'New Biz' AND [LEVEL(Customer Sales Area.Customer Sales Area).CustArea Key] NOT LIKE '00009%'
+END COMPLETE
+
+WRITERECORD
