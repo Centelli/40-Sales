@@ -30,17 +30,13 @@ DIM [vSchedQty] as Float
 DIM [vPrevKey] as Varchar(16) = null
 DIM [vOrdKey] as Varchar(16) 
 DIM [vInvRemain] as Float
+Dim [vMultiplier] as FLOAT
 
 Dim [vOrderNetHC] as Float
 Dim [vVBAP_WAVWRHC] as Float
 
 Dim [vOrderNetGC] as Float
 Dim [vVBAP_WAVWRGC] as Float
-
-Dim [vOrderNetRC] as Float
-
-// For Scheduling agreements
-Dim [mSchAgreement] as Map(Varchar(16), Float)
 
 PRINT '1'
 
@@ -69,6 +65,12 @@ DIM [mVCItems] AS MAP(Varchar(18),Varchar(18)) = SELECT [SC-Item.Item Key], [SC-
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
 
+// HUB-648: Change of sign for Credit memo request
+IF [VBAK_VBAP_VBEP.VBAK_AUART] IN ('ZG2', 'ZG2M') then
+ [vMultiplier] = -1.00
+else
+ [vMultiplier] = 1.00
+end if
 
   [vOrderNetVBAP] = [CheckValue]([VBAK_VBAP_VBEP.VBAP_NETWR])
   // Credit and Debit Memos do not have KWMENG so take ZMENG
@@ -143,14 +145,14 @@ ELSEIF [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] =
      [vSchedLineQty]=ifnull([vInvRemain],0.00)
      [vInvRemain]=0.0
     END IF 
-  PRINT '2.1 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
+	PRINT '2.1 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
    ELSE
     [vInvRemain] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
     [vInvQty] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
-  [vOrderQty]=ifnull([vInvQty],0.00)
-  [vInvNetSalesDC] = [mInvNetSalesDC]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
-  [vOrderNet]=ifnull([vInvNetSalesDC],0.00)
-  IF [vInvRemain] IS NULL THEN
+	[vOrderQty]=ifnull([vInvQty],0.00)
+	[vInvNetSalesDC] = [mInvNetSalesDC]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
+	[vOrderNet]=ifnull([vInvNetSalesDC],0.00)
+	IF [vInvRemain] IS NULL THEN
      [vInvRemain]=0.0
     END IF
     IF [vInvRemain] >= [vSchedQty] THEN
@@ -203,9 +205,9 @@ end if
   [Rejection Reason Key]=[VBAK_VBAP_VBEP.VBAP_ABGRU]
   [Base Unit]=[VBAK_VBAP_VBEP.VBAP_MEINS]
   [Division Key]=[VBAK_VBAP_VBEP.VBAP_SPART]
-  [Order Qty]=[vOrderQty]
+  [Order Qty]=[vOrderQty] * [vMultiplier]
   [Plant]=[VBAK_VBAP_VBEP.VBAP_WERKS]
-  [SO Item Cost]=[vVBAP_WAVWR]
+  [SO Item Cost]=[vVBAP_WAVWR] * [vMultiplier]
   [Requirement Type Key] = [VBAK_VBAP_VBEP.VBAP_BEDAE]
   [Object Number] = [VBAK_VBAP_VBEP.VBAP_OBJNR]
   [Delivery Customer Key]=[VBAK_VBAP_VBEP.VBPA_KUNNR]
@@ -213,7 +215,8 @@ end if
   [ScL Category] = [VBAK_VBAP_VBEP.VBEP_ETTYP]
   [ScL Type] = [VBAK_VBAP_VBEP.VBEP_ETART]
   [ScL Requirement Type] = [VBAK_VBAP_VBEP.VBEP_BDART]
-  [ScL Quantity] = [vSchedLineQty]
+  [ScL Quantity] = [vSchedLineQty] * [vMultiplier]
+  print 'Order Qty: ' + ([vOrderQty] * [vMultiplier])
   [Security Key] = 'N' + [VBAK_VBAP_VBEP.VBAK_VKORG] + '' + [VBAK_VBAP_VBEP.VBAP_SPART] + '' + [VBAK_VBAP_VBEP.VBAK_KUNNR]
   
   PRINT '2.1'
@@ -280,9 +283,9 @@ PRINT '[SC-Sales Office.RC Currency Key]:'+[tbl_dim_sales_region.regional_curren
   /* Populate the Values in all three required Currencies  */
   [Currency Key DC]=[vSalesCurr]
   [Ex Rate DC]=1
-  [Order Intake DC]=[vOrderNet]
+  [Order Intake DC]=[vOrderNet] * [vMultiplier]
   IF [VBAK_VBAP_VBEP.VBAP_WAVWR] IS NOT NULL THEN
-   [SO Item Cost DC]=[vVBAP_WAVWR]
+   [SO Item Cost DC]=[vVBAP_WAVWR]* [vMultiplier]
   END IF
 
   PRINT '[vOrderNet]: '+[vOrderNet]
@@ -303,8 +306,8 @@ PRINT '[SC-Sales Office.RC Currency Key]:'+[tbl_dim_sales_region.regional_curren
      [vVBAP_WAVWRHC]=FLOAT([vVBAP_WAVWR]/([vVBKD_KURSK]*-1))
     END IF   
    END IF
-   [Order Intake HC]=[vOrderNetHC]
-   [SO Item Cost HC]=[vVBAP_WAVWRHC]
+   [Order Intake HC]=[vOrderNetHC]* [vMultiplier]
+   [SO Item Cost HC]=[vVBAP_WAVWRHC]* [vMultiplier]
 
    PRINT '4'
    PRINT 'HC: '+[LEVEL(Company.Company).Comp Currency Key]+' [vOrderNetHC]: '+[vOrderNetHC]
@@ -323,25 +326,23 @@ PRINT '[SC-Sales Office.RC Currency Key]:'+[tbl_dim_sales_region.regional_curren
      [vVBAP_WAVWRGC]=[vVBAP_WAVWRHC]*[v_rate_home_to_chf]
     END IF
   END IF
-  [Order Intake GC] = [vOrderNetGC]
-  [SO Item Cost GC] = [vVBAP_WAVWRGC]
+  [Order Intake GC] = [vOrderNetGC]* [vMultiplier]
+  [SO Item Cost GC] = [vVBAP_WAVWRGC] * [vMultiplier]
   
   PRINT '[vOrderNetGC]: '+[vOrderNetGC]
   
   [Currency Key RC] = [tbl_dim_sales_region.regional_currency_code]
   IF [tbl_dim_sales_region.regional_currency_code] = 'CHF' THEN
     [Ex Rate RC] = 1
-    [Order Intake RC] = [vOrderNetGC]
-    [vOrderNetRC] = [vOrderNetGC]
+    [Order Intake RC] = [vOrderNetGC] * [vMultiplier]
     IF [VBAK_VBAP_VBEP.VBAP_WAVWR] IS NOT NULL THEN
-     [SO Item Cost RC]=[vVBAP_WAVWRGC]
+     [SO Item Cost RC]=[vVBAP_WAVWRGC] * [vMultiplier]
     END IF
   ELSE
     [Ex Rate RC] = FLOAT(1/[v_rate_chf_to_reg])
-    [Order Intake RC] = FLOAT([vOrderNetGC]/[v_rate_chf_to_reg])
-    [vOrderNetRC] = FLOAT([vOrderNetGC]/[v_rate_chf_to_reg])
+    [Order Intake RC] = FLOAT([vOrderNetGC]/[v_rate_chf_to_reg]) * [vMultiplier]
     IF [VBAK_VBAP_VBEP.VBAP_WAVWR] IS NOT NULL THEN
-     [SO Item Cost RC]=FLOAT([vVBAP_WAVWRGC]/[v_rate_chf_to_reg])
+     [SO Item Cost RC]=FLOAT([vVBAP_WAVWRGC]/[v_rate_chf_to_reg]) * [vMultiplier]
     END IF
   END IF
   
@@ -358,25 +359,4 @@ Do not write records for Customer Type 'Group'
 */  
 IF [Level(Customer.Customer).Customer Type] <> 'Group' THEN
 WRITERECORD
-
-Print '6: Processing delivered quantity for sceduling agreements'
-
-if [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' Then
-if [mSchAgreement]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR]) = null then
-  print [VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + [vOrderQty] + ':' + [vSchedLineQty] + [vOrderNet] + [vOrderNetHC] + [vOrderNetRC] + [vOrderNetGC]
-  [ScL Quantity] = [VBAK_VBAP_VBEP.VBLB_ABEFZ]
-  [ScL Delivery Date] = null
-  [ScL Category] = null
-  [ScL Type] = null
-  [ScL Requirement Type] = null
-  /* [Order Intake DC] = ([vOrderNet] / [vSchedLineQty])*[VBAK_VBAP_VBEP.VBLB_ABEFZ]
-  [Order Intake HC] = ([vOrderNetHC]/ [vSchedLineQty])*[VBAK_VBAP_VBEP.VBLB_ABEFZ]
-  [Order Intake RC] = ([vOrderNetRC]/ [vSchedLineQty])*[VBAK_VBAP_VBEP.VBLB_ABEFZ]
-  [Order Intake GC] = ([vOrderNetGC]/ [vSchedLineQty])*[VBAK_VBAP_VBEP.VBLB_ABEFZ] */
-  [Sales Order ScL Line] = '0000'
-  print 'Added delivery line for ' + [VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR]
-  WRITERECORD
-  [mSchAgreement]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR]) = [VBAK_VBAP_VBEP.VBLB_ABEFZ]
-end if
-end if
 END IF

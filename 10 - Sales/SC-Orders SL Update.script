@@ -109,7 +109,8 @@ Qty to come from Schedule Line NOT Order
 
 print [SC-Orders SL.Sales Order Number] + ':' + [SC-Orders SL.Sales Order ScL Line] + ':' + [vSchedQty]+ ':' + [vOrdQty] + ':' + [SC-Orders SL.Order Intake DC] + ':' + [SC-Orders SL.Order Intake HC] + ':' + [SC-Orders SL.Order Intake RC] + ':' + [SC-Orders SL.Order Intake GC]
 
-IF [vOrdQty] > 0.00 THEN
+// HUB-648 - Credit memo requests
+IF [vOrdQty] > 0.00 or [SC-Orders SL.SO Document Type] IN ('ZG2', 'ZG2M') then
 [Order Intake DC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake DC],0.00)/[vOrdQty])
 [Order Intake GC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake GC],0.00)/[vOrdQty])
 [Order Intake HC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake HC],0.00)/[vOrdQty])
