@@ -8,6 +8,6 @@ SELECT [SQL Sales Budget Forecast.version], [SQL Sales Budget Forecast.div_comp_
   and [SQL Sales Budget Forecast.year_code] = '2018'
 INNER JOIN
 SELECT [tbl_dim_sales_region.regional_currency_code] from [tbl_dim_sales_region] on [tbl_dim_sales_region.sales_office_code] = [SQL Sales Budget Forecast.sales_office_key]
-INNER JOIN
+LEFT OUTER JOIN
 SELECT [RegRates.Exchange Rate] FROM [SC-Ex Rates] 'RegRates' ON [RegRates.Valid From Date] <= [SQL Workdays.day_code] AND [RegRates.Valid To Date] >= [SQL Workdays.day_code] AND [RegRates.From Currency Key] = [tbl_dim_sales_region.regional_currency_code] 
 ORDER BY [SQL Workdays.day_code]

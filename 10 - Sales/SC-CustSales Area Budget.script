@@ -10,7 +10,7 @@ END IF
 [Customer Key]=[vCustomerKey]
 
 IF [SQL Sales Budget Forecast.comp_type] = 'SAP' THEN
-  [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.sap_comp_code]+ '' + '1000'
+  [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.sales_org_key]
 ELSE
   [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.div_comp_code]
 END IF
