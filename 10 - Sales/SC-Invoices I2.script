@@ -261,7 +261,8 @@ WRITERECORD
 [Invoice Qty] = 0.00
 
 // If ICOGS is zero, user COGS
-IF (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))) <> 0.00 THEN
+// HUB-591 - Use COGS when ICOGS Status is 2 or 6
+IF (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))) <> 0.00 AND ([SC-ICOGS.ICOGS Status] <> 2 AND [SC-ICOGS.ICOGS Status] <> 6) THEN
   [Sales ICOGS HC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([SQL_I2_vw_VBRK_VBRP.VBRP_FKIMG]))
   IF [SC-Company.Comp Currency Key] = 'CHF' THEN
     [vSalesIcogsGC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([SQL_I2_vw_VBRK_VBRP.VBRP_FKIMG]))

@@ -98,7 +98,7 @@ Dim [vSalesDocItem] as Varchar(10) = [SQL_I2_vw_VBRK_VBRP.VBRP_POSNR]
 
 [Customer Key] = [vCustomerKey]
 [CustArea Key] = [vCustomerKey] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_VKORG]))+ [SQL_I2_vw_VBRK_VBRP.VBRK_VKORG] 
-[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_VKORG])) + [SQL_I2_vw_VBRK_VBRP.VBRK_VKORG] + '' + [SQL_I2_vw_VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_BUKRS])) + [SQL_I2_vw_VBRK_VBRP.VBRK_BUKRS] + '' + [SQL_I2_vw_VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
 
 //[SI Cancellation Document]=[SQL_I2_vw_VBRK_VBRP.VBRK_SFAKN]
 [Delivery Customer Key]='DEL_I2_'+[SQL_I2_vw_VBRK_VBRP.Customer_Delivery_Country]
@@ -261,7 +261,8 @@ WRITERECORD
 [Invoice Qty] = 0.00
 
 // If ICOGS is zero, user COGS
-IF (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))) <> 0.00 THEN
+// HUB-591 - Use COGS when ICOGS Status is 2 or 6
+IF (FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))) <> 0.00 AND ([SC-ICOGS.ICOGS Status] <> 2 AND [SC-ICOGS.ICOGS Status] <> 6) THEN
   [Sales ICOGS HC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([SQL_I2_vw_VBRK_VBRP.VBRP_FKIMG]))
   IF [SC-Company.Comp Currency Key] = 'CHF' THEN
     [vSalesIcogsGC]=(FLOAT(IFNULL([SC-ICOGS.ICOGS Init Cost Price],0.00))*FLOAT([SQL_I2_vw_VBRK_VBRP.VBRP_FKIMG]))
