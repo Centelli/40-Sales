@@ -5,5 +5,5 @@ SELECT [Level(Sales Order.Sales Order).Sales Order Number], [Level(Sales Order.S
   FROM [Level(Sales Order.Sales Order)]
   ON [Grain(SC-Orders SL History).Sales Order Number] = [Level(Sales Order.Sales Order).Sales Order Number] AND [Grain(SC-Orders SL History).Sales Order Item] = [Level(Sales Order.Sales Order).Sales Order Item] AND [Grain(SC-Orders SL History).# Sales Order ScL Line] = [Level(Sales Order.Sales Order).Sales Order ScL Line] AND [Level(Sales Order.Sales Order).Current Record] = 1
 INNER JOIN 
-Select DISTINCT [SRC.Sales Order Number],[SRC.Sales Order Item], [SRC.Analysis Date], [SRC.SO Header Change Date], [SRC.Pricing Date] FROM [SC-Orders SL] 'SRC'
+Select DISTINCT [SRC.Sales Order Number],[SRC.Sales Order Item], [SRC.Analysis Date], [SRC.SO Header Change Date], [SRC.Pricing Date], [SRC.Source] FROM [SC-Orders SL] 'SRC'
   ON [SRC.Sales Order Number] = [Grain(SC-Orders SL History).Sales Order Number] AND [SRC.Sales Order Item] = [Grain(SC-Orders SL History).Sales Order Item]
