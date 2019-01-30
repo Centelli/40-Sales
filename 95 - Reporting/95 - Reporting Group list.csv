@@ -1,0 +1,8 @@
+Role Name,Dashboard,NewDashboard,EditDashboard,Adhoc,EnableDownload,AdvancedFilter,MaintainCatalog,PremiumAdHoc,DashboardDelete,SelfScheduleAllowed
+USER$,,,,,,,,,,
+Admin,X,,X,X,X,,,,,X
+Analysts,X,,X,X,X,,,,,X
+User,,,,,X,,,,,X
+CATS,,,,,X,,,,,
+SALES,,,,,X,,,,,
+Edit Dashboard,X,,X,,,,,,,

@@ -1,0 +1,4 @@
+Source Name,Column Name,Data Type,Width,Hierarchy,Level,Locked,Measure,Analyze by Date,Unknown Value
+CurrencyGroup,Currency Key,Integer,2,,,False,True,False,
+CurrencyGroup,Currency,Varchar,3,,,False,False,False,
+CurrencyGroup,Currency Group,Varchar,8,,,False,False,False,
