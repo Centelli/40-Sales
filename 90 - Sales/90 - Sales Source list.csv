@@ -103,3 +103,4 @@ SC-Invoices Warmup,False,1.4.Invoices;SC-Invoices Warmup
 SC-Invoice for Backlog,False,1.5.Backlog;SC-Invoice for Backlog
 SC-Date Selection Test,False,
 VBUP,False,1.1.Transaction;1.5.Backlog;ST-VBUP;3.Staging
+SC-Orders SL Ex Rate,False,SC-Orders SL Ex Rate

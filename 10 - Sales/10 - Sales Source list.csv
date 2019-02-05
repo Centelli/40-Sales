@@ -104,3 +104,4 @@ SC-Addresses,True,SC-Addresses
 SC-Invoices Warmup,False,1.4.Invoices;SC-Invoices Warmup
 SC-OrphanDelete,False,SC-OrpphanDelete
 VBUP,False,VBUP;1.1.Transaction;3.Staging
+SC-Orders SL Ex Rate,False,SC-Orders SL Ex Rate
