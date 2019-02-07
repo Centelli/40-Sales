@@ -66,7 +66,9 @@ Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
 
 // HUB-648: Change of sign for Credit memo request
-IF [VBAK_VBAP_VBEP.VBAK_AUART] IN ('ZG2', 'ZG2M') then
+// HUB-650: Change of sign for consignment returns (ZKR) and normal returns (ZRE). 
+//          Adding in check for Document cateogry H to take care of future return order types
+IF [VBAK_VBAP_VBEP.VBAK_AUART] IN ('ZG2', 'ZG2M', 'ZKR', 'ZRE') or [VBAK_VBAP_VBEP.VBAK_VBTYP] = 'H' then
  [vMultiplier] = -1.00
 else
  [vMultiplier] = 1.00
@@ -148,14 +150,14 @@ if [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] <> 'Z
      [vSchedLineQty]=ifnull([vInvRemain],0.00)
      [vInvRemain]=0.0
     END IF 
-  PRINT '2.1 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
+	PRINT '2.1 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
    ELSE
     [vInvRemain] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
     [vInvQty] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
-  [vOrderQty]=ifnull([vInvQty],0.00)
-  [vInvNetSalesDC] = [mInvNetSalesDC]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
-  [vOrderNet]=ifnull([vInvNetSalesDC],0.00)
-  IF [vInvRemain] IS NULL THEN
+	[vOrderQty]=ifnull([vInvQty],0.00)
+	[vInvNetSalesDC] = [mInvNetSalesDC]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
+	[vOrderNet]=ifnull([vInvNetSalesDC],0.00)
+	IF [vInvRemain] IS NULL THEN
      [vInvRemain]=0.0
     END IF
     IF [vInvRemain] >= [vSchedQty] THEN
