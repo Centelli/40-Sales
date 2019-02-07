@@ -51,7 +51,8 @@ Dim [vSalesDocItem] as Varchar(10) = [SQL_M2_vw_migration_fact_sales.VBRP_POSNR]
 
 [Customer Key] = [vCustomerKey]
 [CustArea Key] = [vCustomerKey] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG]))+ [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] 
-[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_BUKRS])) + [SQL_M2_vw_migration_fact_sales.VBRK_BUKRS] + '' + [SQL_M2_vw_migration_fact_sales.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG])) + [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] + '' + [SQL_M2_vw_migration_fact_sales.VBRP_SPART] + '' + [vCustomerKey] 
+print SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG])) + [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] + '' + [SQL_M2_vw_migration_fact_sales.VBRP_SPART] + '' + [vCustomerKey] 
 
 [Delivery Customer Key]='DEL_I2_'+[SQL_M2_vw_migration_fact_sales.Customer_Delivery_Country]
 IF [SQL_M2_vw_migration_fact_sales.VBRK_AEDAT] IS NOT NULL THEN
@@ -64,7 +65,8 @@ PRINT '2'
 
 [Sales Invoice Number]=[SQL_M2_vw_migration_fact_sales.VBRP_VBELN]
 [Sales Invoice Item]=[SQL_M2_vw_migration_fact_sales.VBRP_POSNR]
-[Sales Invoice Key]=[SQL_M2_vw_migration_fact_sales.VBRP_VBELN]+''+[SQL_M2_vw_migration_fact_sales.VBRP_POSNR]
+//HUB-651 - padding of 0s added for safety and alignment to SAP
+[Sales Invoice Key]=[SQL_M2_vw_migration_fact_sales.VBRP_VBELN]+substring('0000',0,4-length([SQL_M2_vw_migration_fact_sales.VBRP_POSNR]))+[SQL_M2_vw_migration_fact_sales.VBRP_POSNR]
 [SI Sales UoM]=[SQL_M2_vw_migration_fact_sales.VBRP_VRKME]
 [SI Base UoM]=[SQL_M2_vw_migration_fact_sales.VBRP_MEINS]
 [Sales Net]=[vSalesNet]
@@ -75,7 +77,8 @@ PRINT '2'
 [SI Prec Doc Categ]=[SQL_M2_vw_migration_fact_sales.VBRP_VGTYP]
 [Sales Order Number]=[SQL_M2_vw_migration_fact_sales.VBRP_AUBEL]
 [Sales Order Item]=[SQL_M2_vw_migration_fact_sales.VBRP_AUPOS]
-[SI Reference SO Key]=[SQL_M2_vw_migration_fact_sales.VBRP_AUBEL]+''+[SQL_M2_vw_migration_fact_sales.VBRP_AUPOS]
+//HUB-651 - padding of 0s added to item to make it match to orders from SAP
+[SI Reference SO Key]=[SQL_M2_vw_migration_fact_sales.VBRP_AUBEL]+substring('000000',0,6-length([SQL_M2_vw_migration_fact_sales.VBRP_AUPOS]))+[SQL_M2_vw_migration_fact_sales.VBRP_AUPOS]
 [Item Key]=[SQL_M2_vw_migration_fact_sales.VBRP_MATNR]
 [Item category]=[SQL_M2_vw_migration_fact_sales.VBRP_PSTYV]
 [Division Key]=[SQL_M2_vw_migration_fact_sales.VBRP_SPART]

@@ -123,14 +123,17 @@ DIM [mInvNetSalesDC] as Map(Varchar(16), Float) = SELECT [Grain(SC-Invoices).# S
 
 [vOrdKey]=[VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR]
 
+// HUB-651 - Rejection ZL should be treated as normal and others shoudl be set equal to invoiced quantity
 if [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] <> 'ZL' then
+/*[VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] <> 'ZL' then
   [vInvQty] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
   [vInvNetSalesDC] = [mInvNetSalesDC]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
   print 'In reason for rejection. Invoiced Qty: ' + [vInvQty]
   [vOrderNet] = ifnull([vInvNetSalesDC],0.00)
-  [vOrderQty] = ifnull([vInvQty],0.00)
-ELSEIF [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] = 'ZL'
+  [vOrderQty] = ifnull([vInvQty],0.00) 
+ ELSEIF [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] = 'ZL' */
   [vSchedQty] = ifnull([vSchedLineQty],0.00)
+  [vOrderQty]=ifnull([vInvQty],0.00)
   print 'In reason for rejection. vSchedQty: ' + [vSchedQty]
   print '[vOrdKey]:'+[vOrdKey]+' [vPrevKey]:'+[vPrevKey]
   IF [vPrevKey] IS NOT NULL THEN
@@ -164,7 +167,7 @@ ELSEIF [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] =
     END IF 
     PRINT '2.2 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
    END IF
-  ELSE /* Handle first record when [vPrevKey] IS NULL */
+  ELSE  /* Handle first record when [vPrevKey] IS NULL */
    [vInvRemain] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
    [vInvQty] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
    [vOrderQty]=ifnull([vInvQty],0.00)
@@ -183,7 +186,7 @@ ELSEIF [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] =
    PRINT '2.3 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
   END IF
   [vPrevKey]=[vOrdKey]
-  PRINT '2.4 [vSchedLineQty]:'+[vSchedLineQty]
+  PRINT '2.4 [vSchedLineQty]:'+[vSchedLineQty] 
 end if
 
   [Sales Order Number]=[VBAK_VBAP_VBEP.VBAP_VBELN]
