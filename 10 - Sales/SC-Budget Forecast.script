@@ -28,11 +28,13 @@ END IF
 IF [SQL Sales Budget Forecast.comp_type] = 'SAP' THEN
   [Comp Code Key]=[SQL Sales Budget Forecast.sap_comp_code]
   [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.sales_org_key]
-  [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.sales_org_key])) + [SQL Sales Budget Forecast.sales_org_key] + '' + [SQL Sales Budget Forecast.division_code] + '' + [SQL Sales Budget Forecast.customer_code]
+// HUB-633 / HUB-664: New biz customers not visible for users with company based security
+  [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.sales_org_key])) + [SQL Sales Budget Forecast.sales_org_key] + '' + [SQL Sales Budget Forecast.division_code] + '' + [vCustomerKey]
 ELSE
   [Comp Code Key]=[SQL Sales Budget Forecast.div_comp_code]
   [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.div_comp_code]
-  [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.sales_org_key])) + [SQL Sales Budget Forecast.sales_org_key] + '' + [SQL Sales Budget Forecast.division_code] + '' + [SQL Sales Budget Forecast.customer_code] 
+// HUB-633 / HUB-664: New biz customers not visible for users with company based security
+  [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.sales_org_key])) + [SQL Sales Budget Forecast.sales_org_key] + '' + [SQL Sales Budget Forecast.division_code] + '' + [vCustomerKey] 
 END IF
 
 [Division Key]=[SQL Sales Budget Forecast.division_code]

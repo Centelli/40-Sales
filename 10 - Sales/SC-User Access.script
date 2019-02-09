@@ -1,6 +1,7 @@
-Dim [vCustomerKey] as varchar(18)
+// HUB-633 / HUB-664: New biz customers have a 20 character customer key
+Dim [vCustomerKey] as varchar(20)
 Dim [vSalesRepKey] as varchar(10)
-Dim [vCustSalesAreaKey] as varchar(22)
+Dim [vCustSalesAreaKey] as varchar(24)
 Dim [vSalesOffice] as varchar(4)
 Dim [vWriteRecord] as varchar(1)
 
