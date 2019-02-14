@@ -1,6 +1,6 @@
 SELECT [Grain(SC-Security Input).# User], [Grain(SC-Security Input).# Security Mask], [Grain(SC-Security Input).# Cust Role Entity], [Grain(SC-Security Input).# Cust Role Code], [Grain(SC-Security Input).# Cust Role Name], [Grain(SC-Security Input).# ICOGS], [Grain(SC-Security Input).# Role], [Grain(SC-Security Input).# Sales Office Key]
   FROM [Grain(SC-Security Input)] 
-// where [Grain(SC-Security Input).# User] = 'ang.ereen@hubersuhner.com'
+// where [Grain(SC-Security Input).# User] = 'claudio.souza@hubersuhner.com'
 RIGHT OUTER JOIN
 SELECT [Level(Security Key.Security Key).Security Key]
   FROM [Level(Security Key.Security Key)]

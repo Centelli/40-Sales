@@ -7,7 +7,7 @@ Dim [vWriteRecord] as varchar(1)
 
 Dim [vDebug] as Varchar(1)
 
-IF [Grain(SC-Security Input).# User] = 'ang.ereen@hubersuhner.com' then
+IF [Grain(SC-Security Input).# User] = 'testuser@hubersuhner.com' then
   [vDebug] = 'X'
 ELSE
   [vDebug] = ''
