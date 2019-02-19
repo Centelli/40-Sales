@@ -5,7 +5,7 @@ SELECT [Level(Sales Order.Sales Order).Sales Order Number], [Level(Sales Order.S
 //    and [Level(Sales Order.Sales Order).SO Item Overall Status] <> 'C'
 // AND [Level(Sales Order.Sales Order).Sales Order Key] = '0010513151000010'
 INNER JOIN 
-SELECT [VBUP.VBUP_GBSTA] from [VBUP] ON
+SELECT [VBUP.VBUP_GBSTA], [VBUP.VBEP_WADAT] from [VBUP] ON
 [Level(Sales Order.Sales Order).Sales Order Number] = [VBUP.VBUP_VBELN] and [Level(Sales Order.Sales Order).Sales Order Item] = [VBUP.VBUP_POSNR]
 INNER JOIN
 SELECT [Grain(SC-Orders SL Update).Sales Order Number], [Grain(SC-Orders SL Update).Sales Order Item], [Grain(SC-Orders SL Update).CustArea Key], [Grain(SC-Orders SL Update).Comp Code Key],[Grain(SC-Orders SL Update).Sales Org Key], [Grain(SC-Orders SL Update).Customer Key], [Grain(SC-Orders SL Update).Delivery Customer Key],[Grain(SC-Orders SL Update).Security Key],[Grain(SC-Orders SL Update).Item Key], [Grain(SC-Orders SL Update).Rejection Reason Key], [Grain(SC-Orders SL Update).Division Key],[Grain(SC-Orders SL Update).Sales Order ScL Line],sum([Grain(SC-Orders SL Update).Order Qty]), sum([Grain(SC-Orders SL Update).Order Intake DC]), sum([Grain(SC-Orders SL Update).Order Intake GC]), sum([Grain(SC-Orders SL Update).Order Intake HC]), sum([Grain(SC-Orders SL Update).Order Intake RC]),[Grain(SC-Orders SL Update).Analysis Date],[Grain(SC-Orders SL Update).# RecType]

@@ -72,6 +72,8 @@ PRINT 'Invoice Qty '+sum([Invoice.Invoice Qty])
 [Currency Key RC]=[Level(Sales Order.Sales Order).Currency Key RC]
 [Ex Rate RC]=[Level(Sales Order.Sales Order).Ex Rate RC]
 [RecType]='Backlog'//[Level(Sales Order.Sales Order).RecType]
+//HUB-660 - add goods issue date for shipping backlog
+[ScL Goods Issue Date] = [VBUP.VBEP_WADAT]
 
 /*
 If order Qty NULL means no order line data for this schedule line (theoretically shouldn't happen...)

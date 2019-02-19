@@ -105,3 +105,4 @@ SC-Invoices Warmup,False,1.4.Invoices;SC-Invoices Warmup
 SC-OrphanDelete,False,SC-OrpphanDelete
 VBUP,False,VBUP;1.1.Transaction;3.Staging
 SC-Orders SL Ex Rate,False,SC-Orders SL Ex Rate
+SC-Invoice for Backlog,False,1.5.Backlog;SC-Invoice for Backlog
