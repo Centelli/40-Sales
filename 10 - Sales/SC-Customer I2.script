@@ -50,10 +50,13 @@ END IF
 [Sales Partner]=[tbl_dim_market_role.sales_partner_name]
 [Market Role Group]=[tbl_dim_market_role.market_role_group_name]
 
+//HUB-634: Customer / Customer Group Key added to the data model
 IF IFNULL([tbl_dim_customer_group.customer_group_name],'Other Customers')='Other Customers' THEN
  [Customer / Customer Group]=[SQL_I2_vw_dim_customer.Customer_name1]
+ [Customer / Customer Group Key]=[SQL_I2_vw_dim_customer.customer_code]
 ELSE
  [Customer / Customer Group]=[tbl_dim_customer_group.customer_group_name]
+ [Customer / Customer Group Key]=''
 END IF
 
 WRITERECORD
