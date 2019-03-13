@@ -1,3 +1,5 @@
+print [VBRK_VBRP.VBRK_VBELN] + ':' + [VBRK_VBRP.VBRP_POSNR]
+print SUM([ZPTP.Condition value])
 [VBRK_VBELN]=[VBRK_VBRP.VBRK_VBELN]
 [VBRK_FKART]=[VBRK_VBRP.VBRK_FKART]
 [VBRK_FKTYP]=[VBRK_VBRP.VBRK_FKTYP]
@@ -71,4 +73,15 @@
 [VBRP_FKLMG]=[VBRK_VBRP.VBRP_FKLMG]
 [Comp Currency Key]=[SC-Company.Comp Currency Key]
 [regional_currency_code]=[tbl_dim_sales_region.regional_currency_code]
+[MARA_MTART] = [MARA.MARA_MTART]
+[VBAP_BEDAE] = [VBRK_VBRP.VBAP_BEDAE]
+[VBRP_VPRS] = ifnull(SUM([VPRS.Condition value]),0.00) * -1
+[VBRP_ZVA0] = ifnull(SUM([ZVA0.Condition value]),0.00) * -1
+[VBRP_ZPTP] = ifnull(SUM([ZPTP.Condition value]),0.00) * -1
+[VBRP_COST_REPORT] = IFNULL(sum([SC-Cost Report.Value]), 0.00) * -1
+[ZZMM_MSEG_601] = IFNULL(sum([MSEG601.ZZMM_MSEG_DMBTR]), 0.00) * -1
+[ZZMM_MSEG_643] = IFNULL(sum([MSEG643.ZZMM_MSEG_DMBTR]), 0.00) * -1
+[T001K_BUKRS] = [T001K.T001K_BUKRS]
+// Adding K to T001 in the field to identify WAERS is for the Plant, which comes from table T001K
+[T001K_WAERS] = [T001K.T001_WAERS]
 WRITERECORD

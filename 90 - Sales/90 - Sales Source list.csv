@@ -104,3 +104,11 @@ SC-Invoice for Backlog,False,1.5.Backlog;SC-Invoice for Backlog
 SC-Date Selection Test,False,
 VBUP,False,1.1.Transaction;1.5.Backlog;ST-VBUP;3.Staging
 SC-Orders SL Ex Rate,False,SC-Orders SL Ex Rate
+VBFA,False,ICOGS;1.4.Invoices;ST-VBFA
+T001K,False,ICOGS;ST-T001K;1.1.Configuration
+COSS,False,ICOGS;1.4.Invoices;ST-Cost Report
+COSP,False,ICOGS;1.4.Invoices;ST-Cost Report
+SC-Invoice Cancellations,False,ICOGS;1.4.Invoices;SC-Invoice Cancellations
+SC-Cost Report Cleansing,False,ICOGS;1.4.Invoices;SC-Cost Report Cleansing
+SC-Cost Report,False,ICOGS;1.4.Invoices
+ZZMM_MSEG,False,ST-ZZMM_MSEG;ICOGS;1.4.Invoices

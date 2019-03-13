@@ -1,0 +1,29 @@
+FUNCTION [CheckValue]([Input] as Varchar(15)) as Float
+  IF [Input] IS NOT NULL THEN
+    IF (SUBSTRING([Input],LENGTH([Input])-1,LENGTH([Input]))) = '-' THEN
+     return float(SUBSTRING([Input],0,LENGTH([Input])-1)) * -1
+    ELSE
+      return float([Input])
+    END IF
+  ELSE
+    RETURN [Input]
+  END IF
+End function 
+
+[COSS_OBJNR]=[COSS.COSS_OBJNR]
+[COSS_GJAHR]=[COSS.COSS_GJAHR]
+[COSS_KSTAR]=[COSS.COSS_KSTAR]
+[COSS_WTG001]=[CheckValue]([COSS.COSS_WTG001])
+[COSS_WTG002]=[CheckValue]([COSS.COSS_WTG002])
+[COSS_WTG003]=[CheckValue]([COSS.COSS_WTG003])
+[COSS_WTG004]=[CheckValue]([COSS.COSS_WTG004])
+[COSS_WTG005]=[CheckValue]([COSS.COSS_WTG005])
+[COSS_WTG006]=[CheckValue]([COSS.COSS_WTG006])
+[COSS_WTG007]=[CheckValue]([COSS.COSS_WTG007])
+[COSS_WTG008]=[CheckValue]([COSS.COSS_WTG008])
+[COSS_WTG009]=[CheckValue]([COSS.COSS_WTG009])
+[COSS_WTG010]=[CheckValue]([COSS.COSS_WTG010])
+[COSS_WTG011]=[CheckValue]([COSS.COSS_WTG011])
+[COSS_WTG012]=[CheckValue]([COSS.COSS_WTG012])
+[COSS_TIMESTMP] = [COSS.COSS_TIMESTMP]
+WRITERECORD

@@ -1,0 +1,8 @@
+[Preceding Document]=[VBFA.VBFA_VBELV]
+[Preceding Item]=[VBFA.VBFA_POSNV]
+[Subsequent Document]=[VBFA.VBFA_VBELN]
+[Subsequent Item]=[VBFA.VBFA_POSNN]
+[Subsequent Doc Category]=[VBFA.VBFA_VBTYP_N]
+[Created On]=[VBFA.VBFA_ERDAT]
+[Preceding Document Type]=[VBFA.VBRK_FKART]
+WRITERECORD
