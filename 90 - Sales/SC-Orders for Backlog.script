@@ -1,0 +1,25 @@
+print getcolumnvalue(13) + ':' + [VBUP-Orders.VBUP_VBELN] + ':' + [VBUP-Orders.VBUP_POSNR] + ':' + ifnull(getcolumnvalue(0),'Null') + ':' + ifnull(getcolumnvalue(1),'Null') + ':' + getcolumnvalue(10) + ':' + [DelFilter.VBUP_GBSTA] + ':' + [VBUP-Deliveries.VBUP_FKSTA] + ':' + getcolumnvalue(13)
+[VBUP_VBELN]=[VBUP-Orders.VBUP_VBELN]
+[VBUP_POSNR]=[VBUP-Orders.VBUP_POSNR]
+[VBUP_GBSTA]=[VBUP-Orders.VBUP_GBSTA]
+[VBUP_ABSTA]=[VBUP-Orders.VBUP_ABSTA]
+[VBUP_LFSTA]=[VBUP-Orders.VBUP_LFSTA]
+[VBUP_LFGSA]=[VBUP-Orders.VBUP_LFGSA]
+[VBUP_FKSTA]=[VBUP-Orders.VBUP_FKSTA]
+[VBUP_FKSAA]=[VBUP-Orders.VBUP_FKSAA]
+if getcolumnvalue(13) = 'Deliveries' and getcolumnvalue(10) <> 'J' then
+  [VBFA_VBTYP_V]='W'
+ELSE
+  [VBFA_VBTYP_V]=getcolumnvalue(10)
+END IF
+[VBUK_SPSTG]=[VBUP-Orders.VBUK_SPSTG]
+[Delivery Number] = getcolumnvalue(0)
+[Delivery Item] = getcolumnvalue(1)
+[Order Source] = getcolumnvalue(13)
+IF [VBUP-Orders.VBKD_FKDAT] IS NOT NULL 
+ [VBKD_FKDAT] = [VBUP-Orders.VBKD_FKDAT]
+ELSE
+ print 'Using header FKDAT'
+ [VBKD_FKDAT] = [VBKD_HEAD.VBKD_FKDAT]
+END IF
+WRITERECORD

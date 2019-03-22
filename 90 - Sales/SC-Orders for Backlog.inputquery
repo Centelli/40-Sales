@@ -1,0 +1,11 @@
+SELECT null,null,[VBUP-Orders.VBUP_VBELN], [VBUP-Orders.VBUP_POSNR], [VBUP-Orders.VBUP_GBSTA], [VBUP-Orders.VBUP_ABSTA], [VBUP-Orders.VBUP_LFSTA], [VBUP-Orders.VBUP_LFGSA], [VBUP-Orders.VBUP_FKSTA], [VBUP-Orders.VBUP_FKSAA], 'C', [VBUP-Orders.VBUK_SPSTG], [VBUP-Orders.VBKD_FKDAT] FROM [VBUP-Orders] where [VBUP-Orders.VBUP_GBSTA] <> 'C' 
+// and [VBUP-Orders.VBUP_VBELN] = '0010543730' 
+INNER JOIN
+SELECT 'Order', 'Dummy' FROM [Level(Sales Order.Sales Order)] on [Level(Sales Order.Sales Order).Current Record] = 1  and [Level(Sales Order.Sales Order).Sales Order Number]=[VBUP-Orders.VBUP_VBELN] and [Level(Sales Order.Sales Order).Sales Order Item]= [VBUP-Orders.VBUP_POSNR] 
+INNER JOIN 
+SELECT [VBKD_HEAD.VBKD_FKDAT] from [VBUP-Orders Header] 'VBKD_HEAD' ON [VBKD_HEAD.VBKD_VBELN] = [VBUP-Orders.VBUP_VBELN]
+UNION
+SELECT [VBUP-Deliveries.VBUP_VBELN], [VBUP-Deliveries.VBUP_POSNR], [VBUP-Deliveries.VBFA_VBELV], [VBUP-Deliveries.VBFA_POSNV], [VBUP-Deliveries.VBUP_GBSTA], [VBUP-Deliveries.VBUP_ABSTA], [VBUP-Deliveries.VBUP_LFSTA], [VBUP-Deliveries.VBUP_LFGSA], [VBUP-Deliveries.VBUP_FKSTA], [VBUP-Deliveries.VBUP_FKSAA], [VBUP-Deliveries.VBFA_VBTYP_N], [VBUP-Deliveries.VBUK_SPSTG], [VBUP-Deliveries.VBKD_FKDAT], 'Delivery' FROM [VBUP-Deliveries] 
+// where [VBUP-Deliveries.VBFA_VBELV] = '0010543730' 
+INNER JOIN
+SELECT [DelFilter.VBUP_GBSTA], null FROM [VBUP-Orders] 'DelFilter' on  [VBUP-Deliveries.VBFA_VBELV] = [DelFilter.VBUP_VBELN] and [VBUP-Deliveries.VBFA_POSNV] = [DelFilter.VBUP_POSNR] and [DelFilter.VBUP_GBSTA] = 'C'

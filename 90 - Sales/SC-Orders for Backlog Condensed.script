@@ -1,0 +1,28 @@
+DIM [vLastVBUP_VBELN] as varchar(10) = ''
+Dim [vLast VBUP_POSNR] as varchar(6) = ''
+
+/* print [SC-Orders for Backlog.VBUP_VBELN] +':'+[vLastVBUP_VBELN] +':'+  [SC-Orders for Backlog.VBUP_POSNR]+':'+[vLast VBUP_POSNR]
+print ([vLastVBUP_VBELN] <> [SC-Orders for Backlog.VBUP_VBELN])
+print [vLast VBUP_POSNR] <> [SC-Orders for Backlog.VBUP_POSNR] */
+
+[VBUP_VBELN]=[SC-Orders for Backlog.VBUP_VBELN]
+[VBUP_POSNR]=[SC-Orders for Backlog.VBUP_POSNR]
+[VBUP_GBSTA]=[SC-Orders for Backlog.VBUP_GBSTA]
+[VBUP_ABSTA]=[SC-Orders for Backlog.VBUP_ABSTA]
+[VBUP_LFSTA]=[SC-Orders for Backlog.VBUP_LFSTA]
+[VBUP_LFGSA]=[SC-Orders for Backlog.VBUP_LFGSA]
+[VBUP_FKSTA]=[SC-Orders for Backlog.VBUP_FKSTA]
+[VBUP_FKSAA]=[SC-Orders for Backlog.VBUP_FKSAA]
+[VBFA_VBTYP_V]=[SC-Orders for Backlog.VBFA_VBTYP_V]
+[VBUK_SPSTG]=[SC-Orders for Backlog.VBUK_SPSTG]
+[Delivery Number]=[SC-Orders for Backlog.Delivery Number]
+[Delivery Item]=[SC-Orders for Backlog.Delivery Item]
+[Order Source]=[SC-Orders for Backlog.Order Source]
+[VBKD_FKDAT] = [SC-Orders for Backlog.VBKD_FKDAT]
+[VBAP Quantity] = sum([Grain(SC-Orders SL Update).Order Qty])
+
+IF [vLastVBUP_VBELN] <> [SC-Orders for Backlog.VBUP_VBELN] or [vLast VBUP_POSNR] <> [SC-Orders for Backlog.VBUP_POSNR] THEN
+  WRITERECORD
+END IF
+[vLastVBUP_VBELN] = [SC-Orders for Backlog.VBUP_VBELN] 
+[vLast VBUP_POSNR] = [SC-Orders for Backlog.VBUP_POSNR]
