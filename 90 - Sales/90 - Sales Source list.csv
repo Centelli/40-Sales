@@ -112,3 +112,9 @@ SC-Invoice Cancellations,False,ICOGS;1.4.Invoices;SC-Invoice Cancellations
 SC-Cost Report Cleansing,False,ICOGS;1.4.Invoices;SC-Cost Report Cleansing
 SC-Cost Report,False,ICOGS;1.4.Invoices
 ZZMM_MSEG,False,ST-ZZMM_MSEG;ICOGS;1.4.Invoices
+VBUP-Orders Header,False,ST-VBUP Orders Header;1.5.Backlog
+VBUP-Orders,False,1.5.Backlog;ST-VBUP-Orders
+VBUP-Deliveries,False,1.5.Backlog;ST-VBUP-Deliveries
+SC-Orders for Backlog,False,1.5.Backlog;SC-Orders for Backlog
+SC-Orders for Backlog Condensed,False,1.5.Backlog
+SC-ZZMM_MSEG Condensed,False,SC-ZZMM_MSEG Condensed;ICOGS;1.4.Invoices

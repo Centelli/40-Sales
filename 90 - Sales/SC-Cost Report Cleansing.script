@@ -25,5 +25,7 @@ End function
 [COSS_WTG010]=[CheckValue]([COSS.COSS_WTG010])
 [COSS_WTG011]=[CheckValue]([COSS.COSS_WTG011])
 [COSS_WTG012]=[CheckValue]([COSS.COSS_WTG012])
+[Source] = getcolumnvalue(0)
 [COSS_TIMESTMP] = [COSS.COSS_TIMESTMP]
+[TimeStamp] = dateadd(second,[COSS.COSS_TIMESTMP]/10000,#1990-01-01#)
 WRITERECORD
