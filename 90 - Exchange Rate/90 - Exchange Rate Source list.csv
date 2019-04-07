@@ -1,0 +1,7 @@
+Source Name,Disabled,Processing Groups
+SC-Exchange Rate,True,1 - Ex Rate
+tbl_rates,False,
+TCURR,True,
+SC-Exchange Rate TCURR,True,1 - TCURR
+SQL_VW_BI_RATES,False,ST_SQL_VW_BI_RATES
+SC-SQL Exchange Rate,False,SC-SQL Exchange Rate;1.1.ExRates

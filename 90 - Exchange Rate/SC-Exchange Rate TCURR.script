@@ -1,0 +1,32 @@
+dim [v_num] as integer = 99999999
+dim [v_diff] as integer =0
+dim [v_currentinvdate] as integer
+dim [v_prev_date] as datetime
+dim [v_datetemp] as datetime
+dim [v_rate] as float
+
+IF position('-', [TCURR.TCURR_UKURS]) > 0
+  [v_rate] = FLOAT( SUBSTRING([TCURR.TCURR_UKURS], 0, position('-', [TCURR.TCURR_UKURS])) ) * -1
+ELSE
+  [v_rate] = FLOAT( [TCURR.TCURR_UKURS] )
+END IF
+
+[Exchange Rate Type]=[TCURR.TCURR_KURST]
+[From Currency Key]=[TCURR.TCURR_FCURR]
+[To Currency Key]=[TCURR.TCURR_TCURR]
+[Inverted Date] = [TCURR.TCURR_GDATU] 
+
+//converting the SAP inverted date to the date format
+[v_diff] = [v_num] - integer([TCURR.TCURR_GDATU])
+[v_datetemp] =datetime(varchar([v_diff]))
+[Valid From Date] = [v_datetemp]
+
+If [v_rate] < 0 then
+   [Exchange Rate]=(1/[v_rate]) * -1
+Elseif [v_rate] > 0
+   [Exchange Rate]=[v_rate]
+End if
+
+WRITERECORD
+
+[v_currentinvdate] = [TCURR.TCURR_GDATU]

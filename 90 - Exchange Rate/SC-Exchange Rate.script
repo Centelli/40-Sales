@@ -1,0 +1,77 @@
+dim [v_prev_date] as datetime = null
+dim [v_numofdays] as integer = 0
+dim [v_date] as datetime
+dim [l_validfromdate] As List (DATE)
+dim [l_fromcurr] as List(Varchar(3))
+dim [l_tocurr] as List (varchar(3))
+dim [l_exchrate] as List(float)
+dim [index] as integer = 0
+
+if [v_prev_date] is not null then
+      [v_numofdays] = (DATEDIFF(DAY, [v_prev_date], [tbl_rates.date_valid_from]) )
+end if
+// if the dates are equal storing values in the array
+if [v_numofdays] = 0 or [v_prev_date] is null THEN
+     ADD([l_validfromdate], [tbl_rates.date_valid_from])
+	 //Handle CNY/RMB rates issues here
+     IF [tbl_rates.curr_code_from] = 'RMB' THEN
+	   ADD([l_fromcurr], 'CNY')
+	 ELSE
+	   ADD([l_fromcurr], [tbl_rates.curr_code_from])
+	 END IF
+     ADD([l_tocurr],[tbl_rates.curr_code_to] )
+     ADD([l_exchrate],[tbl_rates.rate] )
+END IF
+
+print ' Pre Loop vNumofDays '+[v_numofdays]+' vPrevDate '+[v_prev_date]
+print ' Pre Loop Array Length '+Length([l_fromcurr])+' From:'+[tbl_rates.curr_code_from]+' Rate:'+[tbl_rates.rate]+' Date:'+[tbl_rates.date_valid_from]
+IF [v_numofdays] > 1 then
+   while [v_numofdays] > 0
+   [index] = Length([l_exchrate]) - 1
+      while [index] >= 0 
+	    print ' In Loop Index '+[index]+' From:'+[l_fromcurr]([index])+' Rate:'+[l_exchrate]([index])+' Date:'+[v_date]
+        [From Currency Key]=[l_fromcurr]([index])
+        [To Currency Key]=[l_tocurr]([index])
+        [Valid From Date]=[v_date]
+        [Exchange Rate]=[l_exchrate]([index])
+        [Source Flag] = 'Y'
+        [index] = [index] - 1
+        WRITERECORD
+      end While 
+      [v_date] = Dateadd(Day,1, [v_date])
+
+      [v_numofdays] = (DATEDIFF(DAY, [v_date], dateadd(year,1,nowdate)))
+    end while 
+end if
+
+if [v_prev_date] is not null AND [v_prev_date] <> [tbl_rates.date_valid_from] THEN // emptying the contents of the arrays and refilling
+     RemoveAll([l_validfromdate])
+     RemoveAll([l_fromcurr])
+     RemoveAll([l_tocurr] )
+     RemoveAll([l_exchrate])
+     ADD([l_validfromdate], [tbl_rates.date_valid_from])
+     //Handle CNY/RMB rates issues here
+     IF [tbl_rates.curr_code_from] = 'RMB' THEN
+	   ADD([l_fromcurr], 'CNY')
+	 ELSE
+	   ADD([l_fromcurr], [tbl_rates.curr_code_from])
+	 END IF
+     ADD([l_tocurr],[tbl_rates.curr_code_to] )
+     ADD([l_exchrate],[tbl_rates.rate] )
+END IF
+
+//assigning the prev date as the current records date
+[v_prev_date]  = [tbl_rates.date_valid_from]
+[v_date] = Dateadd(Day,1, [v_prev_date])
+//Handle CNY/RMB rates issues here
+IF [tbl_rates.curr_code_from] = 'RMB' THEN 
+  [From Currency Key]='CNY'
+ELSE
+  [From Currency Key]=[tbl_rates.curr_code_from]
+END IF
+[To Currency Key]=[tbl_rates.curr_code_to]
+[Valid From Date]=[tbl_rates.date_valid_to]
+[Exchange Rate]= [tbl_rates.rate]
+[Source Flag] = 'N'
+
+WRITERECORD

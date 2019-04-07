@@ -1,0 +1,2 @@
+SELECT [tbl_rates.rate_key], [tbl_rates.date_valid_from], [tbl_rates.date_valid_to], [tbl_rates.curr_code_from], [tbl_rates.curr_code_to], [tbl_rates.rate], [tbl_rates.factor], [tbl_rates.rate_with_factor] FROM [tbl_rates] where [tbl_rates.date_valid_from] > #12/31/2015#
+ORDER BY [tbl_rates.date_valid_from] ASC, [tbl_rates.curr_code_from] ASC

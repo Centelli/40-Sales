@@ -1,0 +1,17 @@
+DIM [vFromCurr] AS VARCHAR(3)
+
+[Valid From Date]=[SQL_VW_BI_RATES.date_valid_from]
+[Valid To Date] = [SQL_VW_BI_RATES.date_valid_to]
+
+// Change RMB to CNY
+if [SQL_VW_BI_RATES.curr_code_from] = 'RMB' then
+[vFromCurr]  = 'CNY'
+else
+[vFromCurr]=[SQL_VW_BI_RATES.curr_code_from]
+end if 
+[From Currency Key]=[vFromCurr] 
+[To Currency Key]=[SQL_VW_BI_RATES.curr_code_to]
+[Exchange Rate]=[SQL_VW_BI_RATES.rate_with_factor]
+[Source Flag] = 'S'
+[Rate Key]=[SQL_VW_BI_RATES.rate_key]
+WRITERECORD

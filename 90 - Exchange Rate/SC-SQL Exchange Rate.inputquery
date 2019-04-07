@@ -1,0 +1,2 @@
+SELECT [SQL_VW_BI_RATES.rate_key], [SQL_VW_BI_RATES.date_valid_from], [SQL_VW_BI_RATES.date_valid_to], [SQL_VW_BI_RATES.curr_code_from], [SQL_VW_BI_RATES.curr_code_to], [SQL_VW_BI_RATES.rate_with_factor], [SQL_VW_BI_RATES.version_code]
+  FROM [SQL_VW_BI_RATES]
