@@ -17,8 +17,9 @@ END IF
 Dim [mCustCountry] as MAP(Varchar(18),Varchar(3)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Country Key] FROM [Level(Customer.Customer)]
 Dim [mCustCustomerGroup] as MAP(Varchar(18),Varchar(77)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Customer Group] FROM [Level(Customer.Customer)]
 Dim [mCustMarket] as MAP(Varchar(18),Varchar(10)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Market Key] FROM [Level(Customer.Customer)]
-Dim [mCustSalesRep] as MAP(Varchar(22),Varchar(10)) = SELECT [Grain(SC-Customer Sales Area).CustArea Key], [Grain(SC-Customer Sales Area).# Outside Sales Key] FROM [Grain(SC-Customer Sales Area)]
-Dim [mCustSalesOffice] as MAP(Varchar(22),Varchar(10)) = SELECT [Grain(SC-Customer Sales Area).CustArea Key], [Grain(SC-Customer Sales Area).# Sales Office Key] FROM [Grain(SC-Customer Sales Area)]
+// HUB-683 - Changed from Gain of Customer Sales area to Level
+Dim [mCustSalesRep] as MAP(Varchar(22),Varchar(10)) = SELECT [Level(Customer Sales Area.Customer Sales Area).CustArea Key], [Level(Customer Sales Area.Customer Sales Area).Outside Sales Key] FROM [Level(Customer Sales Area.Customer Sales Area)]
+Dim [mCustSalesOffice] as MAP(Varchar(22),Varchar(10)) = SELECT [Level(Customer Sales Area.Customer Sales Area).CustArea Key], [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] FROM [Level(Customer Sales Area.Customer Sales Area)]
 
 /* 28Jun18 / Aneesh: There are security keys that are short/blank/=NA. Causing script to fail. Unable to find data linked to these keys so logging
 in print output for now */

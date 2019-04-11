@@ -7,7 +7,7 @@ Dim [vWriteRecord] as varchar(1)
 
 Dim [vDebug] as Varchar(1)
 
-IF [Grain(SC-Security Input).# User] = 'joern.kuhlbrock@hubersuhner.com' then
+IF [Grain(SC-Security Input).# User] = 'testuser@hubersuhner.com' then
   [vDebug] = 'X'
 ELSE
   [vDebug] = ''
@@ -16,9 +16,10 @@ END IF
 /* Map variables */
 Dim [mCustCountry] as MAP(Varchar(18),Varchar(3)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Country Key] FROM [Level(Customer.Customer)]
 Dim [mCustCustomerGroup] as MAP(Varchar(18),Varchar(77)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Customer Group] FROM [Level(Customer.Customer)]
-Dim [mCustMarket] as MAP(Varchar(18),Varchar(10)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Market Segment Key] FROM [Level(Customer.Customer)]
-Dim [mCustSalesRep] as MAP(Varchar(22),Varchar(10)) = SELECT [Grain(SC-Customer Sales Area).CustArea Key], [Grain(SC-Customer Sales Area).# Outside Sales Key] FROM [Grain(SC-Customer Sales Area)]
-Dim [mCustSalesOffice] as MAP(Varchar(22),Varchar(10)) = SELECT [Grain(SC-Customer Sales Area).CustArea Key], [Grain(SC-Customer Sales Area).# Sales Office Key] FROM [Grain(SC-Customer Sales Area)]
+Dim [mCustMarket] as MAP(Varchar(18),Varchar(10)) = SELECT [Level(Customer.Customer).Customer Key],[Level(Customer.Customer).Market Key] FROM [Level(Customer.Customer)]
+// HUB-683 - Changed from Gain of Customer Sales area to Level
+Dim [mCustSalesRep] as MAP(Varchar(22),Varchar(10)) = SELECT [Level(Customer Sales Area.Customer Sales Area).CustArea Key], [Level(Customer Sales Area.Customer Sales Area).Outside Sales Key] FROM [Level(Customer Sales Area.Customer Sales Area)]
+Dim [mCustSalesOffice] as MAP(Varchar(22),Varchar(10)) = SELECT [Level(Customer Sales Area.Customer Sales Area).CustArea Key], [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] FROM [Level(Customer Sales Area.Customer Sales Area)]
 
 /* 28Jun18 / Aneesh: There are security keys that are short/blank/=NA. Causing script to fail. Unable to find data linked to these keys so logging
 in print output for now */
@@ -40,7 +41,7 @@ IF length([Level(Security Key.Security Key).Security Key]) > 6 THEN
 
 	IF [Grain(SC-Security Input).# Role] = null or [Grain(SC-Security Input).# Role] = '' THEN
 	// Update role to no restriction if CUST_ALL, COMP_ALL, DIV_ALL and ICOGS = 1
-	    IF [Grain(SC-Security Input).# Security Mask] = 'Y______%' and [Grain(SC-Security Input).# Cust Role Entity] = 'Customer All' THEN
+	    IF [Grain(SC-Security Input).# Security Mask] = 'Y______%' and ([Grain(SC-Security Input).# Cust Role Entity] = 'Customer All' or [Grain(SC-Security Input).# Cust Role Entity] is null) THEN
 	      [Role] = 'All'
 	    ELSE
 	      [Role] = 'Limited'
@@ -54,7 +55,7 @@ IF length([Level(Security Key.Security Key).Security Key]) > 6 THEN
 	[Customer Key] = [vCustomerKey]
 
 	// For customer all, write record, else check if user has access to customer
-	if [Grain(SC-Security Input).# Cust Role Entity] = 'Customer All'  then
+	if [Grain(SC-Security Input).# Cust Role Entity] = 'Customer All'  or [Grain(SC-Security Input).# Cust Role Entity] is null then
 	  [Detail] = ''
 	  [Source] = 'Cust All'
 	  [vWriteRecord] = 'X'
@@ -75,7 +76,10 @@ IF length([Level(Security Key.Security Key).Security Key]) > 6 THEN
 	elseif [Grain(SC-Security Input).# Cust Role Entity] = 'Market' then
 	  [Detail] = [mCustMarket]([vCustomerKey])+ ':' + [Grain(SC-Security Input).# Cust Role Code]
 	  [Source] = 'Market'
-	  if [mCustMarket]([vCustomerKey]) = [Grain(SC-Security Input).# Cust Role Code] then
+	if [vDebug] = 'X' then
+	  print 'In Market check: ' + [mCustMarket]([vCustomerKey]) + ':' + [Grain(SC-Security Input).# Cust Role Code] + ':' + ([mCustMarket]([vCustomerKey]) = [Grain(SC-Security Input).# Cust Role Code])
+	End if
+     if [mCustMarket]([vCustomerKey]) = [Grain(SC-Security Input).# Cust Role Code] then
 	    [vWriteRecord] = 'X'
          [Entity Value] = [Grain(SC-Security Input).# Cust Role Code]
 	  end if
