@@ -499,14 +499,15 @@ ELSEIF [SC-Invoices Warmup.T001K_WAERS] = 'CHF' THEN
   [vPlantToHC] = 1 / [v_rate_home_to_chf]
 ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vSalesCurr] THEN
 // Plant has same ex-rate as DC, so we can use that
-  [vPlantToHC] = 1 / [vExcRatetoHC]
+// HUB-703 - exchange rate should not be divided by 1
+  [vPlantToHC] = [vExcRatetoHC]
 ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vRegCurrency] THEN
 // Triangulate via CHF
   [vPlantToHC] = [v_rate_reg_to_chf] *  [v_rate_home_to_chf]
 ELSE
 // New rate, so triangulate via CHF
   IF [PlantExRate.Exchange Rate] IS NOT NULL THEN
-    [vPlantToHC] = [PlantExRate.Exchange Rate] * [v_rate_home_to_chf]
+    [vPlantToHC] = [PlantExRate.Exchange Rate] / [v_rate_home_to_chf]
   ELSE
     print 'ERROR:Plant exchange rate:Plant WAERS:' + [SC-Invoices Warmup.T001K_WAERS] + ':HC:' + [SC-Invoices Warmup.Comp Currency Key]+ ':vExcRatetoHC:' + [vExcRatetoHC]+ ':[v_rate_home_to_chf]:' + [v_rate_home_to_chf] + ':[v_rate_reg_to_chf]:' + [v_rate_reg_to_chf]
   END IF
@@ -562,6 +563,7 @@ IF [vCostsHandled] <> 'Y' AND [vInvType] <> 'O' THEN
       PRINT '6.1: Calculating ICOGS using ' + [vICOGSInitCostPrice]
       [vICOGSSource] = 'Group Costing'
       [vICOGSHC]=[vICOGSInitCostPrice]*FLOAT([SC-Invoices Warmup.VBRP_FKIMG])
+      print 'ICOGS HC: ' + [vICOGSHC]
     ELSE
       PRINT '6.2: ICOGS Rate is zero or status is 2 or 6 so setting to COGS'
       PRINT 'Basis for ICOGS: Company- ' + [SC-Invoices Warmup.VBRK_BUKRS] + ':Plant-' + [SC-Invoices Warmup.VBRP_WERKS] + ': Date-' + format([SC-Invoices Warmup.VBRK_FKDAT],'yyyy-MM-dd') + ': Material Key-' + [SC-Invoices Warmup.VBRP_MATNR]
