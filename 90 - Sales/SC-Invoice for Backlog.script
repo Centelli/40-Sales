@@ -23,6 +23,9 @@ end if
 [Customer Key] = [Grain(SC-Invoices).Customer Key]
 [Customer Type] = [Level(Customer.Customer).Customer Type]
 [Invoice Qty] = sum([Grain(SC-Invoices).Invoice Qty])
+print [vSONumber] + ':' + [vSOItem]
+[Sales Order Number] = [vSONumber]
+[Sales Order Item] = [vSOItem]
 
 if sum([Grain(SC-Invoices).Invoice Qty]) <> 0 then
  WRITERECORD
