@@ -31,12 +31,14 @@ DIM [vPrevKey] as Varchar(16) = null
 DIM [vOrdKey] as Varchar(16) 
 DIM [vInvRemain] as Float
 Dim [vMultiplier] as FLOAT
-
+Dim [vOrderNetRC] as Float
 Dim [vOrderNetHC] as Float
 Dim [vVBAP_WAVWRHC] as Float
 
 Dim [vOrderNetGC] as Float
 Dim [vVBAP_WAVWRGC] as Float
+
+Dim [mZLZDocsProcessed] as Map(Varchar(19),Float)
 
 PRINT '1'
 
@@ -150,14 +152,14 @@ if [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] <> 'Z
      [vSchedLineQty]=ifnull([vInvRemain],0.00)
      [vInvRemain]=0.0
     END IF 
-	PRINT '2.1 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
+  PRINT '2.1 [vInvRemain]:'+[vInvRemain]+' [vInvQty]:'+[vInvQty]+' [vInvNetSalesDC]:'+[vInvNetSalesDC]
    ELSE
     [vInvRemain] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
     [vInvQty] = [mInvQty]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
-	[vOrderQty]=ifnull([vInvQty],0.00)
-	[vInvNetSalesDC] = [mInvNetSalesDC]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
-	[vOrderNet]=ifnull([vInvNetSalesDC],0.00)
-	IF [vInvRemain] IS NULL THEN
+  [vOrderQty]=ifnull([vInvQty],0.00)
+  [vInvNetSalesDC] = [mInvNetSalesDC]([VBAK_VBAP_VBEP.VBAP_VBELN]+''+[VBAK_VBAP_VBEP.VBAP_POSNR])
+  [vOrderNet]=ifnull([vInvNetSalesDC],0.00)
+  IF [vInvRemain] IS NULL THEN
      [vInvRemain]=0.0
     END IF
     IF [vInvRemain] >= [vSchedQty] THEN
@@ -245,7 +247,7 @@ end if
       IF [VBAK_VBAP_VBEP.VBAP_ERDAT] > [VBAK_VBAP_VBEP.VBAK_AEDAT] THEN
         [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_ERDAT]
       ELSE
-        [vChangeDate] = [VBAK_VBAP_VBEP.VBAK_AEDAT]
+        [vChangeDate] = DATEADD(Day,1,[VBAK_VBAP_VBEP.VBAK_AEDAT])
     ELSE
       [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_ERDAT]
     END IF
@@ -339,13 +341,15 @@ PRINT '[SC-Sales Office.RC Currency Key]:'+[tbl_dim_sales_region.regional_curren
   [Currency Key RC] = [tbl_dim_sales_region.regional_currency_code]
   IF [tbl_dim_sales_region.regional_currency_code] = 'CHF' THEN
     [Ex Rate RC] = 1
-    [Order Intake RC] = [vOrderNetGC] * [vMultiplier]
+    [vOrderNetRC] = [vOrderNetGC] * [vMultiplier]
+    [Order Intake RC] = [vOrderNetRC]
     IF [VBAK_VBAP_VBEP.VBAP_WAVWR] IS NOT NULL THEN
      [SO Item Cost RC]=[vVBAP_WAVWRGC] * [vMultiplier]
     END IF
   ELSE
     [Ex Rate RC] = FLOAT(1/[v_rate_chf_to_reg])
-    [Order Intake RC] = FLOAT([vOrderNetGC]/[v_rate_chf_to_reg]) * [vMultiplier]
+    [vOrderNetRC] = FLOAT([vOrderNetGC]/[v_rate_chf_to_reg]) * [vMultiplier]
+    [Order Intake RC] = [vOrderNetRC]
     IF [VBAK_VBAP_VBEP.VBAP_WAVWR] IS NOT NULL THEN
      [SO Item Cost RC]=FLOAT([vVBAP_WAVWRGC]/[v_rate_chf_to_reg]) * [vMultiplier]
     END IF
@@ -364,4 +368,24 @@ Do not write records for Customer Type 'Group'
 */  
 IF [Level(Customer.Customer).Customer Type] <> 'Group' THEN
 WRITERECORD
+END IF
+
+/* Disabling ZLZ - 15Apr19
+IF [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' and sum([ZLZ.Invoice Qty]) is not null THEN
+  IF [mZLZDocsProcessed]([vOrdKey]) is null THEN
+    print 'Processing ZLZ'
+    print [mInvQty]([vOrdKey])
+    [Sales Order Item]='000000'
+    [Sales Order ScL Line]='0000'
+    [ScL Type] = ''
+    [Order Qty] = (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD]) * [vMultiplier]
+    [ScL Quantity] = (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD]) * [vMultiplier]
+    [Order Intake DC] = ([vOrderNet] / [vOrderQty] ) * (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD])
+    [Order Intake HC] = ([vOrderNetHC] / [vOrderQty] ) * (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD])
+    [Order Intake RC] = ([vOrderNetRC] / [vOrderQty] ) * (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD])
+    [Order Intake GC] = ([vOrderNetGC] / [vOrderQty] ) * (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD])
+    print [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + sum([ZLZ.Invoice Qty]) + ':' + [vOrderNet]  + ':' + (([vOrderNet] / [vOrderQty] ) * sum([ZLZ.Invoice Qty])) + ':' + [VBAK_VBAP_VBEP.VBLB_LFMKD] + ':' + [VBAK_VBAP_VBEP.VBLB_ABEFZ]
+    [mZLZDocsProcessed]([vOrdKey]) = sum([ZLZ.Invoice Qty])
+    WRITERECORD
+  END IF */
 END IF
