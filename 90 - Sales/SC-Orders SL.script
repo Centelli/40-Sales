@@ -39,6 +39,7 @@ Dim [vOrderNetGC] as Float
 Dim [vVBAP_WAVWRGC] as Float
 
 Dim [mZLZDocsProcessed] as Map(Varchar(19),Float)
+Dim [vZLZHistoricQty] as Float
 
 PRINT '1'
 
@@ -370,22 +371,39 @@ IF [Level(Customer.Customer).Customer Type] <> 'Group' THEN
 WRITERECORD
 END IF
 
-/* Disabling ZLZ - 15Apr19
-IF [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' and sum([ZLZ.Invoice Qty]) is not null THEN
+// To stop I1 interface for ZLZ documents, set condition in if to false by changing it to 1 = 0
+IF 1 = 1 then
+
+[vZLZHistoricQty] = 0.00
+print 'Check if ZLZ should be processed:' + [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + [VBAK_VBAP_VBEP.VBAK_AUART] + ':' + [mZLZDocsProcessed]([vOrdKey])
+IF [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' THEN  
   IF [mZLZDocsProcessed]([vOrdKey]) is null THEN
-    print 'Processing ZLZ'
-    print [mInvQty]([vOrdKey])
-    [Sales Order Item]='000000'
-    [Sales Order ScL Line]='0000'
-    [ScL Type] = ''
-    [Order Qty] = (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD]) * [vMultiplier]
-    [ScL Quantity] = (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD]) * [vMultiplier]
-    [Order Intake DC] = ([vOrderNet] / [vOrderQty] ) * (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD])
-    [Order Intake HC] = ([vOrderNetHC] / [vOrderQty] ) * (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD])
-    [Order Intake RC] = ([vOrderNetRC] / [vOrderQty] ) * (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD])
-    [Order Intake GC] = ([vOrderNetGC] / [vOrderQty] ) * (sum([ZLZ.Invoice Qty])-[VBAK_VBAP_VBEP.VBLB_LFMKD])
-    print [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + sum([ZLZ.Invoice Qty]) + ':' + [vOrderNet]  + ':' + (([vOrderNet] / [vOrderQty] ) * sum([ZLZ.Invoice Qty])) + ':' + [VBAK_VBAP_VBEP.VBLB_LFMKD] + ':' + [VBAK_VBAP_VBEP.VBLB_ABEFZ]
-    [mZLZDocsProcessed]([vOrdKey]) = sum([ZLZ.Invoice Qty])
-    WRITERECORD
-  END IF */
+      print 'Processing ZLZ'    
+      print 'Historic invoice Quantity:' + [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + sum([ZLZ.Invoice Qty])    
+      IF sum([ZLZ.Invoice Qty]) is not null then
+            [vZLZHistoricQty] = sum([ZLZ.Invoice Qty])    
+      ELSE      
+         print 'WARN: Historic invoice quantity is null or new order, setting it to zero'      
+         [vZLZHistoricQty] = 0.00    
+      END IF
+// Double check for null!    
+      IF [vZLZHistoricQty] is null THEN 
+        print 'ERROR: [vZLZHistoricQty] is null'    
+      END IF    
+      [Sales Order Item]='000000'    
+      [Sales Order ScL Line]='0000'    
+      [ScL Type] = ''    
+      [Order Qty] = IFNULL([vZLZHistoricQty],0.00) * [vMultiplier]    
+      [ScL Quantity] = IFNULL([vZLZHistoricQty],0.00) * [vMultiplier]    
+      [Order Intake DC] = ([vOrderNet] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
+      [Order Intake HC] = ([vOrderNetHC] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
+      [Order Intake RC] = ([vOrderNetRC] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
+      [Order Intake GC] = ([vOrderNetGC] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
+      print [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + ':' + [vOrderNet]  + ':' + IFNULL([vZLZHistoricQty],0.00)    
+      [mZLZDocsProcessed]([vOrdKey]) = IFNULL([vZLZHistoricQty],0.00)    
+      WRITERECORD  
+      ELSE    
+      print 'Schedule agreement has already been processed'  
+      END IF
+END IF
 END IF

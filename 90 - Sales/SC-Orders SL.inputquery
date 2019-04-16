@@ -25,8 +25,8 @@ LEFT OUTER JOIN
 SELECT [Level(Customer.Customer).Customer Type]
   FROM [Level(Customer.Customer)]   
     ON [Level(Customer.Customer).Customer Key] = [VBAK_VBAP_VBEP.VBAK_KUNNR]    
-// Disabling ZLZ - 15Apr19
-// LEFT OUTER JOIN 
-// SELECT sum([ZLZ.Invoice Qty]) from [SC-Invoice for Backlog] 'ZLZ' ON [VBAK_VBAP_VBEP.VBAP_VBELN] = [ZLZ.Sales Order Number] 
-// and [VBAK_VBAP_VBEP.VBAP_POSNR] =  [ZLZ.Sales Order Item] 
+// To disable I1 for ZLZ, comment out LEFT OUTER JOIN and SELECT. Leave order by in though
+LEFT OUTER JOIN 
+SELECT sum([ZLZ.Invoice Qty]) from [SC-Invoice for Backlog] 'ZLZ' ON [VBAK_VBAP_VBEP.VBAP_VBELN] = [ZLZ.Sales Order Number] 
+and [VBAK_VBAP_VBEP.VBAP_POSNR] =  [ZLZ.Sales Order Item] 
 ORDER BY [VBAK_VBAP_VBEP.VBAP_VBELN], [VBAK_VBAP_VBEP.VBAP_POSNR],[VBAK_VBAP_VBEP.VBEP_ETENR]
