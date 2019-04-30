@@ -1,10 +1,6 @@
 SELECT [KNA1.KNA1_KUNNR], [KNA1.KNA1_LAND1]
   FROM [KNA1]
 LEFT OUTER JOIN
-SELECT [Country.Country Key], [Country.Country]
-  FROM [Country]
-  ON [KNA1.KNA1_LAND1] = [Country.Country Key]
-LEFT OUTER JOIN
-SELECT [SQL_DBO_vw_sql_dim_country.country_iso_alpha_code], [SQL_DBO_vw_sql_dim_country.subregion_key], [SQL_DBO_vw_sql_dim_country.subregion_name], [SQL_DBO_vw_sql_dim_country.area_key], [SQL_DBO_vw_sql_dim_country.area_name], [SQL_DBO_vw_sql_dim_country.region_key], [SQL_DBO_vw_sql_dim_country.region_name]
-  FROM [SQL_DBO_vw_sql_dim_country]
-  ON [KNA1.KNA1_LAND1]=[SQL_DBO_vw_sql_dim_country.country_iso_alpha_code]
+SELECT [tbl_dim_country.country_iso_alpha_code], [tbl_dim_country.subregion_key], [tbl_dim_country.subregion_name], [tbl_dim_country.area_key], [tbl_dim_country.area_name], [tbl_dim_country.region_key], [tbl_dim_country.region_name], [tbl_dim_country.country_name]
+  FROM [tbl_dim_country]
+  ON [KNA1.KNA1_LAND1]=[tbl_dim_country.country_iso_alpha_code]

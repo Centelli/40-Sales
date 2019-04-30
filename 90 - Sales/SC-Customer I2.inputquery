@@ -1,15 +1,11 @@
 SELECT [SQL_I2_vw_dim_customer.comp_code], [SQL_I2_vw_dim_customer.div_comp_code], [SQL_I2_vw_dim_customer.comp_type], [SQL_I2_vw_dim_customer.sap_comp_code], [SQL_I2_vw_dim_customer.legacy_flag], [SQL_I2_vw_dim_customer.customer_key], [SQL_I2_vw_dim_customer.customer_code], [SQL_I2_vw_dim_customer.Customer_name1], [SQL_I2_vw_dim_customer.Customer Address1], [SQL_I2_vw_dim_customer.Customer Address2], [SQL_I2_vw_dim_customer.Country Key], [SQL_I2_vw_dim_customer.customer_longname], [SQL_I2_vw_dim_customer.market_sub_segment_code], [SQL_I2_vw_dim_customer.market_sub_segment_name], [SQL_I2_vw_dim_customer.market_role_code], [SQL_I2_vw_dim_customer.market_role_name], [SQL_I2_vw_dim_customer.customer_group_name], [SQL_I2_vw_dim_customer.customer_type], [SQL_I2_vw_dim_customer.salesrep_code], [SQL_I2_vw_dim_customer.salesrep_name], [SQL_I2_vw_dim_customer.customer_group_code], [SQL_I2_vw_dim_customer.customer_account_group_code], [SQL_I2_vw_dim_customer.Source]
   FROM [SQL_I2_vw_dim_customer]
 LEFT OUTER JOIN
-SELECT [Country.Country Key], [Country.Country]
-  FROM [Country]
-  ON [SQL_I2_vw_dim_customer.Country Key] = [Country.Country Key]
-LEFT OUTER JOIN
 SELECT [tbl_dim_market.market_segment_stat_code], [tbl_dim_market.market_segment_name], [tbl_dim_market.market_name], [tbl_dim_market.market_code]
   FROM [tbl_dim_market]
     ON ([SQL_I2_vw_dim_customer.market_sub_segment_code] = [tbl_dim_market.market_segment_code]) OR ([SQL_I2_vw_dim_customer.market_sub_segment_code] IS NULL AND [tbl_dim_market.market_segment_code] IS NULL)
 LEFT OUTER JOIN
-SELECT [tbl_dim_country.country_iso_alpha_code], [tbl_dim_country.subregion_key], [tbl_dim_country.subregion_name], [tbl_dim_country.area_key], [tbl_dim_country.area_name], [tbl_dim_country.region_key], [tbl_dim_country.region_name]
+SELECT [tbl_dim_country.country_iso_alpha_code], [tbl_dim_country.subregion_key], [tbl_dim_country.subregion_name], [tbl_dim_country.area_key], [tbl_dim_country.area_name], [tbl_dim_country.region_key], [tbl_dim_country.region_name], [tbl_dim_country.country_name]
   FROM [tbl_dim_country]
   ON [SQL_I2_vw_dim_customer.Country Key] = [tbl_dim_country.country_iso_alpha_code]
 LEFT OUTER JOIN

@@ -13,7 +13,7 @@ DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segme
 [ConsCustomer]=[SQL_I2_vw_dim_customer.customer_group_name]
 [Customer Address1]=[SQL_I2_vw_dim_customer.Customer Address1]
 [Customer Address2]=[SQL_I2_vw_dim_customer.Customer Address2]
-[Customer Country]=[Country.Country]
+[Customer Country]=[tbl_dim_country.country_name]
 
 [Market Role] = [tbl_dim_market_role.market_role_name]
 [Account group]=[SQL_I2_vw_dim_customer.customer_account_group_code]

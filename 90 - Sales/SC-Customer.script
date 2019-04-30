@@ -3,7 +3,6 @@ DIM [vDefaultMarketName] AS VARCHAR(28) = SELECT [tbl_dim_market.market_name] FR
 DIM [vDefaultMarketKey] AS VARCHAR(28) = SELECT [tbl_dim_market.market_code] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
 DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segment_name] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
 
-[Country Key] = [Country.Country Key]
 [Customer Key]=[KNA1.KNA1_KUNNR]
 [Country Key]=[KNA1.KNA1_LAND1]
 [Customer]=[KNA1.KNA1_NAME1]
@@ -17,7 +16,7 @@ DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segme
 [Account group]=[KNA1.KNA1_KTOKD]
 
 [Market Role Key]=[KNA1.KNA1_KATR1]
-[Customer Country] = [Country.Country]
+[Customer Country] = [tbl_dim_country.country_name]
 [Market Role] = [tbl_dim_market_role.market_role_name]
 
 [Source] = 'SAP ECC'
