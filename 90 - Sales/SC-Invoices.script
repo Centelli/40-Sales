@@ -285,12 +285,39 @@ END IF
 [Ex Rate RC] = FLOAT(1/[v_rate_reg_to_chf])
 [Net Sales RC] = IFNULL([vSalesNetGC],0.00)/[v_rate_reg_to_chf]
 //[Sales COGS RC] = IFNULL([vSalesCostGC],0.00)/[v_rate_reg_to_chf]
+
+//HUB-705 and HUB-703 - Cost report needs to be translated from Currency of plant to HC
+//Moving vPlanttoHC earlier
  
+/* Determine if ICOGS or Cost Report rate needs to be translated. ICOGS and Cost Report rate is in HC 
+of plant company but company in Invoice might be different */
+IF [SC-Invoices Warmup.T001K_WAERS] = [SC-Invoices Warmup.Comp Currency Key] THEN
+  [vPlantToHC] = 1
+ELSEIF [SC-Invoices Warmup.T001K_WAERS] = 'CHF' THEN
+  [vPlantToHC] = 1 / [v_rate_home_to_chf]
+ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vSalesCurr] THEN
+// Plant has same ex-rate as DC, so we can use that
+// HUB-703 - exchange rate should not be divided by 1
+  [vPlantToHC] = [vExcRatetoHC]
+ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vRegCurrency] THEN
+// Triangulate via CHF
+  [vPlantToHC] = [v_rate_reg_to_chf] *  [v_rate_home_to_chf]
+ELSE
+// New rate, so triangulate via CHF
+  IF [PlantExRate.Exchange Rate] IS NOT NULL THEN
+    [vPlantToHC] = [PlantExRate.Exchange Rate] / [v_rate_home_to_chf]
+  ELSE
+    print 'ERROR:Plant exchange rate:Plant WAERS:' + [SC-Invoices Warmup.T001K_WAERS] + ':HC:' + [SC-Invoices Warmup.Comp Currency Key]+ ':vExcRatetoHC:' + [vExcRatetoHC]+ ':[v_rate_home_to_chf]:' + [v_rate_home_to_chf] + ':[v_rate_reg_to_chf]:' + [v_rate_reg_to_chf]
+  END IF
+END IF
+
+print '[vPlantToHC]:' + [vPlantToHC]
 
 /* General rule – if ZVA0 is 0 then use cost report*/
 IF [SC-Invoices Warmup.VBRP_ZVA0] = 0 THEN 
-  [vZVA0] = [SC-Invoices Warmup.VBRP_COST_REPORT] 
-  print 'ZVA0 Check:'+[SC-Invoices Warmup.VBRP_ZVA0] + ':' + [SC-Invoices Warmup.VBRP_COST_REPORT] + ':' + 'Set to Cost Report'
+// HUB-703 and HUB-705 - converting cost report from Currency of plant to HC
+  [vZVA0] = [SC-Invoices Warmup.VBRP_COST_REPORT] * [vPlantToHC]
+  print 'ZVA0 Check:'+[SC-Invoices Warmup.VBRP_ZVA0] + ':' + [SC-Invoices Warmup.VBRP_COST_REPORT] + ':' + 'Set to Cost Report with translation vPlanttoHC at ' + [vPlantToHC]
 ELSE
   [vZVA0] = [SC-Invoices Warmup.VBRP_ZVA0]
   print 'ZVA0 Check:'+[SC-Invoices Warmup.VBRP_ZVA0] + ':' + [SC-Invoices Warmup.VBRP_COST_REPORT] + ':' + 'Set to ZVA0'
@@ -302,8 +329,9 @@ IF [SC-Invoices Warmup.VBRP_COST_REPORT]  = 0 THEN
   [vCostReport] = [vZVA0]
   print 'Cost Report Check:'+[SC-Invoices Warmup.VBRP_COST_REPORT] + ':' + [SC-Invoices Warmup.VBRP_ZVA0] + ':' + 'Set to ZVA0'
 ELSE
-  [vCostReport] = [SC-Invoices Warmup.VBRP_COST_REPORT] 
-  print 'Cost Report Check:'+[SC-Invoices Warmup.VBRP_COST_REPORT] + ':' + [SC-Invoices Warmup.VBRP_ZVA0] + ':' + 'Set to Cost Report'
+// HUB-703 and HUB-705 - converting cost report from Currency of plant to HC
+  [vCostReport] = [SC-Invoices Warmup.VBRP_COST_REPORT] * [vPlantToHC]
+  print 'Cost Report Check:'+[SC-Invoices Warmup.VBRP_COST_REPORT] + ':' + [SC-Invoices Warmup.VBRP_ZVA0] + ':' + 'Set to Cost Report with translation vPlanttoHC at ' + [vPlantToHC]
 END IF
 
 // Invoice type
@@ -491,29 +519,6 @@ END IF
   print 'Currency Keys:DC-' + [vSalesCurr] + ':HC-' + [SC-Invoices Warmup.Comp Currency Key] + ':RC-' + [vRegCurrency] + ':Plant-' + [SC-Invoices Warmup.T001K_WAERS]
   print 'Ex Rates:DC to HC-' + [vExcRatetoHC]+ ':HC to GC-' + [v_rate_home_to_chf] + ':GC to RC-' + [v_rate_reg_to_chf] + ':Plant to CHF-' + IFNULL([PlantExRate.Exchange Rate],0.00)
 
-/* Determine if ICOGS rate needs to be translated. ICOGS rate is in HC 
-of plant company but company in Invoice might be different */
-IF [SC-Invoices Warmup.T001K_WAERS] = [SC-Invoices Warmup.Comp Currency Key] THEN
-  [vPlantToHC] = 1
-ELSEIF [SC-Invoices Warmup.T001K_WAERS] = 'CHF' THEN
-  [vPlantToHC] = 1 / [v_rate_home_to_chf]
-ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vSalesCurr] THEN
-// Plant has same ex-rate as DC, so we can use that
-// HUB-703 - exchange rate should not be divided by 1
-  [vPlantToHC] = [vExcRatetoHC]
-ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vRegCurrency] THEN
-// Triangulate via CHF
-  [vPlantToHC] = [v_rate_reg_to_chf] *  [v_rate_home_to_chf]
-ELSE
-// New rate, so triangulate via CHF
-  IF [PlantExRate.Exchange Rate] IS NOT NULL THEN
-    [vPlantToHC] = [PlantExRate.Exchange Rate] / [v_rate_home_to_chf]
-  ELSE
-    print 'ERROR:Plant exchange rate:Plant WAERS:' + [SC-Invoices Warmup.T001K_WAERS] + ':HC:' + [SC-Invoices Warmup.Comp Currency Key]+ ':vExcRatetoHC:' + [vExcRatetoHC]+ ':[v_rate_home_to_chf]:' + [v_rate_home_to_chf] + ':[v_rate_reg_to_chf]:' + [v_rate_reg_to_chf]
-  END IF
-END IF
-
-print '[vPlantToHC]:' + [vPlantToHC]
 
 IF [SC-ICOGS.ICOGS Init Cost Price] IS NOT NULL THEN
   print '6.05: Using Plant COGS'
