@@ -1,0 +1,163 @@
+FUNCTION [CheckValue]([Input] AS VARCHAR(15)) AS FLOAT
+  IF [Input] IS NOT NULL THEN
+    IF (SUBSTRING([Input],LENGTH([Input])-1,LENGTH([Input]))) = '-' THEN
+     RETURN FLOAT(SUBSTRING([Input],0,LENGTH([Input])-1)) * -1
+    ELSE
+      RETURN FLOAT([Input])
+    END IF
+  ELSE
+    RETURN FLOAT([Input])
+  END IF
+END FUNCTION
+
+DIM [vExRateHCtoGC] AS FLOAT
+DIM [vExRateHCtoRC] AS FLOAT
+DIM [vExRateDCtoHC] AS FLOAT
+DIM [vQuoteValue] AS FLOAT
+DIM [vScLFactor] AS FLOAT
+DIM [vScLQty] AS FLOAT
+DIM [vOrderItemQty] AS FLOAT
+
+[vScLFactor] = 0.00
+[vOrderItemQty] = 0.00
+[vOrderItemQty] = [CheckValue]([Quotations.VBAP_KWMENG])
+[vScLQty] = 0.00
+[vScLQty] = [CheckValue]([Quotations.VBEP_LMENG])
+PRINT [Quotations.VBAK_VBELN] + ':' + [Quotations.VBAP_POSNR] + ':' + [Quotations.VBAP_KWMENG] + ':' + [vOrderItemQty] + ':' + [Quotations.VBEP_LMENG] + ':' + [vScLQty]
+[vScLFactor] =  [vScLQty]/[vOrderItemQty] 
+
+PRINT 'Starting processing:' + [Quotations.VBAP_VBELN]
+IF [Opportunity.VBPA_KUNNR] IS NULL THEN
+[Opp Number] = [Opportunity.VBPA_KUNNR]
+ELSE
+[Opp Number] = [Quotations.VBAP_VBELN]
+END IF
+
+IF [Quotations.VBAP_ERDAT] IS NOT NULL THEN
+  [Analysis Date] = [Quotations.VBAP_ERDAT]
+ELSE
+  [Analysis Date] = [Quotations.VBAK_ERDAT]
+END IF
+[Quote Change Date]=[Quotations.VBAP_AEDAT]
+
+
+/* IF [Quotations.VBAK_AEDAT] IS NULL THEN
+  [Analysis Date] = [Quotations.VBAK_ERDAT]
+  [Quote Change Date]=[Quotations.VBAK_ERDAT]
+ELSE
+  [Analysis Date] = [Quotations.VBAK_AEDAT]
+  [Quote Change Date]=[Quotations.VBAK_AEDAT]
+END IF  */
+[CustArea Key] = [Quotations.VBAK_KUNNR]+''+[Quotations.VBAK_VKORG]
+[Quote Valid To] = [Quotations.VBAK_BNDDT]
+[Quote Valid From] = [Quotations.VBAK_ANGDT]
+[Comp Code Key] = [Quotations.VBAK_BUKRS_VF]
+[Reporting Month] = SUBSTRING((FORMAT(DATEADD(Day, -1, NOWDATE),'yyyy-MMM-dd')), 5,8 ) +'-'+ DATEPART(YEAR, DATEADD(Day, -1, NOWDATE) )
+[Quote Key] = [Quotations.VBAK_VBELN] + [Quotations.VBAP_POSNR]
+[Quote Item] = [Quotations.VBAP_POSNR]
+[Quote Created Date]=[Quotations.VBAK_ERDAT]
+[Order Date]=[Quotations.VBAK_AUDAT]
+[SO Document Category]=[Quotations.VBAK_VBTYP]
+[SO Document Type]=[Quotations.VBAK_AUART]
+[Sales Org Key]=[Quotations.VBAK_VKORG]
+[Distr Channel]=[Quotations.VBAK_VTWEG]
+[Sales Office Key]=[Quotations.VBAK_VKBUR]
+[SO Doc Condition]=[Quotations.VBAK_KNUMV]
+[Customer Key]=[Quotations.VBAK_KUNNR]
+[Quote Number]=[Quotations.VBAP_VBELN]
+[Item Key]=[Quotations.VBAP_MATNR]
+[Division Key]=[Quotations.VBAP_SPART]
+[Plant Key]=[Quotations.VBAP_WERKS]
+[Order Reason Key] = [Quotations.VBAK_AUGRU]
+[Order Reason] =  [Quotations.TVAUT_BEZEI]
+[Delivery Date] =[Quotations.VBAK_VDATU]
+[Outside Sales Key] = [OutsideSales.VBPA_KUNNR]
+[Delivery Customer Key] = [DeliveryCustomer.VBPA_KUNNR]
+IF [Quotations.VBAK_ZZ_AW_DATE] IS NOT NULL THEN
+   [Closing Date] = [Quotations.VBAK_ZZ_AW_DATE]
+ELSE
+   [Closing Date] = [Quotations.VBAK_BNDDT]
+END IF
+/*[Delivery Country Key] = [ShipTo.VBPA_KUNNR]*/
+[Security Key] = 'N' + [Quotations.VBAK_VKORG] + [Quotations.VBAP_SPART] + [Quotations.VBAK_KUNNR]
+
+/* Exchange Rate Calculation */
+
+[Currency Key HC]=[Quotations.T001_WAERS]
+[Currency Key DC]=[Quotations.VBAP_WAERK]
+[Currency Key GC]= 'CHF'
+[Currency Key RC]=[tbl_dim_sales_region.regional_currency_code]
+
+[vExRateHCtoGC] = 1
+IF [Quotations.T001_WAERS] <> 'CHF' THEN
+  IF [HomeRates.Exchange Rate] IS NOT NULL THEN
+    [vExRateHCtoGC] = [HomeRates.Exchange Rate]
+  ELSE
+    [vExRateHCtoGC] = 1
+    PRINT 'ERROR: Determining Ex Rate for HC to CHF: RATE FOR vExRateHCtoCHF '+[Quotations.T001_WAERS]+' NOT FOUND - SET TO 1'
+  END IF
+END IF
+
+[vExRateDCtoHC] = 1
+IF ([Quotations.VBAP_WAERK] <> [Quotations.T001_WAERS]) THEN
+  IF [Quotations.VBAP_WAERK] <> 'CHF'  THEN
+    IF [DocRates.Exchange Rate] IS NOT NULL AND [Quotations.VBAP_WAERK] IS NOT NULL THEN
+      [vExRateDCtoHC] = [DocRates.Exchange Rate] / [vExRateHCtoGC]
+    ELSEIF [Quotations.VBAP_WAERK] IS NULL THEN
+      [vExRateDCtoHC] = 1
+    ELSE
+      PRINT 'ERROR: Determining Ex Rate for DC to HC: RATE FOR vExRateDCtoHC '+[Quotations.VBAP_WAERK]+' NOT FOUND - SET TO 1'
+    END IF
+  ELSE
+    [vExRateDCtoHC] = 1 / [vExRateHCtoGC]
+  END IF
+END IF
+
+[vExRateHCtoRC] = 1
+IF [tbl_dim_sales_region.regional_currency_code] <> 'CHF' THEN
+  IF [RegRates.Exchange Rate] IS NOT NULL THEN
+    [vExRateHCtoRC] = [RegRates.Exchange Rate]  / [vExRateHCtoGC]
+  ELSE
+    [vExRateHCtoRC] = 1
+    PRINT 'ERROR: Determining Ex Rate for RC to CHF: RATE FOR vExRateRCtoCHF '+[tbl_dim_sales_region.regional_currency_code]+' NOT FOUND - SET TO 1'
+  END IF
+END IF
+
+IF [Quotations.VBAP_WAERK] IS NOT NULL THEN
+  PRINT 'Ex Rates - WAEHRUNG' + ':' + [Quotations.VBAP_WAERK] + ':' + [DocRates.Exchange Rate] + ':' + [vExRateDCtoHC] + ':' + [Quotations.T001_WAERS] + ':' + [HomeRates.Exchange Rate] + ':' + [vExRateHCtoGC] + ':' + [tbl_dim_sales_region.regional_currency_code] + ':' + [RegRates.Exchange Rate] + ':' + [vExRateHCtoRC]
+ELSE
+  PRINT 'Ex Rates - WAERS' + ':' + [Quotations.T001_WAERS] + ':' + [HomeRates.Exchange Rate] + ':' + [vExRateHCtoGC] + ':' + [tbl_dim_sales_region.regional_currency_code] + ':' + [RegRates.Exchange Rate] + ':' + [vExRateHCtoRC]
+END IF
+
+IF [Quotations.VBAP_NETWR] IS NOT NULL THEN
+  [vQuoteValue] = [CheckValue] ([Quotations.VBAP_NETWR]) * [vScLFactor]
+ELSE
+   PRINT 'ERROR: Setting Quote Value to zero for Quotation ' + [Quotations.VBAP_VBELN]
+   [vQuoteValue] = 0.00
+END IF
+ PRINT 'Quote Value:'+[vQuoteValue]
+
+IF [Quotations.VBAP_ABGRU] is not null and [VBFA.VBFA_VBELN] is null then
+	PRINT 'Quote Qty:' +[Quotations.VBAP_ZMENG]
+	[Quote Qty]=[CheckValue](VARCHAR([Quotations.VBAP_ZMENG])) * [vScLFactor]
+	[Base Unit]=[Quotations.VBAP_MEINS]
+    [Quote Value DC] = [vQuoteValue]
+    PRINT 'Converting HC'
+    [Quote Value HC] = [vQuoteValue] * [vExRateDCtoHC]
+    PRINT 'Converting RC'
+    [Quote Value RC] = [vQuoteValue] * [vExRateDCtoHC] * [vExRateHCtoRC]
+    PRINT 'Converting GC'
+    [Quote Value GC] = [vQuoteValue] * [vExRateDCtoHC] * [vExRateHCtoGC]
+ELSE
+	[Quote Qty] = 0.00
+	[Quote Value DC] = 0.00
+    [Quote Value HC] = 0.00
+    [Quote Value RC] = 0.00
+    [Quote Value GC] = 0.00
+END IF
+
+Print [Quotations.VBAP_POSNR] + ':' + [Quotations.VBAP_ABGRU] + ':' + [vScLFactor] + ':' + [VBFA.VBFA_VBELN]
+// Filter out ScL that do not have any quantity
+IF [vScLFactor] <> 0.00 THEN
+  WRITERECORD
+END IF

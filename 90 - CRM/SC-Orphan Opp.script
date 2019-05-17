@@ -1,0 +1,196 @@
+DIM [vExRateHCtoGC] AS FLOAT
+DIM [vExRateHCtoRC] AS FLOAT
+DIM [vExRateDCtoHC] AS FLOAT
+DIM [vQuoteValue] AS Float
+DIM [vQuoteValueChar] AS Varchar(15)
+DIM [vProbability] AS Float
+Dim [vScLFactor] as FLOAT
+Dim [vScLQty] as FLOAT
+Dim [vOrderItemQty] as FLOAT
+
+[Is Open] = 'No'
+[Is Lost] = 'No'
+[Is Closed] = 'No'
+[Is Closed except Declined] = 'No'
+[Is Won] = 'No'
+
+[vProbability] = 0.00
+
+[Opp Source] = 'Quotation'
+
+FUNCTION [CheckValue]([Input] AS VARCHAR(15)) AS FLOAT
+  IF [Input] IS NOT NULL THEN
+    IF (SUBSTRING([Input],LENGTH([Input])-1,LENGTH([Input]))) = '-' THEN
+     RETURN FLOAT(SUBSTRING([Input],0,LENGTH([Input])-1)) * -1
+    ELSE
+      RETURN FLOAT([Input])
+    END IF
+  ELSE
+    RETURN FLOAT([Input])
+  END IF
+END FUNCTION
+
+[vScLFactor] = 0.00
+[vOrderItemQty] = 0.00
+[vOrderItemQty] = [CheckValue]([Quotations.VBAP_KWMENG])
+[vScLQty] = 0.00
+[vScLQty] = [CheckValue]([Quotations.VBEP_LMENG])
+print [Quotations.VBAK_VBELN] + ':' + [Quotations.VBAP_POSNR] + ':' + [Quotations.VBAP_KWMENG] + ':' + [vOrderItemQty] + ':' + [Quotations.VBEP_LMENG] + ':' + [vScLQty]
+[vScLFactor] =  [vScLQty]/[vOrderItemQty] 
+
+IF  [Opportunity.VBPA_KUNNR] IS NULL AND [vScLFactor] <> 0.00 THEN
+      PRINT 'Starting processing:' + [Quotations.VBAP_VBELN] + ':' + format(ifnull([Quotations.VBAK_BNDDT],#1980-01-01#),'dd/MM/yy') + ':' + format(ifnull([Quotations.VBAK_ANGDT],#1980-01-01#),'dd/MM/yy') + ':' +  [Quotations.VBAK_AUGRU] + ':' + format(NOWDATE,'dd/MM/yy')
+      IF [Quotations.VBAK_AEDAT] IS NULL THEN
+      [Analysis Date] = [Quotations.VBAK_ERDAT]
+      ELSE
+      [Analysis Date] = [Quotations.VBAK_AEDAT]
+      END IF 
+    
+      [CustArea Key] = [Quotations.VBAK_KUNNR]+''+[Quotations.VBAK_VKORG]
+      [Reporting Month] = SUBSTRING((FORMAT(DATEADD(Day, -1, NOWDATE),'yyyy-MMM-dd')), 5,8 ) +'-'+ DATEPART(YEAR, DATEADD(Day, -1, NOWDATE) )
+      [Opp Number]=[Quotations.VBAP_VBELN]+[Quotations.VBAP_POSNR]
+      [Opp Name]=[Quotations.VBAP_VBELN]
+      [Opp City]=''
+      [Opp Sort Field]=''
+      [Created On]=''
+      [Account Group Key]=''
+      [Division Key]=[Quotations.VBAP_SPART]
+      [Opp Quotation Date]=[Quotations.VBAK_ERDAT]
+      [Opp Delivery Date]=''
+      [Opp Lifetime Value]=''
+      [Opp Reason for Result Key]=''
+      [Opp Type Key]=''
+      [Opp Status Key]=''
+      IF [Quotations.VBAP_ERDAT] IS NOT NULL THEN
+        [Opp Created Date]=[Quotations.VBAP_ERDAT]
+      ELSE
+        [Opp Created Date]=[Quotations.VBAK_ERDAT]
+      END IF
+
+      [Opp Changed Date]=[Quotations.VBAP_AEDAT]
+      [Opp Changed Time]=''
+      [Opp Currency]=[Quotations.VBAP_WAERK]
+      [Sales Org Key]=[Quotations.VBAK_VKORG]
+      [Sales Office Key]=[Quotations.VBAK_VKBUR]
+      [Opp Reason for Result]=''
+      [Opp Type] =''
+      [Comp Code Key]  = [Quotations.VBAK_BUKRS_VF]
+      [Customer Key]   = [Quotations.VBAK_KUNNR]
+      [Outside Sales Key] = [OutsideSales.VBPA_KUNNR]
+      [Opp Value per Year] =''
+      IF [Quotations.VBAK_ZZ_AW_DATE] IS NOT NULL THEN
+        [Opp Closing Date] = [Quotations.VBAK_ZZ_AW_DATE]
+      ELSE
+        [Opp Closing Date] = [Quotations.VBAK_BNDDT]
+      END IF
+      [Level 10 Date]  =''
+      [Level 20 Date]  =''
+      [Level 30 Date]=''
+      [Level 40 Date]=''
+      [Level 50 Date]=''
+      [Level 60 Date]=''
+      [Level 70 Date]=''
+      [Level 80 Date]=''
+      [Security Key] ='N' + [Quotations.VBAK_VKORG] + [Quotations.VBAP_SPART] + [Quotations.VBAK_KUNNR]
+      
+     IF [Quotations.VBAK_AUGRU] in ('Z70', 'Z73', 'Z77', 'Z79', 'Z81', 'Z83', 'Z85', 'Z89') THEN
+        [Opp Level Key] = '65'
+        [Opp Level] = 'Closed won 100%'
+        [Opp Probability] = 100
+        [Opp Status] = '2. Won'
+      [vProbability] = 1.00
+    [Is Closed] = 'Yes'
+    [Is Closed except Declined] = 'Yes'
+    [Is Won] = 'Yes'
+      print 'Opp Status is 2. Won'
+      ELSE
+        IF ([Quotations.VBAK_BNDDT] >= NOWDATE AND [Quotations.VBAK_ANGDT] <= NOWDATE) and ([Quotations.VBAK_AUGRU] is null or [Quotations.VBAK_AUGRU] = 'Z60') THEN
+          [Opp Level Key] = '35'
+          [Opp Level] = 'Inside Sales - 30%'
+          [Opp Probability] = 30
+          [vProbability] = 0.3
+        [Is Open] = 'Yes'
+       [Opp Status] = '1. Open'
+       print 'Opp status is 1. Open'
+      ELSE
+          [Opp Level Key] = '75'
+          [Opp Level] = 'Expired or Lost 0%'
+          [Opp Probability] = 0
+        [vProbability] = 0
+      [Is Lost] = 'Yes'
+      [Is Closed] = 'Yes'
+      [Is Closed except Declined] = 'Yes'
+       [Opp Status] = '3. Lost'
+       print 'Opp Status is 3. Lost'
+        END IF
+    END IF 
+    
+       /* Exchange Rate Calculation */
+       [Currency Key HC]=[Quotations.T001_WAERS]
+       [Currency Key DC]=[Quotations.VBAP_WAERK]
+       [Currency Key GC]= 'CHF'
+       [Currency Key RC]=[tbl_dim_sales_region.regional_currency_code]
+       
+       [vExRateHCtoGC] = 1
+       IF [Quotations.T001_WAERS] <> 'CHF' THEN
+         IF [HomeRates.Exchange Rate] IS NOT NULL THEN
+           [vExRateHCtoGC] = [HomeRates.Exchange Rate]
+         ELSE
+           [vExRateHCtoGC] = 1
+           PRINT 'ERROR: Determining Ex Rate for HC to CHF: RATE FOR vExRateHCtoCHF '+[Quotations.T001_WAERS]+' NOT FOUND - SET TO 1'
+         END IF
+       END IF
+       
+       [vExRateDCtoHC] = 1
+       IF ([Quotations.VBAP_WAERK] <> [Quotations.T001_WAERS]) THEN
+         IF [Quotations.VBAP_WAERK] <> 'CHF'  THEN
+           IF [DocRates.Exchange Rate] IS NOT NULL AND [Quotations.VBAP_WAERK] IS NOT NULL THEN
+             [vExRateDCtoHC] = [DocRates.Exchange Rate] / [vExRateHCtoGC]
+           ELSEIF [Quotations.VBAP_WAERK] IS NULL THEN
+             [vExRateDCtoHC] = 1
+           ELSE
+             PRINT 'ERROR: Determining Ex Rate for DC to HC: RATE FOR vExRateDCtoHC '+[Quotations.VBAP_WAERK]+' NOT FOUND - SET TO 1'
+           END IF
+         ELSE
+            [vExRateDCtoHC] = 1 / [vExRateHCtoGC]
+         END IF
+       END IF
+       
+       [vExRateHCtoRC] = 1
+       IF [tbl_dim_sales_region.regional_currency_code] <> 'CHF' THEN
+         IF [RegRates.Exchange Rate] IS NOT NULL THEN
+           [vExRateHCtoRC] = [RegRates.Exchange Rate]  / [vExRateHCtoGC]
+         ELSE
+           [vExRateHCtoRC] = 1
+           PRINT 'ERROR: Determining Ex Rate for RC to CHF: RATE FOR vExRateRCtoCHF '+[tbl_dim_sales_region.regional_currency_code]+' NOT FOUND - SET TO 1'
+         END IF
+       END IF
+       
+   IF [Quotations.VBAP_WAERK] IS NOT NULL THEN
+     PRINT 'Ex Rates - WAEHRUNG' + ':' + [Quotations.VBAP_WAERK] + ':' + [DocRates.Exchange Rate] + ':' + [vExRateDCtoHC] + ':' + [Quotations.T001_WAERS] + ':' + [HomeRates.Exchange Rate] + ':' + [vExRateHCtoGC] + ':' + [tbl_dim_sales_region.regional_currency_code] + ':' + [RegRates.Exchange Rate] + ':' + [vExRateHCtoRC]
+   ELSE
+     PRINT 'Ex Rates - WAERS' + ':' + [Quotations.T001_WAERS] + ':' + [HomeRates.Exchange Rate] + ':' + [vExRateHCtoGC] + ':' + [tbl_dim_sales_region.regional_currency_code] + ':' + [RegRates.Exchange Rate] + ':' + [vExRateHCtoRC]
+   END IF
+   
+   IF [Quotations.VBAP_NETWR] IS NOT NULL and [VBFA.VBFA_VBELN] is null THEN
+      [vQuoteValue] = ( [CheckValue] ([Quotations.VBAP_NETWR])  ) * [vScLFactor]
+   ELSE
+      PRINT 'Setting Quote Value to zero for Quotation as either VBAP-NETWR is zero or VBAP-ABGRU is not null ' + [Quotations.VBAP_VBELN]
+      [vQuoteValue] = 0.00
+   END IF
+
+    [Unweighted Opp Value DC] = [vQuoteValue]
+    print 'Converting HC'
+    [Unweighted Opp Value HC] = [vQuoteValue] * [vExRateDCtoHC]
+    print 'Converting RC'
+    [Unweighted Opp Value RC] = [vQuoteValue] * [vExRateDCtoHC] * [vExRateHCtoRC]
+    print 'Converting GC'
+    [Unweighted Opp Value GC] = [vQuoteValue] * [vExRateDCtoHC] * [vExRateHCtoGC]
+   
+    print 'Calculating Weighted values'
+    [Weighted Opp Value DC] =  [vQuoteValue] * [vProbability]
+    [Weighted Opp Value HC] =  [vQuoteValue] * [vExRateDCtoHC] * [vProbability]
+    [Weighted Opp Value GC] =  [vQuoteValue] * [vExRateDCtoHC] * [vExRateHCtoGC] * [vProbability]
+    [Weighted Opp Value RC] =  [vQuoteValue] * [vExRateDCtoHC] * [vExRateHCtoRC] * [vProbability]
+     WRITERECORD
+END IF

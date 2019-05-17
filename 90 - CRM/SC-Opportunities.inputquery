@@ -1,0 +1,15 @@
+SELECT [Opportunities.KNA1_KUNNR], [Opportunities.KNA1_LAND1], [Opportunities.KNA1_NAME1], [Opportunities.KNA1_ORT01], [Opportunities.KNA1_SORTL], [Opportunities.KNA1_ERDAT], [Opportunities.KNA1_KTOKD], [Opportunities.KNA1_KATR10], [Opportunities.KNA1_/ITML/ANGEBOTDAT], [Opportunities.KNA1_/ITML/LIEFTERM], [Opportunities.KNA1_/ITML/VOLUMEN], [Opportunities.KNA1_/ITML/CHANCE], [Opportunities.KNA1_/ITML/ERG_GRUND], [Opportunities.KNA1_/ITML/OPPTYP], [Opportunities.KNA1_/ITML/OPPSTATUS], [Opportunities.KNA1_/ITML/OPPSTADIUM], [Opportunities.KNA1_/ITML/ERFDATUM], [Opportunities.KNA1_/ITML/ERFZEIT], [Opportunities.KNA1_/ITML/AENDATUM], [Opportunities.KNA1_/ITML/AENZEIT], [Opportunities.KNA1_/ITML/WAEHRUNG], [Opportunities.KNVV_VKORG], [Opportunities.KNVV_VKBUR],[Opportunities.TVKO_BUKRS], [Opportunities.T001_WAERS], [Opportunities.KNVV_VTWEG], [Opportunities.KNVV_SPART], [Opportunities.KNA1_/ITML/ABSCHL_DAT], [Opportunities.KNA1_/ITML/FWERT1], [Opportunities./ITML/CRM_OPSTDT_LTEXT], [Opportunities./ITML/CRM_OPTYPT_LTEXT], [Opportunities./ITML/CRM_ERGGRT_LTEXT] FROM [Opportunities]
+LEFT OUTER JOIN
+SELECT [Customer.KNVP_KUNN2] FROM [Opp Partners] 'Customer' on [Customer.KNVP_KUNNR] = [Opportunities.KNA1_KUNNR] AND [Customer.KNVP_VKORG] = [Opportunities.KNVV_VKORG] AND [Customer.KNVP_VTWEG] = [Opportunities.KNVV_VTWEG] AND [Customer.KNVP_SPART] = [Opportunities.KNVV_SPART] AND [Customer.KNVP_PARVW] = 'AG'
+LEFT OUTER JOIN
+SELECT [Owner.KNVP_KUNN2], [Owner.KNVP_KUNNR]  FROM [Opp Partners] 'Owner' ON [Owner.KNVP_KUNNR] = [Opportunities.KNA1_KUNNR] AND [Owner.KNVP_VKORG] = [Opportunities.KNVV_VKORG] AND [Owner.KNVP_VTWEG] = [Opportunities.KNVV_VTWEG] AND [Owner.KNVP_SPART] = [Opportunities.KNVV_SPART] AND [Owner.KNVP_PARVW] = 'VE'
+LEFT OUTER JOIN
+SELECT [SC-Level History.Level 10 Date], [SC-Level History.Level 20 Date], [SC-Level History.Level 30 Date], [SC-Level History.Level 40 Date], [SC-Level History.Level 50 Date], [SC-Level History.Level 60 Date], [SC-Level History.Level 70 Date], [SC-Level History.Level 80 Date] FROM [SC-Level History] ON [Opportunities.KNA1_KUNNR] = [SC-Level History.Opp Key]
+LEFT OUTER JOIN
+SELECT [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.regional_currency_code] FROM [tbl_dim_sales_region] ON [tbl_dim_sales_region.sales_office_code] = [Opportunities.KNVV_VKBUR]
+LEFT OUTER JOIN
+SELECT [HomeRates.Exchange Rate] FROM [SC-Exchange Rates] 'HomeRates' ON  [HomeRates.Valid From Date] <= NOWDATE AND [HomeRates.Valid To Date] >= NOWDATE AND [HomeRates.From Currency Key] = [Opportunities.T001_WAERS]
+LEFT OUTER JOIN
+SELECT [DocRates.Exchange Rate] FROM [SC-Exchange Rates] 'DocRates' ON  [DocRates.Valid From Date] <= NOWDATE AND [DocRates.Valid To Date] >= NOWDATE AND [DocRates.From Currency Key] = [Opportunities.KNA1_/ITML/WAEHRUNG]
+LEFT OUTER JOIN
+SELECT [RegRates.Exchange Rate] FROM [SC-Exchange Rates] 'RegRates' ON  [RegRates.Valid From Date] <= NOWDATE AND [RegRates.Valid To Date] >= NOWDATE AND [RegRates.From Currency Key] = [tbl_dim_sales_region.regional_currency_code]

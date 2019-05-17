@@ -1,0 +1,17 @@
+COMPLETE
+Dim [vStartMonth] AS DATE 
+Dim [vEndMonth] AS DATE 
+Dim [vCurMonth] AS DATE  
+
+[vStartMonth]= #01-01-2010#
+[vEndMonth] = #01-01-2025#
+[vCurMonth] = [vStartMonth]
+
+WHILE [vCurMonth] < [vEndMonth] 
+[Reporting Month Sequence] = FORMAT([vCurMonth], 'YYYYMM')
+[Reporting Month] = SUBSTRING((FORMAT([vCurMonth],'yyyy-MMM-dd')), 5,8 ) +'-'+ DATEPART(YEAR, [vCurMonth] )  
+[vCurMonth] = (DATEADD(MONTH, 1 ,[vCurMonth]))
+PRINT [vCurMonth]
+WRITERECORD
+END WHILE
+END COMPLETE

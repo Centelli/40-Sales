@@ -1,0 +1,19 @@
+SELECT [Quotations.VBAK_VBELN], [Quotations.VBAK_ERDAT], [Quotations.VBAK_AUDAT], [Quotations.VBAK_VBTYP], [Quotations.VBAK_AUART], [Quotations.VBAK_WAERK], [Quotations.VBAK_VKORG], [Quotations.VBAK_VTWEG], [Quotations.VBAK_VKBUR], [Quotations.VBAK_KNUMV], [Quotations.VBAK_KUNNR], [Quotations.VBAK_AEDAT], [Quotations.VBAP_VBELN], [Quotations.VBAP_POSNR], [Quotations.VBAP_MATNR], [Quotations.VBAP_ABGRU], [Quotations.VBAP_ZMENG], [Quotations.VBAP_MEINS], [Quotations.VBAP_SPART], [Quotations.VBAP_NETWR], [Quotations.VBAP_WAERK], [Quotations.VBAP_KWMENG], [Quotations.VBAP_LSMENG], [Quotations.VBAP_KBMENG], [Quotations.VBAP_KLMENG], [Quotations.VBAP_WERKS], [Quotations.VBAP_ERDAT], [Quotations.VBAP_NETPR], [Quotations.VBAP_WAVWR], [Quotations.VBAP_BEDAE], [Quotations.VBAP_OBJNR], [Quotations.VBAK_BUKRS_VF], [Quotations.VBAK_ANGDT], [Quotations.VBAK_BNDDT], [Quotations.VBAK_AUGRU], [Quotations.VBAK_VDATU], [Quotations.TVAUT_BEZEI], [Quotations.T001_WAERS], [Quotations.VBAK_ZZ_AW_DATE], [Quotations.VBEP_LMENG], [Quotations.VBAP_ABGRU], [Quotations.VBAP_AEDAT]  FROM [Quotations] WHERE [Quotations.VBAK_VBELN] NOT IN ('0001140884','0001177661') and ([Quotations.VBAP_GRPOS] is null or [Quotations.VBAP_GRPOS] = '000000') and [Quotations.VBAK_ZZ_CALC_PROM] is null 
+LEFT OUTER JOIN 
+SELECT [ShipTo.VBPA_KUNNR] FROM [VBPA] 'ShipTo' ON [Quotations.VBAK_VBELN] = [ShipTo.VBPA_VBELN] AND  [ShipTo.VBPA_PARVW] = 'WE' AND [ShipTo.VBPA_POSNR] = '000000' 
+LEFT OUTER JOIN 
+SELECT [Opportunity.VBPA_KUNNR] FROM [VBPA] 'Opportunity' ON [Quotations.VBAK_VBELN] = [Opportunity.VBPA_VBELN] AND [Opportunity.VBPA_PARVW] = 'ZO' AND [Quotations.VBAP_POSNR] = '000000'
+LEFT OUTER JOIN
+SELECT [OutsideSales.VBPA_KUNNR] FROM [VBPA] 'OutsideSales' ON [Quotations.VBAK_VBELN] = [OutsideSales.VBPA_VBELN] AND [OutsideSales.VBPA_PARVW] = 'VE'  AND [Quotations.VBAP_POSNR] = '000000'
+LEFT OUTER JOIN
+SELECT [DeliveryCustomer.VBPA_KUNNR] FROM [VBPA] 'DeliveryCustomer' ON  [Quotations.VBAK_VBELN] = [DeliveryCustomer.VBPA_VBELN] AND [DeliveryCustomer.VBPA_PARVW] = 'WE'  AND [Quotations.VBAP_POSNR] = '000000'
+LEFT OUTER JOIN
+SELECT [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.regional_currency_code] FROM [tbl_dim_sales_region] ON [tbl_dim_sales_region.sales_office_code] = [Quotations.VBAK_VKBUR]
+LEFT OUTER JOIN
+SELECT [HomeRates.Exchange Rate] FROM [SC-Exchange Rates] 'HomeRates' ON  [HomeRates.Valid From Date] <= NOWDATE AND [HomeRates.Valid To Date] >= NOWDATE AND [HomeRates.From Currency Key] = [Quotations.T001_WAERS]
+LEFT OUTER JOIN
+SELECT [DocRates.Exchange Rate] FROM [SC-Exchange Rates] 'DocRates' ON  [DocRates.Valid From Date] <= NOWDATE AND [DocRates.Valid To Date] >= NOWDATE AND [DocRates.From Currency Key] = [Quotations.VBAP_WAERK]
+LEFT OUTER JOIN
+SELECT [RegRates.Exchange Rate] FROM [SC-Exchange Rates] 'RegRates' ON  [RegRates.Valid From Date] <= NOWDATE AND [RegRates.Valid To Date] >= NOWDATE AND [RegRates.From Currency Key] = [tbl_dim_sales_region.regional_currency_code]
+LEFT OUTER JOIN
+SELECT [VBFA.VBFA_VBELN], [VBFA.VBFA_POSNN] from [VBFA] ON [VBFA.VBFA_VBELV] = [Quotations.VBAK_VBELN] and [VBFA.VBFA_POSNV] = [Quotations.VBAP_POSNR] and [VBFA.VBFA_VBTYP_V] = 'B'

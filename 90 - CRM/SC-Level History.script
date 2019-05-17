@@ -1,0 +1,73 @@
+Dim [vDate] as Date  = FORMAT(NOW, 'yyyy-MM-dd')
+Dim [vDateasChar] as Varchar(10)
+Dim [vDateasInt] as Integer
+
+// Pivoting
+Dim [vLastOppKey] as Varchar(10) = null
+Dim [vLevel10Date] as Date = null
+Dim [vLevel20Date] as Date = null
+Dim [vLevel30Date] as Date = null
+Dim [vLevel40Date] as Date = null
+Dim [vLevel50Date] as Date = null
+Dim [vLevel60Date] as Date = null
+Dim [vLevel70Date] as Date = null
+Dim [vLevel80Date] as Date = null
+
+//Initialise [vLastOppKey] for first record
+IF [vLastOppKey] is NULL THEN
+  [vLastOppKey] = [AUSP.AUSP_OBJEK]
+END IF
+
+print [vLastOppKey] + ':' + [AUSP.AUSP_OBJEK]
+
+// Check for a change in Opp Key and write record before processing current record
+IF [vLastOppKey] <> [AUSP.AUSP_OBJEK] THEN
+  print 'In write record for Opp Key: ' + [vLastOppKey]
+  [Opp Key]=[vLastOppKey]
+  [Level 10 Date] = [vLevel10Date]
+  [Level 20 Date] = [vLevel20Date]
+  [Level 30 Date] = [vLevel30Date]
+  [Level 40 Date] = [vLevel40Date]
+  [Level 50 Date] = [vLevel50Date]
+  [Level 60 Date] = [vLevel60Date]
+  [Level 70 Date] = [vLevel70Date]
+  [Level 80 Date] = [vLevel80Date]
+  WRITERECORD
+
+ // Initialise variables
+  [vLastOppKey] = [AUSP.AUSP_OBJEK]
+  [vLevel10Date] = null
+  [vLevel20Date] = null
+  [vLevel30Date] = null
+  [vLevel40Date] = null
+  [vLevel50Date] = null
+  [vLevel60Date] = null
+  [vLevel70Date] = null
+  [vLevel80Date] = null
+END IF
+
+[vDateasInt] = [AUSP.AUSP_ATFLV]*10000000
+[vDateasChar] = [vDateasInt]
+[vDateasChar] = substring([vDateasChar],0,4) + '/' + substring([vDateasChar],4,6) + '/' + substring([vDateasChar],6,8)
+
+print 'Date Before Convs:'+ [vDateasChar]
+[vDate] = DateTime([vDateasChar])
+print 'Date After Convs:' + [vDate]
+
+IF [AUSP.CABN_ATNAM] = 'YCRM_OPP_LEVEL_10' THEN
+  [vLevel10Date] = [vDate]
+ELSEIF [AUSP.CABN_ATNAM] = 'YCRM_OPP_LEVEL_20' THEN
+  [vLevel20Date] = [vDate]
+ELSEIF [AUSP.CABN_ATNAM] = 'YCRM_OPP_LEVEL_30' THEN
+  [vLevel30Date] = [vDate]
+ELSEIF [AUSP.CABN_ATNAM] = 'YCRM_OPP_LEVEL_40' THEN
+  [vLevel40Date] = [vDate]
+ELSEIF [AUSP.CABN_ATNAM] = 'YCRM_OPP_LEVEL_50' THEN
+  [vLevel50Date] = [vDate]
+ELSEIF [AUSP.CABN_ATNAM] = 'YCRM_OPP_LEVEL_60' THEN
+  [vLevel60Date] = [vDate]
+ELSEIF [AUSP.CABN_ATNAM] = 'YCRM_OPP_LEVEL_70' THEN
+  [vLevel70Date] = [vDate]
+ELSEIF [AUSP.CABN_ATNAM] = 'YCRM_OPP_LEVEL_80' THEN
+  [vLevel80Date] = [vDate]
+END IF

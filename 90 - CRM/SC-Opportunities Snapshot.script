@@ -1,0 +1,68 @@
+Dim [vSnapshotMonth] AS VARCHAR(10) = GetVariable('vSnapShotMonth')
+
+[Opp Number]=[Level(Opportunity.Opportunity).Opp Number]
+[Opp Name]=[Level(Opportunity.Opportunity).Opp Name]
+[Account Group Key]=[Level(Opportunity.Opportunity).Account Group Key]
+[Division Key]=[Grain(SC-Opportunities).Division Key]
+[Opp Quotation Date]=[Level(Opportunity.Opportunity).Opp Quotation Date]
+[Opp Delivery Date] = [Level(Opportunity.Opportunity).Opp Delivery Date]
+[Opp Lifetime Value]=[Level(Opportunity.Opportunity).Opp Lifetime Value]
+[Opp Probability]=[Level(Opportunity.Opportunity).Opp Probability]
+[Opp Reason for Result Key]=[Level(Opportunity.Opportunity).Opp Reason for Result Key]
+[Opp Type Key]=[Level(Opportunity.Opportunity).Opp Type Key]
+[Opp Level Key]=[Level(Opportunity.Opportunity).Opp Level Key]
+[Opp Created Date]=[Level(Opportunity.Opportunity).Opp Created Date]
+[Opp Changed Date]=[Level(Opportunity.Opportunity).Opp Changed Date]
+[Opp Currency]=[Level(Opportunity.Opportunity).Opp Currency]
+[Opp Reason for Result]=[Level(Opportunity.Opportunity).Opp Reason for Result]
+[Opp Type]=[Level(Opportunity.Opportunity).Opp Type]
+[Opp Level]=[Level(Opportunity.Opportunity).Opp Level]
+[Comp Code Key]=[Grain(SC-Opportunities).Comp Code Key]
+[Customer Key]=[Grain(SC-Opportunities).Customer Key]
+[Opp Closing Date]=[Level(Opportunity.Opportunity).Opp Closing Date]
+[Level 10 Date]=[Level(Opportunity.Opportunity).Level 10 Date]
+[Level 20 Date]=[Level(Opportunity.Opportunity).Level 20 Date]
+[Level 30 Date]=[Level(Opportunity.Opportunity).Level 30 Date]
+[Level 40 Date]=[Level(Opportunity.Opportunity).Level 40 Date]
+[Level 50 Date]=[Level(Opportunity.Opportunity).Level 50 Date]
+[Level 60 Date]=[Level(Opportunity.Opportunity).Level 60 Date]
+[Level 70 Date]=[Level(Opportunity.Opportunity).Level 70 Date]
+[Level 80 Date]=[Level(Opportunity.Opportunity).Level 80 Date]
+[Analysis Date]=[Level(Opportunity.Opportunity).Analysis Date]
+[Security Key] =[Grain(SC-Opportunities).Security Key]
+[CustArea Key] =[Grain(SC-Opportunities).CustArea Key]
+[Currency Key DC]=[Level(Opportunity.Opportunity).Currency Key DC]
+[Currency Key RC]=[Level(Opportunity.Opportunity).Currency Key RC]
+[Currency Key GC]=[Level(Opportunity.Opportunity).Currency Key GC]
+[Currency Key HC]=[Level(Opportunity.Opportunity).Currency Key HC]
+[Unweighted Opp Value HC]=[Grain(SC-Opportunities).# Unweighted Opp Value HC]
+[Unweighted Opp Value RC]=[Grain(SC-Opportunities).# Unweighted Opp Value RC]
+[Unweighted Opp Value GC]=[Grain(SC-Opportunities).# Unweighted Opp Value GC] 
+[Unweighted Opp Value DC]=[Grain(SC-Opportunities).# Unweighted Opp Value DC]
+[Weighted Opp Value RC]=[Grain(SC-Opportunities).# Weighted Opp Value RC]
+[Weighted Opp Value GC]=[Grain(SC-Opportunities).# Weighted Opp Value GC]
+[Weighted Opp Value HC]=[Grain(SC-Opportunities).# Weighted Opp Value HC]
+[Weighted Opp Value DC]=[Grain(SC-Opportunities).# Weighted Opp Value DC]
+[Opp Value per Year] = [Level(Opportunity.Opportunity).Opp Value per Year]
+[Sales Org Key] = [Grain(SC-Opportunities).Sales Org Key]
+[Opp Source]=[Level(Opportunity.Opportunity).Opp Source]
+[Is Open]   =[Level(Opportunity.Opportunity).Is Open]
+[Is Closed] =[Level(Opportunity.Opportunity).Is Closed]
+[Is Lost]   =[Level(Opportunity.Opportunity).Is Lost]
+[Is Closed except Declined]=[Level(Opportunity.Opportunity).Is Closed except Declined]
+[Is Won]    =[Level(Opportunity.Opportunity).Is Won]
+[Opp Status] = [Level(Opportunity.Opportunity).Opp Status]
+
+[Reporting Month] =  [vSnapshotMonth]
+PRINT 'Reporting Month:' +  [vSnapshotMonth]
+
+[Outside Sales Key]=''
+[Sales Office Key]=''
+[Opp City]=''
+[Opp Sort Field]=''
+[Created On]=''
+[Opp Changed Time]=''
+[Opp Created Time]=''
+[Opp Status Key]=''
+
+WRITERECORD

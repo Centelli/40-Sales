@@ -1,0 +1,51 @@
+SELECT
+[Level(Quotation.Quotation).Quote Number],
+[Level(Quotation.Quotation).Quote Created Date],
+[Level(Quotation.Quotation).SO Document Category],
+[Level(Quotation.Quotation).SO Document Type],
+[Level(Quotation.Quotation).Distr Channel],
+[Level(Quotation.Quotation).SO Doc Condition],
+[Level(Quotation.Quotation).Quote Change Date],
+[Level(Quotation.Quotation).Quote Qty],
+[Level(Quotation.Quotation).Base Unit],
+[Level(Quotation.Quotation).Currency Key DC],
+[Level(Quotation.Quotation).Plant Key],
+[Level(Quotation.Quotation).Order Date],
+[Level(Quotation.Quotation).Analysis Date],
+[Level(Quotation.Quotation).Reporting Month],
+[Level(Quotation.Quotation).Currency Key GC],
+[Level(Quotation.Quotation).Currency Key RC],
+[Level(Quotation.Quotation).Currency Key HC],
+[Level(Quotation.Quotation).Quote Key],
+[Level(Quotation.Quotation).Quote Valid From],
+[Level(Quotation.Quotation).Quote Valid To],
+[Level(Quotation.Quotation).Order Reason Key],
+[Level(Quotation.Quotation).Order Reason],
+[Level(Quotation.Quotation).Delivery Date],
+[Level(Quotation.Quotation).Closing Date]
+FROM [Level(Quotation.Quotation)]
+WHERE ([Level(Quotation.Quotation).Order Reason] IS NULL OR [Level(Quotation.Quotation).Order Reason] = 'Z60')
+AND [Level(Quotation.Quotation).Quote Valid From] >=NOWDATE AND [Level(Quotation.Quotation).Quote Valid To]<=NOWDATE
+INNER JOIN
+SELECT
+[Grain(SC-Quotations).Quote Number],
+[Grain(SC-Quotations).Reporting Month],
+[Grain(SC-Quotations).# Quote Value DC],
+[Grain(SC-Quotations).# Quote Value RC],
+[Grain(SC-Quotations).# Quote Value HC],
+[Grain(SC-Quotations).# Quote Value GC],
+[Grain(SC-Quotations).Delivery Customer Key],
+[Grain(SC-Quotations).CustArea Key],
+[Grain(SC-Quotations).Customer Key],
+[Grain(SC-Quotations).Opp Number],
+[Grain(SC-Quotations).Item Key],
+[Grain(SC-Quotations).Comp Code Key],
+[Grain(SC-Quotations).Division Key],
+[Grain(SC-Quotations).Security Key],
+[Grain(SC-Quotations).Sales Org Key]
+FROM 
+[Grain(SC-Quotations)]
+ON
+[Level(Quotation.Quotation).Quote Number] = [Grain(SC-Quotations).Quote Number]
+AND 
+[Level(Quotation.Quotation).Reporting Month] = [Grain(SC-Quotations).Reporting Month]
