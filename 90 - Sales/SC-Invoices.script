@@ -416,22 +416,23 @@ ELSEIF [SC-Invoices Warmup.VBAP_BEDAE] = 'Z25' AND [SC-Invoices Warmup.MARA_MTAR
   [vCostScenario] = '03E'
 END IF
 
+// HUB-710 - Scenario 4 is when it is ICS with transfer so removed check for vICS
 /* Scenario Number 4: */
-IF [SC-Invoices Warmup.VBAP_BEDAE] = 'Z70' AND [SC-Invoices Warmup.MARA_MTART] = 'ZKMA' AND [vInvType] = 'C' AND [vICS] = 'X'  THEN
+IF [SC-Invoices Warmup.VBAP_BEDAE] = 'Z70' AND [SC-Invoices Warmup.MARA_MTART] = 'ZKMA' AND [vInvType] = 'C' AND [vICS] = ''  THEN
    [vCostsHandled] = 'Y'
    [vCostScenario] = '04'
    [vCOGSHC]  =  [SC-Invoices Warmup.ZZMM_MSEG_601]
    [vICOGSHC] = [vZVA0]
    [vCOGSSource] = 'MSEG 601'
    [vICOGSSource] = 'ZVA0'
-ELSEIF [SC-Invoices Warmup.VBAP_BEDAE] = 'Z70' AND [SC-Invoices Warmup.MARA_MTART] = 'ZKMA' AND [vInvType] = 'I' AND [vICS] = 'X'  THEN
+ELSEIF [SC-Invoices Warmup.VBAP_BEDAE] = 'Z70' AND [SC-Invoices Warmup.MARA_MTART] = 'ZKMA' AND [vInvType] = 'I' AND [vICS] = ''  THEN
    [vCostsHandled] = 'Y'
    [vCostScenario] = '04'
    [vCOGSHC]  =  [SC-Invoices Warmup.ZZMM_MSEG_643]
    [vICOGSHC] = [vZVA0]
    [vCOGSSource] = 'MSEG 643'
    [vICOGSSource] = 'ZVA0 from ZF2'
-ELSEIF [SC-Invoices Warmup.VBAP_BEDAE] = 'Z70' AND [SC-Invoices Warmup.MARA_MTART] = 'ZKMA' AND ([vInvType] <> 'C' AND [vInvType] <> 'I' AND [vInvType] <> 'O' ) AND [vICS] = 'X' THEN
+ELSEIF [SC-Invoices Warmup.VBAP_BEDAE] = 'Z70' AND [SC-Invoices Warmup.MARA_MTART] = 'ZKMA' AND ([vInvType] <> 'C' AND [vInvType] <> 'I' AND [vInvType] <> 'O' ) AND [vICS] = '' THEN
   Print 'ERROR:' +  [vDebugString] + ':Should be 04'
   [vCostScenario] = '04E'
 END IF
