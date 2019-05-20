@@ -11,6 +11,8 @@ Dim [vOrderNetGC] as Float
 
 Dim [mHomeCurr] as MAP(Varchar(4),Varchar(4)) = SELECT [Company Code.Comp Code Key],[Company Code.Comp Currency Key] FROM [Company Code]
 
+print [SQL_M2_vw_migration_fact_orders.VBAP_VBELN] + ':' + [SQL_M2_vw_migration_fact_orders.VBAP_POSNR] + ':' + [SQL_M2_vw_migration_fact_orders.VBAP_AEDAT]
+
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
 

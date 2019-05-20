@@ -7,6 +7,8 @@
 [Currency Key RC]=NULL
 [Order Intake RC]=0.0
 
+print [SQL_M2_vw_migration_fact_orders.VBAP_VBELN] + ':' + [SQL_M2_vw_migration_fact_orders.VBAP_POSNR] + ':' + [SQL_M2_vw_migration_fact_orders.VBAP_AEDAT]
+
 [VBAP_VBELN]=[SQL_M2_vw_migration_fact_orders.VBAP_VBELN]
 [VBAP_POSNR]=[SQL_M2_vw_migration_fact_orders.VBAP_POSNR]
 [VBAP_AEDAT]=[SQL_M2_vw_migration_fact_orders.VBAP_AEDAT]

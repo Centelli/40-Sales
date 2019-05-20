@@ -117,6 +117,10 @@ END IF
   ELSE
 // HUB-595 --> Change quantity from confirmed quantity (VBEP_LMENG) to ordered quantity (VBEP_WMENG)
     [vSchedLineQty] = IFNULL(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBEP_WMENG])),0.00)
+    // Change in logic for Schedule Agreements - agreed with Sven on 17 May 2019
+    IF [VBAK_VBAP_VBEP.VBAK_AUART] ='ZLZ' and ([VBAK_VBAP_VBEP.VBEP_WMENG] <> [VBAK_VBAP_VBEP.VBEP_BMENG]) THEN
+         [vSchedLineQty] = 0.00
+    END IF
   END IF
 /* 
   If a reason for rejection is set, then following logic applies:
@@ -364,11 +368,18 @@ PRINT '[SC-Sales Office.RC Currency Key]:'+[tbl_dim_sales_region.regional_curren
   [RecType] = 'New Record'
 
 /*
-Change 19/10/18 RK
-Do not write records for Customer Type 'Group'
+Change 19/10/18 RK: Do not write records for Customer Type 'Group'
+
+Change 20/05/19 AG: Only write Schedule Agreements after 18 May reload date
 */  
 IF [Level(Customer.Customer).Customer Type] <> 'Group' THEN
-WRITERECORD
+  IF  [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' THEN
+    IF [vChangeDate] > #2019-05-18# THEN
+       WRITERECORD
+    END IF
+  ELSE
+    WRITERECORD
+  END IF
 END IF
 
 // To stop I1 interface for ZLZ documents, set condition in if to false by changing it to 1 = 0
@@ -376,7 +387,7 @@ IF 1 = 1 then
 
 [vZLZHistoricQty] = 0.00
 print 'Check if ZLZ should be processed:' + [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + [VBAK_VBAP_VBEP.VBAK_AUART] + ':' + [mZLZDocsProcessed]([vOrdKey])
-IF [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' THEN  
+IF [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' and [vChangeDate] > #2019-05-18# THEN  
   IF [mZLZDocsProcessed]([vOrdKey]) is null THEN
       print 'Processing ZLZ'    
       print 'Historic invoice Quantity:' + [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + sum([ZLZ.Invoice Qty])    
@@ -390,20 +401,20 @@ IF [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' THEN
       IF [vZLZHistoricQty] is null THEN 
         print 'ERROR: [vZLZHistoricQty] is null'    
       END IF    
-      [Sales Order Item]='000000'    
-      [Sales Order ScL Line]='0000'    
-      [ScL Type] = ''    
-      [Order Qty] = IFNULL([vZLZHistoricQty],0.00) * [vMultiplier]    
-      [ScL Quantity] = IFNULL([vZLZHistoricQty],0.00) * [vMultiplier]    
-      [Order Intake DC] = ([vOrderNet] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
-      [Order Intake HC] = ([vOrderNetHC] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
-      [Order Intake RC] = ([vOrderNetRC] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
-      [Order Intake GC] = ([vOrderNetGC] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
-      print [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + ':' + [vOrderNet]  + ':' + IFNULL([vZLZHistoricQty],0.00)    
-      [mZLZDocsProcessed]([vOrdKey]) = IFNULL([vZLZHistoricQty],0.00)    
-      WRITERECORD  
+        [Sales Order Item]='000000'    
+        [Sales Order ScL Line]='0000'    
+        [ScL Type] = ''    
+        [Order Qty] = IFNULL([vZLZHistoricQty],0.00) * [vMultiplier]    
+        [ScL Quantity] = IFNULL([vZLZHistoricQty],0.00) * [vMultiplier]    
+        [Order Intake DC] = ([vOrderNet] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
+        [Order Intake HC] = ([vOrderNetHC] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
+        [Order Intake RC] = ([vOrderNetRC] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
+        [Order Intake GC] = ([vOrderNetGC] / [vOrderQty] ) * IFNULL([vZLZHistoricQty],0.00)    
+        print [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + ':' + [vOrderNet]  + ':' + IFNULL([vZLZHistoricQty],0.00)    
+        [mZLZDocsProcessed]([vOrdKey]) = IFNULL([vZLZHistoricQty],0.00)    
+        WRITERECORD  
       ELSE    
-      print 'Schedule agreement has already been processed'  
+        print 'Schedule agreement has already been processed'  
       END IF
-END IF
+  END IF
 END IF
