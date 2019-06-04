@@ -250,6 +250,10 @@ END IF
 IF [vRegCurrency] <> 'CHF' THEN
   IF [RegRates.Exchange Rate] IS NOT NULL THEN
     [v_rate_reg_to_chf] = [RegRates.Exchange Rate]
+// HUB-722 - RC when HC is CHF and RC is EUR needs to be determined
+  ELSEIF [vRegCurrency] = [vSalesCurr] THEN
+    print 'Back calculation for EUR - ' + [vExcRatetoHC]
+    [v_rate_reg_to_chf] = [vExcRatetoHC]
   ELSE
     [v_rate_reg_to_chf] = 1
     PRINT 'ERROR: Determining Ex Rate for RC to GC '+[SC-Invoices Warmup.VBRK_VBELN]+' RATE FOR v_rate_chf_to_reg '+[vRegCurrency]+' NOT FOUND - SET TO 1'
