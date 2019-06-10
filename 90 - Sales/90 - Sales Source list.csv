@@ -116,7 +116,12 @@ VBUP-Orders Header,False,ST-VBUP Orders Header;1.5.Backlog
 VBUP-Orders,False,1.5.Backlog;ST-VBUP-Orders
 VBUP-Deliveries,False,1.5.Backlog;ST-VBUP-Deliveries
 SC-Orders for Backlog,False,1.5.Backlog;SC-Orders for Backlog
-SC-Orders for Backlog Condensed,False,1.5.Backlog
+SC-Orders for Backlog Condensed,False,1.5.Backlog;SC-Orders for Backlog Condensed
 SC-ZZMM_MSEG Condensed,False,SC-ZZMM_MSEG Condensed;ICOGS;1.4.Invoices
-Test,True,Test
+Test,False,Test
 Test Date,False,
+VBEP,True,ST-VBEP
+VBKD-For Backlog,False,1.5.Backlog;ST-VBKD-For Backlog
+VBAK_VBAP_VBEP For Backlog,False,ST-VBAK_VBAP_VBEP For Backlog
+SC-VBAK_VBAP_VBEP History,False,SC-VBAK_VBAP_VBEP History
+SC-VBAK_VBAP_VBEP History New,True,
