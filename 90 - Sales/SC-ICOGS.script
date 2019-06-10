@@ -24,4 +24,10 @@ end if
 [ICOGS Init Calc Date]=[SQL_vw_bi_ICOGS.calc_date]
 [ICOGS Init Cost Price]=[SQL_vw_bi_ICOGS.init_cost_price]*-1
 [ICOGS Status]=[SQL_vw_bi_ICOGS.icogs_status]
+IF [T001K.T001_WAERS] is not null then
+  [Currency Key] = [T001K.T001_WAERS]
+Else
+// I2 Plant
+  [Currency Key] = [SC-Company.Comp Currency Key]
+END IF
 WRITERECORD

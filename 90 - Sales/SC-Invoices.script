@@ -305,7 +305,9 @@ ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vSalesCurr] THEN
   [vPlantToHC] = [vExcRatetoHC]
 ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vRegCurrency] THEN
 // Triangulate via CHF
-  [vPlantToHC] = [v_rate_reg_to_chf] *  [v_rate_home_to_chf]
+// HUB-724 - incorrect ICOGS for HKD
+  print 'Triangulating via reg currency:' + [vRegCurrency] + ' to CHF:'+ [v_rate_reg_to_chf] + ': ' + [SC-Invoices Warmup.Comp Currency Key] + ' to CHF:' +  [v_rate_home_to_chf]
+  [vPlantToHC] = [v_rate_reg_to_chf] /  [v_rate_home_to_chf]
 ELSE
 // New rate, so triangulate via CHF
   IF [PlantExRate.Exchange Rate] IS NOT NULL THEN
