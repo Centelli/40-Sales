@@ -176,7 +176,8 @@ END IF
 [Sales Invoice Item]=[SC-Invoices Warmup.VBRP_POSNR]
 [Sales Invoice Key]=[SC-Invoices Warmup.VBRP_VBELN]+''+[SC-Invoices Warmup.VBRP_POSNR]
 [Higher-lev_item]=[SC-Invoices Warmup.VBRP_UEPOS]
-[Invoice Qty]=FLOAT([SC-Invoices Warmup.VBRP_FKIMG])
+// HUB-725 - incorrect invoice qty for credit memos
+[Invoice Qty]=FLOAT([SC-Invoices Warmup.VBRP_FKIMG]) * [vMultiplier]
 [SI Sales UoM]=[SC-Invoices Warmup.VBRP_VRKME]
 [Numerator]=[SC-Invoices Warmup.VBRP_UMVKZ]
 [Denominator]=[SC-Invoices Warmup.VBRP_UMVKN]
