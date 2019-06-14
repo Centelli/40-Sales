@@ -265,6 +265,9 @@ IF ([VBEP.VBAP_WAERK] <> [LEVEL(Company.Company).Comp Currency Key]) THEN
     ELSE
       PRINT 'ERROR: Determining Ex Rate for DC to HC: RATE FOR vExRateDCtoHC '+[VBEP.VBAP_WAERK]+' NOT FOUND - SET TO 1'
     END IF
+  ELSE
+    print 'Reverse Ex Rate:DC:' + [VBEP.VBAP_WAERK] + ':HC:' + [LEVEL(Company.Company).Comp Currency Key] + ':' + [HCRate.Exchange Rate]
+  	[vExRateDCtoHC] = 1 / [HCRate.Exchange Rate]
   END IF
 END IF
 
