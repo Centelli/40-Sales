@@ -23,4 +23,8 @@ SELECT [DCRate.Exchange Rate]  FROM [SC-Ex Rates] 'DCRate' ON [DCRate.Valid From
 LEFT OUTER JOIN
 SELECT sum([Grain(SC-Orders SL Update).Order Qty]), sum([Grain(SC-Orders SL Update).Order Intake DC]), sum([Grain(SC-Orders SL Update).Order Intake GC]), sum([Grain(SC-Orders SL Update).Order Intake HC]), sum([Grain(SC-Orders SL Update).Order Intake RC]) FROM [Grain(SC-Orders SL Update)] 
 ON [Grain(SC-Orders SL Update).# Current Record] = 1 and ( [Grain(SC-Orders SL Update).Rejection Reason Key] is null or [Grain(SC-Orders SL Update).Rejection Reason Key] = 'ZL' ) AND [VBEP.VBAP_VBELN] = [Grain(SC-Orders SL Update).Sales Order Number] AND [VBEP.VBAP_POSNR] = [Grain(SC-Orders SL Update).Sales Order Item] AND [VBEP.VBEP_ETENR] = [Grain(SC-Orders SL Update).# Sales Order ScL Line] 
+LEFT OUTER JOIN
+SELECT [Level(Customer.Customer).Customer Type]
+  FROM [Level(Customer.Customer)]   
+    ON [Level(Customer.Customer).Customer Key] = [VBEP.VBAK_KUNNR]  
 ORDER BY [VBEP.VBAP_VBELN], [VBEP.VBAP_POSNR], [VBEP.VBEP_ETENR] ASCENDING
