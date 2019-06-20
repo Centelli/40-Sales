@@ -60,7 +60,7 @@ print [Grain(SC-Orders SL Update).# Source] */
 IF [Level(Sales Order.Sales Order).Currency Key HC] <> [Level(Sales Order.Sales Order).Currency Key GC] THEN                  
   IF [ExRateGC.Exchange Rate] is not null then
     [v_rate_home_to_chf] = [ExRateGC.Exchange Rate]  
-//    print 'Exchange rate to GC changed from ' + [Level(Sales Order.Sales Order).Ex Rate GC] + ' to ' + [v_rate_home_to_chf]   
+    print [Grain(SC-Orders SL Update).Sales Order2123327471] + ':' + [Grain(SC-Orders SL Update).Sales Order Number] + ':' + [Grain(SC-Orders SL Update).Sales Order Item] + ':' + [Grain(SC-Orders SL Update).# Sales Order ScL Line] + ':' + format([Grain(SC-Orders SL Update).Analysis Date],'dd-MMM-yy') + ':' + [Grain(SC-Orders SL Update).# DelMarker] + ':To GC from HC:' + [Level(Sales Order.Sales Order).Currency Key DC] + ':' + [Level(Sales Order.Sales Order).Currency Key HC] + ':' + [Level(Sales Order.Sales Order).Currency Key RC] + ':CHF:' + [Level(Sales Order.Sales Order).Ex Rate GC] + ':' + [ExRateGC.Exchange Rate] + ':' + [v_rate_home_to_chf]  + ':' + [Grain(SC-Orders SL Update).# Order Intake DC] + ':' + [Grain(SC-Orders SL Update).# Order Intake HC] + ':' + [Grain(SC-Orders SL Update).# Order Intake RC]+ ':' + [Grain(SC-Orders SL Update).# Order Intake GC]
   ELSE
     print 'Error converting HC to GC:' + [Level(Sales Order.Sales Order).Ex Rate HC] + ' on ' + [Grain(SC-Orders SL Update).Analysis Date]
   END IF
@@ -70,7 +70,7 @@ END IF
 IF [Level(Sales Order.Sales Order).Currency Key HC] <> [Level(Sales Order.Sales Order).Currency Key RC] THEN
   IF [ExRateRC.Exchange Rate] is not null then
     [v_rate_home_to_reg] = [v_rate_home_to_chf] / [ExRateRC.Exchange Rate]
-//    print 'Exchange rate to RC changed from ' + [Level(Sales Order.Sales Order).Ex Rate RC] + ' to ' + [v_rate_home_to_reg]
+    print [Grain(SC-Orders SL Update).Sales Order2123327471] + ':' + [Grain(SC-Orders SL Update).Sales Order Number] + ':' + [Grain(SC-Orders SL Update).Sales Order Item] + ':' + [Grain(SC-Orders SL Update).# Sales Order ScL Line] + ':' + format([Grain(SC-Orders SL Update).Analysis Date],'dd-MMM-yy') + ':' + [Grain(SC-Orders SL Update).# DelMarker] + ':To RC from HC:' + [Level(Sales Order.Sales Order).Currency Key DC] + ':' + [Level(Sales Order.Sales Order).Currency Key HC] + ':' + [Level(Sales Order.Sales Order).Currency Key RC] + ':CHF:' + [Level(Sales Order.Sales Order).Ex Rate RC] + ':' + [ExRateRC.Exchange Rate] + ':' + [v_rate_home_to_reg]  + ':' + [Grain(SC-Orders SL Update).# Order Intake DC] + ':' + [Grain(SC-Orders SL Update).# Order Intake HC] + ':' + [Grain(SC-Orders SL Update).# Order Intake RC]+ ':' + [Grain(SC-Orders SL Update).# Order Intake GC]
   ELSE
     print 'Error converting HC to RC: ' + [Level(Sales Order.Sales Order).Ex Rate HC] + ' to ' + [Level(Sales Order.Sales Order).Ex Rate RC] + ' on ' + [Grain(SC-Orders SL Update).Analysis Date]
   END IF
