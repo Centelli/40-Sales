@@ -252,7 +252,7 @@ end if
       IF [VBAK_VBAP_VBEP.VBAP_ERDAT] > [VBAK_VBAP_VBEP.VBAK_AEDAT] THEN
         [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_ERDAT]
       ELSE
-        [vChangeDate] = DATEADD(Day,1,[VBAK_VBAP_VBEP.VBAK_AEDAT])
+        [vChangeDate] = [VBAK_VBAP_VBEP.VBAK_AEDAT]
     ELSE
       [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_ERDAT]
     END IF
