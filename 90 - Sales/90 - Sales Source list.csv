@@ -55,7 +55,7 @@ SQL_I2_vw_dim_customer,False,1.1.SQL Sources;ST_SQL_dim_customer
 SC-Orders SL,False,SC-Orders SL;1.3.Orders SL
 VBAK_VBAP_VBEP,False,1.1.Transaction;4.ST_VBAK_VBAP_VBEP
 SC-Orders SL History,False,SC-Orders SL History;1.3.Orders SL
-SC-Orders SL Update,False,SC-Orders SL Update;1.3.Orders SL
+SC-Orders SL Update,False,SC-Orders SL Update;1.3.Orders SL;X
 SQL_DBO_vw_sql_dim_country,False,1.1.SQL Sources
 SC-User Access,False,1.2.User Access
 SC-Ex Rates,False,1.2.Dimensions
