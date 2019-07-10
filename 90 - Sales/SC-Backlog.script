@@ -542,7 +542,14 @@ IF 1 = 1 THEN
    END IF
    [vPrevKey] = [vOrdKey]
    IF [vWriteRecord] = 'X' and [Level(Customer.Customer).Customer Type] = 'Third' THEN 
-      WRITERECORD
+// HUB-724 - 09Jul19 - Backlog only for ScL Type (VBEP-ETART) = 1
+     IF [VBEP.VBAK_AUART] = 'ZLZ' THEN
+       IF [VBEP.VBEP_ETART] = '1' THEN
+          WRITERECORD
+       END IF
+     ELSE
+       WRITERECORD
+     END IF
    END IF
 ELSE 
    PRINT 'Order NOT FOUND:'
