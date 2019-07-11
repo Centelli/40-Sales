@@ -109,7 +109,14 @@ ELSEIF [SC-TCURF.TCURF_TFACT] = '0' THEN
 ELSE
  [vVBKD_KURSK] = [vVBKD_KURSK]
 END IF
+
+// HUB-728 - Order net set to zero for Stratos
+IF [VBAK_VBAP_VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON') then
+ [vOrderNet] = 0.00
+else
   [vOrderNet] = ifnull([vOrderNetVBAP],0.00)
+end if
+  
   [vOrderQty] = ifnull([vOrderQtyVBAP],0.00)
   // Credit and Debit Memos do not have schedule lines
   IF [VBAK_VBAP_VBEP.VBAK_AUART] IN ('ZL2','ZG2') THEN
