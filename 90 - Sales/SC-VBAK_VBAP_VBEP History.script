@@ -27,7 +27,6 @@
 [VBAP_ZMENG]=[Level(History Sales Order.History Sales Order).VBAP_ZMENG]
 [VBAP_ZIEME]=[Level(History Sales Order.History Sales Order).VBAP_ZIEME]
 [VBAP_MEINS]=[Level(History Sales Order.History Sales Order).VBAP_MEINS]
-[VBAP_KDMAT]=[Level(History Sales Order.History Sales Order).VBAP_KDMAT]
 [VBAP_SPART]=[Level(History Sales Order.History Sales Order).VBAP_SPART]
 [VBAP_NETWR]=[Level(History Sales Order.History Sales Order).VBAP_NETWR]
 [VBAP_WAERK]=[Level(History Sales Order.History Sales Order).VBAP_WAERK]

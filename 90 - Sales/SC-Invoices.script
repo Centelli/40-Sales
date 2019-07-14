@@ -71,6 +71,16 @@ End function
 [vSalesCurr] = [SC-Invoices Warmup.VBRK_WAERK]
 [vSalesNet] = [CheckValue]([SC-Invoices Warmup.VBRP_NETWR])
 
+// HUB-728 - Set values to zero for Brazil SO order type 'ZFOK','ZROK','ZRON' - assumption that there are < 10,000 order line items for these orders EVER
+Dim [mBR_FOC] as Map(Varchar(10),Varchar(5)) = SELECT [VBAK_VBAP_VBEP For Backlog.VBAP_VBELN], [VBAK_VBAP_VBEP For Backlog.VBAK_AUART] FROM [VBAK_VBAP_VBEP For Backlog] WHERE [VBAK_VBAP_VBEP For Backlog.VBAK_AUART] IN ('ZFOK','ZROK','ZRON')
+
+IF [mBR_FOC]([SC-Invoices Warmup.VBRP_AUBEL]) IS NOT NULL THEN
+	[vSalesNet] =  0
+     PRINT '[vSalesNet] =  0 for : ' + [SC-Invoices Warmup.VBRP_AUBEL]
+ELSE
+	[vSalesNet] = [CheckValue]([SC-Invoices Warmup.VBRP_NETWR])
+END IF
+
 // Take header rate unless it is blank, in which case take line item exchange rate
 IF [SC-Invoices Warmup.VBRK_KURRF] IS NOT NULL AND [SC-Invoices Warmup.VBRK_KURRF] <> '0.0' THEN
 //  print '0.51: Taking header exchange rate to HC - ' + [CheckValue]([SC-Invoices Warmup.VBRK_KURRF])
