@@ -49,6 +49,9 @@ END if */
 
 IF [VBEP.VBAK_AUART] IN ('ZL2','ZG2') THEN
   [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
+// HUB-744 - add additional order types
+ELSEIF [VBEP.VBAK_AUART] IN ('ZL2M','ZG2M') THEN
+  [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
 ELSE
   [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBEP_WMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
   IF SUM([Grain(SC-Orders SL Update).Order Qty]) < [vOrderQty] and SUM([Grain(SC-Orders SL Update).Order Qty]) is not null THEN

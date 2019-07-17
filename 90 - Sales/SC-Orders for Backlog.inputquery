@@ -1,5 +1,5 @@
 SELECT null,null,[VBUP-Orders.VBUP_VBELN], [VBUP-Orders.VBUP_POSNR], [VBUP-Orders.VBUP_GBSTA], [VBUP-Orders.VBUP_ABSTA], [VBUP-Orders.VBUP_LFSTA], [VBUP-Orders.VBUP_LFGSA], [VBUP-Orders.VBUP_FKSTA], [VBUP-Orders.VBUP_FKSAA], 'C', [VBUP-Orders.VBUK_SPSTG], [VBUP-Orders.VBKD_FKDAT], 'Order', 'Dummy' FROM [VBUP-Orders] where ([VBUP-Orders.VBUP_GBSTA] <> 'C' or [VBUP-Orders.VBUP_GBSTA] is null) and ([VBUP-Orders.VBUP_ABSTA] <> 'C' or [VBUP-Orders.VBUP_ABSTA] is null)
-// and [VBUP-Orders.VBUP_VBELN] = '0010425599'
+// and [VBUP-Orders.VBUP_VBELN] = '0010617727'
 // INNER JOIN
 // SELECT 'Order', 'Dummy' FROM [Level(Sales Order.Sales Order)] on [Level(Sales Order.Sales Order).Current Record] = 1  and [Level(Sales 
 // Order.Sales Order).Sales Order Number]=[VBUP-Orders.VBUP_VBELN] and [Level(Sales Order.Sales Order).Sales Order Item]= [
