@@ -125,3 +125,6 @@ VBKD-For Backlog,False,1.5.Backlog;ST-VBKD-For Backlog
 VBAK_VBAP_VBEP For Backlog,False,ST-VBAK_VBAP_VBEP For Backlog
 SC-VBAK_VBAP_VBEP History,False,SC-VBAK_VBAP_VBEP History
 SC-VBAK_VBAP_VBEP History New,True,
+tbl_vc_item,False,1.1.Files
+SC-Orders SL VC Update,False,SC-Orders SL VC Update
+SC-Item VC File,False,SC-Item VC File
