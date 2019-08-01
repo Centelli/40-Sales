@@ -5,7 +5,7 @@ Dim [vSalesNet] as Float
 Dim [vSalesCost] as Float
 Dim [vExcRatetoHC] as Float
 Dim [vMultiplier] as FLOAT
-Dim [vMatKey] as Varchar(18)
+Dim [vMatKey] as Varchar(30)
 Dim [vCustomerKey] as Varchar(18)
 Dim [vDelCustomerKey] as Varchar(18)
 DIM [vRegCurrency] as Varchar(4)
@@ -52,7 +52,7 @@ DIM [vPlantToHC] as float
 [vInvType] = null
 [vInvCategory] = null
 
-print 'Start Processing:' + [SC-Invoices Warmup.VBRK_VBELN] + ':' + [SC-Invoices Warmup.VBRP_POSNR]
+print 'Start Processing:' + [SC-Invoices Warmup.VBRK_VBELN] + ':' + [SC-Invoices Warmup.VBRP_POSNR] + ':' + [SC-Invoices Warmup.VBRP_MATNR] + ':' + [SC-Invoices Warmup.VBAP_ZZEXTWGVC]
 
 FUNCTION [CheckValue]([Input] as Varchar(15)) as Float
   IF [Input] IS NOT NULL THEN
@@ -75,10 +75,10 @@ End function
 Dim [mBR_FOC] as Map(Varchar(10),Varchar(5)) = SELECT [VBAK_VBAP_VBEP For Backlog.VBAP_VBELN], [VBAK_VBAP_VBEP For Backlog.VBAK_AUART] FROM [VBAK_VBAP_VBEP For Backlog] WHERE [VBAK_VBAP_VBEP For Backlog.VBAK_AUART] IN ('ZFOK','ZROK','ZRON')
 
 IF [mBR_FOC]([SC-Invoices Warmup.VBRP_AUBEL]) IS NOT NULL THEN
-	[vSalesNet] =  0
+  [vSalesNet] =  0
      PRINT '[vSalesNet] =  0 for : ' + [SC-Invoices Warmup.VBRP_AUBEL]
 ELSE
-	[vSalesNet] = [CheckValue]([SC-Invoices Warmup.VBRP_NETWR])
+  [vSalesNet] = [CheckValue]([SC-Invoices Warmup.VBRP_NETWR])
 END IF
 
 // Take header rate unless it is blank, in which case take line item exchange rate
@@ -114,15 +114,22 @@ END IF
 
 Dim [mRegCurr] as MAP(Varchar(22),Varchar(4)) = SELECT [Level(Customer Sales Area.Customer Sales Area).CustArea Key],[Level(Customer Sales Area.Customer Sales Area).RC Currency Key] FROM [Level(Customer Sales Area.Customer Sales Area)] WHERE [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] is not null
 
-DIM [mVCItems] AS MAP(Varchar(18),Varchar(18)) = SELECT [SC-Item.Item Key], [SC-Item.Item Key] FROM [SC-Item] WHERE [SC-Item.Item Type] = 'ZKMA'
+// HUB-406
+dim [mVCItems] as map(Varchar(18),Varchar(6)) = select distinct [tbl_vc_item.MATNR],'Change' from [tbl_vc_item]
+print 'HUB-406:' + [SC-Invoices Warmup.VBRP_MATNR] + ':' + [mVCItems]([SC-Invoices Warmup.VBRP_MATNR]) + ':' + [SC-Invoices Warmup.VBAP_ZZEXTWGVC]
+print [mVCItems]([SC-Invoices Warmup.VBRP_MATNR]) IS NOT NULL
+print [SC-Invoices Warmup.VBAP_ZZEXTWGVC] is not null
+print ([mVCItems]([SC-Invoices Warmup.VBRP_MATNR]) IS NOT NULL and [SC-Invoices Warmup.VBAP_ZZEXTWGVC] is not null)
+// DIM [mVCItems] AS MAP(Varchar(18),Varchar(18)) = SELECT [SC-Item.Item Key], [SC-Item.Item Key] FROM [SC-Item] WHERE [SC-Item.Item Type] = 'ZKMA'
 /*
 Item Key manipulation for VC items 
 */  
-IF [mVCItems]([SC-Invoices Warmup.VBRP_MATNR]) IS NOT NULL THEN
-  [vMatKey]=[SC-Invoices Warmup.VBRP_MATKL]+''+SUBSTRING([SC-Invoices Warmup.VBRP_MATNR],LENGTH([SC-Invoices Warmup.VBRP_MATNR])-9,LENGTH([SC-Invoices Warmup.VBRP_MATNR]))
+IF [mVCItems]([SC-Invoices Warmup.VBRP_MATNR]) IS NOT NULL and [SC-Invoices Warmup.VBAP_ZZEXTWGVC] is not null THEN
+  [vMatKey]=[SC-Invoices Warmup.VBRP_MATNR] + '_' + [SC-Invoices Warmup.VBAP_ZZEXTWGVC] 
 ELSE 
   [vMatKey]=[SC-Invoices Warmup.VBRP_MATNR]
 END IF 
+print [vMatKey]
 // PRINT '[DelPart.VBPA_KUNNR]:'+[DelPart.VBPA_KUNNR]
 
 IF [DelPart.VBPA_KUNNR] IS NOT NULL THEN

@@ -25,7 +25,7 @@ Dim [vChangeDate] as date
 Dim [vVBKD_KURSK] as Float
 Dim [vVBAP_WAVWR] as Float
 Dim [vSchedLineQty] as Float
-Dim [vMatKey] as Varchar(18)
+Dim [vMatKey] as Varchar(30)
 DIM [vSchedQty] as Float
 DIM [vPrevKey] as Varchar(16) = null
 DIM [vOrdKey] as Varchar(16) 
@@ -62,8 +62,10 @@ END IF
 /* Costs should be negative */
 [vVBAP_WAVWR] = IFNULL(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBAP_WAVWR])),0.00)*-1
 
-/* Map to lookup VC Items */
-DIM [mVCItems] AS MAP(Varchar(18),Varchar(18)) = SELECT [SC-Item.Item Key], [SC-Item.Item Key] FROM [SC-Item] WHERE [SC-Item.Item Type] = 'ZKMA'
+// HUB-406
+dim [mVCItems] as map(Varchar(18),Varchar(6)) = select distinct [tbl_vc_item.MATNR],'Change' from [tbl_vc_item]
+/* Map to lookup VC Items 
+DIM [mVCItems] AS MAP(Varchar(18),Varchar(18)) = SELECT [SC-Item.Item Key], [SC-Item.Item Key] FROM [SC-Item] WHERE [SC-Item.Item Type] = 'ZKMA' */
 
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
@@ -87,8 +89,9 @@ end if
 /*
 Item Key manipulation for VC items 
 */  
+// Logic updated for HUB-406
 IF [mVCItems]([VBAK_VBAP_VBEP.VBAP_MATNR]) IS NOT NULL THEN 
-  [vMatKey]=[VBAK_VBAP_VBEP.VBAP_MATKL]+''+SUBSTRING([VBAK_VBAP_VBEP.VBAP_MATNR],LENGTH([VBAK_VBAP_VBEP.VBAP_MATNR])-9,LENGTH([VBAK_VBAP_VBEP.VBAP_MATNR]))
+  [vMatKey]=[VBAK_VBAP_VBEP.VBAP_MATNR] + '_' + [VBAK_VBAP_VBEP.VBAP_ZZEXTWGVC]
 ELSE 
   [vMatKey]=[VBAK_VBAP_VBEP.VBAP_MATNR]
 END IF  

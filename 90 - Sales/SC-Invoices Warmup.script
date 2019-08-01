@@ -85,4 +85,6 @@ print SUM([VPRS.Condition value])
 [T001K_BUKRS] = [T001K.T001K_BUKRS]
 // Adding K to T001 in the field to identify WAERS is for the Plant, which comes from table T001K
 [T001K_WAERS] = [T001K.T001_WAERS]
+// HUB-406
+[VBAP_ZZEXTWGVC] = [VBRK_VBRP.VBAP_ZZEXTWGVC]
 WRITERECORD
