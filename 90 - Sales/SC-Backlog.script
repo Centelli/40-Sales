@@ -33,7 +33,11 @@ Dim [vMatKey] as Varchar(18)
 
 [vWriteRecord] = ''
 [vOrdKey] = [VBEP.VBAP_VBELN] + '' + [VBEP.VBAP_POSNR]
-[vVBAPQty] = ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
+IF [VBEP.VBAK_AUART] IN ('ZL2M','ZG2M') THEN
+  [vVBAPQty] = ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
+ELSE
+  [vVBAPQty] = ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
+END IF
 
 // Changing order quantity to be based on the data extract rather than the warehouse
 /* IF SUM([Grain(SC-Orders SL Update).Order Qty]) is not null then
@@ -46,12 +50,12 @@ IF ifnull(FLOAT([CheckValue]([VBEP.VBEP_WMENG])),0.00) = 0.00 then
   [vOrderQty] = 0.00
 END if */
 
-
-IF [VBEP.VBAK_AUART] IN ('ZL2','ZG2') THEN
-  [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
+// Removed ZL2 and ZG2 as they should not be part of backlog
 // HUB-744 - add additional order types
-ELSEIF [VBEP.VBAK_AUART] IN ('ZL2M','ZG2M') THEN
+IF [VBEP.VBAK_AUART] = 'ZL2M' THEN
   [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
+ELSEIF [VBEP.VBAK_AUART] = 'ZG2M' THEN
+  [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00))) * -1
 ELSE
   [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBEP_WMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
   IF SUM([Grain(SC-Orders SL Update).Order Qty]) < [vOrderQty] and SUM([Grain(SC-Orders SL Update).Order Qty]) is not null THEN
@@ -77,6 +81,10 @@ print 'Check if there is order quantity on the Schedule line: ' + [VBEP.VBEP_WME
 IF [VBEP.VBUK_SPSTG] = 'C' THEN
   IF [VBEP.VBEP_ETENR] IS NOT NULL THEN
     [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBEP_WMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
+  ELSEIF [VBEP.VBAK_AUART] = 'ZL2M' THEN
+  [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
+  ELSEIF [VBEP.VBAK_AUART] = 'ZG2M' THEN
+  [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00))) * -1
   ELSE
     [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))    
   END IF 
