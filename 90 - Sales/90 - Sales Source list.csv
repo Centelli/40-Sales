@@ -128,3 +128,4 @@ SC-VBAK_VBAP_VBEP History New,True,
 tbl_vc_item,False,1.1.Files
 SC-Orders SL VC Update,False,SC-Orders SL VC Update
 SC-Item VC File,False,SC-Item VC File
+SC-Orders SL Delete,False,SC-Orders SL Delete
