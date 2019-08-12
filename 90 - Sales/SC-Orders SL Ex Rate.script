@@ -79,25 +79,27 @@ END IF
 
 [Currency Key DC]=[Level(Sales Order.Sales Order).Currency Key DC]
 [Ex Rate DC]=[Level(Sales Order.Sales Order).Ex Rate DC]
-[Order Intake DC]=[Grain(SC-Orders SL Update).# Order Intake DC]
+[Order Intake DC]=IFNULL([Grain(SC-Orders SL Update).# Order Intake DC],0.00)
 [SO Item Cost DC]=[Grain(SC-Orders SL Update).# SO Item Cost DC]
 
 [Currency Key HC]=[Level(Sales Order.Sales Order).Currency Key HC]
 [Ex Rate HC]=[Level(Sales Order.Sales Order).Ex Rate HC]
-[Order Intake HC]=[Grain(SC-Orders SL Update).# Order Intake HC]
+[Order Intake HC]=IFNULL([Grain(SC-Orders SL Update).# Order Intake HC],0.00)
 [SO Item Cost HC]=[Grain(SC-Orders SL Update).# SO Item Cost HC]
 
-IF [Grain(SC-Orders SL Update).# Order Intake HC] is not null then
+// HUB-745 - null DC and HC for ZG2 not being handled properly. Changed to take null values as 0.
+
+// IF [Grain(SC-Orders SL Update).# Order Intake HC] is not null then
 	[Currency Key RC]=[Level(Sales Order.Sales Order).Currency Key RC]
 	[Ex Rate RC] =  [v_rate_home_to_reg]
-	[Order Intake RC] = [Grain(SC-Orders SL Update).# Order Intake HC] * [v_rate_home_to_reg]
+	[Order Intake RC] = IFNULL([Grain(SC-Orders SL Update).# Order Intake HC],0.00) * [v_rate_home_to_reg]
 	  
 	[Currency Key GC] = [Level(Sales Order.Sales Order).Currency Key GC]
 	[Ex Rate GC] = [v_rate_home_to_chf]
-	[Order Intake GC] = [Grain(SC-Orders SL Update).# Order Intake HC] * [v_rate_home_to_chf]
-ELSE
+	[Order Intake GC] = IFNULL([Grain(SC-Orders SL Update).# Order Intake HC],0.00) * [v_rate_home_to_chf]
+/* ELSE
     print 'Order Intake HC is null for ' + [Grain(SC-Orders SL Update).# Sales Order Key]
-END IF
+END IF */
 
 IF [Grain(SC-Orders SL Update).# SO Item Cost HC] is not null then
 	[SO Item Cost RC]= [Grain(SC-Orders SL Update).# SO Item Cost HC] * [v_rate_home_to_reg]
