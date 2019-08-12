@@ -126,7 +126,8 @@ end if
     [vSchedLineQty] = ifnull([vOrderQtyVBAP],0.00)
   ELSE
 // HUB-595 --> Change quantity from confirmed quantity (VBEP_LMENG) to ordered quantity (VBEP_WMENG)
-    [vSchedLineQty] = IFNULL(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBEP_WMENG])),0.00)
+// HUB-752 --> Conversion of ScL quantity from sales unit to base unit added
+    [vSchedLineQty] = IFNULL(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBEP_WMENG])),0.00)*(ifnull(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBAP_UMVKN])),0.00))
     // Change in logic for Schedule Agreements - agreed with Sven on 17 May 2019
     IF [VBAK_VBAP_VBEP.VBAK_AUART] ='ZLZ' and ([VBAK_VBAP_VBEP.VBEP_WMENG] <> [VBAK_VBAP_VBEP.VBEP_BMENG]) THEN
          [vSchedLineQty] = 0.00
