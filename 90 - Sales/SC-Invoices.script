@@ -100,9 +100,8 @@ ELSE
 END IF
 
 
-// IF credit memo, apart from credit memo cancellation (type Zs2), reverse sign
-//  What about invoice cancellations?
-IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1') then
+// HUB-751 - ZIGA and ZIVS added to reversal
+IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1', 'ZIGA', 'ZIVS') then
   [vMultiplier] = -1.00
 ELSE
   [vMultiplier] = 1.00
