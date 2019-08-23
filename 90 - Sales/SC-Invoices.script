@@ -101,7 +101,8 @@ END IF
 
 
 // HUB-751 - ZIGA and ZIVS added to reversal
-IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1', 'ZIGA', 'ZIVS') then
+// HUB-751 - ZG2M, ZIGA and ZREB added to reversal on 16Aug19
+IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1', 'ZIGA', 'ZIVS', 'ZG2M', 'ZIGA', 'ZREB') then
   [vMultiplier] = -1.00
 ELSE
   [vMultiplier] = 1.00
