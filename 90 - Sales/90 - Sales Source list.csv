@@ -40,7 +40,7 @@ SC-Item,False,1.2.Dimensions;SC-Item
 SC-Customer New Biz,False,1.2.Dimensions;SC-Customer New Biz
 SC-CustSales Area Budget,False,1.2.Dimensions;SC-Customer Sales Area Budget
 SQL Customer New Biz,False,1.1.SQL Sources
-SC-Item VC,False,1.2.Dimensions;SC-Item VC
+SC-Item VC,False,SC-Item VC
 SC-Invoices I2,False,1.4.Invoices I2
 SQL_I2_vw_MARA,False,1.1.SQL Sources
 SC-Item I2,False,1.2.Dimensions I2;SC-Item I2
@@ -127,5 +127,6 @@ SC-VBAK_VBAP_VBEP History,False,SC-VBAK_VBAP_VBEP History
 SC-VBAK_VBAP_VBEP History New,True,
 tbl_vc_item,False,1.1.Files
 SC-Orders SL VC Update,False,SC-Orders SL VC Update
-SC-Item VC File,False,SC-Item VC File
+SC-Item VC File,False,1.2.Dimensions;SC-Item VC File
 SC-Orders SL Delete,False,SC-Orders SL Delete
+SC-Test,False,SC-Test

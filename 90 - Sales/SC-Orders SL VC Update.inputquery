@@ -5,4 +5,7 @@ SELECT DISTINCT [Grain(SC-Orders SL Update).Sales Order2123327471],[Grain(SC-Ord
 FROM [Grain(SC-Orders SL Update)]  on [Grain(SC-Orders SL Update).Sales Order2123327471] = [Level(Sales Order.Sales Order).Sales Order2123327471]  and ([Grain(SC-Orders SL Update).# Source] = 'SAP ECC' ) 
 inner join 
 SELECT [SOrder.VBAP_VBELN], [SOrder.VBAP_POSNR], [SOrder.VBEP_ETENR],[SOrder.VBAP_MATNR],[SOrder.VBAP_ZZEXTWGVC] FROM [VBAK_VBAP_VBEP For Backlog] 'SOrder' 
-ON [Level(Sales Order.Sales Order).Sales Order Number] = [SOrder.VBAP_VBELN] and [Level(Sales Order.Sales Order).Sales Order Item] = [SOrder.VBAP_POSNR] and [Level(Sales Order.Sales Order).Sales Order ScL Line]=[SOrder.VBEP_ETENR] and [SOrder.VBAP_MATNR] in ('000000000091000005', '000000000091000008', '000000000091000012', '000000000091000053', '000000000091000065')
+ON [Level(Sales Order.Sales Order).Sales Order Number] = [SOrder.VBAP_VBELN] and [Level(Sales Order.Sales Order).Sales Order Item] = [SOrder.VBAP_POSNR] and [Level(Sales Order.Sales Order).Sales Order ScL Line]=[SOrder.VBEP_ETENR]
+inner join
+SELECT [MARA.MARA_MATNR], [MARA.MARA_MTART], [MARA.MARA_MBRSH], [MARA.MARA_MATKL], [MARA.MARA_BISMT], [MARA.MARA_MEINS], [MARA.MARA_LABOR], [MARA.MARA_SPART], [MARA.MARA_EAN11], [MARA.MAKT_MAKTX], [MARA.MAKT_MAKTG], [MARA.MARA_EXTWG]
+  FROM [MARA] on [MARA.MARA_MATNR] = [SOrder.VBAP_MATNR] and [MARA.MARA_MTART] = 'ZKMA'

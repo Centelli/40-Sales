@@ -19,7 +19,11 @@ print [Grain(SC-Orders SL Update).# Source] */
 [Distr Channel] = [Level(Sales Order.Sales Order).Distr Channel]
 [Customer Key] = [Grain(SC-Orders SL Update).Customer Key]
 [SO Header Change Date] = [Level(Sales Order.Sales Order).SO Header Change Date]
-[Item Key] = [SOrder.VBAP_MATNR] + '_' + [SOrder.VBAP_ZZEXTWGVC]
+IF [SOrder.VBAP_MATNR] in ('000000000091000005', '000000000091000008', '000000000091000012', '000000000091000053', '000000000091000065') THEN
+    [Item Key] = [SOrder.VBAP_MATNR] + '_' + [SOrder.VBAP_ZZEXTWGVC]
+ELSE
+    [Item Key] = [SOrder.VBAP_MATNR]
+END IF
 [Item category] = [Level(Sales Order.Sales Order).Item category]
 [Rejection Reason Key] = [Grain(SC-Orders SL Update).Rejection Reason Key]
 [Base Unit] = [Level(Sales Order.Sales Order).Base Unit]
