@@ -15,7 +15,7 @@ SELECT [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.regional_
 LEFT OUTER JOIN
   SELECT sum([SC-Cost Report.Value]) FROM [SC-Cost Report] on [SC-Cost Report.Document Number] = [VBRK_VBRP.VBRP_AUBEL] and [SC-Cost Report.Item Number] = [VBRK_VBRP.VBRP_AUPOS]
 LEFT OUTER JOIN
-SELECT [MARA.MARA_MTART] FROM [MARA] ON [MARA.MARA_MATNR] = [VBRK_VBRP.VBRP_MATNR]
+SELECT [MARA.MARA_MTART], [MARA.MARA_SPART] FROM [MARA] ON [MARA.MARA_MATNR] = [VBRK_VBRP.VBRP_MATNR]
 LEFT OUTER JOIN
 SELECT SUM([VPRS.Condition value])
   FROM [ZBI_BIRST_ZbapiSalesorderGet] 'VPRS' 

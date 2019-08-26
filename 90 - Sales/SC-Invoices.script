@@ -213,7 +213,15 @@ END IF
 [Ext Mat Group Key]=[SC-Invoices Warmup.VBRP_MATKL]
 [Item category]=[SC-Invoices Warmup.VBRP_PSTYV]
 [Item type]=[SC-Invoices Warmup.VBRP_POSAR]
-[Division Key]=[SC-Invoices Warmup.VBRP_SPART]
+// HUB-751 - Division for Group invoices should be from MARA
+IF [SC-Invoices Warmup.VBRP_SPART] <> '00' THEN
+  [Division Key]=[SC-Invoices Warmup.VBRP_SPART]
+ELSE
+  [Division Key]=[SC-Invoices Warmup.MARA_SPART]
+  IF [SC-Invoices Warmup.VBRP_AUTYP] <> 'V' THEN
+    PRINT 'WARN: Check for Division - ' + [SC-Invoices Warmup.VBRK_VBELN] + ' references ' + [SC-Invoices Warmup.VBRP_AUTYP]
+  END IF
+END IF
 [Plant]=[SC-Invoices Warmup.VBRP_WERKS]
 [Country]=[SC-Invoices Warmup.VBRP_ALAND]
 [Sales Group]=[SC-Invoices Warmup.VBRP_VKGRP]
