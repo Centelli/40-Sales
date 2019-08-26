@@ -1,0 +1,1 @@
+print [MARA.MARA_MATNR] + ':' + [MARA.MARA_MTART]
