@@ -98,6 +98,12 @@ ELSE
   [vInvoiceBacklogDC] = ifnull(float([CheckValue]([VBEP.VBAP_NETWR])),0.00) * ( [vSchedQty] / [vVBAPQty])
 END IF
 
+// HUB-728 - Order net set to zero for Stratos
+IF [VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON') then
+  [vInvoiceBacklogDC] = 0.00
+  [vOrderBacklogDC] = 0.00
+END IF
+
 print 'VBAP_KWMENG' + [vVBAPQty] + ':' + [VBEP.VBAP_KWMENG] + ':SchedQty:' + [vSchedQty] + ':' + [VBEP.VBEP_BMENG] + ':InvoiceBacklogDC:' + [vInvoiceBacklogDC] + ':' + [VBEP.VBAP_NETWR] + ':Order Qty:' + [vOrderQty] + ':vOrderBacklogDC:' + [vOrderBacklogDC]
 PRINT 'Invoice Qty ' + SUM([Invoice.Invoice Qty])
 
