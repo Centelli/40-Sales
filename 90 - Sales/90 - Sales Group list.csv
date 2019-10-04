@@ -1,0 +1,10 @@
+Role Name,Dashboard,NewDashboard,EditDashboard,Adhoc,EnableDownload,AdvancedFilter,MaintainCatalog,PremiumAdHoc,DashboardDelete,SelfScheduleAllowed
+Administrators,,,,,,,,,,
+USER$,,,,,,,,,,
+Admin,X,,X,X,X,,,,,X
+Analysts,X,,X,X,X,,,,,X
+User,,,,,X,,,,,X
+End User,,,,X,X,,,,,X
+TestGroup1,X,,X,X,X,,,,,X
+TestGroup2,,,,,X,,,,,
+TestGroup3,,,,,X,,,,,
