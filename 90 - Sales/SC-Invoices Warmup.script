@@ -1,3 +1,5 @@
+Dim [vCustomerKey] as Varchar(18)
+
 print [VBRK_VBRP.VBRK_VBELN] + ':' + [VBRK_VBRP.VBRP_POSNR]
 print SUM([ZPTP.Condition value])
 print SUM([VPRS.Condition value])
@@ -73,7 +75,25 @@ print SUM([VPRS.Condition value])
 [VBRP_FAREG]=[VBRK_VBRP.VBRP_FAREG]
 [VBRP_FKLMG]=[VBRK_VBRP.VBRP_FKLMG]
 [Comp Currency Key]=[SC-Company.Comp Currency Key]
-[regional_currency_code]=[tbl_dim_sales_region.regional_currency_code]
+
+// HUB-780
+Dim [mRegCurr] as MAP(Varchar(22),Varchar(4)) = SELECT [Level(Customer Sales Area.Customer Sales Area).CustArea Key],[Level(Customer Sales Area.Customer Sales Area).RC Currency Key] FROM [Level(Customer Sales Area.Customer Sales Area)] WHERE [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] is not null
+
+// For intercompany invoices, i.e. FKART=ZIV or ZIVS, payer should be used as customer
+IF [VBRK_VBRP.VBRK_FKART] IN ('ZIV', 'ZIVS')  THEN
+  [vCustomerKey] = [VBRK_VBRP.VBRK_KUNRG]
+ELSE
+  [vCustomerKey] = [VBRK_VBRP.VBRK_KUNAG]
+END IF
+
+//Regional Currency 
+IF [tbl_dim_sales_region.regional_currency_code] IS NOT NULL THEN
+  [regional_currency_code]=[tbl_dim_sales_region.regional_currency_code]
+ELSE
+  [regional_currency_code]=[mRegCurr]([vCustomerKey] + '' + [VBRK_VBRP.VBRK_VKORG])
+END IF
+// [regional_currency_code]=[tbl_dim_sales_region.regional_currency_code]
+
 [MARA_MTART] = [MARA.MARA_MTART]
 [VBAP_BEDAE] = [VBRK_VBRP.VBAP_BEDAE]
 [VBRP_VPRS] = ifnull(SUM([VPRS.Condition value]),0.00) * -1
