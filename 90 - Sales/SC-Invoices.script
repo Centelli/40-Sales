@@ -102,7 +102,9 @@ END IF
 
 // HUB-751 - ZIGA and ZIVS added to reversal
 // HUB-751 - ZG2M, ZIGA and ZREB added to reversal on 16Aug19
-IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1', 'ZIGA', 'ZIVS', 'ZG2M', 'ZIGA', 'ZREB') then
+IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1', 'ZIGA', 'ZIVS', 'ZG2M', 'ZIGA', 'ZREB') 
+// HUB-775 and HUB-781 - H=Returns, K=Credit memo request, O=Credit Memo, 6=IC Credit Memo, N=Cancellation
+OR [SC-Invoices Warmup.VBRK_VBTYP] IN ('H','K','O','6','N') then
   [vMultiplier] = -1.00
 ELSE
   [vMultiplier] = 1.00
@@ -193,8 +195,16 @@ END IF
 [Sales Invoice Item]=[SC-Invoices Warmup.VBRP_POSNR]
 [Sales Invoice Key]=[SC-Invoices Warmup.VBRP_VBELN]+''+[SC-Invoices Warmup.VBRP_POSNR]
 [Higher-lev_item]=[SC-Invoices Warmup.VBRP_UEPOS]
+
+// HUB-781 - correction of Quantities
+IF [SC-Invoices Warmup.VBRK_VBTYP] IN ('K','L','O','P') 
+ AND [SC-Invoices Warmup.VBRK_FKART] NOT IN ('ZG2M', 'ZL2M', 'ZRE', 'ZROB') THEN
+ [Invoice Qty]=0
+ELSE
 // HUB-725 - incorrect invoice qty for credit memos
 [Invoice Qty]=FLOAT([SC-Invoices Warmup.VBRP_FKIMG]) * [vMultiplier]
+END IF
+
 [SI Sales UoM]=[SC-Invoices Warmup.VBRP_VRKME]
 [Numerator]=[SC-Invoices Warmup.VBRP_UMVKZ]
 [Denominator]=[SC-Invoices Warmup.VBRP_UMVKN]
@@ -328,7 +338,12 @@ ELSEIF [SC-Invoices Warmup.T001K_WAERS] = 'CHF' THEN
 ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vSalesCurr] THEN
 // Plant has same ex-rate as DC, so we can use that
 // HUB-703 - exchange rate should not be divided by 1
-  [vPlantToHC] = [vExcRatetoHC]
+// HUB-787 - if exchange rate is negative, then it is an inverse rate
+   IF [vExcRatetoHC] > FLOAT(0.00) THEN
+     [vPlantToHC] = [vExcRatetoHC]
+   ELSEIF [vExcRatetoHC] < FLOAT(0.00) THEN
+     [vPlantToHC] = (1/([vExcRatetoHC]*-1))
+   END IF
 ELSEIF [SC-Invoices Warmup.T001K_WAERS] = [vRegCurrency] THEN
 // Triangulate via CHF
 // HUB-724 - incorrect ICOGS for HKD
