@@ -108,7 +108,8 @@ Qty to come from Schedule Line NOT Order
 [Ex Rate RC]=[SC-Orders SL.Ex Rate RC]
 
 // HUB-648 - Credit memo requests
-IF [vOrdQty] > 0.00 or [SC-Orders SL.SO Document Type] IN ('ZG2', 'ZG2M') then
+// HUB-781 - Incorrect Order Intake for ZRE and HUB-775 - ZROB to be treated same as ZRE
+IF [vOrdQty] > 0.00 or [SC-Orders SL.SO Document Type] IN ('ZG2', 'ZG2M', 'ZRE', 'ZROB') then
 [Order Intake DC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake DC],0.00)/[vOrdQty])
 [Order Intake GC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake GC],0.00)/[vOrdQty])
 [Order Intake HC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake HC],0.00)/[vOrdQty])
