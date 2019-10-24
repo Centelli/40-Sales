@@ -1,7 +1,7 @@
 Source Name,Disabled,Processing Groups
 SC-Customer,False,1.2.Dimensions;SC-Customer
 SC-Invoices,False,SC-Invoices;1.4.Invoices
-VBRK_VBRP,False,4.ST_VBRK_VBRP
+VBRK_VBRP,False,4.ST_VBRK_VBRP;1.4.Invoices
 KNA1,False,1.1.Master;2.Customer;3.Staging;4.ST_KNA1
 MARA,False,1.1.Master;2.Material;3.Staging;4.ST_MARA
 KONV,False,1.1.Transaction;2.Pricing;3.Staging;4.ST_KONV
