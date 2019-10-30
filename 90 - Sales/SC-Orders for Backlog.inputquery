@@ -9,5 +9,7 @@ SELECT [VBKD_HEAD.VBKD_FKDAT] from [VBKD-For Backlog] 'VBKD_HEAD' ON [VBKD_HEAD.
 UNION
 SELECT [VBUP-Deliveries.VBUP_VBELN], [VBUP-Deliveries.VBUP_POSNR], [VBUP-Deliveries.VBFA_VBELV], [VBUP-Deliveries.VBFA_POSNV], [VBUP-Deliveries.VBUP_GBSTA], [VBUP-Deliveries.VBUP_ABSTA], [VBUP-Deliveries.VBUP_LFSTA], [VBUP-Deliveries.VBUP_LFGSA], [VBUP-Deliveries.VBUP_FKSTA], [VBUP-Deliveries.VBUP_FKSAA], [VBUP-Deliveries.VBFA_VBTYP_N], [VBUP-Deliveries.VBUK_SPSTG], [VBUP-Deliveries.VBKD_FKDAT], 'Delivery' FROM [VBUP-Deliveries] 
 // where [VBUP-Deliveries.VBFA_VBELV] = '0010425599' 
+// HUB-782
+ where [VBUP-Deliveries.VBFA_PLMIN] <> ''
 INNER JOIN
 SELECT [DelFilter.VBUP_GBSTA], null FROM [VBUP-Orders] 'DelFilter' on  [VBUP-Deliveries.VBFA_VBELV] = [DelFilter.VBUP_VBELN] and [VBUP-Deliveries.VBFA_POSNV] = [DelFilter.VBUP_POSNR] and [DelFilter.VBUP_GBSTA] = 'C'

@@ -1,1 +1,3 @@
 SELECT [SC-Orders for Backlog.VBUP_VBELN], [SC-Orders for Backlog.VBUP_POSNR], [SC-Orders for Backlog.VBUP_GBSTA], [SC-Orders for Backlog.VBUP_ABSTA], [SC-Orders for Backlog.VBUP_LFSTA], [SC-Orders for Backlog.VBUP_LFGSA], [SC-Orders for Backlog.VBUP_FKSTA], [SC-Orders for Backlog.VBUP_FKSAA], [SC-Orders for Backlog.VBFA_VBTYP_V], [SC-Orders for Backlog.VBUK_SPSTG], [SC-Orders for Backlog.Delivery Number], [SC-Orders for Backlog.Delivery Item], [SC-Orders for Backlog.Order Source], [SC-Orders for Backlog.VBKD_FKDAT] FROM [SC-Orders for Backlog]
+// HUB-782
+order by [SC-Orders for Backlog.VBUP_VBELN], [SC-Orders for Backlog.VBUP_POSNR]
