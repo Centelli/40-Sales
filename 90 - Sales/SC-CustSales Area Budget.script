@@ -1,5 +1,6 @@
 DIM [vCustomerKey] as VARCHAR(20)
 
+print [SQL Sales Budget Forecast.customer_code]+':'+[SQL Sales Budget Forecast.sales_rep_code]+':'+[SQL Sales Budget Forecast.sales_office_key]+':'+[tbl_dim_sales_region.sales_region_code]
 
 IF [SQL Sales Budget Forecast.customer_type] = 'new biz' THEN
 [vCustomerKey]=[SQL Sales Budget Forecast.customer_code]+''+[SQL Sales Budget Forecast.sales_rep_code]
@@ -10,11 +11,16 @@ END IF
 [Customer Key]=[vCustomerKey]
 
 IF [SQL Sales Budget Forecast.comp_type] = 'SAP' THEN
-  [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.sales_org_key]
+// HUB-785 - Sales org. 6100 has multiple sales offices belonging to different regions.
+// Go down to sales office level for Sales Org 6100 for new biz customers.
+  IF [SQL Sales Budget Forecast.sales_org_key] = '6100' THEN
+      [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.sales_office_key] 
+  ELSE
+      [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.sales_org_key]
+  END IF
 ELSE
   [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.div_comp_code]
 END IF
-
 [Outside Sales Key]=[SQL Sales Budget Forecast.sales_rep_code]
 
 [Source]='New Biz'
