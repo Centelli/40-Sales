@@ -4,5 +4,5 @@ Admin,X,,X,X,X,,,,,X
 Analysts,X,,X,X,X,,,,,X
 User,,,,,X,,,,,X
 CATS,,,,,X,,,,,
-SALES,,,,,X,,,,,
-Edit Dashboard,X,,X,,,,,,,
+SALES,,,,X,X,,,,,X
+Price Index,,,,,X,,,,,
