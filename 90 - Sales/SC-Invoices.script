@@ -71,6 +71,7 @@ End function
 [vSalesCurr] = [SC-Invoices Warmup.VBRK_WAERK]
 [vSalesNet] = [CheckValue]([SC-Invoices Warmup.VBRP_NETWR])
 
+
 // HUB-728 - Set values to zero for Brazil SO order type 'ZFOK','ZROK','ZRON' - assumption that there are < 10,000 order line items for these orders EVER
 Dim [mBR_FOC] as Map(Varchar(10),Varchar(5)) = SELECT [VBAK_VBAP_VBEP For Backlog.VBAP_VBELN], [VBAK_VBAP_VBEP For Backlog.VBAK_AUART] FROM [VBAK_VBAP_VBEP For Backlog] WHERE [VBAK_VBAP_VBEP For Backlog.VBAK_AUART] IN ('ZFOK','ZROK','ZRON')
 
@@ -113,6 +114,12 @@ END IF
 // PRINT '1: Basics, starting with vSalesNet variable calc'
 
 [vSalesNet] = [vSalesNet] * [vMultiplier]
+
+// HUB-772 - Set sales net zero for ZFCC invoices
+IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZFCC') THEN
+  print 'HUB-772: Setting vSalesNet to Zero'
+  [vSalesNet] = 0
+END IF
 
 Dim [mRegCurr] as MAP(Varchar(22),Varchar(4)) = SELECT [Level(Customer Sales Area.Customer Sales Area).CustArea Key],[Level(Customer Sales Area.Customer Sales Area).RC Currency Key] FROM [Level(Customer Sales Area.Customer Sales Area)] WHERE [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] is not null
 
@@ -317,7 +324,7 @@ END IF
 [Ex Rate GC] = [v_rate_home_to_chf]
 [vSalesNetGC] = IFNULL([vSalesNetHC],0.00)*[v_rate_home_to_chf]
 //[vSalesCostGC] = IFNULL([vSalesCostHC],0.00)*[v_rate_home_to_chf]
-  
+
 [Net Sales GC] = [vSalesNetGC]
 //[Sales COGS GC] = [vSalesCostGC]
 
