@@ -134,6 +134,6 @@ Use Values from Fact
 [Order Intake RC]=[Grain(SC-Orders SL History).# Order Intake RC]
 [SO Item Cost RC]=[Grain(SC-Orders SL History).# SO Item Cost RC]
 
-WRITERECORD
-
 /*END Set old record in fact table to inactive*/
+
+WRITERECORD
