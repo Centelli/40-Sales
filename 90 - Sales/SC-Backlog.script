@@ -78,25 +78,28 @@ print 'Check if there is order quantity on the Schedule line: ' + [VBEP.VBEP_WME
   [vOrderBacklogDC] = ifnull(float([CheckValue]([VBEP.VBAP_NETWR])),0.00) * ( [vOrderQty] / [vVBAPQty])
 // END IF
 
-IF [VBEP.VBUK_SPSTG] = 'C' THEN
-  IF [VBEP.VBEP_ETENR] IS NOT NULL THEN
+//IF [VBEP.VBUK_SPSTG] = 'C' THEN
+//HUB-791
+print 'HUB-791:VBUK-CMGST:' + [VBEP.VBUK_CMGST] + ':ETENR:' + [VBEP.VBEP_ETENR] + ':Sum of BMENG:' + sum([OrderItem.VBEP_BMENG]) + ':KWMENG:'+ [VBEP.VBAP_KWMENG]
+IF [VBEP.VBUK_CMGST] = 'B' THEN
+  IF [VBEP.VBEP_ETENR] IS NOT NULL and ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00) <> 0.00 THEN
     [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBEP_WMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
   ELSEIF [VBEP.VBAK_AUART] = 'ZL2M' THEN
-  [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
+    [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
   ELSEIF [VBEP.VBAK_AUART] = 'ZG2M' THEN
-  [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00))) * -1
+    [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00))) * -1
   ELSE
     [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))    
   END IF 
-  [vInvoiceBacklogDC] = ifnull(float([CheckValue]([VBEP.VBAP_NETWR])),0.00) * ( [vSchedQty] / [vVBAPQty])
 ELSE
-  IF [VBEP.VBEP_ETENR] IS NOT NULL THEN
-    [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBEP_BMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
+  IF [VBEP.VBEP_ETENR] IS NOT NULL and sum([OrderItem.VBEP_BMENG]) <> 0.00 THEN
+    [vSchedQty] = ifnull([VBEP.VBEP_BMENG],0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
   ELSE
-    [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBEP_LMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
+    [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
   END IF 
-  [vInvoiceBacklogDC] = ifnull(float([CheckValue]([VBEP.VBAP_NETWR])),0.00) * ( [vSchedQty] / [vVBAPQty])
 END IF
+[vInvoiceBacklogDC] = ifnull(float([CheckValue]([VBEP.VBAP_NETWR])),0.00) * ( [vSchedQty] / [vVBAPQty])
+
 
 // HUB-728 - Order net set to zero for Stratos
 IF [VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON') then
@@ -308,7 +311,9 @@ PRINT 'Sch Line:' + [VBEP.VBEP_ETENR] + ' :Sch Qty:' + [vSchedQty] + ' :Sch DC:'
 // IF [vInvoiceBacklogDC] <> 0.00 THEN 
 IF 1 = 1 THEN 
    IF [vSchedQty] IS NULL THEN 
-      [vSchedQty] = 0.0
+//      [vSchedQty] = 0.0
+// HUB-791
+      [vSchedQty] = [vOrderQty] 
    END IF
    IF [vPrevKey] IS NOT NULL THEN 
       PRINT '[vPrevKey] is not null'
