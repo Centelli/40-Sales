@@ -1,4 +1,4 @@
-SELECT [Grain(SC-Invoices).Customer Key], [Grain(SC-Invoices).# SI Reference SO Key], [Grain(SC-Invoices).Bill Type Key], sum([Grain(SC-Invoices).Invoice Qty]) FROM [Grain(SC-Invoices)] where ( [Grain(SC-Invoices).Bill Type Key] = 'ZF2' or ( [Grain(SC-Invoices).Bill Type Key] = 'NA' AND [Grain(SC-Invoices).# Source] = 'M2') )  
+SELECT [Grain(SC-Invoices).Customer Key], [Grain(SC-Invoices).# SI Reference SO Key], sum([Grain(SC-Invoices).Invoice Qty]) FROM [Grain(SC-Invoices)] where ( ([Grain(SC-Invoices).Bill Type Key] = 'ZS1' or [Grain(SC-Invoices).Bill Type Key] = 'ZF2') or ( [Grain(SC-Invoices).Bill Type Key] = 'NA' AND [Grain(SC-Invoices).# Source] = 'M2') )  
 // and [Grain(SC-Invoices).# SI Reference SO Key] = '0010513151000010'
 // and [Grain(SC-Invoices).Sales Invoice Number] = '1200070075'
 INNER JOIN

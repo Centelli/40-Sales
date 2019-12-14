@@ -19,7 +19,7 @@ else
   [SI Reference SO Key] = [Grain(SC-Invoices).# SI Reference SO Key]
 end if
 
-[Bill Type Key] = [Grain(SC-Invoices).Bill Type Key]
+//[Bill Type Key] = [Grain(SC-Invoices).Bill Type Key]
 [Customer Key] = [Grain(SC-Invoices).Customer Key]
 [Customer Type] = [Level(Customer.Customer).Customer Type]
 [Invoice Qty] = sum([Grain(SC-Invoices).Invoice Qty])

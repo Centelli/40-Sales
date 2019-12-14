@@ -12,6 +12,7 @@ End function
 
 PRINT 'Processing New Record'
 PRINT [VBEP.VBAP_VBELN] + ':' + [VBEP.VBAP_POSNR] + ':' + [VBEP.VBEP_ETENR] + ':' + [Invoice.SI Reference SO Key] + ':' + [VBEP.VBUP_GBSTA] 
+PRINT 'Order: ' + [VBEP.VBAP_VBELN] + ':' + [VBEP.VBAP_POSNR] + 'Schedule Line Count:' + count([OrderItem.VBEP_ETENR])
 // PRINT 'Order: ' + [Grain(SC-Orders SL Update).Sales Order Number] + ' Item: ' + [Grain(SC-Orders SL Update).Sales Order Item] + ' ScL: ' + [Grain(SC-Orders SL Update).Sales Order ScL Line]
 // PRINT 'Order: ' + [Grain(SC-Orders SL Update).# RecType]
 
@@ -108,7 +109,7 @@ IF [VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON') then
 END IF
 
 print 'VBAP_KWMENG' + [vVBAPQty] + ':' + [VBEP.VBAP_KWMENG] + ':SchedQty:' + [vSchedQty] + ':' + [VBEP.VBEP_BMENG] + ':InvoiceBacklogDC:' + [vInvoiceBacklogDC] + ':' + [VBEP.VBAP_NETWR] + ':Order Qty:' + [vOrderQty] + ':vOrderBacklogDC:' + [vOrderBacklogDC]
-PRINT 'Invoice Qty ' + SUM([Invoice.Invoice Qty])
+PRINT 'Invoice Qty ' + [Invoice.Invoice Qty]
 
 // [Sales Order Number] = [Grain(SC-Orders SL Update).Sales Order Number]
 [Sales Order Number]=[VBEP.VBAP_VBELN]
@@ -401,9 +402,9 @@ IF 1 = 1 THEN
          PRINT '[vPrevKey] is not equal to [vOrdKey]'
          // For schedule agreements, all schedule lines are backlog
          IF [VBEP.VBAK_AUART] <> 'ZLZ' THEN
-           [vInvRemain] = SUM([Invoice.Invoice Qty])
-           [vInvRemainOrder] = SUM([Invoice.Invoice Qty])
-           [vInvQty] = SUM([Invoice.Invoice Qty])
+           [vInvRemain] = [Invoice.Invoice Qty]
+           [vInvRemainOrder] = [Invoice.Invoice Qty]
+           [vInvQty] = [Invoice.Invoice Qty]
          ELSE
            print 'Schedule agreement'
            [vInvRemain] = 0.00
@@ -487,9 +488,9 @@ IF 1 = 1 THEN
       PRINT 'vKey:' + [vOrdKey]
      // For schedule agreements, all schedule lines are backlog
      IF [VBEP.VBAK_AUART] <> 'ZLZ' THEN
-       [vInvRemain] = SUM([Invoice.Invoice Qty])
-       [vInvRemainOrder] = SUM([Invoice.Invoice Qty])
-       [vInvQty] = SUM([Invoice.Invoice Qty])
+       [vInvRemain] = [Invoice.Invoice Qty]
+       [vInvRemainOrder] = [Invoice.Invoice Qty]
+       [vInvQty] = [Invoice.Invoice Qty]
      ELSE
        print 'Schedule agreement'
        [vInvRemain] = 0.00
@@ -563,6 +564,7 @@ IF 1 = 1 THEN
       END IF
    END IF
    [vPrevKey] = [vOrdKey]
+PRINT 'vWriteRecord:'+[vWriteRecord]+ ' Order:' + [VBEP.VBAP_VBELN] + ':' + [VBEP.VBAP_POSNR] + ':' + [VBEP.VBEP_ETENR]
    IF [vWriteRecord] = 'X' and [Level(Customer.Customer).Customer Type] = 'Third' THEN 
 // HUB-724 - 09Jul19 - Backlog only for ScL Type (VBEP-ETART) = 1
      IF [VBEP.VBAK_AUART] = 'ZLZ' THEN
