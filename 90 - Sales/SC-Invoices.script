@@ -40,6 +40,10 @@ DIM [vDebugString] as VARCHAR(100)
 DIM [vInvCategory] as VARCHAR(4)
 DIM [vPlantToHC] as float
 
+//HUB-795 - multiplier for ICOGS
+Dim [vICOGSMultiplier] as FLOAT
+
+
 // Initialise COGS/ICOGS variables
 [vCOGSHC] = 0
 [vICOGSHC] = 0
@@ -103,7 +107,7 @@ END IF
 
 // HUB-751 - ZIGA and ZIVS added to reversal
 // HUB-751 - ZG2M, ZIGA and ZREB added to reversal on 16Aug19
-IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1', 'ZIGA', 'ZIVS', 'ZG2M', 'ZIGA', 'ZREB') 
+IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1', 'ZIGA', 'ZIVS', 'ZG2M', 'ZIGA', 'ZREB', 'ZG2P') 
 // HUB-775 and HUB-781 - H=Returns, K=Credit memo request, O=Credit Memo, 6=IC Credit Memo, N=Cancellation
 OR [SC-Invoices Warmup.VBRK_VBTYP] IN ('H','K','O','6','N') then
   [vMultiplier] = -1.00
@@ -669,8 +673,16 @@ WRITERECORD
 [Sales Net] = 0.00
 [Invoice Qty] = 0.00
 
-[Sales ICOGS HC] = IFNULL([vICOGSHC], 0.00) * [vMultiplier]
-[vSalesIcogsGC]= IFNULL([vICOGSHC], 0.00)*[v_rate_home_to_chf] * [vMultiplier]
+//HUB-795 ICOGS sign determined by COGS sign
+IF ([vSalesCostGC] < 0 AND [vICOGSHC] < 0) OR ([vSalesCostGC] >= 0 AND [vICOGSHC] >= 0) THEN
+[vICOGSMultiplier] = 1.00
+ELSE 
+[vICOGSMultiplier] = -1.00
+END IF
+
+
+[Sales ICOGS HC] = IFNULL([vICOGSHC], 0.00) * [vICOGSMultiplier]
+[vSalesIcogsGC]= IFNULL([vICOGSHC], 0.00)*[v_rate_home_to_chf] * [vICOGSMultiplier]
 [Sales ICOGS GC] = [vSalesIcogsGC]
 [Sales ICOGS RC] = [vSalesIcogsGC]/[v_rate_reg_to_chf]
 [Security Key] = 'Y'+[vSecurityKey]
