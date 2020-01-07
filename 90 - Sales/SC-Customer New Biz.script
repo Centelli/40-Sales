@@ -1,25 +1,19 @@
-[Customer Key]=[SQL Customer New Biz.customer_code]+''+[SQL Sales Budget Forecast.sales_rep_code]
-
-[Customer]=[SQL Customer New Biz.customer_name1]
-[Customer Name 2]=[SQL Customer New Biz.customer_longname]
-
+[Customer Key]=[SQL Customer New Biz.Customer_Key]+''+[SQL Sales Budget Forecast.Outside_Sales_Key]
+[Customer]=[SQL Customer New Biz.Customer_Name]
+[Customer Name 2]=[SQL Customer New Biz.Customer_Name_1]
 //[Account group]=
-[Market Segment Key]=[SQL Customer New Biz.market_sub_segment_code]
+//[Customer Country]=
+[Market Segment Key]=[SQL Customer New Biz.Market_Segment_Key]
 [Market]=[tbl_dim_market.market_name]
 [Market Key]=[tbl_dim_market.market_code]
 [Market Segment]=[tbl_dim_market.market_segment_name]
-[ConsCustomer]=[SQL Customer New Biz.customer_group_name]
-[Customer Group Parent]=[SQL Customer New Biz.customer_group_name]
-[Customer / Customer Group]=[SQL Customer New Biz.customer_group_name]
-[Customer Group]=[SQL Customer New Biz.customer_group_name]
-
-//[Customer Country]=
-
-
+[ConsCustomer]=[SQL Customer New Biz.Customer_Group]
+[Customer Group Parent]=[SQL Customer New Biz.Customer_Group]
+[Customer / Customer Group]=[SQL Customer New Biz.Customer_Group]
+[Customer Group]=[SQL Customer New Biz.Customer_Group]
 [Market Role] = [tbl_dim_market_role.market_role_name]
 [Sales Partner]=[tbl_dim_market_role.sales_partner_name]
 [Market Role Group]=[tbl_dim_market_role.market_role_group_name]
-
 [Source]='New Biz'
 [Customer Type]='Third'
 WRITERECORD

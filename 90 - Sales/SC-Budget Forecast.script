@@ -4,55 +4,49 @@ DIM [vCustomerKey] as VARCHAR(20)
 
 // Only take records which have a budget value. Checking using month code 
 // as it is used in format function which fails if month is null - double safety
-if [SQL Sales Budget Forecast.month_code] is not null then
+IF [SQL Sales Budget Forecast.Month_Key] is not null THEN
 
-[vYearMonth] = [SQL Sales Budget Forecast.year_code] + '' + format([SQL Sales Budget Forecast.month_code], '00')
+[vYearMonth] = [SQL Sales Budget Forecast.Year_Key] + '' + format([SQL Sales Budget Forecast.Month_Key], '00')
 
-IF [SQL Sales Budget Forecast.version] = 'BUD' and [SQL Sales Budget Forecast.year_code] = 2019 and  [SQL Sales Budget Forecast.sales_office_key] = 6150 then
+IF [SQL Sales Budget Forecast.Version_Key] = 'BUD' and [SQL Sales Budget Forecast.Year_Key] = 2019 and  [SQL Sales Budget Forecast.Sales_Office_Key] = 6150 THEN
 
-PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ':' + [SQL Sales Budget Forecast.year_code] + ':' + format([SQL Sales Budget Forecast.month_code], '00') +  [SQL Sales Budget Forecast.version] + ':' + [SQL Sales Budget Forecast.div_comp_code] +':'+ [SQL Sales Budget Forecast.sales_rep_code] + ':' + [SQL Sales Budget Forecast.customer_code] + ':' + [SQL Sales Budget Forecast.division_code] + ':' + [SQL Sales Budget Forecast.value] + ':' + ([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth])) + ':' + [RegRates.Exchange Rate] + ':' + [SQL Sales Budget Forecast.sales_office_key]
+PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ':' + [SQL Sales Budget Forecast.Year_Key] + ':' + format([SQL Sales Budget Forecast.Month_Key], '00') +  [SQL Sales Budget Forecast.Version_Key] + ':' + [SQL Sales Budget Forecast.Comp_Key] +':'+ [SQL Sales Budget Forecast.Outside_Sales_Key] + ':' + [SQL Sales Budget Forecast.Customer_Key] + ':' + [SQL Sales Budget Forecast.Business_Unit_Key] + ':' + [SQL Sales Budget Forecast.Value] + ':' + ([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth])) + ':' + [RegRates.Exchange Rate] + ':' + [SQL Sales Budget Forecast.Sales_Office_Key]
 
-end if
+END IF
 
 [Analysis Date]=[SQL Workdays.day_code]
-[Sales Org Key]=[SQL Sales Budget Forecast.sales_org_key] 
+[Sales Org Key]=[SQL Sales Budget Forecast.Sales_Org_Key] 
 
-IF [SQL Sales Budget Forecast.customer_type] = 'new biz' THEN
-[vCustomerKey]=[SQL Sales Budget Forecast.customer_code]+''+[SQL Sales Budget Forecast.sales_rep_code]
+IF [SQL Sales Budget Forecast.Customer_Type] = 'new biz' THEN
+[vCustomerKey]=[SQL Sales Budget Forecast.Customer_Key]+''+[SQL Sales Budget Forecast.Outside_Sales_Key]
 ELSE
-[vCustomerKey]=[SQL Sales Budget Forecast.customer_code]
+[vCustomerKey]=[SQL Sales Budget Forecast.Customer_Key]
 END IF
 
 [Customer Key]=[vCustomerKey]
+[Comp Code Key]=[SQL Sales Budget Forecast.Comp_Key]
 
-IF [SQL Sales Budget Forecast.comp_type] = 'SAP' THEN
-  [Comp Code Key]=[SQL Sales Budget Forecast.sap_comp_code]
 // HUB-785 - Sales org. 6100 has multiple sales offices belonging to different regions.
 // Go down to sales office level for Sales Org 6100 for new biz customers.
-  IF [SQL Sales Budget Forecast.sales_org_key] = '6100' and [SQL Sales Budget Forecast.customer_type] = 'new biz' THEN
-    [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.sales_office_key]
+  IF [SQL Sales Budget Forecast.Sales_Org_Key] = '6100' and [SQL Sales Budget Forecast.Customer_Type] = 'new biz' THEN
+    [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.Sales_Office_Key]
   ELSE
-    [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.sales_org_key]
+    [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.Sales_Org_Key]
   END IF
 // HUB-633 / HUB-664: New biz customers not visible for users with company based security
-  [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.sales_org_key])) + [SQL Sales Budget Forecast.sales_org_key] + '' + [SQL Sales Budget Forecast.division_code] + '' + [vCustomerKey]
-ELSE
-  [Comp Code Key]=[SQL Sales Budget Forecast.div_comp_code]
-  [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.div_comp_code]
-// HUB-633 / HUB-664: New biz customers not visible for users with company based security
-  [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.sales_org_key])) + [SQL Sales Budget Forecast.sales_org_key] + '' + [SQL Sales Budget Forecast.division_code] + '' + [vCustomerKey] 
-END IF
+  [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Org_Key])) + [SQL Sales Budget Forecast.Sales_Org_Key] + '' + [SQL Sales Budget Forecast.Business_Unit_Key] + '' + [vCustomerKey]
 
-[Division Key]=[SQL Sales Budget Forecast.division_code]
-[In Sales Key]=[SQL Sales Budget Forecast.sales_rep_code]
-[Currency Key]=[SQL Sales Budget Forecast.curr_code]
-[Customer Type]=[SQL Sales Budget Forecast.customer_type]
-[Rate to CHF]=[SQL Sales Budget Forecast.rate_to_chf]
 
-/* PRINT [SQL Sales Budget Forecast.customer_code]
-PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ' - ' + [SQL Sales Budget Forecast.year_code] + ':' + format([SQL Sales Budget Forecast.month_code], '00')
+[Division Key]=[SQL Sales Budget Forecast.Business_Unit_Key]
+[In Sales Key]=[SQL Sales Budget Forecast.Outside_Sales_Key]
+[Currency Key]=[SQL Sales Budget Forecast.Currency_Key]
+[Customer Type]=[SQL Sales Budget Forecast.Customer_Type]
+[Rate to CHF]=[SQL Sales Budget Forecast.Rate_to_CHF]
+
+/* PRINT [SQL Sales Budget Forecast.Customer_Key]
+PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ' - ' + [SQL Sales Budget Forecast.Year_Key] + ':' + format([SQL Sales Budget Forecast.Month_Key], '00')
 PRINT 'YearMonth:'+[vYearMonth]+' workCount:'+[mWorkYearMonth]([vYearMonth])
-PRINT [SQL Sales Budget Forecast.value] */
+PRINT [SQL Sales Budget Forecast.Value] */
 
 [Budget HC]=0.00
 [Budget GC]=0.00
@@ -62,43 +56,43 @@ PRINT [SQL Sales Budget Forecast.value] */
 [Forecast RC] = 0.00
 
 // HUB-642 - Missing budget when Regional Currency Code = 'CHF'
-IF [RegRates.Exchange Rate] is not null and [tbl_dim_sales_region.regional_currency_code] <> 'CHF' then
+IF [RegRates.Exchange Rate] is not null and [tbl_dim_sales_region.regional_currency_code] <> 'CHF' THEN
   [Currency Key RC] = [tbl_dim_sales_region.regional_currency_code]
   [Ex Rate RC] = [RegRates.Exchange Rate]
-  IF [SQL Sales Budget Forecast.version] = 'BUD' AND [SQL Workdays.sales_max_count] = 1 THEN
-    [Budget HC]=[SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth])
-    [Budget GC]=([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf]
-    [Budget RC]=(([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf])/[RegRates.Exchange Rate]
-  ELSEIF [SQL Sales Budget Forecast.version] = 'FC' AND [SQL Workdays.sales_max_count] = 1 THEN
-    [Forecast HC]=[SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth])
-    [Forecast GC]=([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf]
-    [Forecast RC]=(([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf]) /[RegRates.Exchange Rate]
+  IF [SQL Sales Budget Forecast.Version_Key] = 'BUD' AND [SQL Workdays.sales_max_count] = 1 THEN
+    [Budget HC]=[SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth])
+    [Budget GC]=([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF]
+    [Budget RC]=(([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF])/[RegRates.Exchange Rate]
+  ELSEIF [SQL Sales Budget Forecast.Version_Key] = 'FC' AND [SQL Workdays.sales_max_count] = 1 THEN
+    [Forecast HC]=[SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth])
+    [Forecast GC]=([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF]
+    [Forecast RC]=(([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF]) /[RegRates.Exchange Rate]
   END IF
-ELSEif [RegRates.Exchange Rate] is null and [tbl_dim_sales_region.regional_currency_code] = 'CHF' then
-  print 'Processing regional currency code = CHF'
+ELSEIF [RegRates.Exchange Rate] is null and [tbl_dim_sales_region.regional_currency_code] = 'CHF' THEN
+  PRINT 'Processing regional currency code = CHF'
   [Currency Key RC] = [tbl_dim_sales_region.regional_currency_code]
   [Ex Rate RC] = 1
-  IF [SQL Sales Budget Forecast.version] = 'BUD' AND [SQL Workdays.sales_max_count] = 1 THEN
-    [Budget HC]=[SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth])
-    [Budget GC]=([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf]
-    [Budget RC]=(([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf])
-  ELSEIF [SQL Sales Budget Forecast.version] = 'FC' AND [SQL Workdays.sales_max_count] = 1 THEN
-    [Forecast HC]=[SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth])
-    [Forecast GC]=([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf]
-    [Forecast RC]=(([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf]) 
+  IF [SQL Sales Budget Forecast.Version_Key] = 'BUD' AND [SQL Workdays.sales_max_count] = 1 THEN
+    [Budget HC]=[SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth])
+    [Budget GC]=([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF]
+    [Budget RC]=(([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF])
+  ELSEIF [SQL Sales Budget Forecast.Version_Key] = 'FC' AND [SQL Workdays.sales_max_count] = 1 THEN
+    [Forecast HC]=[SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth])
+    [Forecast GC]=([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF]
+    [Forecast RC]=(([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF]) 
   END IF
-else
-print 'Error converting to RC' + ':' + [SQL Sales Budget Forecast.sales_office_key] + ':' + [tbl_dim_sales_region.regional_currency_code] + ':' + [SQL Workdays.day_key]
-  IF [SQL Sales Budget Forecast.version] = 'BUD' AND [SQL Workdays.sales_max_count] = 1 THEN
-    [Budget HC]=[SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth])
-    [Budget GC]=([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf]
-  ELSEIF [SQL Sales Budget Forecast.version] = 'FC' AND [SQL Workdays.sales_max_count] = 1 THEN
-    [Forecast HC]=[SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth])
-    [Forecast GC]=([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.rate_to_chf]
+ELSE
+PRINT 'Error converting to RC' + ':' + [SQL Sales Budget Forecast.Sales_Office_Key] + ':' + [tbl_dim_sales_region.regional_currency_code] + ':' + [SQL Workdays.day_key]
+  IF [SQL Sales Budget Forecast.Version_Key] = 'BUD' AND [SQL Workdays.sales_max_count] = 1 THEN
+    [Budget HC]=[SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth])
+    [Budget GC]=([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF]
+  ELSEIF [SQL Sales Budget Forecast.Version_Key] = 'FC' AND [SQL Workdays.sales_max_count] = 1 THEN
+    [Forecast HC]=[SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth])
+    [Forecast GC]=([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth]))*[SQL Sales Budget Forecast.Rate_to_CHF]
   END IF
 END IF
 WRITERECORD
-else
-print 'Error in month code'
-PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ':' + [SQL Sales Budget Forecast.year_code] + ':' + format([SQL Sales Budget Forecast.month_code], '00') +  [SQL Sales Budget Forecast.version] + ':' + [SQL Sales Budget Forecast.div_comp_code] +':'+ [SQL Sales Budget Forecast.sales_rep_code] + ':' + [SQL Sales Budget Forecast.customer_code] + ':' + [SQL Sales Budget Forecast.division_code] + ':' + [SQL Sales Budget Forecast.value] + ':' + ([SQL Sales Budget Forecast.value]/[mWorkYearMonth]([vYearMonth])) + ':' + [RegRates.Exchange Rate] + ':' + [SQL Sales Budget Forecast.sales_office_key]
-end if
+ELSE
+PRINT 'Error in month code'
+PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ':' + [SQL Sales Budget Forecast.Year_Key] + ':' + format([SQL Sales Budget Forecast.Month_Key], '00') +  [SQL Sales Budget Forecast.Version_Key] + ':' + [SQL Sales Budget Forecast.Comp_Key] +':'+ [SQL Sales Budget Forecast.Outside_Sales_Key] + ':' + [SQL Sales Budget Forecast.Customer_Key] + ':' + [SQL Sales Budget Forecast.Business_Unit_Key] + ':' + [SQL Sales Budget Forecast.Value] + ':' + ([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth])) + ':' + [RegRates.Exchange Rate] + ':' + [SQL Sales Budget Forecast.Sales_Office_Key]
+END IF
