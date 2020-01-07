@@ -22,4 +22,11 @@
 [Solution Key]=[Structure_Dimension_Item.solution code]
 [Solution]=[Structure_Dimension_Item.solution name]
 [Source]='SAP ECC'
+
+//WEEE Changes
+IF [AUSP.AUSP_OBJEK] = [MARA.MARA_MATNR] THEN
+[Item WEEE Relevant] = 'Yes'
+ELSE
+[Item WEEE Relevant] = 'No'
+END IF
 WRITERECORD

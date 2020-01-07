@@ -8,4 +8,8 @@
 [Geographical Region Key] = [tbl_dim_country.region_key]
 [Geographical Region] = [tbl_dim_country.region_name]
 [Source] = 'I2'
+//WEEE Changes
+[LPP Name]=[tbl_weee_country_mapping.LPP name]
+[LPP ID]=[tbl_weee_country_mapping.LPP ID]
+
 WRITERECORD

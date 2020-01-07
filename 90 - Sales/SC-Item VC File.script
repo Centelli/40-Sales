@@ -21,4 +21,11 @@
 [Solution Key]=[Structure_Dimension_Item.solution code]
 [Solution]=[Structure_Dimension_Item.solution name]
 [Source]='SAP ECC'
+
+IF [AUSP.AUSP_OBJEK] = [tbl_vc_item.MATNR] THEN
+[Item WEEE Relevant] = 'Yes'
+ELSE
+[Item WEEE Relevant] = 'No'
+END IF
+
 WRITERECORD

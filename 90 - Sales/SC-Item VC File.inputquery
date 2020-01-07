@@ -7,3 +7,6 @@ INNER JOIN
 SELECT [Ext Material Group.Ext Mat Group Key], [Ext Material Group.Ext Mat Group] FROM [Ext Material Group] ON [Ext Material Group.Ext Mat Group Key] = [MARA.MARA_EXTWG]
 LEFT OUTER JOIN 
 SELECT [Structure_Dimension_Item.item group code], [Structure_Dimension_Item.item group name], [Structure_Dimension_Item.product group code], [Structure_Dimension_Item.product group name], [Structure_Dimension_Item.product unit code], [Structure_Dimension_Item.product unit name], [Structure_Dimension_Item.product division code], [Structure_Dimension_Item.product division name], [Structure_Dimension_Item.product segment code], [Structure_Dimension_Item.product segment name], [Structure_Dimension_Item.solution code], [Structure_Dimension_Item.solution name] FROM [Structure_Dimension_Item] ON [Structure_Dimension_Item.item group code] = [tbl_vc_item.EXTWG]
+LEFT OUTER JOIN 
+SELECT [AUSP.AUSP_OBJEK], [AUSP.AUSP_ATINN], [AUSP.AUSP_ATZHL], [AUSP.AUSP_ATWRT], [AUSP.AUSP_ATFLV], [AUSP.AUSP_KLART], [AUSP.AUSP_ATFLB] FROM [AUSP]
+ON [AUSP.AUSP_OBJEK] = [tbl_vc_item.MATNR]
