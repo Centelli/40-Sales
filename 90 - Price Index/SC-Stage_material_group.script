@@ -1,0 +1,12 @@
+[material_group_key]=[material_group.material_group_key]
+[company_code]=[material_group.company_code]
+[material_group_code]=[material_group.material_group_code]
+[material_group_name]=[material_group.material_group_name]
+[material_group_name1]=[material_group.material_group_name1]
+[material_sub_category_key]=[material_group.material_sub_category_key]
+[material_category_type_key]=[material_group.material_category_type_key]
+[member_type]=[material_group.member_type]
+[active]=[material_group.active]
+[AUDIT_USER]=[material_group.AUDIT_USER]
+[AUDIT_TIME]=[material_group.AUDIT_TIME]
+WRITERECORD

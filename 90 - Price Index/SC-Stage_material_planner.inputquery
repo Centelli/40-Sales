@@ -1,0 +1,4 @@
+SELECT [T024.EKGRP], [T024.EKNAM] FROM [T024]
+INNER JOIN
+SELECT DISTINCT [SC-Stage_material_plant.material_planner_code] FROM [SC-Stage_material_plant]
+ON [T024.EKGRP]=[SC-Stage_material_plant.material_planner_code]

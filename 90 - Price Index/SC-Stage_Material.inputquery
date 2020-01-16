@@ -1,0 +1,168 @@
+SELECT [MARA_MAKT.MATNR]
+	,[MARA_MAKT.ERSDA]
+	,[MARA_MAKT.ERNAM]
+	,[MARA_MAKT.LAEDA]
+	,[MARA_MAKT.AENAM]
+	,[MARA_MAKT.MTART]
+	,[MARA_MAKT.MATKL]
+	,[MARA_MAKT.MEINS]
+	,[MARA_MAKT.BSTME]
+	,[MARA_MAKT.LABOR]
+	,[MARA_MAKT.EKWSL]
+	,[MARA_MAKT.BRGEW]
+	,[MARA_MAKT.NTGEW]
+	,[MARA_MAKT.GEWEI]
+	,[MARA_MAKT.VOLUM]
+	,[MARA_MAKT.SPART]
+	,[MARA_MAKT.EAN11]
+	,[MARA_MAKT.NUMTP]
+	,[MARA_MAKT.EXTWG]
+	,[MARA_MAKT.MSTAE]
+	,[MARA_MAKT.ZZ_VCREL]
+	,[MARA_MAKT.ZZPRCTR]
+	,[MARA_MAKT.MAKTX]
+	,[MARA_MAKT.MAKTG]
+
+FROM [MARA_MAKT]
+INNER JOIN
+SELECT DISTINCT [SC-PriceIndex_Fact2.material_code]
+FROM [SC-PriceIndex_Fact2]
+ON SUBSTRING([MARA_MAKT.MATNR],10,18)=[SC-PriceIndex_Fact2.material_code]
+LEFT OUTER JOIN
+SELECT distinct [map_material_sub_group.material_group_code]
+FROM
+[map_material_sub_group]
+ON IFNULL([MARA_MAKT.MATKL],'0000000')=[map_material_sub_group.material_sub_group_code]
+LEFT OUTER JOIN
+Select [material_group.material_group_name],[material_group.material_group_name1]
+FROM [material_group]
+ON [map_material_sub_group.material_group_code]=[material_group.material_group_code]
+LEFT OUTER JOIN
+Select [material_sub_category.material_sub_category_name],[material_sub_category.material_sub_category_name1], [material_sub_category.material_sub_category_code]
+FROM [material_sub_category]
+ON [material_group.material_sub_category_key]=[material_sub_category.material_sub_category_key]
+LEFT OUTER JOIN
+Select [material_category.material_category_name], [material_category.material_category_code]
+FROM [material_category]
+ON [material_sub_category.material_category_key]=[material_category.material_category_key]
+LEFT OUTER JOIN 
+SELECT 
+	[Level(Item.Item).Product Group Key]
+	,[Level(Item.Item).Product Group]
+	,[Level(Item.Item).Product Unit Key]
+	,[Level(Item.Item).Product Unit]
+	,[Level(Item.Item).Product Division Key]
+	,[Level(Item.Item).Product Division]
+	,[Level(Item.Item).Product Segment Key]
+	,[Level(Item.Item).Product Segment]
+	,[Level(Item.Item).Solution Key]
+	,[Level(Item.Item).Solution]
+FROM [Level(Item.Item)] 
+ON [Level(Item.Item).Item Key]= [MARA_MAKT.MATNR]
+LEFT OUTER JOIN
+SELECT [SC-Stage_material_sub_group.exclude_flag], [SC-Stage_material_sub_group.material_exclude_key],[SC-Stage_material_sub_group.nf_metal_flag],[SC-Stage_material_sub_group.metal_key] 
+FROM [SC-Stage_material_sub_group]
+ON [MARA_MAKT.MATKL]=[SC-Stage_material_sub_group.material_sub_group_code]
+
+UNIONALL
+SELECT [SC-Stage_material_group_artificial.material_group_key]
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,[SC-Stage_material_group_artificial.material_sub_group_code]
+,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,[SC-Stage_material_group_artificial.material_group_name]
+	,[SC-Stage_material_group_artificial.material_group_name1]
+	,NULL
+	,[SC-Stage_material_group_artificial.material_group_code]
+	,[SC-Stage_material_group_artificial.material_group_name]
+	,[SC-Stage_material_group_artificial.material_group_name1]
+	,[SC-Stage_material_group_artificial.material_sub_category_name]
+	,[SC-Stage_material_group_artificial.material_sub_category_name1]
+	,[SC-Stage_material_group_artificial.material_sub_category_code]
+	,[SC-Stage_material_group_artificial.material_category_name]
+	,[SC-Stage_material_group_artificial.material_category_code]
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,[SC-Stage_material_group_artificial.exclude_flag]
+	,[SC-Stage_material_group_artificial.material_exclude_key]
+	,[SC-Stage_material_group_artificial.nf_metal_flag]
+	,[SC-Stage_material_group_artificial.metal_key]
+
+FROM [SC-Stage_material_group_artificial]
+	
+
+UNIONALL
+SELECT TOP 1'0'
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,'N/A'
+,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+	,'not allocated'
+	,'not allocated'
+	,NULL
+	,'0'
+	,'not allocated'
+	,'not allocated'
+	,'not allocated'
+	,'not allocated'
+	,'00000'
+	,'not allocated'
+	,'0'
+	,'NA'
+	,'Not Allocated'
+	,'NA'
+	,'Not Allocated'
+	,'NA'
+	,'Not Allocated'
+	,'NA'
+	,'Not Allocated'
+	,'NA'
+	,'Not Allocated'
+	,NULL
+	,NULL
+	,NULL
+	,NULL
+
+FROM [SC-Stage_material_group_artificial]

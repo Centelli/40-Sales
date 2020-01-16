@@ -1,0 +1,10 @@
+SELECT [map_supplier_supplier_group.supplier_group_key], [map_supplier_supplier_group.supplier_code], [map_supplier_supplier_group.supplier_name1], [map_supplier_supplier_group.supplier_group_search], [map_supplier_supplier_group.supplier_group_name]
+FROM [map_supplier_supplier_group]
+WHERE
+[map_supplier_supplier_group.active]=1
+INNER JOIN
+SELECT [supplier_group.supplier_group_key], [supplier_group.supplier_sub_type_key], [supplier_group.default_flag]
+FROM [supplier_group]
+WHERE
+[supplier_group.dim_flag]=1
+ON  [map_supplier_supplier_group.supplier_group_key] = [supplier_group.supplier_group_key]

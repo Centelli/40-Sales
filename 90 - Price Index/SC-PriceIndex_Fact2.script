@@ -1,0 +1,72 @@
+[company_code]=[SC-PriceIndex_Fact.company_code]
+[plant_code]=[SC-PriceIndex_Fact.plant_code]
+[material_code]=[SC-PriceIndex_Fact.material_code]
+[invoice_qty]=[SC-PriceIndex_Fact.invoice_qty]
+[uom_code]=[SC-PriceIndex_Fact.uom_code]
+[supplier_code_invoice]=[SC-PriceIndex_Fact.supplier_code_invoice]
+[supplier_code]=[SC-PriceIndex_Fact.supplier_code]
+[debit_credit_flag]=[SC-PriceIndex_Fact.debit_credit_flag]
+[tcurr_amnt]=[SC-PriceIndex_Fact.tcurr_amnt]
+[curr_code]=[SC-PriceIndex_Fact.curr_code]
+[rate]=[SC-PriceIndex_Fact.rate]
+[invoice_no]=[SC-PriceIndex_Fact.invoice_no]
+[invoice_pos]=[SC-PriceIndex_Fact.invoice_pos]
+[subsequent_debitor_creditor]=[SC-PriceIndex_Fact.subsequent_debitor_creditor]
+[baseline_date]=[SC-PriceIndex_Fact.baseline_date]
+[no_of_days1]=[SC-PriceIndex_Fact.no_of_days1]
+[disc_perc1]=[SC-PriceIndex_Fact.disc_perc1]
+[no_of_days2]=[SC-PriceIndex_Fact.no_of_days2]
+[disc_perc2]=[SC-PriceIndex_Fact.disc_perc2]
+[posting_date]=[SC-PriceIndex_Fact.posting_date]
+//[correct_flag]=[SC-PriceIndex_Fact.correct_flag]
+[active]=[SC-PriceIndex_Fact.active]
+[tcurr_amnt_discounted]=[SC-PriceIndex_Fact.tcurr_amnt_discounted]
+[factor]=[SC-PriceIndex_Fact.factor]
+[record_source_key]=[SC-PriceIndex_Fact.record_source_key]
+[invoice_net]=[SC-PriceIndex_Fact.invoice_net]
+[invoice_gross]=[SC-PriceIndex_Fact.invoice_gross]
+[rate_key]=[SC-PriceIndex_Fact.rate_key]
+[rate_type_key]=[SC-PriceIndex_Fact.rate_type_key]
+[curr_type_key]=[SC-PriceIndex_Fact.curr_type_key]
+[invoice_currency_key_DC]=[SC-PriceIndex_Fact.invoice_currency_key_DC]
+[invoice_exc_rate_DC]=[SC-PriceIndex_Fact.invoice_exc_rate_DC]
+[invoice_net_value_DC]=[SC-PriceIndex_Fact.invoice_net_value_DC]
+[invoice_currency_key_LT]=[SC-PriceIndex_Fact.invoice_currency_key_LT]
+[invoice_exc_rate_LT]=[SC-PriceIndex_Fact.invoice_exc_rate_LT]
+[invoice_net_value_LT]=[SC-PriceIndex_Fact.invoice_net_value_LT]
+[invoice_currency_key_LF]=[SC-PriceIndex_Fact.invoice_currency_key_LF]
+[invoice_exc_rate_LF]=[SC-PriceIndex_Fact.invoice_exc_rate_LF]
+[invoice_net_value_LF]=[SC-PriceIndex_Fact.invoice_net_value_LF]
+[purchase_group_key]=[SC-PriceIndex_Fact.purchase_group_key]
+[purchase_organisation_code]=[SC-PriceIndex_Fact.purchase_organisation_code]
+[index_type_key]=[SC-PriceIndex_Fact.index_type_key]
+//[index_type_above_year_key]=[SC-PriceIndex_Fact.index_type_above_year_key]
+[invoice_currency_key_GF]=[SC-PriceIndex_Fact.invoice_currency_key_GF]
+[invoice_exc_rate_GF]=[SC-PriceIndex_Fact.invoice_exc_rate_GF]
+[invoice_net_value_GF]=[SC-PriceIndex_Fact.invoice_net_value_GF]
+[posting_date_day]=[SC-PriceIndex_Fact.posting_date_day]
+[min_posting_date_month_PY]=[SC-PriceIndex_Fact.min_posting_date_month_PY]
+[posting_date_month]=[SC-PriceIndex_Fact.posting_date_month]
+[posting_date_year]=[SC-PriceIndex_Fact.posting_date_year]
+[invoice_currency_key_GM]=[SC-PriceIndex_Fact.invoice_currency_key_GM]
+[invoice_exc_rate_GM]=[SC-PriceIndex_Fact.invoice_exc_rate_GM]
+[invoice_net_value_GM]=[SC-PriceIndex_Fact.invoice_net_value_GM]
+[invoice_gross_value_DC]=[SC-PriceIndex_Fact.invoice_gross_value_DC]
+[invoice_gross_value_LT]=[SC-PriceIndex_Fact.invoice_gross_value_LT]
+[invoice_gross_value_LF]=[SC-PriceIndex_Fact.invoice_gross_value_LF]
+[invoice_gross_value_GF]=[SC-PriceIndex_Fact.invoice_gross_value_GF]
+[invoice_gross_value_GM]=[SC-PriceIndex_Fact.invoice_gross_value_GM]
+
+
+DIM [v_index_type_above_year_key] as INTEGER
+
+IF IFNULL(INTEGER(MIN([minAboveYear.posting_date_month])),0)=0 
+then [v_index_type_above_year_key]=0 ELSE 
+IF INTEGER(MIN([minAboveYear.posting_date_month]))> INTEGER([SC-PriceIndex_Fact.posting_date_month])
+then [v_index_type_above_year_key]=0 ELSE 
+[v_index_type_above_year_key]=1 END IF
+END IF
+[index_type_above_year_key]=[v_index_type_above_year_key]
+
+
+WRITERECORD

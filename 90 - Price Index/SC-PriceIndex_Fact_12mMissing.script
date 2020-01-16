@@ -1,0 +1,61 @@
+[Comp Code Key]=[SC-PriceIndex_Fact_sum_12m.company_code]
+[plant_code]=[SC-PriceIndex_Fact_sum_12m.plant_code]
+[material_code]=[SC-PriceIndex_Fact_sum_12m.material_code]
+[invoice_qty]=[SC-PriceIndex_Fact_sum_12m.invoice_qty]
+[uom_code]=[SC-PriceIndex_Fact_sum_12m.uom_code]
+[supplier_code]=[SC-PriceIndex_Fact_sum_12m.supplier_code]
+[currency_code]=[SC-PriceIndex_Fact_sum_12m.curr_code]
+[purchase_group_key]=[SC-PriceIndex_Fact_sum_12m.purchase_group_key]
+[purchase_organisation_code]=[SC-PriceIndex_Fact_sum_12m.purchase_organisation_code]
+[Division Key]=[SC-PriceIndex_Fact_sum_12m.Division Key]
+
+/*
+DIM [visNull] as VARCHAR(1)
+IF [SC-PriceIndex_Fact_min.Comp Code Key] is null THEN [visNull]='Y' ELSE [visNull]='N' END IF
+[isNull]=[visNull]
+*/
+
+[posting_date_year]=[SC-PriceIndex_Fact_sum_12m.posting_date_year]
+[invoice_net_value]=[SC-PriceIndex_Fact_sum_12m.invoice_net_value]
+
+[invoice_gross_value]=[SC-PriceIndex_Fact_sum_12m.invoice_gross_value]
+
+[invoice_currency_key]=[SC-PriceIndex_Fact_sum_12m.invoice_currency_key]
+	
+Dim [v_posting_date] as DATETIME
+[v_posting_date] = DATEADD(Year, 1, [AllDates.Posting_date])
+[posting_date] =[v_posting_date]
+[inco_term_code]=[SC-PriceIndex_Fact_sum_12m.inco_term_code]
+[material_exclude_key]=[SC-PriceIndex_Fact_sum_12m.material_exclude_key]
+[material_planner_code]=[SC-PriceIndex_Fact_sum_12m.material_planner_code]
+[metal_key]=[SC-PriceIndex_Fact_sum_12m.metal_key]
+[sourcing_manager_code]=[SC-PriceIndex_Fact_sum_12m.sourcing_manager_code]
+[supplier_classification_code]=[SC-PriceIndex_Fact_sum_12m.supplier_classification_code]
+[supplier_segmentation_code]=[SC-PriceIndex_Fact_sum_12m.supplier_segmentation_code]
+[supplier_group_key]=[SC-PriceIndex_Fact_sum_12m.supplier_group_key]
+[supplier_exclude_key]=[SC-PriceIndex_Fact_sum_12m.supplier_exclude_key]
+[supplier_country_code]=[SC-PriceIndex_Fact_sum_12m.supplier_country_code]
+[order_type_key]=[SC-PriceIndex_Fact_sum_12m.order_type_key]
+
+	DIM [v_material_type_key] as INTEGER
+	IF INTEGER([SC-PriceIndex_Fact_sum_12m.material_code])<=0
+	THEN [v_material_type_key]=1
+	ELSE [v_material_type_key]=2
+	END IF
+	[material_type_key]=[v_material_type_key]
+
+	/*Relations*/
+
+[supplier_relation_regular_key]=1
+[supplier_relation_neutral_key]=2
+[plant_relation_regular_key]=3
+[plant_relation_neutral_key]=4
+[company_relation_regular_key]=5
+[company_relation_neutral_key]=6
+	
+	/*Curr rates and types*/
+[CurrRateKey]=[SC-PriceIndex_Fact_sum_12m.CurrRateKey]
+
+
+//[comp_key_2]=[SC-PriceIndex_Fact_min.Comp Code Key]
+WRITERECORD

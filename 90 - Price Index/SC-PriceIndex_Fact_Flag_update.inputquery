@@ -1,0 +1,15 @@
+SELECT [SC-PriceIndex_Fact_PY_Flag.company_code]
+	,[SC-PriceIndex_Fact_PY_Flag.plant_code]
+	,[SC-PriceIndex_Fact_PY_Flag.supplier_code]
+	,[SC-PriceIndex_Fact_PY_Flag.material_code]
+	,[SC-PriceIndex_Fact_PY_Flag.uom_code]
+	,[SC-PriceIndex_Fact_PY_Flag.curr_code]
+	,[SC-PriceIndex_Fact_PY_Flag.posting_date]
+	,count([SC-PriceIndex_Fact_PY_Flag.invoice_qty])
+	,count([SC-PriceIndex_Fact_PY_Flag.invoice_qty_Cumm])
+	,sum([SC-PriceIndex_Fact_PY_Flag.invoice_qty])
+	,sum([SC-PriceIndex_Fact_PY_Flag.invoice_qty_Cumm])
+	,max([SC-PriceIndex_Fact_PY_Flag.invoice_qty])
+	,max([SC-PriceIndex_Fact_PY_Flag.invoice_qty_Cumm])
+FROM [SC-PriceIndex_Fact_PY_Flag]
+WHERE [SC-PriceIndex_Fact_PY_Flag.Flag] = 1

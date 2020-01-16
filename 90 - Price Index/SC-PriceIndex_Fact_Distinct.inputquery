@@ -1,0 +1,82 @@
+SELECT [SC-PriceIndex_Fact2.company_code]
+	,[SC-PriceIndex_Fact2.plant_code]
+	,[SC-PriceIndex_Fact2.material_code]
+	,sum([SC-PriceIndex_Fact2.invoice_qty])
+	,[SC-PriceIndex_Fact2.uom_code]
+	,[SC-PriceIndex_Fact2.supplier_code_invoice]
+	,[SC-PriceIndex_Fact2.supplier_code]
+
+	,sum([SC-PriceIndex_Fact2.tcurr_amnt])
+	,[SC-PriceIndex_Fact2.subsequent_debitor_creditor]
+	,[SC-PriceIndex_Fact2.baseline_date]
+	,[SC-PriceIndex_Fact2.no_of_days1]
+	,[SC-PriceIndex_Fact2.disc_perc1]
+	,[SC-PriceIndex_Fact2.no_of_days2]
+	,[SC-PriceIndex_Fact2.disc_perc2]
+	,[SC-PriceIndex_Fact2.posting_date]
+	,[SC-PriceIndex_Fact2.correct_flag]
+	,[SC-PriceIndex_Fact2.active]
+	,sum([SC-PriceIndex_Fact2.tcurr_amnt_discounted])
+	,[SC-PriceIndex_Fact2.factor]
+	,[SC-PriceIndex_Fact2.record_source_key]
+	,sum([SC-PriceIndex_Fact2.invoice_net])
+	,sum([SC-PriceIndex_Fact2.invoice_gross])
+	,[SC-PriceIndex_Fact2.rate_key]
+	,[SC-PriceIndex_Fact2.rate_type_key]
+	,[SC-PriceIndex_Fact2.curr_type_key]
+	,sum([SC-PriceIndex_Fact2.invoice_net_value_DC])
+	,sum([SC-PriceIndex_Fact2.invoice_net_value_LT])
+	,sum([SC-PriceIndex_Fact2.invoice_net_value_LF])
+	,sum([SC-PriceIndex_Fact2.invoice_net_value_GF])
+	,sum([SC-PriceIndex_Fact2.invoice_net_value_GM])
+	,[SC-PriceIndex_Fact2.purchase_group_key]
+	,[SC-PriceIndex_Fact2.purchase_organisation_code]
+	,[SC-PriceIndex_Fact2.index_type_key]
+	,[SC-PriceIndex_Fact2.index_type_above_year_key]
+	,[SC-PriceIndex_Fact2.posting_date_year]
+	,[SC-PriceIndex_Fact2.posting_date_month]
+	,[SC-PriceIndex_Fact2.curr_code]
+,[SC-PriceIndex_Fact2.invoice_currency_key_DC]
+,[SC-PriceIndex_Fact2.invoice_currency_key_LT]
+,[SC-PriceIndex_Fact2.invoice_currency_key_LF]
+,[SC-PriceIndex_Fact2.invoice_currency_key_GF]
+,[SC-PriceIndex_Fact2.invoice_currency_key_GM]
+
+	,sum([SC-PriceIndex_Fact2.invoice_gross_value_DC])
+	,sum([SC-PriceIndex_Fact2.invoice_gross_value_LT])
+	,sum([SC-PriceIndex_Fact2.invoice_gross_value_LF])
+	,sum([SC-PriceIndex_Fact2.invoice_gross_value_GF])
+	,sum([SC-PriceIndex_Fact2.invoice_gross_value_GM])
+	
+FROM [SC-PriceIndex_Fact2]
+LEFT OUTER JOIN
+SELECT [SC-Stage_Material_distinct.business_unit_code]
+,[SC-Stage_Material_distinct.material_exclude_key]
+,[SC-Stage_Material_distinct.metal_key]
+FROM [SC-Stage_Material_distinct]
+ON [SC-PriceIndex_Fact2.material_code]=[SC-Stage_Material_distinct.material_key]
+LEFT OUTER JOIN
+SELECT [SC-Stage_supplier_purchase_organisation.inco_term_code] 
+FROM [SC-Stage_supplier_purchase_organisation]
+ON [SC-PriceIndex_Fact2.purchase_organisation_code]=[SC-Stage_supplier_purchase_organisation.purchase_organisation_code] and [SC-PriceIndex_Fact2.supplier_code]=[SC-Stage_supplier_purchase_organisation.supplier_code]
+LEFT OUTER JOIN
+SELECT [SC-Stage_material_plant.material_planner_code] FROM [SC-Stage_material_plant]
+ON [SC-PriceIndex_Fact2.plant_code]=[SC-Stage_material_plant.plant_code] and [SC-PriceIndex_Fact2.material_code]=[SC-Stage_material_plant.material_code]
+INNER JOIN
+SELECT [SC-Stage_Supplier.sourcing_manager_code]
+,[SC-Stage_Supplier.supplier_classification_code]
+,[SC-Stage_Supplier.supplier_segmentation_code]
+,[SC-Stage_Supplier.supplier_exclude_key]
+,[SC-Stage_Supplier.country_code]
+FROM [SC-Stage_Supplier]
+ON [SC-PriceIndex_Fact2.supplier_code]=[SC-Stage_Supplier.supplier_code] AND [SC-Stage_Supplier.supplier_acct_group] not in ('Z007','Z011')
+/*We have to delete intercompany suppliers from fact table i.e. Z007 and Z011*/
+
+LEFT OUTER JOIN
+SELECT [map_material_classification_material_group.material_group_key]
+FROM [map_material_classification_material_group]
+ON [SC-Stage_Supplier.material_classification_code]=[map_material_classification_material_group.material_classification_code]
+LEFT OUTER JOIN
+SELECT [map_supplier_supplier_group.supplier_group_key]
+FROM [map_supplier_supplier_group]
+ON [SC-PriceIndex_Fact2.supplier_code]=[map_supplier_supplier_group.supplier_code] and [map_supplier_supplier_group.active]=1

@@ -1,0 +1,27 @@
+SELECT distinct 
+       [SC-Stage_Material_distinct.material_name_grouping], 
+       [SC-Stage_Material_distinct.material_name1],
+	   [SC-Stage_Material_distinct.material],
+	   [SC-Stage_Material_distinct.material_code]
+FROM [SC-Stage_Material_distinct]
+UNIONALL
+SELECT distinct 
+       [SC-Stage_Material_distinct.material_category_grouping], 
+       [SC-Stage_Material_distinct.material_category_name1],
+	   [SC-Stage_Material_distinct.material_category_name],
+	   [SC-Stage_Material_distinct.material_category_code]
+FROM [SC-Stage_Material_distinct]
+UNIONALL
+SELECT distinct 
+       [SC-Stage_Material_distinct.material_sub_category_grouping], 
+       [SC-Stage_Material_distinct.material_sub_category_name1],
+	   [SC-Stage_Material_distinct.material_sub_category_name],
+	   [SC-Stage_Material_distinct.material_sub_category_code]
+FROM [SC-Stage_Material_distinct]
+UNIONALL
+SELECT distinct 
+       [SC-Stage_Material_distinct.material_group_grouping], 
+       [SC-Stage_Material_distinct.material_group_name1],
+	   [SC-Stage_Material_distinct.material_group_name],
+	   [SC-Stage_Material_distinct.material_group_code]
+FROM [SC-Stage_Material_distinct]

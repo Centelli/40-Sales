@@ -1,0 +1,1 @@
+SELECT [CAWNT.Internal char_], [CAWNT.Int counter], [CAWNT.Language], [CAWNT.Int_ counter], [CAWNT.Description], [CAWNT.Valid From], [CAWNT.Change Number], [CAWNT.Deletion Ind_], [CAWNT.Characteristic] FROM [CAWNT] WHERE [CAWNT.Characteristic] like 'YMM%'

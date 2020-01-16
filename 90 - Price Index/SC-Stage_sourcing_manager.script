@@ -1,0 +1,5 @@
+[sourcing_manager_code]=[USER_GetList.Benutzername im Benutzerstamm]
+[sourcing_manager_firstname]=[USER_GetList.Vorname]
+[sourcing_manager_lastname]=[USER_GetList.Nachname]
+[sourcing_manager_name]=[USER_GetList.Vorname]+ ' ' + [USER_GetList.Nachname]
+WRITERECORD

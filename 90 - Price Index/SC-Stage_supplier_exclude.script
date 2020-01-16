@@ -1,0 +1,5 @@
+[supplier_exclude_key]=[supplier_exclude.supplier_exclude_key]
+[supplier_exclude_name]=[supplier_exclude.supplier_exclude_name]
+[exclude_flag]=[supplier_exclude.exclude_flag]
+
+WRITERECORD

@@ -1,0 +1,10 @@
+[material_sub_category_key]=[material_sub_category.material_sub_category_key]
+[material_sub_category_code]=[material_sub_category.material_sub_category_code]
+[material_sub_category_name]=[material_sub_category.material_sub_category_name]
+[material_sub_category_name1]=[material_sub_category.material_sub_category_name1]
+[material_category_key]=[material_sub_category.material_category_key]
+[member_type]=[material_sub_category.member_type]
+[active]=[material_sub_category.active]
+[AUDIT_USER]=[material_sub_category.AUDIT_USER]
+[AUDIT_TIME]=[material_sub_category.AUDIT_TIME]
+WRITERECORD

@@ -1,0 +1,30 @@
+[supplier_code]=[LFM1.LIFNR]
+/*used to be purchase_organisation_code --> in order to connect to fact change to company_code*/
+[company_code]=[LFM1.EKORG]
+/* */
+[purchase_organisation_code]=[LFM1.EKORG]
+[created_on]=[LFM1.ERDAT]
+[created_by]=[LFM1.ERNAM]
+[purchase_organisation_block_flag]=[LFM1.SPERM]
+[purchase_organisation_del_flag]=[LFM1.LOEVM]
+[order_curr_code]=[LFM1.WAERS]
+[min_order_value]=[LFM1.MINBW]
+[payment_term_code]=[LFM1.ZTERM]
+[inco_term_code]=[LFM1.INCO1]
+[inco_term]=[LFM1.INCO2]
+[purchase_group_code]=[LFM1.EKGRP]
+[planned_delivery_days]=[LFM1.PLIFZ]
+[purchase_group_name]= [SC-Stage_purchase_group.purchase_group_name]
+
+Dim [v_purchase_group_key] as INTEGER
+Dim [v_purchase_group_key_var] as VARCHAR(15)
+Dim [v_company_code] as VARCHAR(5)
+Dim [v_supplier_code] as VARCHAR(10)
+[v_company_code]=[LFM1.EKORG]
+[v_supplier_code]=[LFM1.LIFNR]
+[v_purchase_group_key_var]= [v_company_code]+[v_supplier_code]
+[v_purchase_group_key]=[v_purchase_group_key_var]
+[purchase_group_key]=[v_purchase_group_key]
+
+
+WRITERECORD

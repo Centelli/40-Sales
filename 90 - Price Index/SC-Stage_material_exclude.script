@@ -1,0 +1,6 @@
+[material_exclude_key]=[material_exclude.material_exclude_key]
+[material_exclude_name]=[material_exclude.material_exclude_name]
+[exclude_flag]=[material_exclude.exclude_flag]
+[AUDIT_USER]=[material_exclude.AUDIT_USER]
+[AUDIT_TIME]=[material_exclude.AUDIT_TIME]
+WRITERECORD

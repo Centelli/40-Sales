@@ -1,0 +1,1 @@
+SELECT [Exchange Rates FixedYearly.date_valid_from], [Exchange Rates FixedYearly.date_valid_to], [Exchange Rates FixedYearly.curr_code_from], [Exchange Rates FixedYearly.curr_code_to], [Exchange Rates FixedYearly.rate_with_factor] FROM [Exchange Rates FixedYearly]

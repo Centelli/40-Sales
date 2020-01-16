@@ -1,0 +1,1 @@
+SELECT [order_type.order_type_key], [order_type.doc_type_code], [order_type.order_type_name] FROM [order_type]

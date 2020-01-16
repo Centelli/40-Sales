@@ -1,0 +1,5 @@
+[curr_code]=[TCURX.Currency Key_TCURX_CURRKEY]
+[decimals]=[TCURX.Decimals]
+[factor1]= pow(10,abs(2-[TCURX.Decimals])) 
+[factor2]= 1.0 / pow(10,abs(2-[TCURX.Decimals]))
+WRITERECORD

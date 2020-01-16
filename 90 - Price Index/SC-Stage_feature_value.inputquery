@@ -1,0 +1,1 @@
+SELECT [AUSP.Object], [AUSP.Internal char_], [AUSP.Counter], [AUSP.Object/Class], [AUSP.Class Type], [AUSP.Int_ counter], [AUSP.Char_ Value], [AUSP.Characteristic] FROM [AUSP] WHERE [AUSP.Characteristic] like 'YMM%'

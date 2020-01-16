@@ -1,0 +1,29 @@
+SELECT [SC-PriceIndex_Fact.company_code]
+	,[SC-PriceIndex_Fact.plant_code]
+	,[SC-PriceIndex_Fact.material_code]
+	,sum([SC-PriceIndex_Fact.invoice_qty])
+,[SC-PriceIndex_Fact.uom_code]
+,[SC-PriceIndex_Fact.supplier_code_invoice]
+	,[SC-PriceIndex_Fact.supplier_code]
+	,sum([SC-PriceIndex_Fact.tcurr_amnt])
+	,[SC-PriceIndex_Fact.correct_flag]
+	,[SC-PriceIndex_Fact.active]
+	,sum([SC-PriceIndex_Fact.invoice_net])
+	,sum([SC-PriceIndex_Fact.invoice_gross])
+,sum([SC-PriceIndex_Fact.tcurr_amnt_discounted])
+	,[SC-PriceIndex_Fact.rate_type_key]
+	,[SC-PriceIndex_Fact.curr_type_key]
+	,sum([SC-PriceIndex_Fact.invoice_net_value_DC])
+	,sum([SC-PriceIndex_Fact.invoice_net_value_LT])
+	,sum([SC-PriceIndex_Fact.invoice_net_value_LF])
+	,sum([SC-PriceIndex_Fact.invoice_net_value_GF])
+	,sum([SC-PriceIndex_Fact.invoice_net_value_GM])
+	,[SC-PriceIndex_Fact.purchase_group_key]
+	,[SC-PriceIndex_Fact.purchase_organisation_code]
+	
+	
+	FROM [SC-PriceIndex_Fact]
+	WHERE 
+	[SC-PriceIndex_Fact.posting_date_year] >= DATEPART(YEAR,DATEADD(YEAR,-1,NOW)) AND [SC-PriceIndex_Fact.posting_date_month] >= DATEPART(MONTH,DATEADD(YEAR,-1,NOW))
+	and 
+	[SC-PriceIndex_Fact.posting_date_year] <= DATEPART(YEAR,DATEADD(MONTH,-6,NOW)) AND [SC-PriceIndex_Fact.posting_date_month] <= DATEPART(MONTH,DATEADD(MONTH,-6,NOW))

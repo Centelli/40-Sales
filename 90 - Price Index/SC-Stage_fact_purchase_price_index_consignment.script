@@ -1,0 +1,38 @@
+//Dim [vComanyCode] as Varchar(10)=[SC-Stage_purchase_consignment.company_code]
+//Dim [vCurr_code] as Varchar(10)=[SC-Stage_purchase_consignment.curr_code]
+//Dim [vPostingDateYear] as Varchar(4)=datepart(year, [SC-Stage_purchase_consignment.posting_date])
+//Dim [vPostingDateMonth] as Varchar(2)=datepart(month, [SC-Stage_purchase_consignment.posting_date])
+
+
+//Dim [vRate] as Float = SELECT [SC-Stage_PI_Fact.rate] FROM [SC-Stage_PI_Fact] WHERE [SC-Stage_PI_Fact.company_code] = [vComanyCode] AND [SC-Stage_PI_Fact.curr_code]=[vCurr_code] AND datepart(year, [SC-Stage_PI_Fact.posting_date])=[vPostingDateYear] AND datepart(month, [SC-Stage_PI_Fact.posting_date])=[vPostingDateMonth]
+//Dim [m_Rate] as Map(Varchar(10), Float) = SELECT [SC-Stage_PI_Fact.curr_code],[SC-Stage_PI_Fact.rate] FROM [SC-Stage_PI_Fact] WHERE [SC-Stage_PI_Fact.company_code] = [vComanyCode] AND [SC-Stage_PI_Fact.curr_code]=[vCurr_code] AND datepart(year, [SC-Stage_PI_Fact.posting_date])=[vPostingDateYear] AND datepart(month, [SC-Stage_PI_Fact.posting_date])=[vPostingDateMonth] ORDER BY [SC-Stage_PI_Fact.rate]  DESC
+//Dim [vRate] as Float =[m_Rate]([vCurr_code],[vComanyCode])
+
+
+
+
+[company_code]=[SC-Stage_purchase_consignment.company_code]
+[supplier_code]=[SC-Stage_purchase_consignment.supplier_code]
+[mat_doc_number]=[SC-Stage_purchase_consignment.mat_doc_number]
+[mat_doc_year]=[SC-Stage_purchase_consignment.mat_doc_year]
+[Mat_ Doc_Item]=[SC-Stage_purchase_consignment.Mat_ Doc_Item]
+[posting_date]=[SC-Stage_purchase_consignment.posting_date]
+[plant_code]=[SC-Stage_purchase_consignment.plant_code]
+[material_code]=[SC-Stage_purchase_consignment.material_code]
+[withdrawal_qty]=[SC-Stage_purchase_consignment.withdrawal_qty]
+[uom_code]=[SC-Stage_purchase_consignment.uom_code]
+[amount]=[SC-Stage_purchase_consignment.amount]
+[curr_code]=[SC-Stage_purchase_consignment.curr_code]
+[invoice_no]=[SC-Stage_purchase_consignment.invoice_no]
+[doc_year]=[SC-Stage_purchase_consignment.doc_year]
+[invoice_pos]=[SC-Stage_purchase_consignment.Item]
+[net_price]=[SC-Stage_purchase_consignment.net_price]
+[price_unit]=[SC-Stage_purchase_consignment.price_unit]
+[Unit of measure]=[SC-Stage_purchase_consignment.Unit of measure]
+[debit_credit_flag]='S'
+[factor]=1
+[record_source_key]=2
+[rate]=max([SC-Stage_PI_Fact.rate])
+[active]=[SC-Stage_purchase_consignment.active]
+[correct_flag]=0
+WRITERECORD

@@ -1,0 +1,1 @@
+SELECT [TCURX.Currency Key_TCURX_CURRKEY], [TCURX.Decimals] FROM [TCURX]

@@ -1,0 +1,8 @@
+[ident]=[map_supplier_exclude.ident]
+[supplier_code]=[map_supplier_exclude.supplier_code]
+[supplier_name1]=[map_supplier_exclude.supplier_name1]
+[exclude_flag]=[map_supplier_exclude.exclude_flag]
+[active]=[map_supplier_exclude.active]
+[supplier_exclude_key]=IFNULL([SC-Stage_supplier_exclude.supplier_exclude_key],1)
+
+WRITERECORD

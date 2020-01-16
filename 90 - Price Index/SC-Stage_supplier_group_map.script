@@ -1,0 +1,9 @@
+[supplier_group_key]=[map_supplier_supplier_group.supplier_group_key]
+[supplier_code]=[map_supplier_supplier_group.supplier_code]
+[supplier_name1]=[map_supplier_supplier_group.supplier_name1]
+[supplier_group_search]=[map_supplier_supplier_group.supplier_group_search]
+[supplier_group_name]=[map_supplier_supplier_group.supplier_group_name]
+[supplier_sub_type_key]=[supplier_group.supplier_sub_type_key]
+[default_flag]=[supplier_group.default_flag]
+
+WRITERECORD

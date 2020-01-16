@@ -1,0 +1,9 @@
+[Mat_ Doc_ Year]=[EKBE.Mat_ Doc_ Year]
+[Material Doc_]=[EKBE.Material Doc_]
+[PO History Cat_]=[EKBE.PO History Cat_]
+
+dim [vMatDoc] as varchar(20)
+[vMatDoc]=[EKBE.Material Doc_]
+PRINT substring([vMatDoc],0,2)
+
+WRITERECORD

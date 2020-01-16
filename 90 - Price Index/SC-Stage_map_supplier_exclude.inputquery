@@ -1,0 +1,10 @@
+SELECT [map_supplier_exclude.ident]
+	,[map_supplier_exclude.supplier_code]
+	,[map_supplier_exclude.supplier_name1]
+	,[map_supplier_exclude.exclude_flag]
+	,[map_supplier_exclude.active]
+FROM [map_supplier_exclude]
+LEFT OUTER JOIN
+SELECT [SC-Stage_supplier_exclude.supplier_exclude_key]
+FROM [SC-Stage_supplier_exclude]
+ON IFNULL([map_supplier_exclude.exclude_flag],0)=IFNULL([SC-Stage_supplier_exclude.exclude_flag],0)

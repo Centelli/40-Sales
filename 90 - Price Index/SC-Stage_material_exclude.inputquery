@@ -1,0 +1,1 @@
+SELECT [material_exclude.material_exclude_key], [material_exclude.material_exclude_name], [material_exclude.exclude_flag], [material_exclude.AUDIT_USER], [material_exclude.AUDIT_TIME] FROM [material_exclude]

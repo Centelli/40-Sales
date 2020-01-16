@@ -1,0 +1,30 @@
+Dim [v_material_code] as VARCHAR(10)
+Dim [v_material_code_int] as INTEGER
+[v_material_code_int]=[material_group.material_group_key]*(-1)
+[v_material_code] =[v_material_code_int]
+PRINT 'Mat: ' + [v_material_code]
+
+
+[material_group_key]=[v_material_code] 
+[company_code]=[material_group.company_code]
+[material_group_code]=[material_group.material_group_code]
+[material_group_name]=[material_group.material_group_name]
+[material_group_name1]=[material_group.material_group_name1]
+[material_sub_category_key]=[material_group.material_sub_category_key]
+[material_category_type_key]=[material_group.material_category_type_key]
+[member_type]=[material_group.member_type]
+[active]=[material_group.active]
+[AUDIT_USER]=[material_group.AUDIT_USER]
+[AUDIT_TIME]=[material_group.AUDIT_TIME]
+[material_sub_category_name]=[material_sub_category.material_sub_category_name]
+[material_sub_category_name1]=[material_sub_category.material_sub_category_name1]
+[material_category_name]=[material_category.material_category_name]
+[material_sub_group_code]=min([map_material_sub_group.material_sub_group_code])
+[exclude_flag] =[SC-Stage_material_sub_group.exclude_flag] 
+[material_exclude_key]=[SC-Stage_material_sub_group.material_exclude_key]
+[nf_metal_flag]=[SC-Stage_material_sub_group.nf_metal_flag]
+[metal_key] =[SC-Stage_material_sub_group.metal_key]
+[material_sub_category_code]=[material_sub_category.material_sub_category_code]
+[material_category_code]=[material_category.material_category_code] 
+
+WRITERECORD

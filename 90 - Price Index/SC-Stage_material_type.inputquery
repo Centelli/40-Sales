@@ -1,0 +1,1 @@
+SELECT [material_type.material_type_key], [material_type.material_type_name], [material_type.active], [material_type.AUDIT_USER], [material_type.AUDIT_TIME] FROM [material_type]

@@ -1,0 +1,1 @@
+SELECT [Currency and Rate Type.Currency and Rate Type], [Currency and Rate Type.Description], [Currency and Rate Type.CurrRateKey] FROM [Currency and Rate Type]

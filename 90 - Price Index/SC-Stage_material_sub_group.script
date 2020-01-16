@@ -1,0 +1,19 @@
+dim [v_material_sub_group_name] as varchar(30)
+IF SUBSTRING([T023T.Material Group], 4, 7)='000'
+	[v_material_sub_group_name]=[T023T.Matl Grp Desc_] + ' (L1)'
+ELSE [v_material_sub_group_name]=[T023T.Matl Grp Desc_]
+END IF
+
+dim [v_material_group_code] as varchar(7)
+[v_material_group_code]=SUBSTRING([T023T.Material Group], 0, 3)+'000'
+
+[material_sub_group_code]=[T023T.Material Group]
+[material_sub_group_name]=[v_material_sub_group_name]
+[material_sub_group_name2]=[T023T.Mat_grp desc_ 2]
+[material_group_code]=[v_material_group_code]
+[exclude_flag]=[map_material_sub_group_exclude.exclude_flag]
+[material_exclude_key]=[SC-Stage_material_exclude.material_exclude_key]
+[nf_metal_flag]=[map_material_sub_group_metal.nf_metal_flag]
+[metal_key] =[SC-Stage_material_metal.metal_key] 
+
+WRITERECORD

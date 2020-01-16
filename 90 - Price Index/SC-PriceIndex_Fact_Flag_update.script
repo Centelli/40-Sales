@@ -1,0 +1,14 @@
+[company_code]=[SC-PriceIndex_Fact_PY_Flag.company_code]
+[plant_code]=[SC-PriceIndex_Fact_PY_Flag.plant_code]
+[material_code]=[SC-PriceIndex_Fact_PY_Flag.material_code]
+[count]=count([SC-PriceIndex_Fact_PY_Flag.invoice_qty])
+[uom_code]=[SC-PriceIndex_Fact_PY_Flag.uom_code]
+[supplier_code]=[SC-PriceIndex_Fact_PY_Flag.supplier_code]
+[curr_code]=[SC-PriceIndex_Fact_PY_Flag.curr_code]
+[posting_date]=[SC-PriceIndex_Fact_PY_Flag.posting_date]
+[count2]=count([SC-PriceIndex_Fact_PY_Flag.invoice_qty_Cumm])
+[sum_qty]=sum([SC-PriceIndex_Fact_PY_Flag.invoice_qty])
+	[sum_qty_Cumm]=sum([SC-PriceIndex_Fact_PY_Flag.invoice_qty_Cumm])
+	[max_qty]=max([SC-PriceIndex_Fact_PY_Flag.invoice_qty])
+	[max_qty_Cumm]=max([SC-PriceIndex_Fact_PY_Flag.invoice_qty_Cumm])
+WRITERECORD

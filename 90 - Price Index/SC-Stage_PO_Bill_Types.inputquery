@@ -1,0 +1,1 @@
+SELECT distinct [EKBZ.Document Number], [EKBZ.Mat_ Doc_Item], [EKBZ.PO History Cat_] FROM [EKBZ]

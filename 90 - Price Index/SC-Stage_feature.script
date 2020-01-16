@@ -1,0 +1,10 @@
+[char_code_numeric]=[CAWNT.Internal char_]
+[char_code]=[CAWNT.Characteristic]
+[counter_char_value]=[CAWNT.Int counter]
+[language_code]=[CAWNT.Language]
+[int_counter]=[CAWNT.Int_ counter]
+[char_value_desc]=[CAWNT.Description]
+[valid_from]=[CAWNT.Valid From]
+[change_no]=[CAWNT.Change Number]
+[delete_flag]=[CAWNT.Deletion Ind_]
+WRITERECORD

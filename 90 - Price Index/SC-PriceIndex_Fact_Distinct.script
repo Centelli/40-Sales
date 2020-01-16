@@ -1,0 +1,95 @@
+[company_code]=[SC-PriceIndex_Fact2.company_code]
+
+[plant_code]=[SC-PriceIndex_Fact2.plant_code]
+DIM [vMaterialCode] as VARCHAR(8)
+IF [SC-PriceIndex_Fact2.material_code]=0 and IFNULL([map_material_classification_material_group.material_group_key],0)<>0
+THEN [vMaterialCode]= [map_material_classification_material_group.material_group_key] * (-1)
+ELSE [vMaterialCode]= [SC-PriceIndex_Fact2.material_code]
+END IF
+[material_code]=[vMaterialCode] 
+
+[invoice_qty]=sum([SC-PriceIndex_Fact2.invoice_qty])
+[uom_code]=[SC-PriceIndex_Fact2.uom_code]
+[supplier_code_invoice]=[SC-PriceIndex_Fact2.supplier_code_invoice]
+[supplier_code]=[SC-PriceIndex_Fact2.supplier_code]
+//[debit_credit_flag]=[SC-PriceIndex_Fact2.debit_credit_flag]
+[tcurr_amnt]=sum([SC-PriceIndex_Fact2.tcurr_amnt])
+[curr_code]=[SC-PriceIndex_Fact2.curr_code]
+//[rate]=[SC-PriceIndex_Fact2.rate]
+//[invoice_no]=[SC-PriceIndex_Fact2.invoice_no]
+//[invoice_pos]=[SC-PriceIndex_Fact2.invoice_pos]
+[subsequent_debitor_creditor]=[SC-PriceIndex_Fact2.subsequent_debitor_creditor]
+[baseline_date]=[SC-PriceIndex_Fact2.baseline_date]
+[no_of_days1]=[SC-PriceIndex_Fact2.no_of_days1]
+[disc_perc1]=[SC-PriceIndex_Fact2.disc_perc1]
+[no_of_days2]=[SC-PriceIndex_Fact2.no_of_days2]
+[disc_perc2]=[SC-PriceIndex_Fact2.disc_perc2]
+[posting_date]=[SC-PriceIndex_Fact2.posting_date]
+[correct_flag]=[SC-PriceIndex_Fact2.correct_flag]
+[active]=[SC-PriceIndex_Fact2.active]
+[tcurr_amnt_discounted]=sum([SC-PriceIndex_Fact2.tcurr_amnt_discounted])
+[factor]=[SC-PriceIndex_Fact2.factor]
+[record_source_key]=[SC-PriceIndex_Fact2.record_source_key]
+[invoice_net]=sum([SC-PriceIndex_Fact2.invoice_net])
+[invoice_gross]=sum([SC-PriceIndex_Fact2.invoice_gross])
+[rate_key]=[SC-PriceIndex_Fact2.rate_key]
+[rate_type_key]=[SC-PriceIndex_Fact2.rate_type_key]
+[curr_type_key]=[SC-PriceIndex_Fact2.curr_type_key]
+[invoice_currency_key_DC]=[SC-PriceIndex_Fact2.invoice_currency_key_DC]
+//[invoice_exc_rate_DC]=[SC-PriceIndex_Fact2.invoice_exc_rate_DC]
+[invoice_net_value_DC]=sum([SC-PriceIndex_Fact2.invoice_net_value_DC])
+[invoice_gross_value_DC]=sum([SC-PriceIndex_Fact2.invoice_gross_value_DC])
+[invoice_currency_key_LT]=[SC-PriceIndex_Fact2.invoice_currency_key_LT]
+//[invoice_exc_rate_LT]=[SC-PriceIndex_Fact2.invoice_exc_rate_LT]
+[invoice_net_value_LT]=sum([SC-PriceIndex_Fact2.invoice_net_value_LT])
+[invoice_gross_value_LT]=sum([SC-PriceIndex_Fact2.invoice_gross_value_LT])
+[invoice_currency_key_LF]=[SC-PriceIndex_Fact2.invoice_currency_key_LF]
+//[invoice_exc_rate_LF]=[SC-PriceIndex_Fact2.invoice_exc_rate_LF]
+[invoice_net_value_LF]=sum([SC-PriceIndex_Fact2.invoice_net_value_LF])
+[invoice_gross_value_LF]=sum([SC-PriceIndex_Fact2.invoice_gross_value_LF])
+[invoice_currency_key_GF]=[SC-PriceIndex_Fact2.invoice_currency_key_GF]
+//[invoice_exc_rate_GF]=[SC-PriceIndex_Fact2.invoice_exc_rate_GF]
+[invoice_net_value_GF]=sum([SC-PriceIndex_Fact2.invoice_net_value_GF])
+[invoice_gross_value_GF]=sum([SC-PriceIndex_Fact2.invoice_gross_value_GF])
+[invoice_currency_key_GM]=[SC-PriceIndex_Fact2.invoice_currency_key_GM]
+//[invoice_exc_rate_GM]=[SC-PriceIndex_Fact2.invoice_exc_rate_GM]
+[invoice_net_value_GM]=sum([SC-PriceIndex_Fact2.invoice_net_value_GM])
+[invoice_gross_value_GM]=sum([SC-PriceIndex_Fact2.invoice_gross_value_GM])
+[purchase_group_key]=[SC-PriceIndex_Fact2.purchase_group_key]
+[purchase_organisation_code]=[SC-PriceIndex_Fact2.purchase_organisation_code]
+[index_type_key]=[SC-PriceIndex_Fact2.index_type_key]
+[index_type_above_year_key]=[SC-PriceIndex_Fact2.index_type_above_year_key]
+[posting_date_year]=[SC-PriceIndex_Fact2.posting_date_year]
+[posting_date_month]=[SC-PriceIndex_Fact2.posting_date_month]
+[Division Key]=[SC-Stage_Material_distinct.business_unit_code]
+/*
+[material_category_name]=[SC-Stage_Material_distinct.material_category_name]
+[material_sub_category_name1]=[SC-Stage_Material_distinct.material_sub_category_name1]
+[material_sub_category_name]=[SC-Stage_Material_distinct.material_sub_category_name]
+[material_group_name1]=[SC-Stage_Material_distinct.material_group_name1]
+[material_group_name]=[SC-Stage_Material_distinct.material_group_name]
+*/
+[inco_term_code]=[SC-Stage_supplier_purchase_organisation.inco_term_code] 
+[material_exclude_key]=[SC-Stage_Material_distinct.material_exclude_key]
+[material_planner_code]=[SC-Stage_material_plant.material_planner_code]
+[metal_key]=[SC-Stage_Material_distinct.metal_key]
+[sourcing_manager_code]=[SC-Stage_Supplier.sourcing_manager_code]
+[supplier_classification_code]=[SC-Stage_Supplier.supplier_classification_code]
+[supplier_segmentation_code]=[SC-Stage_Supplier.supplier_segmentation_code]
+[supplier_group_key]=[map_supplier_supplier_group.supplier_group_key] 
+[supplier_exclude_key]=[SC-Stage_Supplier.supplier_exclude_key]
+[supplier_country_code]=[SC-Stage_Supplier.country_code]
+[material_group_key]=[map_material_classification_material_group.material_group_key]
+
+/*Correction*/
+//Complete
+
+//DIM [v_invoice_no] as INTEGER ='5100130132'
+//DIM [v_material_code] as INTEGER = '85068097'
+//DIM [v_correct_flag] as INTEGER = 0
+
+//DELETE FROM [Grain(SC-PriceIndex_Fact2_Distinct)] WHERE [Grain(SC-PriceIndex_Fact2_Distinct).invoice_no]=[v_invoice_no] AND  [Grain(SC-PriceIndex_Fact2_Distinct).material_code]=[v_material_code] AND [Grain(SC-PriceIndex_Fact2_Distinct).correct_flag]=[v_correct_flag]
+
+//END Complete
+
+WRITERECORD

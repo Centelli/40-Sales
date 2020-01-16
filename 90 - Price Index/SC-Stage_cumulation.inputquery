@@ -1,0 +1,1 @@
+SELECT [Cumulation.CumulationKey], [Cumulation.Cumulation] FROM [Cumulation]

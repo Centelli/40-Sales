@@ -1,0 +1,1 @@
+SELECT [relation.relation_key], [relation.relation] FROM [relation] where [relation.relation_key]>4

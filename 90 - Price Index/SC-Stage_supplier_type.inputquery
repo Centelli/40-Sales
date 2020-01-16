@@ -1,0 +1,17 @@
+select 
+[supplier_group.supplier_group_key]
+,[supplier_group.supplier_group_name]
+,[supplier_group.supplier_sub_type_key]
+from [supplier_group]
+INNER JOIN
+SELECT 
+[supplier_sub_type.supplier_sub_type_name]
+,[supplier_sub_type.supplier_type_key]
+FROM [supplier_sub_type]
+ON [supplier_group.supplier_sub_type_key]=[supplier_sub_type.supplier_sub_type_key]
+INNER JOIN
+SELECT 
+[supplier_type.supplier_type_name]
+FROM
+[supplier_type]
+ON [supplier_sub_type.supplier_type_key]=[supplier_type.supplier_type_key]

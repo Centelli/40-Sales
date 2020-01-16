@@ -1,0 +1,52 @@
+SELECT [LFA1.Vendor]
+	,[LFA1.Country]
+	,[LFA1.Name]
+	,[LFA1.Name 2]
+	,[LFA1.Name 3]
+	,[LFA1.Name 4]
+	,[LFA1.City]
+	,[LFA1.District]
+	,[LFA1.PO Box]
+	,[LFA1.PO Box PCode]
+	,[LFA1.Postal Code]
+	,[LFA1.Street]
+	,[LFA1.Created on]
+	,[LFA1.Created by]
+	,[LFA1.Account group]
+	,[LFA1.Deletion flag]
+	,[LFA1.Posting Block]
+	,[LFA1.Purch_ block]
+	,[LFA1.Payment block]
+FROM [LFA1]
+LEFT OUTER JOIN
+SELECT [sourcing_manager.char_value_single]
+FROM [SC-Stage_feature_value] 'sourcing_manager'
+ON [LFA1.Vendor]=[sourcing_manager.obj_class_code] and [sourcing_manager.char_code] = 'YMM_VEND_SOURCING_MANAGER' 
+LEFT OUTER JOIN
+SELECT [supplier_classification.char_value_single]
+FROM [SC-Stage_feature_value] 'supplier_classification'
+ON [LFA1.Vendor]=[supplier_classification.obj_class_code] and [supplier_classification.char_code] = 'YMM_VEND_TQRDCEB'
+LEFT OUTER JOIN
+SELECT [supplier_segmentation.char_value_single]
+FROM [SC-Stage_feature_value] 'supplier_segmentation'
+ON [LFA1.Vendor]=[supplier_segmentation.obj_class_code] and [supplier_segmentation.char_code] = 'YMM_VEND_SEGMENTATION'
+LEFT OUTER JOIN
+SELECT [material_classification.char_value_single]
+FROM [SC-Stage_feature_value] 'material_classification'
+ON [LFA1.Vendor]=[material_classification.obj_class_code] and [material_classification.char_code] = 'YMM_VEND_CATEGORY'
+LEFT OUTER JOIN
+SELECT [map_supplier_supplier_group.supplier_group_key]
+FROM [map_supplier_supplier_group]
+ON [LFA1.Vendor]=[map_supplier_supplier_group.supplier_code] 
+LEFT OUTER JOIN
+SELECT [supplier_group.supplier_group_name]
+FROM [supplier_group]
+ON  [map_supplier_supplier_group.supplier_group_key] = [supplier_group.supplier_group_key]
+LEFT OUTER JOIN
+SELECT [SC-Stage_map_supplier_exclude.supplier_exclude_key]
+FROM [SC-Stage_map_supplier_exclude]
+ON [LFA1.Vendor]=[SC-Stage_map_supplier_exclude.supplier_code]
+LEFT OUTER JOIN
+SELECT [SC-Stage_Supplier_distinct.supplier_code], [SC-Stage_Supplier_distinct.active]
+FROM [SC-Stage_Supplier_distinct]
+ON [LFA1.Vendor]=[SC-Stage_Supplier_distinct.supplier_code]

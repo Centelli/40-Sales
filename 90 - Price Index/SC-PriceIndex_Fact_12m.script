@@ -1,0 +1,63 @@
+[company_code]=[SC-PriceIndex_Fact_Distinct.company_code]
+[plant_code]=[SC-PriceIndex_Fact_Distinct.plant_code]
+
+//[material_code]=[SC-PriceIndex_Fact_Distinct.material_code]
+
+DIM [vMaterialCode] as VARCHAR(8)
+IF [SC-PriceIndex_Fact_Distinct.material_code]=0 and IFNULL([map_material_classification_material_group.material_group_key],0)<>0
+THEN [vMaterialCode]= [map_material_classification_material_group.material_group_key] * (-1)
+ELSE [vMaterialCode]= [SC-PriceIndex_Fact_Distinct.material_code]
+END IF
+[material_code]=[vMaterialCode] 
+
+
+[invoice_qty]=sum([SC-PriceIndex_Fact_Distinct.invoice_qty])
+[uom_code]=[SC-PriceIndex_Fact_Distinct.uom_code]
+[supplier_code_invoice]=[SC-PriceIndex_Fact_Distinct.supplier_code_invoice]
+[supplier_code]=[SC-PriceIndex_Fact_Distinct.supplier_code]
+//[debit_credit_flag]=[SC-PriceIndex_Fact_Distinct.debit_credit_flag]
+[tcurr_amnt]=sum([SC-PriceIndex_Fact_Distinct.tcurr_amnt])
+[active]=[SC-PriceIndex_Fact_Distinct.active]
+[tcurr_amnt_discounted]=sum([SC-PriceIndex_Fact_Distinct.tcurr_amnt_discounted])
+[invoice_net]=sum([SC-PriceIndex_Fact_Distinct.invoice_net])
+[invoice_gross]=sum([SC-PriceIndex_Fact_Distinct.invoice_gross])
+[rate_type_key]=[SC-PriceIndex_Fact_Distinct.rate_type_key]
+[curr_type_key]=[SC-PriceIndex_Fact_Distinct.curr_type_key]
+[invoice_net_value_DC]=sum([SC-PriceIndex_Fact_Distinct.invoice_net_value_DC])
+[invoice_net_value_LT]=sum([SC-PriceIndex_Fact_Distinct.invoice_net_value_LT])
+[invoice_net_value_LF]=sum([SC-PriceIndex_Fact_Distinct.invoice_net_value_LF])
+[invoice_net_value_GF]=sum([SC-PriceIndex_Fact_Distinct.invoice_net_value_GF])
+
+[invoice_gross_value_DC]=sum([SC-PriceIndex_Fact_Distinct.invoice_gross_value_DC])
+[invoice_gross_value_LT]=sum([SC-PriceIndex_Fact_Distinct.invoice_gross_value_LT])
+[invoice_gross_value_LF]=sum([SC-PriceIndex_Fact_Distinct.invoice_gross_value_LF])
+[invoice_gross_value_GF]=sum([SC-PriceIndex_Fact_Distinct.invoice_gross_value_GF])
+
+[purchase_group_key]=[SC-PriceIndex_Fact_Distinct.purchase_group_key]
+[purchase_organisation_code]=[SC-PriceIndex_Fact_Distinct.purchase_organisation_code]
+//[index_type_key]=[SC-PriceIndex_Fact_Distinct.index_type_key]
+//[index_type_above_year_key]=[SC-PriceIndex_Fact_Distinct.index_type_above_year_key]
+[invoice_net_value_GM]=sum([SC-PriceIndex_Fact_Distinct.invoice_net_value_GM])
+[invoice_gross_value_GM]=sum([SC-PriceIndex_Fact_Distinct.invoice_gross_value_GM])
+[posting_date_year]=[SC-PriceIndex_Fact_Distinct.posting_date_year]
+[curr_code]=[SC-PriceIndex_Fact_Distinct.curr_code]
+[invoice_currency_key_DC]=[SC-PriceIndex_Fact_Distinct.invoice_currency_key_DC]
+[invoice_currency_key_LT]=[SC-PriceIndex_Fact_Distinct.invoice_currency_key_LT]
+[invoice_currency_key_LF]=[SC-PriceIndex_Fact_Distinct.invoice_currency_key_LF]
+[invoice_currency_key_GF]=[SC-PriceIndex_Fact_Distinct.invoice_currency_key_GF]
+[invoice_currency_key_GM]=[SC-PriceIndex_Fact_Distinct.invoice_currency_key_GM]
+	
+[inco_term_code]=[SC-PriceIndex_Fact_Distinct.inco_term_code]
+[material_exclude_key]=[SC-PriceIndex_Fact_Distinct.material_exclude_key]
+[material_planner_code]=[SC-PriceIndex_Fact_Distinct.material_planner_code]
+[metal_key]=[SC-PriceIndex_Fact_Distinct.metal_key]
+[sourcing_manager_code]=[SC-PriceIndex_Fact_Distinct.sourcing_manager_code]
+[supplier_classification_code]=[SC-PriceIndex_Fact_Distinct.supplier_classification_code]
+[supplier_segmentation_code]=[SC-PriceIndex_Fact_Distinct.supplier_segmentation_code]
+[supplier_group_key]=[SC-PriceIndex_Fact_Distinct.supplier_group_key]
+[supplier_exclude_key]=[SC-PriceIndex_Fact_Distinct.supplier_exclude_key]
+[supplier_country_code]=[SC-PriceIndex_Fact_Distinct.supplier_country_code]
+[order_type_key]=1 /*it is static and set to 1. As it currently is in Cockpit. It is open for future developlemnt*/
+[Division Key]=[SC-PriceIndex_Fact_Distinct.Division Key]
+
+WRITERECORD

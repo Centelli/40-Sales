@@ -1,0 +1,452 @@
+[Comp Code Key]=[SC-PriceIndex_Fact_PreFinal.Comp Code Key]
+[plant_code]=[SC-PriceIndex_Fact_PreFinal.plant_code]
+[material_key]=[SC-PriceIndex_Fact_PreFinal.material_code]
+[invoice_qty]=[SC-PriceIndex_Fact_PreFinal.invoice_qty]
+[uom_code]=[SC-PriceIndex_Fact_PreFinal.uom_code]
+[supplier_code_invoice]=[SC-PriceIndex_Fact_PreFinal.supplier_code_invoice]
+[supplier_code]=[SC-PriceIndex_Fact_PreFinal.supplier_code]
+[debit_credit_flag]=[SC-PriceIndex_Fact_PreFinal.debit_credit_flag]
+[currency_code]=[SC-PriceIndex_Fact_PreFinal.invoice_currency_key]
+[subsequent_debitor_creditor]=[SC-PriceIndex_Fact_PreFinal.subsequent_debitor_creditor]
+[baseline_date]=[SC-PriceIndex_Fact_PreFinal.baseline_date]
+[no_of_days1]=[SC-PriceIndex_Fact_PreFinal.no_of_days1]
+[disc_perc1]=[SC-PriceIndex_Fact_PreFinal.disc_perc1]
+[no_of_days2]=[SC-PriceIndex_Fact_PreFinal.no_of_days2]
+[disc_perc2]=[SC-PriceIndex_Fact_PreFinal.disc_perc2]
+[posting_date]=[SC-PriceIndex_Fact_PreFinal.posting_date]
+//[correct_flag]=[SC-PriceIndex_Fact_PreFinal.correct_flag]
+//[active]=[SC-PriceIndex_Fact_PreFinal.active]
+[tcurr_amnt_discounted]=[SC-PriceIndex_Fact_PreFinal.tcurr_amnt_discounted]
+[factor]=[SC-PriceIndex_Fact_PreFinal.factor]
+[record_source_key]=[SC-PriceIndex_Fact_PreFinal.record_source_key]
+[invoice_net]=[SC-PriceIndex_Fact_PreFinal.invoice_net]
+[invoice_gross]=[SC-PriceIndex_Fact_PreFinal.invoice_gross]
+[invoice_currency_key]=[SC-PriceIndex_Fact_PreFinal.invoice_currency_key]
+[invoice_net_value]=[SC-PriceIndex_Fact_PreFinal.invoice_net_value]
+[invoice_gross_value]=[SC-PriceIndex_Fact_PreFinal.invoice_gross_value]
+[purchase_group_key]=[SC-PriceIndex_Fact_PreFinal.purchase_group_key]
+[purchase_organisation_code]=[SC-PriceIndex_Fact_PreFinal.purchase_organisation_code]
+
+[invoice_net_value_Cumm]=[SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm]
+[invoice_net_value_Cumm_PY]=[SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_PY]
+
+[invoice_gross_value_Cumm]=[SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm]
+[invoice_gross_value_Cumm_PY]=[SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm_PY]
+	
+[invoice_qty_Cumm]=[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm]
+[invoice_qty_Cumm_PY]=[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY]
+[invoice_qty_PY]=[SC-PriceIndex_Fact_PreFinal.invoice_qty_PY]
+[Division Key]=[SC-PriceIndex_Fact_PreFinal.Division Key]
+[material_category_name]=[SC-PriceIndex_Fact_PreFinal.material_category_name]
+[material_sub_category_name1]=[SC-PriceIndex_Fact_PreFinal.material_sub_category_name1]
+[material_sub_category_name]=[SC-PriceIndex_Fact_PreFinal.material_sub_category_name]
+[material_group_name1]=[SC-PriceIndex_Fact_PreFinal.material_group_name1]
+[material_group_name]=[SC-PriceIndex_Fact_PreFinal.material_group_name]
+
+//[Differences_invoice_qty_Cumm]=[SC-PriceIndex_Fact_PreFinal.Differences_invoice_qty_Cumm]
+//[Differences_invoice_qty]=[SC-PriceIndex_Fact_PreFinal.Differences_invoice_qty]
+[inco_term_code]=[SC-PriceIndex_Fact_PreFinal.inco_term_code]
+[material_exclude_key]=[SC-PriceIndex_Fact_PreFinal.material_exclude_key]
+[material_planner_code]=[SC-PriceIndex_Fact_PreFinal.material_planner_code]
+[metal_key]=[SC-PriceIndex_Fact_PreFinal.metal_key]
+[material_type_key]=[SC-PriceIndex_Fact_PreFinal.material_type_key]
+[sourcing_manager_code]=[SC-PriceIndex_Fact_PreFinal.sourcing_manager_code]
+[supplier_classification_code]=[SC-PriceIndex_Fact_PreFinal.supplier_classification_code]
+[supplier_segmentation_code]=[SC-PriceIndex_Fact_PreFinal.supplier_segmentation_code]
+[supplier_group_key]=[SC-PriceIndex_Fact_PreFinal.supplier_group_key]
+[supplier_exclude_key]=[SC-PriceIndex_Fact_PreFinal.supplier_exclude_key]
+[supplier_country_code]=[SC-PriceIndex_Fact_PreFinal.supplier_country_code]
+[order_type_key]=[SC-PriceIndex_Fact_PreFinal.order_type_key]
+
+//[Differences_invoice_net_value_Cumm]=[SC-PriceIndex_Fact_PreFinal.Differences_invoice_net_value_Cumm]
+//[Differences_invoice_net_value]=[SC-PriceIndex_Fact_PreFinal.Differences_invoice_net_value]
+[invoice_net_value_PY]=[SC-PriceIndex_Fact_PreFinal.invoice_net_value_PY]
+//[price_effect]=[SC-PriceIndex_Fact_PreFinal.price_effect]
+//[qty_effect]=[SC-PriceIndex_Fact_PreFinal.qty_effect]
+//[other_effect]=[SC-PriceIndex_Fact_PreFinal.other_effect]
+//[structure_effect]=[SC-PriceIndex_Fact_PreFinal.structure_effect]
+[CurrRateKey]=[SC-PriceIndex_Fact_PreFinal.CurrRateKey]
+
+/* 12 months - Previous whole year*/
+[invoice_qty_12m]=[SC-PriceIndex_Fact_PreFinal.invoice_qty_12m]
+[invoice_net_value_12m]=[SC-PriceIndex_Fact_PreFinal.invoice_net_value_12m]
+[invoice_gross_value_12m]=[SC-PriceIndex_Fact_PreFinal.invoice_gross_value_12m]
+/*Neutral*/
+ /*
+ [invoice_net_value_Cumm_Neutral]=[SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral]
+ [invoice_net_value_Cumm_Neutral_PY]=[SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral_PY]
+ [invoice_qty_Cumm_Neutral]=[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral]
+ [invoice_qty_Cumm_Neutral_PY]=[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral_PY]
+
+ [invoice_net_value_Cumm_SupplierOnly]=[SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly]
+ [invoice_net_value_Cumm_SupplierOnly_PY]=[SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly_PY]
+ [invoice_qty_Cumm_SupplierOnly]=[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly]
+ [invoice_qty_Cumm_SupplierOnly_PY]=[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly_PY]
+ */
+
+//[Differences_invoice_net_value_12m]=[SC-PriceIndex_Fact_PreFinal.Differences_invoice_net_value_12m]
+//[Differences_invoice_qty_12m]=[SC-PriceIndex_Fact_PreFinal.Differences_invoice_qty_12m]
+//[price_effect_12m]=[SC-PriceIndex_Fact_PreFinal.price_effect_12m]
+//[qty_effect_12m]=[SC-PriceIndex_Fact_PreFinal.qty_effect_12m]
+//[other_effect_12m]=[SC-PriceIndex_Fact_PreFinal.other_effect_12m]
+//[structure_effect_12m]=[SC-PriceIndex_Fact_PreFinal.structure_effect_12m]
+
+/*Relations*/
+
+[supplier_relation_key]=[SC-PriceIndex_Fact_PreFinal.supplier_relation_neutral_key]
+[plant_relation_key]=[SC-PriceIndex_Fact_PreFinal.plant_relation_neutral_key]
+[company_relation_key]=[SC-PriceIndex_Fact_PreFinal.company_relation_regular_key]
+
+/* ----- */
+
+
+
+ /* Price effect*/
+ DIM [vPriceEffect] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vPriceEffect]=NULL
+ ELSE [vPriceEffect]= ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm] - ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_PY]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY]*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm]))
+ END IF
+ ELSE [vPriceEffect]=NULL
+ END IF
+
+ [price_effect]=[vPriceEffect]
+ 
+  /* Price effect - Gross value */
+ DIM [vPriceEffectGross] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vPriceEffectGross]=NULL
+ ELSE [vPriceEffectGross]= ([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm] - ([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm_PY]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY]*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm]))
+ END IF
+ ELSE [vPriceEffectGross]=NULL
+ END IF
+
+ [price_effect_gross]=[vPriceEffectGross]
+ 
+
+  /* Qty Effect*/
+ DIM [vQtyEffect] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vQtyEffect]=NULL
+ ELSE [vQtyEffect]= ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm]-([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm] - (([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_PY]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY])*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm]))-[SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_PY])
+ END IF
+ ELSE [vQtyEffect]=NULL
+ END IF
+ 
+[qty_effect]=[vQtyEffect]
+
+
+  /* Qty Effect - Gross value */
+ DIM [vQtyEffectGross] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vQtyEffectGross]=NULL
+ ELSE [vQtyEffectGross]= ([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm]-([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm] - (([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm_PY]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY])*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm]))-[SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm_PY])
+ END IF
+ ELSE [vQtyEffectGross]=NULL
+ END IF
+ 
+[qty_effect_gross]=[vQtyEffectGross]
+
+
+/*Other effect*/
+ DIM [vOtherEffect] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]<=0
+ THEN [vOtherEffect]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_PY],0.0)
+ ELSE [vOtherEffect]=NULL
+ END IF
+ [other_effect]=[vOtherEffect]
+
+
+/*Other effect - Gross value */
+ DIM [vOtherEffectGross] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]<=0
+ THEN [vOtherEffectGross]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm_PY],0.0)
+ ELSE [vOtherEffectGross]=NULL
+ END IF
+ [other_effect_gross]=[vOtherEffectGross]
+ 
+ 
+ /*Structure Effect*/
+ DIM [vStructureEffect] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vStructureEffect]= IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0) - IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_PY],0.0)
+ ELSE [vStructureEffect]=NULL
+ END IF
+ ELSE [vStructureEffect]=NULL
+ END IF
+ 
+ [structure_effect]=[vStructureEffect]
+ 
+ 
+ /*Structure Effect - Gross value */
+ DIM [vStructureEffectGross] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vStructureEffectGross]= IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0) - IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm_PY],0.0)
+ ELSE [vStructureEffectGross]=NULL
+ END IF
+ ELSE [vStructureEffectGross]=NULL
+ END IF
+ 
+ [structure_effect_gross]=[vStructureEffectGross]
+  
+ /* ------------- */
+ 
+
+/*Differences */
+DIM [v_Differences_invoice_net_value_Cumm] as FLOAT
+[v_Differences_invoice_net_value_Cumm]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_PY],0.0)
+[Differences_invoice_net_value_Cumm]=[v_Differences_invoice_net_value_Cumm]
+
+DIM [v_Differences_invoice_net_value] as FLOAT
+[v_Differences_invoice_net_value]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_PY],0.0)
+[Differences_invoice_net_value]=[v_Differences_invoice_net_value]
+
+DIM [v_Differences_invoice_gross_value_Cumm] as FLOAT
+[v_Differences_invoice_gross_value_Cumm]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm_PY],0.0)
+[Differences_invoice_gross_value_Cumm]=[v_Differences_invoice_gross_value_Cumm]
+
+DIM [v_Differences_invoice_gross_value] as FLOAT
+[v_Differences_invoice_gross_value]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_PY],0.0)
+[Differences_invoice_gross_value]=[v_Differences_invoice_gross_value]
+
+
+
+DIM [v_Differences_invoice_qty_Cumm] as FLOAT
+[v_Differences_invoice_qty_Cumm]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_PY],0.0)
+[Differences_invoice_qty_Cumm]=[v_Differences_invoice_qty_Cumm]
+
+DIM [v_Differences_invoice_qty] as FLOAT
+[v_Differences_invoice_qty]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_PY],0.0)
+[Differences_invoice_qty]=[v_Differences_invoice_qty]
+
+
+/*Differences - 12months*/
+DIM [v_Differences_invoice_qty_12m] as FLOAT
+[v_Differences_invoice_qty_12m]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_12m],0.0)
+[Differences_invoice_qty_12m]=[v_Differences_invoice_qty_12m]
+
+DIM [v_Differences_invoice_net_value_12m] as FLOAT
+[v_Differences_invoice_net_value_12m]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_12m],0.0)
+[Differences_invoice_net_value_12m]=[v_Differences_invoice_net_value_12m]
+
+DIM [v_Differences_invoice_gross_value_12m] as FLOAT
+[v_Differences_invoice_gross_value_12m]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_12m],0.0)
+[Differences_invoice_gross_value_12m]=[v_Differences_invoice_gross_value_12m]
+
+ /* Price effect - 12 months*/
+ DIM [vPriceEffect_12m] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_12m],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vPriceEffect_12m]=NULL
+ ELSE [vPriceEffect_12m]= ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm] - ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_12m]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_12m]*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm]))
+ END IF
+ ELSE [vPriceEffect_12m]=NULL
+ END IF
+
+ [price_effect_12m]=[vPriceEffect_12m]
+
+ /* Price effect - 12 months - Gross value */
+ DIM [vPriceEffect_12m_gross] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_12m],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vPriceEffect_12m_gross]=NULL
+ ELSE [vPriceEffect_12m_gross]= ([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm] - ([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_12m]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_12m]*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm]))
+ END IF
+ ELSE [vPriceEffect_12m_gross]=NULL
+ END IF
+
+ [price_effect_12m_gross]=[vPriceEffect_12m_gross]
+ 
+ /* Qty Effect - 12 months*/
+ DIM [vQtyEffect_12m] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_12m],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vQtyEffect_12m]=NULL
+ ELSE [vQtyEffect_12m]= ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm]-([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm] - (([SC-PriceIndex_Fact_PreFinal.invoice_net_value_12m]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_12m])*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm]))-[SC-PriceIndex_Fact_PreFinal.invoice_net_value_12m])
+ END IF
+ ELSE [vQtyEffect_12m]=NULL
+ END IF
+ 
+[qty_effect_12m]=[vQtyEffect_12m]
+ 
+ /* Qty Effect - 12 months - Gross Value */
+ DIM [vQtyEffect_12m_gross] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_12m],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vQtyEffect_12m_gross]=NULL
+ ELSE [vQtyEffect_12m_gross]= ([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm]-([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm] - (([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_12m]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_12m])*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm]))-[SC-PriceIndex_Fact_PreFinal.invoice_gross_value_12m])
+ END IF
+ ELSE [vQtyEffect_12m_gross]=NULL
+ END IF
+ 
+[qty_effect_12m_gross]=[vQtyEffect_12m_gross]
+
+
+/*Other effect - 12 months*/
+ DIM [vOtherEffect_12m] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]<=0
+ THEN [vOtherEffect_12m]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_12m],0.0)
+ ELSE [vOtherEffect_12m]=NULL
+ END IF
+ [other_effect_12m]=[vOtherEffect_12m]
+
+
+/*Other effect - 12 months - Gross value */
+ DIM [vOtherEffect_12m_gross] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]<=0
+ THEN [vOtherEffect_12m_gross]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_12m],0.0)
+ ELSE [vOtherEffect_12m_gross]=NULL
+ END IF
+ [other_effect_12m_gross]=[vOtherEffect_12m_gross]
+
+/*Structure Effect - 12 months*/
+ DIM [vStructureEffect_12m] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_12m],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vStructureEffect_12m]= IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm],0.0) - IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_12m],0.0)
+ ELSE [vStructureEffect_12m]=NULL
+ END IF
+ ELSE [vStructureEffect_12m]=NULL
+ END IF
+ 
+ [structure_effect_12m]=[vStructureEffect_12m]
+
+/*Structure Effect - 12 months - Gross value */
+ DIM [vStructureEffect_12m_gross] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_12m],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm],0.0)=0.0
+ THEN [vStructureEffect_12m_gross]= IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_Cumm],0.0) - IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_gross_value_12m],0.0)
+ ELSE [vStructureEffect_12m_gross]=NULL
+ END IF
+ ELSE [vStructureEffect_12m_gross]=NULL
+ END IF
+ 
+ [structure_effect_12m_gross]=[vStructureEffect_12m_gross]
+/*Relations: Neutral (supplier_neutral, plant neutral and compay netral - Price effect*/
+
+/*
+ DIM [vPriceEffect_Neutral] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral],0.0)=0.0
+ THEN [vPriceEffect_Neutral]=NULL
+ ELSE [vPriceEffect_Neutral]= ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral] - ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral_PY]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral_PY]*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral]))
+ END IF
+ ELSE [vPriceEffect_Neutral]=NULL
+ END IF
+
+ [price_effect_Neutral]=[vPriceEffect_Neutral]
+ 
+ 
+  DIM [vPriceEffect_SupplierOnly] AS FLOAT
+ 
+  IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly],0.0)=0.0
+ THEN [vPriceEffect_SupplierOnly]=NULL
+ ELSE [vPriceEffect_SupplierOnly]= ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly] - ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly_PY]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly_PY]*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly]))
+ END IF
+ ELSE [vPriceEffect_SupplierOnly]=NULL
+ END IF
+
+ [price_effect_SupplierOnly]=[vPriceEffect_SupplierOnly]
+
+ / Qty Effect/
+ DIM [vQtyEffect_Neutral] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral],0.0)=0.0
+ THEN [vQtyEffect_Neutral]=NULL
+ ELSE [vQtyEffect_Neutral]= ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral]-([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral] - (([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral_PY]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral_PY])*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral]))-[SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral_PY])
+ END IF
+ ELSE [vQtyEffect_Neutral]=NULL
+ END IF
+ 
+[qty_effect_Neutral]=[vQtyEffect_Neutral]
+
+
+
+ DIM [vQtyEffect_SupplierOnly] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly],0.0)=0.0
+ THEN [vQtyEffect_SupplierOnly]=NULL
+ ELSE [vQtyEffect_SupplierOnly]= ([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly]-([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly] - (([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly_PY]/[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly_PY])*[SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly]))-[SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly_PY])
+ END IF
+ ELSE [vQtyEffect_SupplierOnly]=NULL
+ END IF
+ 
+[qty_effect_SupplierOnly]=[vQtyEffect_SupplierOnly]
+
+
+//Other effect//
+ DIM [vOtherEffect_Neutral] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]=0
+ THEN [vOtherEffect_Neutral]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral_PY],0.0)
+ ELSE [vOtherEffect_Neutral]=NULL
+ END IF
+ [other_effect_Neutral]=[vOtherEffect_Neutral]
+
+ 
+ 
+  DIM [vOtherEffect_SupplierOnly] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]=-1
+ THEN [vOtherEffect_SupplierOnly]=IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly],0.0)-IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly_PY],0.0)
+ ELSE [vOtherEffect_SupplierOnly]=NULL
+ END IF
+ [other_effect_SupplierOnly]=[vOtherEffect_SupplierOnly]
+ 
+//Structure Effect//
+ DIM [vStructureEffect_Neutral] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_Neutral],0.0)=0.0
+ THEN [vStructureEffect_Neutral]= IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral],0.0) - IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_Neutral_PY],0.0)
+ ELSE [vStructureEffect_Neutral]=NULL
+ END IF
+ ELSE [vStructureEffect_Neutral]=NULL
+ END IF
+ 
+ [structure_effect_Neutral]=[vStructureEffect_Neutral]
+
+ 
+ 
+ DIM [vStructureEffect_SupplierOnly] AS FLOAT
+ 
+ IF [SC-PriceIndex_Fact_PreFinal.material_code]>0
+ THEN IF IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly_PY],0.0)=0.0 or IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_qty_Cumm_SupplierOnly],0.0)=0.0
+ THEN [vStructureEffect_SupplierOnly]= IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly],0.0) - IFNULL([SC-PriceIndex_Fact_PreFinal.invoice_net_value_Cumm_SupplierOnly_PY],0.0)
+ ELSE [vStructureEffect_SupplierOnly]=NULL
+ END IF
+ ELSE [vStructureEffect_SupplierOnly]=NULL
+ END IF
+ 
+ [structure_effect_SupplierOnly]=[vStructureEffect_SupplierOnly]
+ 
+ // END of Neutral------------- //
+ */
+
+WRITERECORD

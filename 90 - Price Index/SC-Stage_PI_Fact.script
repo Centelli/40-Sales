@@ -1,0 +1,119 @@
+dim [v_rate] as float
+
+IF position('-', [RBKP_RSEG.rbkp_kursf]) > 0
+  [v_rate] = FLOAT( SUBSTRING([RBKP_RSEG.rbkp_kursf], 0, position('-', [RBKP_RSEG.rbkp_kursf])) ) * -1
+ELSE
+  [v_rate] = FLOAT( [RBKP_RSEG.rbkp_kursf] )
+END IF
+
+Dim [v_amnt] as float
+IF IFNULL([SC-Stage_currency_factor.factor1],0)=0
+	[v_amnt]=sum([RBKP_RSEG.rseg_wrbtr])
+ELSE 
+[v_amnt]=sum([RBKP_RSEG.rseg_wrbtr])*[SC-Stage_currency_factor.factor1]
+END IF
+
+Dim [v_curr_rate] as float
+IF IFNULL([SC-Stage_currency_factor.factor2],0.0)=0.0
+	[v_curr_rate]=[v_rate]
+ELSE 
+[v_curr_rate]=[v_rate]*[SC-Stage_currency_factor.factor2]
+END IF
+
+dim [v_tcurr_amnt_discounted] as float
+IF ([RBKP_RSEG.rbkp_zbd1t]=0 AND [RBKP_RSEG.rbkp_zbd1p]>0) or (ABS(DATEDIFF(Day,DATETIME([RBKP_RSEG.rbkp_BUDAT]),DATETIME([RBKP_RSEG.rbkp_zfbdt])))<=[RBKP_RSEG.rbkp_zbd1t])
+	THEN	[v_tcurr_amnt_discounted]=[v_amnt] - ([v_amnt] * [RBKP_RSEG.rbkp_zbd1p] * 0.01)
+		 ELSE [v_tcurr_amnt_discounted]=[v_amnt]
+END IF	
+
+Dim [v_factor] as integer
+IF TOLOWER(IFNULL([RBKP_RSEG.rseg_shkzg],''))='h'
+	[v_factor]=-1
+ELSE [v_factor]=1
+END IF
+
+Dim [v_qty] as float
+IF TOLOWER(IFNULL([RBKP_RSEG.rseg_tbtkz],''))='x'
+	[v_qty]=0
+ELSE
+	IF TOLOWER([RBKP_RSEG.rseg_shkzg]) = 'h' OR TOLOWER([RBKP_RSEG.rseg_shkzg]) = 's'
+			[v_qty]=sum([RBKP_RSEG.rseg_menge]) * [v_factor] 
+	ELSE [v_qty]=sum([RBKP_RSEG.rseg_menge])
+	END IF
+END IF
+Print [v_qty]
+
+Dim [v_invoice_net] as float
+IF TOLOWER([RBKP_RSEG.rseg_shkzg]) = 'h' OR TOLOWER([RBKP_RSEG.rseg_shkzg]) = 's'
+	[v_invoice_net]=[v_tcurr_amnt_discounted]*[v_factor]
+ELSE 	[v_invoice_net]=[v_tcurr_amnt_discounted]
+END IF	
+
+Dim [v_invoice_gross] as float
+IF TOLOWER([RBKP_RSEG.rseg_shkzg]) = 'h' OR TOLOWER([RBKP_RSEG.rseg_shkzg]) = 's'
+	[v_invoice_gross]=[v_amnt]*[v_factor]
+ELSE 	[v_invoice_gross]=[v_amnt]
+END IF
+
+
+[company_code]=[RBKP_RSEG.rbkp_bukrs]
+[plant_code]=[RBKP_RSEG.Plant]
+[invoice_qty]=[v_qty]
+[uom_code]=[RBKP_RSEG.rseg_bstme]
+[supplier_code_invoice]=[RBKP_RSEG.rbkp_lifnr]
+[supplier_code]=[RBKP_RSEG.ekko_lifnr]
+[debit_credit_flag]=[RBKP_RSEG.rseg_shkzg]
+[tcurr_amnt]= [v_amnt]
+[curr_code]=[RBKP_RSEG.rbkp_waers]
+[rate]= FLOAT(FORMAT([v_curr_rate],'##,###,##0.0000'))
+[invoice_no]=[RBKP_RSEG.rbkp_belnr]
+[invoice_pos]=[RBKP_RSEG.rseg_buzei]
+[subsequent_debitor_creditor]=[RBKP_RSEG.rseg_tbtkz]
+[baseline_date]=[RBKP_RSEG.rbkp_zfbdt]
+[no_of_days1]=[RBKP_RSEG.rbkp_zbd1t]
+[disc_perc1]=[RBKP_RSEG.rbkp_zbd1p]
+[no_of_days2]=[RBKP_RSEG.rbkp_zbd2t]
+[disc_perc2]=[RBKP_RSEG.rbkp_ZBD2P]
+[posting_date]=[RBKP_RSEG.rbkp_BUDAT]
+
+Dim [v_material_code_orginal] as VARCHAR(18)
+[v_material_code_orginal]=[RBKP_RSEG.rseg_matnr]
+Dim [v_material_code_new] as VARCHAR(8)
+
+IF LENGTH(IFNULL([v_material_code_orginal],'0'))>=8
+THEN [v_material_code_new]=SUBSTRING([v_material_code_orginal],LENGTH([v_material_code_orginal])-8,LENGTH([v_material_code_orginal]))
+ELSE [v_material_code_new]=[v_material_code_orginal]
+END IF
+
+
+[material_code]=[v_material_code_new]
+
+[correct_flag]=0
+//[active]=1
+[tcurr_amnt_discounted]=[v_tcurr_amnt_discounted]
+[factor]=[v_factor]
+[record_source_key]=1
+[invoice_net]=[v_invoice_net]
+[invoice_gross]=[v_invoice_gross]
+[rate_key]= 0
+[rate_type_key]=0
+[curr_type_key]=1
+
+IF [SC-Stage_PO_Bill_Types.PO History Cat_] is not null and [RBKP_RSEG.rbkp_bukrs]='4800' then [active]=0 else [active]=1 end if
+
+dim [vMatDoc] as varchar(20)
+[vMatDoc]=[RBKP_RSEG.rbkp_belnr]
+IF [SC-Stage_EKBE_PO_Hist.PO History Cat_] = 'K' and substring([vMatDoc],0,2)='54' then [active]=0 else [active]=1 end if
+
+
+Dim [v_IC_flag] as INTEGER
+Dim [v_IC_value] as INTEGER
+Dim [v_IC_value_var] as varchar(50)
+IF [RBKP_RSEG.rbkp_lifnr] is null then [v_IC_value_var]=[RBKP_RSEG.ekko_lifnr] else [v_IC_value_var]=[RBKP_RSEG.rbkp_lifnr] end if
+[v_IC_value_var]=Replace([v_IC_value_var],'P','')
+[v_IC_value]=[v_IC_value_var]
+IF [v_IC_value]>9999 [v_IC_flag]=0 else [v_IC_flag]=1 end if
+[IC_flag]=[v_IC_flag]
+
+
+WRITERECORD

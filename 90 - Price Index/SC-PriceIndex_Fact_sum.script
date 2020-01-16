@@ -1,0 +1,95 @@
+[plant_code]=[SC-PriceIndex_Fact_AggData.plant_code]
+[Division Key]=[SC-PriceIndex_Fact_AggData.Division Key]
+[material_category_name]=[SC-PriceIndex_Fact_AggData.material_category_name]
+[material_sub_category_name1]=[SC-PriceIndex_Fact_AggData.material_sub_category_name1]
+[material_sub_category_name]=[SC-PriceIndex_Fact_AggData.material_sub_category_name]
+[material_group_name1]=[SC-PriceIndex_Fact_AggData.material_group_name1]
+[material_group_name]=[SC-PriceIndex_Fact_AggData.material_group_name]
+[inco_term_code]=[SC-PriceIndex_Fact_AggData.inco_term_code]
+[material_exclude_key]=[SC-PriceIndex_Fact_AggData.material_exclude_key]
+[material_planner_code]=[SC-PriceIndex_Fact_AggData.material_planner_code]
+[metal_key]=[SC-PriceIndex_Fact_AggData.metal_key]
+[sourcing_manager_code]=[SC-PriceIndex_Fact_AggData.sourcing_manager_code]
+[supplier_classification_code]=[SC-PriceIndex_Fact_AggData.supplier_classification_code]
+[supplier_segmentation_code]=[SC-PriceIndex_Fact_AggData.supplier_segmentation_code]
+[supplier_group_key]=[SC-PriceIndex_Fact_AggData.supplier_group_key]
+[supplier_exclude_key]=[SC-PriceIndex_Fact_AggData.supplier_exclude_key]
+[supplier_country_code]=[SC-PriceIndex_Fact_AggData.supplier_country_code]
+[purchase_group_key]=[SC-PriceIndex_Fact_AggData.purchase_group_key]
+[purchase_organisation_code]=[SC-PriceIndex_Fact_AggData.purchase_organisation_code]
+
+
+[invoice_qty]=sum([SC-PriceIndex_Fact_AggData.invoice_qty])
+
+[uom_code]=[SC-PriceIndex_Fact_AggData.uom_code]
+[supplier_code_invoice]=[SC-PriceIndex_Fact_AggData.supplier_code_invoice]
+
+[debit_credit_flag]=[SC-PriceIndex_Fact_AggData.debit_credit_flag]
+[tcurr_amnt]=sum([SC-PriceIndex_Fact_AggData.tcurr_amnt])
+[curr_code]=[SC-PriceIndex_Fact_AggData.curr_code]
+//[rate]=[SC-PriceIndex_Fact_AggData.rate]
+//[invoice_no]=[SC-PriceIndex_Fact_AggData.invoice_no]
+//[invoice_pos]=[SC-PriceIndex_Fact_AggData.invoice_pos]
+[subsequent_debitor_creditor]=[SC-PriceIndex_Fact_AggData.subsequent_debitor_creditor]
+[baseline_date]=[SC-PriceIndex_Fact_AggData.baseline_date]
+[no_of_days1]=[SC-PriceIndex_Fact_AggData.no_of_days1]
+[disc_perc1]=[SC-PriceIndex_Fact_AggData.disc_perc1]
+[no_of_days2]=[SC-PriceIndex_Fact_AggData.no_of_days2]
+[disc_perc2]=[SC-PriceIndex_Fact_AggData.disc_perc2]
+
+[correct_flag]=[SC-PriceIndex_Fact_AggData.correct_flag]
+
+
+//DIM [vActive] as INTEGER
+//IF sum([SC-PriceIndex_Fact_AggData.invoice_qty_Cumm])<0 or sum([SC-PriceIndex_Fact_AggData.invoice_net_value_Cumm])<0 //or sum([SC-PriceIndex_Fact_AggData.invoice_gross])<0
+//then [vActive]=0
+//else [vActive]=[SC-PriceIndex_Fact_AggData.active]
+//END IF
+//[active]=[vActive]
+
+[active]=[SC-PriceIndex_Fact_AggData.active]
+
+[tcurr_amnt_discounted]=sum([SC-PriceIndex_Fact_AggData.tcurr_amnt_discounted])
+[factor]=[SC-PriceIndex_Fact_AggData.factor]
+[record_source_key]=[SC-PriceIndex_Fact_AggData.record_source_key]
+
+[invoice_net]=sum([SC-PriceIndex_Fact_AggData.invoice_net])
+
+[invoice_gross]=sum([SC-PriceIndex_Fact_AggData.invoice_gross])
+[rate_key]=[SC-PriceIndex_Fact_AggData.rate_key]
+[rate_type_key]=[SC-PriceIndex_Fact_AggData.rate_type_key]
+[curr_type_key]=[SC-PriceIndex_Fact_AggData.curr_type_key]
+[invoice_currency_key]=[SC-PriceIndex_Fact_AggData.invoice_currency_key]
+//[invoice_exc_rate]=[SC-PriceIndex_Fact_AggData.invoice_exc_rate]
+
+
+
+[material_code]=[SC-PriceIndex_Fact_AggData.material_code]
+[company_code]=[SC-PriceIndex_Fact_AggData.company_code]
+[supplier_code]=[SC-PriceIndex_Fact_AggData.supplier_code]
+[posting_date]=[SC-PriceIndex_Fact_AggData.posting_date]
+[posting_date_year]=datepart(Year,[SC-PriceIndex_Fact_AggData.posting_date])
+ 
+[invoice_net_value]=sum([SC-PriceIndex_Fact_AggData.invoice_net_value])
+[invoice_net_value_Cumm]=sum([SC-PriceIndex_Fact_AggData.invoice_net_value_Cumm])
+[invoice_qty_Cumm]=sum([SC-PriceIndex_Fact_AggData.invoice_qty_Cumm])
+
+ 
+ 
+/* 12 months - Previous whole year*/
+[invoice_qty_12m]=sum([SC-PriceIndex_Fact_AggData.invoice_qty_12m])
+[invoice_net_value_12m]=sum([SC-PriceIndex_Fact_AggData.invoice_net_value_12m])
+
+ 
+ /*Curr Rate and Types*/
+ [CurrRateKey]=[SC-PriceIndex_Fact_AggData.CurrRateKey]
+ 
+ 
+ /*Gross */
+ [invoice_gross_value]=sum([SC-PriceIndex_Fact_AggData.invoice_gross_value])
+ [invoice_gross_value_Cumm]=sum([SC-PriceIndex_Fact_AggData.invoice_gross_value_Cumm])
+ 
+
+ 
+
+WRITERECORD

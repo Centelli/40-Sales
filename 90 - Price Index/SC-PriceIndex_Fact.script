@@ -1,0 +1,236 @@
+/*Corrections - calulations*/
+
+Dim [vInvoiceNetValue] as Float
+Dim [v_correct_flag] as INTEGER
+Dim [vCompanyCode] as Varchar(5)
+Dim [vPlantCode] as Varchar(5)
+Dim [vMaterialCode] as Varchar(10)
+Dim [vUomCode] as Varchar(5)
+Dim [vSupplierCode] as VARCHAR(10)
+Dim [vCurrCode] as Varchar(3)
+Dim [vRate] as Float
+Dim [vinvoiceQty] as Float
+Dim [vDebitCreditFlag] as Varchar(1)
+Dim [vPostingDate] as Date
+Dim [vActive] as INTEGER
+Dim [vInvoiceNo] as INTEGER
+Dim [vInvoicePos] as INTEGER
+Dim [vInvoiceGross] as Float
+
+IF [FactCorrection.correct_flag]=1 
+	then 
+	[vInvoiceNetValue] =[FactCorrection.invoice_net] 
+	[v_correct_flag] =[FactCorrection.correct_flag] 
+	[vCompanyCode] =[FactCorrection.company_code] 
+	[vPlantCode] =[FactCorrection.plant_code]
+	[vMaterialCode] =[FactCorrection.material_code] 	
+	[vUomCode] =[FactCorrection.uom_code] 
+	[vSupplierCode]=[FactCorrection.supplier_code]	
+	[vCurrCode] = [FactCorrection.curr_code]
+	[vRate]=[FactCorrection.rate]
+	[vinvoiceQty]=[FactCorrection.invoice_qty]
+	[vDebitCreditFlag]=[FactCorrection.debit_credit_flag]
+	[vPostingDate] = [FactCorrection.posting_date]
+	[vActive] = [FactCorrection.active]
+	[vInvoiceNo]=[FactCorrection.invoice_no]
+	[vInvoicePos]=[FactCorrection.invoice_pos]
+	[vInvoiceGross]=[FactCorrection.invoice_net]
+	else 
+	[vInvoiceNetValue] = [Fact.invoice_net]
+	[v_correct_flag] = [Fact.correct_flag]
+	[vCompanyCode] = [Fact.company_code]
+	[vPlantCode] = [Fact.plant_code]
+	[vMaterialCode] = [Fact.material_code]
+	[vUomCode] =[Fact.uom_code]
+	[vSupplierCode]=[Fact.supplier_code]
+	[vCurrCode] = [Fact.curr_code]
+	[vRate]=[Fact.rate]	
+	[vinvoiceQty]=[Fact.invoice_qty]
+	[vDebitCreditFlag]=[Fact.debit_credit_flag]
+	[vPostingDate] = [Fact.posting_date]
+	[vActive] = [Fact.active]
+	[vInvoiceNo]=[Fact.invoice_no]
+	[vInvoicePos]=[Fact.invoice_pos]
+	[vInvoiceGross]=[Fact.invoice_gross]
+end if
+
+[correct_flag]=[v_correct_flag]
+[company_code]=[vCompanyCode]
+[plant_code]=[vPlantCode]
+[material_code]=[vMaterialCode]
+[uom_code]=[vUomCode]
+[supplier_code]=[vSupplierCode]
+[curr_code]=[vCurrCode]
+[rate]= [vRate]
+[invoice_qty]=[vinvoiceQty]
+[debit_credit_flag]=[vDebitCreditFlag]
+[posting_date]=[vPostingDate]
+[active] = [vActive]
+[invoice_no]=[vInvoiceNo]
+[invoice_pos]=[vInvoicePos]
+[invoice_gross]=[vInvoiceGross]
+
+/*END of Corrections*/
+
+
+/*Exchange Rates Calculations*/
+
+Dim [vHomeCurr] as Varchar(4) 
+[vHomeCurr] = [Level(Company.Company).Comp Currency Key] 
+
+Dim [v_rate_to_chf] as Float
+Dim [v_rate_tranaction] as Float 
+Dim [v_rate_fix] as Float 
+Dim [v_rate_localfix] as Float 
+
+[v_rate_to_chf]=1
+IF [vCurrCode] <> 'CHF' THEN
+[v_rate_to_chf] = IFNULL([Level(Exchange Rates.Exchange Rates).Exchange Rate],0.00)
+END IF
+
+[v_rate_tranaction] =1
+IF [vCurrCode] <> 'CHF' THEN
+[v_rate_tranaction] = IFNULL([vRate],0.00)
+END IF
+
+[v_rate_fix]=1
+IF [vCurrCode] <> 'CHF' THEN
+[v_rate_fix] = IFNULL([SC-Exchange Rates FixedYearly.rate_with_factor],0.00) 
+END IF
+
+[v_rate_localfix]=1
+IF [vCurrCode] <> 'CHF' THEN
+[v_rate_localfix] = IFNULL([LocalFixedYearly.rate_with_factor],0.00) 
+END IF
+
+/* CurrType=Transaction and Rate type= not allocated -->TN */  
+/* Domestic values remains unchanged */
+[invoice_currency_key_DC]=[vCurrCode]
+[invoice_exc_rate_DC]=1
+[invoice_net_value_DC]=[vInvoiceNetValue]
+[invoice_gross_value_DC]=[vInvoiceGross]
+
+/* CurrType=Local and Rate type= Transaction -->LT */ 
+Dim [vinvoice_net_value_LT] as FLOAT  
+Dim [vinvoice_gross_value_LT] as FLOAT  
+[invoice_currency_key_LT] = [vHomeCurr]
+IF [vCurrCode] = 'CHF' THEN
+  [invoice_exc_rate_LT] = 1
+  [invoice_net_value_LT] = [vInvoiceNetValue]
+  [invoice_gross_value_LT]=[vInvoiceGross]
+ELSE
+  [invoice_exc_rate_LT] = [v_rate_tranaction]
+  [vinvoice_net_value_LT] = IFNULL([vInvoiceNetValue],0.00)*[v_rate_tranaction]
+  [invoice_net_value_LT] = [vinvoice_net_value_LT]
+  [vinvoice_gross_value_LT] = IFNULL([vInvoiceGross],0.00)*[v_rate_tranaction]
+  [invoice_gross_value_LT] = [vinvoice_gross_value_LT]
+
+END IF
+
+/* CurrType=Local and Rate type= FixedYearly -->LF */   
+Dim [vinvoice_net_value_LF] as FLOAT
+Dim [vinvoice_gross_value_LF] as FLOAT
+[invoice_currency_key_LF] = [vHomeCurr]
+IF [vCurrCode] = 'CHF' THEN
+  [invoice_exc_rate_LF] = 1
+  [invoice_net_value_LF] = [vInvoiceNetValue]
+  [invoice_gross_value_LF] = [vInvoiceGross]
+ELSE
+  [invoice_exc_rate_LF] = [v_rate_localfix]
+  [vinvoice_net_value_LF] = IFNULL([vInvoiceNetValue],0.00)* [v_rate_localfix]
+  [invoice_net_value_LF] = [vinvoice_net_value_LF]
+  [vinvoice_gross_value_LF] = IFNULL([vInvoiceGross],0.00)* [v_rate_localfix]
+  [invoice_gross_value_LF] = [vinvoice_gross_value_LF]
+END IF
+
+/* CurrType=Group(in CHF) and Rate type= FixedYearly -->GF */   
+[invoice_currency_key_GF] = 'CHF'
+IF [vCurrCode] = 'CHF' OR [vHomeCurr] = 'CHF' THEN
+  [invoice_exc_rate_GF] = 1
+  [invoice_net_value_GF] = IFNULL([vInvoiceNetValue],0.00)* [v_rate_localfix]
+  [invoice_gross_value_GF] = IFNULL([vInvoiceGross],0.00)* [v_rate_localfix]
+ELSE
+  [invoice_currency_key_GF] = 'CHF' //[vHomeCurr]
+  [invoice_exc_rate_GF] = [v_rate_fix]
+  [invoice_net_value_GF] = IFNULL([vInvoiceNetValue],0.00)* [v_rate_localfix]*[v_rate_fix]
+  [invoice_gross_value_GF] = IFNULL([vInvoiceGross],0.00)* [v_rate_localfix]*[v_rate_fix]
+END IF
+
+/* CurrType=Group(in CHF) and Rate type= Monthly Average -->GM */   
+[invoice_currency_key_GM] = 'CHF'
+IF [vCurrCode] = 'CHF' OR [vHomeCurr] = 'CHF' THEN
+  [invoice_exc_rate_GM] = 1
+  [invoice_net_value_GM] = IFNULL([vInvoiceNetValue],0.00)*[v_rate_tranaction]
+  [invoice_gross_value_GM] = IFNULL([vInvoiceGross],0.00)*[v_rate_tranaction]
+ELSE
+  [invoice_currency_key_GF] = 'CHF' //[vHomeCurr]
+  [invoice_exc_rate_GM] = [v_rate_to_chf]
+  [invoice_net_value_GM] = IFNULL([vInvoiceNetValue],0.00)*[v_rate_tranaction]*[v_rate_to_chf]
+  [invoice_gross_value_GM] = IFNULL([vInvoiceGross],0.00)*[v_rate_tranaction]*[v_rate_to_chf]
+END IF
+
+
+
+//[material_name1]=[Fact.material_name1]
+
+
+//[supplier_code_invoice]=[Fact.supplier_code_invoice]
+
+//[tcurr_amnt]=[Fact.tcurr_amnt]
+
+[invoice_net]=[vInvoiceNetValue] //[Fact.invoice_net]
+
+//[rate]= FLOAT(FORMAT([Fact.rate],'##,###,##0.000')) //[Fact.rate]
+
+
+
+Dim [v_purchase_group_key] as INTEGER
+Dim [v_purchase_group_key_var] as VARCHAR(15)
+[v_purchase_group_key_var] = [vCompanyCode]+[vSupplierCode]
+[v_purchase_group_key]=[v_purchase_group_key_var]
+[purchase_group_key]=[v_purchase_group_key]
+
+Dim [v_purchase_organisation_code] as INTEGER
+[v_purchase_organisation_code]=[Fact.company_code]
+[purchase_organisation_code]=[v_purchase_organisation_code]
+
+DIM [v_index_type_key] as INTEGER
+
+IF IFNULL(INTEGER(MIN([min.posting_date_month])),0)=0 
+then [v_index_type_key]=0 ELSE 
+IF INTEGER(MIN([min.posting_date_month]))> INTEGER([Fact.posting_date_month])
+then [v_index_type_key]=0 ELSE 
+[v_index_type_key]=1 END IF
+END IF
+
+//PRINT 'MIN([min.posting_date_month]): ' + MIN([min.posting_date_month]) 
+//PRINT '[Fact.posting_date_month]: ' + [Fact.posting_date_month] 
+//PRINT '[v_index_type_key]: ' + [v_index_type_key]
+
+[index_type_key]=[v_index_type_key]
+
+/*
+DIM [v_index_type_above_year_key] as INTEGER
+
+IF IFNULL(INTEGER(MIN([minAboveYear.posting_date_month])),0)=0 
+then [v_index_type_above_year_key]=0 ELSE 
+IF INTEGER(MIN([minAboveYear.posting_date_month]))> INTEGER([Fact.posting_date_month])
+then [v_index_type_above_year_key]=0 ELSE 
+[v_index_type_above_year_key]=1 END IF
+END IF
+[index_type_above_year_key]=[v_index_type_above_year_key]
+*/
+
+[min_posting_date_month_PY]=MIN([min.posting_date_month])
+[posting_date_month]=[Fact.posting_date_month]
+[posting_date_year]=[Fact.posting_date_year]
+
+
+
+//[index_type_key]=[SC-PI_Fact_Indexes.index_type]
+//[index_type_above_year_key]=[indexTypeAboveYear.index_type]
+[posting_date_day]=[Fact.posting_date_day]
+
+
+
+WRITERECORD

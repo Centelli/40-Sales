@@ -1,0 +1,1 @@
+SELECT distinct [RBKP_RSEG.rbkp_waers] FROM [RBKP_RSEG]

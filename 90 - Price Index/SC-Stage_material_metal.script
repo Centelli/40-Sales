@@ -1,0 +1,7 @@
+[metal_key]=[material_metal.metal_key]
+[metal_name]=[material_metal.metal_name]
+[nf_metal_flag]=[material_metal.nf_metal_flag]
+[active]=[material_metal.active]
+[AUDIT_USER]=[material_metal.AUDIT_USER]
+[AUDIT_TIME]=[material_metal.AUDIT_TIME]
+WRITERECORD

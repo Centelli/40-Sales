@@ -1,0 +1,1 @@
+SELECT DISTINCT [SC-PI_Fact.supplier_code] FROM [SC-PI_Fact]

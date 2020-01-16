@@ -1,0 +1,198 @@
+[company_code]=[SC-PriceIndex_Fact_RelationJoin.company_code]
+[plant_code]=[SC-PriceIndex_Fact_RelationJoin.plant_code]
+[material_code]=[SC-PriceIndex_Fact_RelationJoin.material_code]
+[invoice_qty]=[SC-PriceIndex_Fact_RelationJoin.invoice_qty]
+[uom_code]=[SC-PriceIndex_Fact_RelationJoin.uom_code]
+[supplier_code_invoice]=[SC-PriceIndex_Fact_RelationJoin.supplier_code_invoice]
+[supplier_code]=[SC-PriceIndex_Fact_RelationJoin.supplier_code]
+[debit_credit_flag]=[SC-PriceIndex_Fact_RelationJoin.debit_credit_flag]
+[tcurr_amnt]=[SC-PriceIndex_Fact_RelationJoin.tcurr_amnt]
+[curr_code]=[SC-PriceIndex_Fact_RelationJoin.curr_code]
+[rate]=[SC-PriceIndex_Fact_RelationJoin.rate]
+[invoice_no]=[SC-PriceIndex_Fact_RelationJoin.invoice_no]
+[invoice_pos]=[SC-PriceIndex_Fact_RelationJoin.invoice_pos]
+[subsequent_debitor_creditor]=[SC-PriceIndex_Fact_RelationJoin.subsequent_debitor_creditor]
+[baseline_date]=[SC-PriceIndex_Fact_RelationJoin.baseline_date]
+[no_of_days1]=[SC-PriceIndex_Fact_RelationJoin.no_of_days1]
+[disc_perc1]=[SC-PriceIndex_Fact_RelationJoin.disc_perc1]
+[no_of_days2]=[SC-PriceIndex_Fact_RelationJoin.no_of_days2]
+[disc_perc2]=[SC-PriceIndex_Fact_RelationJoin.disc_perc2]
+//[posting_date]=[SC-PriceIndex_Fact_RelationJoin.posting_date]
+[Division Key]=[SC-PriceIndex_Fact_RelationJoin.Division Key]
+[material_category_name]=[SC-PriceIndex_Fact_RelationJoin.material_category_name]
+[material_sub_category_name1]=[SC-PriceIndex_Fact_RelationJoin.material_sub_category_name1]
+[material_sub_category_name]=[SC-PriceIndex_Fact_RelationJoin.material_sub_category_name]
+[material_group_name1]=[SC-PriceIndex_Fact_RelationJoin.material_group_name1]
+[material_group_name]=[SC-PriceIndex_Fact_RelationJoin.material_group_name]
+[inco_term_code]=[SC-PriceIndex_Fact_RelationJoin.inco_term_code]
+[material_exclude_key]=[SC-PriceIndex_Fact_RelationJoin.material_exclude_key]
+[material_planner_code]=[SC-PriceIndex_Fact_RelationJoin.material_planner_code]
+[metal_key]=[SC-PriceIndex_Fact_RelationJoin.metal_key]
+[sourcing_manager_code]=[SC-PriceIndex_Fact_RelationJoin.sourcing_manager_code]
+[supplier_classification_code]=[SC-PriceIndex_Fact_RelationJoin.supplier_classification_code]
+[supplier_segmentation_code]=[SC-PriceIndex_Fact_RelationJoin.supplier_segmentation_code]
+[supplier_group_key]=[SC-PriceIndex_Fact_RelationJoin.supplier_group_key]
+[supplier_exclude_key]=[SC-PriceIndex_Fact_RelationJoin.supplier_exclude_key]
+[supplier_country_code]=[SC-PriceIndex_Fact_RelationJoin.supplier_country_code]
+
+
+DIM [vPostingDate] AS Date
+IF [SC-PriceIndex_Fact_RelationJoin.Posting_alldate]>[SC-PriceIndex_Fact_RelationJoin.posting_date]
+THEN [vPostingDate]=[SC-PriceIndex_Fact_RelationJoin.Posting_alldate]
+ELSE [vPostingDate]=[SC-PriceIndex_Fact_RelationJoin.posting_date]
+END IF
+
+[posting_date]=[vPostingDate]
+
+[posting_date_orginal]=[SC-PriceIndex_Fact_RelationJoin.posting_date]
+DIM [vPostingDateOrginal] AS INTEGER
+[vPostingDateOrginal]=INTEGER(DATEPART(MONTH,[SC-PriceIndex_Fact_RelationJoin.posting_date]))
+
+[correct_flag]=[SC-PriceIndex_Fact_RelationJoin.correct_flag]
+[active]=[SC-PriceIndex_Fact_RelationJoin.active]
+[tcurr_amnt_discounted]=[SC-PriceIndex_Fact_RelationJoin.tcurr_amnt_discounted]
+[factor]=[SC-PriceIndex_Fact_RelationJoin.factor]
+[record_source_key]=[SC-PriceIndex_Fact_RelationJoin.record_source_key]
+[invoice_net]=[SC-PriceIndex_Fact_RelationJoin.invoice_net]
+[invoice_gross]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross]
+[rate_key]=[SC-PriceIndex_Fact_RelationJoin.rate_key]
+[rate_type_key]=[SC-PriceIndex_Fact_RelationJoin.rate_type_key]
+[curr_type_key]=[SC-PriceIndex_Fact_RelationJoin.curr_type_key]
+[invoice_currency_key_DC]=[SC-PriceIndex_Fact_RelationJoin.invoice_currency_key_DC]
+[invoice_exc_rate_DC]=[SC-PriceIndex_Fact_RelationJoin.invoice_exc_rate_DC]
+[invoice_net_value_DC]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_DC]
+[invoice_gross_value_DC]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_DC]
+[invoice_net_value_DC_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_DC_Cumm]
+[invoice_gross_value_DC_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_DC_Cumm]
+[invoice_currency_key_LT]=[SC-PriceIndex_Fact_RelationJoin.invoice_currency_key_LT]
+[invoice_exc_rate_LT]=[SC-PriceIndex_Fact_RelationJoin.invoice_exc_rate_LT]
+[invoice_net_value_LT]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_LT]
+[invoice_gross_value_LT]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_LT]
+[invoice_net_value_LT_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_LT_Cumm]
+[invoice_gross_value_LT_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_LT_Cumm]
+[invoice_currency_key_LF]=[SC-PriceIndex_Fact_RelationJoin.invoice_currency_key_LF]
+[invoice_exc_rate_LF]=[SC-PriceIndex_Fact_RelationJoin.invoice_exc_rate_LF]
+[invoice_net_value_LF]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_LF]
+[invoice_gross_value_LF]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_LF]
+[invoice_net_value_LF_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_LF_Cumm]
+[invoice_gross_value_LF_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_LF_Cumm]
+[invoice_currency_key_GF]=[SC-PriceIndex_Fact_RelationJoin.invoice_currency_key_GF]
+[invoice_exc_rate_GF]=[SC-PriceIndex_Fact_RelationJoin.invoice_exc_rate_GF]
+[invoice_net_value_GF]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_GF]
+[invoice_gross_value_GF]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_GF]
+[invoice_net_value_GF_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_GF_Cumm]
+[invoice_gross_value_GF_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_GF_Cumm]
+[invoice_currency_key_GM]=[SC-PriceIndex_Fact_RelationJoin.invoice_currency_key_GM]
+[invoice_exc_rate_GM]=[SC-PriceIndex_Fact_RelationJoin.invoice_exc_rate_GM]
+[invoice_net_value_GM]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_GM]
+[invoice_gross_value_GM]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_GM]
+[invoice_net_value_GM_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_GM_Cumm]
+[invoice_gross_value_GM_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_gross_value_GM_Cumm]
+[purchase_group_key]=[SC-PriceIndex_Fact_RelationJoin.purchase_group_key]
+[purchase_organisation_code]=[SC-PriceIndex_Fact_RelationJoin.purchase_organisation_code]
+[index_type_key]=[SC-PriceIndex_Fact_RelationJoin.index_type_key]
+[index_type_above_year_key]=[SC-PriceIndex_Fact_RelationJoin.index_type_above_year_key]
+[invoice_qty_Cumm]=[SC-PriceIndex_Fact_RelationJoin.invoice_qty_Cumm]
+[Flag]=[SC-PriceIndex_Fact_RelationJoin.Flag]
+[Posting_alldate]=[SC-PriceIndex_Fact_RelationJoin.Posting_alldate]
+[Posting_date_NM]=[SC-PriceIndex_Fact_RelationJoin.Posting_date_NM]
+[invoice_net_value_FX_Cumm_indexType]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_FX_Cumm_indexType]
+[invoice_qty_Cumm_indexType]=[SC-PriceIndex_Fact_RelationJoin.invoice_qty_Cumm_indexType]
+
+DIM [vPrevMonth] AS INTEGER
+DIM [vCurrYear] AS VARCHAR(4)
+DIM [vCurrMonth] AS INTEGER
+DIM [vPrevYear] AS VARCHAR(4) = null
+DIM [vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode] AS VARCHAR(50)
+DIM [vPrevCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode] AS VARCHAR(50)
+//DIM [vinvoice_net_value_FX] AS FLOAT
+DIM [vinvoice_qty_Cumm] AS FLOAT
+//DIM [vPrevCompCode] as varchar(10)
+DIM [vCompCode] as varchar(10)
+[vCompCode]=[SC-PriceIndex_Fact_RelationJoin.company_code]
+DIM [vPlantCode] as varchar(10)
+[vPlantCode]=[SC-PriceIndex_Fact_RelationJoin.plant_code]
+DIM [vSupplierCode] as varchar(10)
+[vSupplierCode]=[SC-PriceIndex_Fact_RelationJoin.supplier_code]
+DIM [vMaterialCode] as varchar(10)
+[vMaterialCode] =[SC-PriceIndex_Fact_RelationJoin.material_code]
+DIM [vUomCode] as varchar(3)
+[vUomCode]=[SC-PriceIndex_Fact_RelationJoin.uom_code]
+DIM [vCurrCode] as varchar(3)
+[vCurrCode]=[SC-PriceIndex_Fact_RelationJoin.curr_code]
+
+[vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]=[vCompCode] + [vPlantCode] + [vSupplierCode] + [vMaterialCode] + [vUomCode] + [vCurrCode]
+PRINT 'vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode: ' + [vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]
+DIM [vNextMonth] as INTEGER
+DIM [vMaxMonth] as INTEGER
+[vMaxMonth]=MAX([max.posting_date_month])
+DIM [vFlag] as INTEGER
+DIM [vCurrMonthAllDate] AS INTEGER
+[vCurrMonthAllDate]=INTEGER(DATEPART(MONTH,IFNULL([SC-PriceIndex_Fact_RelationJoin.Posting_alldate],NOW)))
+
+[vCurrYear]=DATEPART(Year,[SC-PriceIndex_Fact_RelationJoin.posting_date]) //DATEPART(YEAR,NOWDATE)
+[vCurrMonth]=INTEGER(DATEPART(Month,[SC-PriceIndex_Fact_RelationJoin.posting_date]))
+
+IF IFNULL([SC-PriceIndex_Fact_RelationJoin.Posting_date_NM],NOW)=NOW THEN [vNextMonth]=0 ELSE [vNextMonth]=INTEGER(DATEPART(Month,([SC-PriceIndex_Fact_RelationJoin.Posting_date_NM]))) END IF
+
+
+
+IF [vPrevCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode] IS NOT NULL AND [vPrevYear] IS NOT NULL THEN
+IF [vPrevCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]=[vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode] AND [vPrevYear]=[vCurrYear] THEN 
+PRINT '1'
+
+      IF [vPrevMonth]<[vCurrMonth] THEN [vFlag]=1 ELSE 
+	  IF [vNextMonth]=0 AND [vCurrMonthAllDate]=[vCurrMonth]+1 THEN [vFlag]=1 ELSE
+	  IF [vNextMonth]=0 AND [vMaxMonth] < [vCurrMonthAllDate] AND [vMaxMonth]=[vPostingDateOrginal] THEN [vFlag]=1  ELSE
+	  IF [vNextMonth]=0 AND [vMaxMonth] > [vCurrMonthAllDate] AND [vCurrMonthAllDate]>[vPostingDateOrginal] THEN [vFlag]=1 
+	  ELSE [vFlag]=0 END IF
+	  END IF
+	  END IF
+	  END IF
+   
+ELSE
+PRINT '2'
+   
+    [vFlag]=1
+
+END IF
+ELSE
+  
+   [vFlag]=1
+
+END IF
+[vPrevCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]=[vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]
+[vPrevYear]=[vCurrYear]
+[vPrevMonth]=[vCurrMonth]
+
+[Flag]=[vFlag]
+[Max_month]=MAX([max.posting_date_month])
+
+/* 12 months - Previous whole year*/
+/*
+[invoice_qty_12m]=[SC-PriceIndex_Fact_RelationJoin.invoice_qty_12m]
+[invoice_net_value_DC_12m]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_DC_12m]
+[invoice_net_value_LT_12m]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_LT_12m]
+[invoice_net_value_LF_12m]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_LF_12m]
+[invoice_net_value_GF_12m]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_GF_12m]
+[invoice_net_value_GM_12m]=[SC-PriceIndex_Fact_RelationJoin.invoice_net_value_GM_12m]
+*/
+/*Relations*/
+/*
+[supplier_relation_regular_key]=1
+[supplier_relation_neutral_key]=2
+[plant_relation_regular_key]=3
+[plant_relation_neutral_key]=4
+[company_relation_regular_key]=5
+[company_relation_neutral_key]=6
+*/
+
+
+/*Curr rates and types*/
+[CurrRateKeyDC]=1
+[CurrRateKeyLT]=2
+[CurrRateKeyLF]=3
+[CurrRateKeyGF]=4
+[CurrRateKeyGM]=5
+
+WRITERECORD

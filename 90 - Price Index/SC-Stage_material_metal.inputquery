@@ -1,0 +1,1 @@
+SELECT [material_metal.metal_key], [material_metal.metal_name], [material_metal.nf_metal_flag], [material_metal.active], [material_metal.AUDIT_USER], [material_metal.AUDIT_TIME] FROM [material_metal]

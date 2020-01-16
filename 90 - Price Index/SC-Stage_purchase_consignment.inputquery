@@ -1,0 +1,2 @@
+SELECT [RKWA.Company Code], [RKWA.Vendor], [RKWA.Material Doc_], [RKWA.Mat_ Doc_ Year], [RKWA.Mat_ Doc_Item], [RKWA.Document Date], [RKWA.Plant], [RKWA.Material], [RKWA.Quantity withdrawn for settlem_RKWA_BSTMG], [RKWA.Unit of measure for settlement_RKWA_BSTME], [RKWA.Amount], [RKWA.Currency], [RKWA.Document Number], [RKWA.Fiscal Year], [RKWA.Item], [RKWA.Net Price], [RKWA.Price Unit], [RKWA.Debit/Credit]
+  FROM [RKWA] WHERE [RKWA.Mat_ Doc_ Year]>'2017'

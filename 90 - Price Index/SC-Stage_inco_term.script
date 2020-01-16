@@ -1,0 +1,3 @@
+[inco_term_code]=[TINCT.Incoterms]
+[inco_term_name]=[TINCT.Incoterms] + ' - ' + [TINCT.Description]
+WRITERECORD

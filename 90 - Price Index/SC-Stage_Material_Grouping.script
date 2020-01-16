@@ -1,0 +1,28 @@
+[material_grouping]=[SC-Stage_Material_distinct.material_name_grouping] 
+[material_grouping_name]=[SC-Stage_Material_distinct.material_name1]
+[material_grouping_fullname]=[SC-Stage_Material_distinct.material]
+[material_grouping_code]=[SC-Stage_Material_distinct.material_code]
+
+dim [vOrder] as INTEGER
+dim [v_material_name_grouping] as varchar(25)
+
+[v_material_name_grouping]=[SC-Stage_Material_distinct.material_name_grouping] 
+
+IF [v_material_name_grouping]='Material' 
+Then [vOrder]=1
+ELSE
+	IF [v_material_name_grouping]='Material Category' 
+	Then [vOrder]=2
+	ELSE 
+		IF [v_material_name_grouping]='Material Sub Category' 
+		THEN [vOrder]=3
+		ELSE [vOrder]=4
+		END IF
+	END IF
+END IF
+		
+[order]=[vOrder]
+
+
+
+WRITERECORD

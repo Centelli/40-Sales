@@ -1,0 +1,68 @@
+[supplier_code]=[LFA1.Vendor]
+[country_code]=[LFA1.Country]
+Dim [v_supplier_name] as VARCHAR(100)
+Dim [v_supplier_name_sub] as VARCHAR(100)
+Dim [v_supplier_code_int] as INTEGER
+Dim [v_supplier_code] as VARCHAR(20)
+[v_supplier_code_int]=[LFA1.Vendor]
+[v_supplier_code]=[v_supplier_code_int]
+[v_supplier_name_sub]=SUBSTRING(IFNULL([LFA1.Name],''),0,70)
+[v_supplier_name]= [v_supplier_code] + ' ' + [v_supplier_name_sub]
+[Supplier Name]=[v_supplier_name]
+//PRINT [v_supplier_name]
+Dim [v_supplier_group_name] as VARCHAR(100)
+Dim [v_country_code] as VARCHAR(5)
+IF [LFA1.Country] IS NULL then [v_country_code]=NULL ELSE [v_country_code]='(' + [LFA1.Country] + ')' END IF
+
+IF IFNULL([map_supplier_supplier_group.supplier_group_key],1) = 1
+THEN [v_supplier_group_name]= [v_supplier_code] + ' ' + [v_supplier_name_sub] + ' ' + [v_country_code]
+ELSE [v_supplier_group_name]=[supplier_group.supplier_group_name]
+END IF
+[Supplier]=[v_supplier_group_name]
+//PRINT 'Supplier: ' + [v_supplier_group_name]
+
+Dim [v_supplier_group_code] as VARCHAR(10)
+
+IF IFNULL([map_supplier_supplier_group.supplier_group_key],1) = 1
+THEN [v_supplier_group_code]= [v_supplier_code]
+ELSE [v_supplier_group_code]='-'
+END IF
+[supplier_group_code]=[v_supplier_group_code]
+
+Dim [v_supplier_group] as VARCHAR(100)
+
+IF IFNULL([map_supplier_supplier_group.supplier_group_key],1) = 1
+THEN [v_supplier_group]= [v_supplier_name_sub] + ' ' + [v_country_code]
+ELSE [v_supplier_group]=[supplier_group.supplier_group_name]
+END IF
+[supplier_group_name]=[v_supplier_group]
+
+
+[supplier_name1]=[LFA1.Name]
+[supplier_name2]=[LFA1.Name 2]
+[supplier_name3]=[LFA1.Name 3]
+[supplier_name4]=[LFA1.Name 4]
+[city]=[LFA1.City]
+[district]=[LFA1.District]
+[po_box]=[LFA1.PO Box]
+[po_box_postal_code]=[LFA1.PO Box PCode]
+[postal_code]=[LFA1.Postal Code]
+[street]=[LFA1.Street]
+[created_on]=[LFA1.Created on]
+[created_by]=[LFA1.Created by]
+[supplier_acct_group]=[LFA1.Account group]
+[general_del_flag]=[LFA1.Deletion flag]
+[general_posting_block]=[LFA1.Posting Block]
+[general_purch_block]=[LFA1.Purch_ block]
+[payment_block]=[LFA1.Payment block]
+
+[sourcing_manager_code]=[sourcing_manager.char_value_single]
+[supplier_classification_code]=[supplier_classification.char_value_single]
+[supplier_segmentation_code]=[supplier_segmentation.char_value_single]
+//[supplier_group_key] = IFNULL([map_supplier_supplier_group.supplier_group_key],1)
+[supplier_exclude_key]=IFNULL([SC-Stage_map_supplier_exclude.supplier_exclude_key],1)
+[material_classification_code]=[material_classification.char_value_single]
+
+[active]=[SC-Stage_Supplier_distinct.active]
+
+WRITERECORD

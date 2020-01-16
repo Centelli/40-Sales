@@ -1,0 +1,10 @@
+[purchase_organisation_code]=[T024E.EKORG]
+[purchase_organisation_name]=[T024E.EKOTX]
+[BUKRS]=[T024E.BUKRS]
+Dim [v_purchase_organisation_name] as VARCHAR(30)
+[v_purchase_organisation_name]=[T024E.EKORG] + ' -' + replace([T024E.EKOTX], 'H+S' ,'') 
+[purchase_organisation_longname]=[v_purchase_organisation_name]
+
+//PRINT [v_purchase_organisation_name]
+
+WRITERECORD

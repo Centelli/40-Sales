@@ -1,0 +1,108 @@
+//PRINT 'Substring: ' + SUBSTRING([MARA_MAKT.MATNR],10,18)
+//PRINT 'Material_code: ' + [SC-PriceIndex_Fact2.material_code]
+
+Dim [v_material_code_orginal] as VARCHAR(18)
+[v_material_code_orginal]=[MARA_MAKT.MATNR]
+Dim [v_material_code_new] as VARCHAR(8)
+
+IF LENGTH([v_material_code_orginal])>=8
+THEN [v_material_code_new]=SUBSTRING([v_material_code_orginal],INTEGER(LENGTH([v_material_code_orginal]))-8,INTEGER(LENGTH([v_material_code_orginal])))
+ELSE [v_material_code_new]=[v_material_code_orginal]
+END IF
+
+//PRINT 'Orginal: ' + [v_material_code_orginal]
+//PRINT 'New mat code: ' +[v_material_code_new]
+//[material_code]= [v_material_code_new]
+[material_key]= [v_material_code_new]
+
+
+[created_on]=[MARA_MAKT.ERSDA]
+[created_by]=[MARA_MAKT.ERNAM]
+[last_change]=[MARA_MAKT.LAEDA]
+[last_change_by]=[MARA_MAKT.AENAM]
+[material_type_code]=[MARA_MAKT.MTART]
+[material_sub_group_code]=[MARA_MAKT.MATKL]
+[base_unit_code]=[MARA_MAKT.MEINS]
+[purchase_unit_code]=[MARA_MAKT.BSTME]
+[lab_code]=[MARA_MAKT.LABOR]
+[purch_value_key]=[MARA_MAKT.EKWSL]
+[gross_weight]=[MARA_MAKT.BRGEW]
+[net_weight]=[MARA_MAKT.NTGEW]
+[weight_unit_code]=[MARA_MAKT.GEWEI]
+[volume]=[MARA_MAKT.VOLUM]
+[business_unit_code]=[MARA_MAKT.SPART]
+[ean_upc]=[MARA_MAKT.EAN11]
+[ean_category]=[MARA_MAKT.NUMTP]
+[ext_material_group_code]=[MARA_MAKT.EXTWG]
+[x_plant_status]=[MARA_MAKT.MSTAE]
+[vc_relevant]=[MARA_MAKT.ZZ_VCREL]
+[profit_ctr_mara_code]=[MARA_MAKT.ZZPRCTR]
+[material_name1]=[MARA_MAKT.MAKTX]
+[material_name2]=[MARA_MAKT.MAKTG]
+[material_category_code]=[material_category.material_category_code]
+[material_sub_category_code]=[material_sub_category.material_sub_category_code]
+[material_category_name1]=[material_category.material_category_name]
+
+Dim [v_material] as VARCHAR(200)
+Dim [v_material_sub] as VARCHAR(200)
+Dim [v_material_code_int] as INTEGER
+Dim [v_material_code] as VARCHAR(20)
+Dim [v_material_group_code] as VARCHAR(20)
+[v_material_code_int]=[MARA_MAKT.MATNR]
+[v_material_code]=[v_material_code_int]
+[v_material_group_code]=[map_material_sub_group.material_group_code]
+[v_material_sub]=SUBSTRING(IFNULL([MARA_MAKT.MAKTX],''),0,100)
+
+IF [v_material_code_int]>=0
+THEN [v_material]=[v_material_code] + ' ' +[v_material_sub] 
+ELSE [v_material]=[v_material_group_code] + ' ' + [v_material_sub]
+END IF
+
+[material]=[v_material]
+//PRINT [v_material]
+
+Dim [v_material_code_correct] as VARCHAR(8)
+IF [v_material_code_int]>=0
+THEN [v_material_code_correct]=[v_material_code]
+ELSE [v_material_code_correct]=[v_material_group_code] 
+END IF
+[material_code]=[v_material_code_correct]	
+
+Dim [v_material_category_name] as VARCHAR(60)
+Dim [v_material_sub_category_name] as VARCHAR(60)
+Dim [v_material_group_name] as VARCHAR(60)
+
+
+[active]=1
+[material_group_code]=[v_material_group_code]
+
+[v_material_category_name] =[material_category.material_category_code] + ' ' + [material_category.material_category_name]
+[material_category_name]=[v_material_category_name] 
+
+[material_sub_category_name1]=[material_sub_category.material_sub_category_name1]
+
+[v_material_sub_category_name] = [material_sub_category.material_sub_category_code] + ' ' + [material_sub_category.material_sub_category_name]
+[material_sub_category_name]=[v_material_sub_category_name]
+
+[material_group_name1]=[material_group.material_group_name1]
+
+[v_material_category_name]=[v_material_group_code]+ ' ' + [material_group.material_group_name]
+[material_group_name]=[v_material_category_name]
+
+[Product Group Key]=[Level(Item.Item).Product Group Key]
+[Product Group]=[Level(Item.Item).Product Group]
+[Product Unit Key]=[Level(Item.Item).Product Unit Key]
+[Product Unit]=[Level(Item.Item).Product Unit]
+[Product Division Key]=[Level(Item.Item).Product Division Key]
+[Product Division]=[Level(Item.Item).Product Division]
+[Product Segment Key]=[Level(Item.Item).Product Segment Key]
+[Product Segment]=[Level(Item.Item).Product Segment]
+[Solution Key]=[Level(Item.Item).Solution Key]
+[Solution]=[Level(Item.Item).Solution]
+
+[exclude_flag]= [SC-Stage_material_sub_group.exclude_flag]
+[material_exclude_key]=IFNULL([SC-Stage_material_sub_group.material_exclude_key],3)
+[nf_metal_flag]=[SC-Stage_material_sub_group.nf_metal_flag]
+[metal_key] =[SC-Stage_material_sub_group.metal_key] 
+
+WRITERECORD

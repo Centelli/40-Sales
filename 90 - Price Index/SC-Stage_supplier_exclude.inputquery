@@ -1,0 +1,1 @@
+SELECT [supplier_exclude.supplier_exclude_key], [supplier_exclude.supplier_exclude_name], [supplier_exclude.exclude_flag] FROM [supplier_exclude]

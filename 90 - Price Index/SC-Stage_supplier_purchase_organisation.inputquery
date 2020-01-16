@@ -1,0 +1,6 @@
+SELECT [LFM1.LIFNR], [LFM1.EKORG], [LFM1.ERDAT], [LFM1.ERNAM], [LFM1.SPERM], [LFM1.LOEVM], [LFM1.WAERS], [LFM1.MINBW], [LFM1.ZTERM], [LFM1.INCO1], [LFM1.INCO2], [LFM1.EKGRP], [LFM1.PLIFZ]
+  FROM [LFM1]
+INNER JOIN
+SELECT [SC-Stage_purchase_group.purchase_group_name]
+  FROM [SC-Stage_purchase_group]
+  ON [LFM1.EKGRP]=[SC-Stage_purchase_group.purchase_group_code]

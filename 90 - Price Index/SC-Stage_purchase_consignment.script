@@ -1,0 +1,82 @@
+dim [v_amount] as float
+
+/*
+IF FLOAT(position('-', VARCHAR([RKWA.Amount]))) > 0
+  [v_amount] = FLOAT( SUBSTRING(VARCHAR([RKWA.Amount]), 0, position('-', VARCHAR([RKWA.Amount]))) ) * -1
+ELSE
+  [v_amount] = FLOAT([RKWA.Amount])
+END IF
+*/
+IF [RKWA.Debit/Credit]='S' 
+THEN [v_amount]=FLOAT([RKWA.Amount]) * (-1)
+ELSE [v_amount]=FLOAT([RKWA.Amount])
+END IF
+
+
+dim [v_withdrawal_qty] as float
+/*
+IF FLOAT(position('-', VARCHAR([RKWA.Quantity withdrawn for settlem_RKWA_BSTMG]))) > 0
+  [v_withdrawal_qty] = FLOAT( SUBSTRING(VARCHAR([RKWA.Quantity withdrawn for settlem_RKWA_BSTMG]), 0, position('-', VARCHAR([RKWA.Quantity withdrawn for settlem_RKWA_BSTMG]))) ) * -1
+ELSE
+  [v_withdrawal_qty] = FLOAT([RKWA.Quantity withdrawn for settlem_RKWA_BSTMG])
+END IF
+*/
+IF [RKWA.Debit/Credit]='S' 
+THEN [v_withdrawal_qty]=FLOAT([RKWA.Quantity withdrawn for settlem_RKWA_BSTMG]) * (-1)
+ELSE [v_withdrawal_qty]=FLOAT([RKWA.Quantity withdrawn for settlem_RKWA_BSTMG])
+END IF
+/*
+dim [v_price_unit] as float
+
+IF FLOAT(position('-', VARCHAR([RKWA.Price Unit]))) > 0
+  [v_price_unit] = FLOAT( SUBSTRING(VARCHAR([KONP.Pricing unit]), 0, position('-', VARCHAR([KONP.Pricing unit]))) ) * -1
+ELSE
+  [v_price_unit] = FLOAT([KONP.Pricing unit])
+END IF
+*/
+
+dim [v_uom_code] as varchar(2)
+
+IF [RKWA.Unit of measure for settlement_RKWA_BSTME] = 'PC'
+	 [v_uom_code] = 'ST'
+ELSE	 
+	[v_uom_code] = [RKWA.Unit of measure for settlement_RKWA_BSTME] 
+END IF	
+
+[company_code]=[RKWA.Company Code]
+[supplier_code]=[RKWA.Vendor]
+[mat_doc_number]=[RKWA.Material Doc_]
+[mat_doc_year]=[RKWA.Mat_ Doc_ Year]
+[Mat_ Doc_Item]=[RKWA.Mat_ Doc_Item]
+[posting_date]=[RKWA.Document Date]
+[plant_code]=[RKWA.Plant]
+
+
+Dim [v_material_code_orginal] as VARCHAR(18)
+[v_material_code_orginal]=[RKWA.Material]
+Dim [v_material_code_new] as VARCHAR(8)
+
+IF LENGTH(IFNULL([v_material_code_orginal],'0'))>=8
+THEN [v_material_code_new]=SUBSTRING([v_material_code_orginal],LENGTH([v_material_code_orginal])-8,LENGTH([v_material_code_orginal]))
+ELSE [v_material_code_new]=[v_material_code_orginal]
+END IF
+
+
+[material_code]=[v_material_code_new]
+
+[withdrawal_qty]=[v_withdrawal_qty]
+[uom_code]=[RKWA.Unit of measure for settlement_RKWA_BSTME]
+[amount]=[v_amount]
+[curr_code]=[RKWA.Currency]
+[invoice_no]=[RKWA.Document Number]
+[doc_year]=[RKWA.Fiscal Year]
+[Item]=[RKWA.Item]
+//[net_price]=[KONP.Amount]
+//[price_unit]=[v_price_unit]
+//[Unit of measure] = [KONP.Unit of measure]
+
+// We dont need it because it is india data which is not included into this load.
+//IF [SC-Stage_PO_Bill_Types.PO History Cat_] is not null and [RKWA.Company Code]='4800' then [active]=0 else [active]=1 end if
+[active]=1
+
+WRITERECORD

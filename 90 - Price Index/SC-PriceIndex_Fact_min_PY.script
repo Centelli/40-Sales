@@ -1,0 +1,379 @@
+[plant_code]=[SC-PriceIndex_Fact12mAdded.plant_code]
+
+[Division Key]=[SC-PriceIndex_Fact12mAdded.Division Key]
+[material_category_name]=[SC-PriceIndex_Fact12mAdded.material_category_name]
+[material_sub_category_name1]=[SC-PriceIndex_Fact12mAdded.material_sub_category_name1]
+[material_sub_category_name]=[SC-PriceIndex_Fact12mAdded.material_sub_category_name]
+[material_group_name1]=[SC-PriceIndex_Fact12mAdded.material_group_name1]
+[material_group_name]=[SC-PriceIndex_Fact12mAdded.material_group_name]
+[inco_term_code]=[SC-PriceIndex_Fact12mAdded.inco_term_code]
+[material_exclude_key]=[SC-PriceIndex_Fact12mAdded.material_exclude_key]
+[material_planner_code]=[SC-PriceIndex_Fact12mAdded.material_planner_code]
+[metal_key]=[SC-PriceIndex_Fact12mAdded.metal_key]
+[sourcing_manager_code]=[SC-PriceIndex_Fact12mAdded.sourcing_manager_code]
+[supplier_classification_code]=[SC-PriceIndex_Fact12mAdded.supplier_classification_code]
+[supplier_segmentation_code]=[SC-PriceIndex_Fact12mAdded.supplier_segmentation_code]
+[supplier_group_key]=[SC-PriceIndex_Fact12mAdded.supplier_group_key]
+[supplier_exclude_key]=[SC-PriceIndex_Fact12mAdded.supplier_exclude_key]
+[supplier_country_code]=[SC-PriceIndex_Fact12mAdded.supplier_country_code]
+//[invoice_qty]=[SC-PriceIndex_Fact12mAdded.invoice_qty]
+
+
+DIM [vinvoice_qty] as FLOAT
+IF  [SC-PriceIndex_Fact12mAdded.posting_date]=[AllDates.Posting_date]
+THEN [vinvoice_qty]=[SC-PriceIndex_Fact12mAdded.invoice_qty]
+ELSE [vinvoice_qty]=0
+END IF
+
+[invoice_qty]=[vinvoice_qty]
+
+DIM [vinvoice_qty_indexType] as FLOAT
+IF  [SC-PriceIndex_Fact12mAdded.posting_date]=[AllDates.Posting_date] AND [SC-PriceIndex_Fact12mAdded.index_type_key]=1
+THEN [vinvoice_qty_indexType]=[SC-PriceIndex_Fact12mAdded.invoice_qty]
+ELSE [vinvoice_qty_indexType]=0
+END IF
+[invoice_qty_indexType]=[vinvoice_qty_indexType]
+
+[uom_code]=[SC-PriceIndex_Fact12mAdded.uom_code]
+[supplier_code_invoice]=[SC-PriceIndex_Fact12mAdded.supplier_code_invoice]
+
+[debit_credit_flag]=[SC-PriceIndex_Fact12mAdded.debit_credit_flag]
+[tcurr_amnt]=[SC-PriceIndex_Fact12mAdded.tcurr_amnt]
+[curr_code]=[SC-PriceIndex_Fact12mAdded.curr_code]
+//[rate]=[SC-PriceIndex_Fact12mAdded.rate]
+//[invoice_no]=[SC-PriceIndex_Fact12mAdded.invoice_no]
+//[invoice_pos]=[SC-PriceIndex_Fact12mAdded.invoice_pos]
+[subsequent_debitor_creditor]=[SC-PriceIndex_Fact12mAdded.subsequent_debitor_creditor]
+[baseline_date]=[SC-PriceIndex_Fact12mAdded.baseline_date]
+[no_of_days1]=[SC-PriceIndex_Fact12mAdded.no_of_days1]
+[disc_perc1]=[SC-PriceIndex_Fact12mAdded.disc_perc1]
+[no_of_days2]=[SC-PriceIndex_Fact12mAdded.no_of_days2]
+[disc_perc2]=[SC-PriceIndex_Fact12mAdded.disc_perc2]
+
+[correct_flag]=[SC-PriceIndex_Fact12mAdded.correct_flag]
+[active]=[SC-PriceIndex_Fact12mAdded.active]
+[tcurr_amnt_discounted]=[SC-PriceIndex_Fact12mAdded.tcurr_amnt_discounted]
+[factor]=[SC-PriceIndex_Fact12mAdded.factor]
+[record_source_key]=[SC-PriceIndex_Fact12mAdded.record_source_key]
+//[invoice_net]=[SC-PriceIndex_Fact12mAdded.invoice_net]
+
+DIM [vinvoice_net] as FLOAT
+IF  [SC-PriceIndex_Fact12mAdded.posting_date]=[AllDates.Posting_date]
+THEN [vinvoice_net]=[SC-PriceIndex_Fact12mAdded.invoice_net]
+ELSE [vinvoice_net]=0
+END IF
+
+
+[invoice_gross]=[SC-PriceIndex_Fact12mAdded.invoice_gross]
+[rate_key]=[SC-PriceIndex_Fact12mAdded.rate_key]
+[rate_type_key]=[SC-PriceIndex_Fact12mAdded.rate_type_key]
+[curr_type_key]=[SC-PriceIndex_Fact12mAdded.curr_type_key]
+[invoice_currency_key_DC]=[SC-PriceIndex_Fact12mAdded.invoice_currency_key_DC]
+//[invoice_exc_rate_DC]=[SC-PriceIndex_Fact12mAdded.invoice_exc_rate_DC]
+[invoice_net_value_DC]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_DC]
+[invoice_currency_key_LT]=[SC-PriceIndex_Fact12mAdded.invoice_currency_key_LT]
+//[invoice_exc_rate_LT]=[SC-PriceIndex_Fact12mAdded.invoice_exc_rate_LT]
+[invoice_net_value_LT]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_LT]
+[invoice_currency_key_LF]=[SC-PriceIndex_Fact12mAdded.invoice_currency_key_LF]
+//[invoice_exc_rate_LF]=[SC-PriceIndex_Fact12mAdded.invoice_exc_rate_LF]
+[invoice_net_value_LF]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_LF]
+[invoice_currency_key_GF]=[SC-PriceIndex_Fact12mAdded.invoice_currency_key_GF]
+//[invoice_exc_rate_GF]=[SC-PriceIndex_Fact12mAdded.invoice_exc_rate_GF]
+[invoice_net_value_GF]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_GF]
+[purchase_group_key]=[SC-PriceIndex_Fact12mAdded.purchase_group_key]
+[purchase_organisation_code]=[SC-PriceIndex_Fact12mAdded.purchase_organisation_code]
+[index_type_key]=[SC-PriceIndex_Fact12mAdded.index_type_key]
+[index_type_above_year_key]=[SC-PriceIndex_Fact12mAdded.index_type_above_year_key]
+[invoice_currency_key_GM]=[SC-PriceIndex_Fact12mAdded.invoice_currency_key_GM]
+//[invoice_exc_rate_GM]=[SC-PriceIndex_Fact12mAdded.invoice_exc_rate_GM]
+
+
+PRINT 'Comp:'+[SC-PriceIndex_Fact12mAdded.company_code] +' Supplier:'+[SC-PriceIndex_Fact12mAdded.supplier_code] + ' Material: ' + [SC-PriceIndex_Fact12mAdded.material_code]
+PRINT 'Year:'+DATEPART(Year,[SC-PriceIndex_Fact12mAdded.posting_date])+' Month:'+DATEPART(Month,[SC-PriceIndex_Fact12mAdded.posting_date])
+
+DIM [vPrevMonth] AS INTEGER
+DIM [vCurrYear] AS VARCHAR(4)
+DIM [vCurrMonth] AS INTEGER
+DIM [vPrevYear] AS VARCHAR(4) = null
+DIM [vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode] AS VARCHAR(45)
+DIM [vPrevCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode] AS VARCHAR(45)
+
+//DIM [vinvoice_net_value_FX_Cumm] AS FLOAT
+DIM [vinvoice_net_value_DC_Cumm] AS FLOAT
+DIM [vinvoice_net_value_LT_Cumm] AS FLOAT
+DIM [vinvoice_net_value_LF_Cumm] AS FLOAT
+DIM [vinvoice_net_value_GF_Cumm] AS FLOAT
+DIM [vinvoice_net_value_GM_Cumm] AS FLOAT
+
+DIM [vinvoice_gross_value_DC_Cumm] AS FLOAT
+DIM [vinvoice_gross_value_LT_Cumm] AS FLOAT
+DIM [vinvoice_gross_value_LF_Cumm] AS FLOAT
+DIM [vinvoice_gross_value_GF_Cumm] AS FLOAT
+DIM [vinvoice_gross_value_GM_Cumm] AS FLOAT
+
+DIM [vinvoice_net_value_FX_Cumm_indexType] AS FLOAT
+DIM [vinvoice_qty_Cumm] AS FLOAT
+DIM [vinvoice_qty_Cumm_indexType] AS FLOAT
+DIM [vPrevCompCode] as varchar(10)
+
+DIM [vCurrMonthAllDate] AS INTEGER
+[vCurrMonthAllDate]=INTEGER(DATEPART(MONTH,IFNULL([AllDates.Posting_date],NOW)))
+
+//IF LENGTH(''+DATEPART(MONTH,DATEADD(MONTH,-1,NOWDATE))) = 1 THEN
+//[vPrevMonth]='0'+DATEPART(MONTH,DATEADD(MONTH,-1,NOWDATE))
+//ELSE
+//[vPrevMonth]=''+DATEPART(MONTH,DATEADD(MONTH,-1,NOWDATE))
+//END IF
+
+IF LENGTH(''+DATEPART(MONTH,DATEADD(MONTH,-1,[SC-PriceIndex_Fact12mAdded.posting_date]))) = 1 THEN
+[vPrevMonth]='0'+DATEPART(MONTH,DATEADD(MONTH,-1,[SC-PriceIndex_Fact12mAdded.posting_date]))
+ELSE
+[vPrevMonth]=''+DATEPART(MONTH,DATEADD(MONTH,-1,[SC-PriceIndex_Fact12mAdded.posting_date]))
+END IF
+
+[vCurrYear]=DATEPART(Year,[SC-PriceIndex_Fact12mAdded.posting_date]) //DATEPART(YEAR,NOWDATE)
+[vCurrMonth]=INTEGER(DATEPART(Month,[SC-PriceIndex_Fact12mAdded.posting_date]))
+
+DIM [vCompCode] as varchar(10)
+[vCompCode]=[SC-PriceIndex_Fact12mAdded.company_code]
+DIM [vPlantCode] as varchar(10)
+[vPlantCode]=[SC-PriceIndex_Fact12mAdded.plant_code]
+DIM [vSupplierCode] as varchar(10)
+[vSupplierCode]=[SC-PriceIndex_Fact12mAdded.supplier_code]
+DIM [vMaterialCode] as varchar(10)
+[vMaterialCode] =[SC-PriceIndex_Fact12mAdded.material_code]
+DIM [vUomCode] as varchar(3)
+[vUomCode]=[SC-PriceIndex_Fact12mAdded.uom_code]
+DIM [vCurrCode] as varchar(3)
+[vCurrCode]=[SC-PriceIndex_Fact12mAdded.curr_code]
+
+[vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]=[vCompCode] + [vPlantCode] + [vSupplierCode] + [vMaterialCode] + [vUomCode] + [vCurrCode]
+PRINT 'vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode: ' + [vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]
+
+[material_code]=[SC-PriceIndex_Fact12mAdded.material_code]
+[company_code]=[SC-PriceIndex_Fact12mAdded.company_code]
+[supplier_code]=[SC-PriceIndex_Fact12mAdded.supplier_code]
+[posting_date]=[SC-PriceIndex_Fact12mAdded.posting_date]
+//[invoice_net_value_GM]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_GM]
+
+//DIM [vinvoice_net_value_FX] as FLOAT
+DIM [vinvoice_net_value_DC] as FLOAT
+DIM [vinvoice_net_value_LT] as FLOAT
+DIM [vinvoice_net_value_LF] as FLOAT
+DIM [vinvoice_net_value_GF] as FLOAT
+DIM [vinvoice_net_value_GM] as FLOAT
+
+DIM [vinvoice_gross_value_DC] as FLOAT
+DIM [vinvoice_gross_value_LT] as FLOAT
+DIM [vinvoice_gross_value_LF] as FLOAT
+DIM [vinvoice_gross_value_GF] as FLOAT
+DIM [vinvoice_gross_value_GM] as FLOAT
+
+IF  [SC-PriceIndex_Fact12mAdded.posting_date]=[AllDates.Posting_date]
+THEN 
+//[vinvoice_net_value_FX]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_FX]
+[vinvoice_net_value_DC]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_DC]
+[vinvoice_net_value_LT]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_LT]
+[vinvoice_net_value_LF]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_LF]
+[vinvoice_net_value_GF]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_GF]
+[vinvoice_net_value_GM]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_GM]
+
+[vinvoice_gross_value_DC]=[SC-PriceIndex_Fact12mAdded.invoice_gross_value_DC]
+[vinvoice_gross_value_LT]=[SC-PriceIndex_Fact12mAdded.invoice_gross_value_LT]
+[vinvoice_gross_value_LF]=[SC-PriceIndex_Fact12mAdded.invoice_gross_value_LF]
+[vinvoice_gross_value_GF]=[SC-PriceIndex_Fact12mAdded.invoice_gross_value_GF]
+[vinvoice_gross_value_GM]=[SC-PriceIndex_Fact12mAdded.invoice_gross_value_GM]
+
+ELSE 
+//[vinvoice_net_value_FX]=0
+[vinvoice_net_value_DC]=0
+[vinvoice_net_value_LT]=0
+[vinvoice_net_value_LF]=0
+[vinvoice_net_value_GF]=0
+[vinvoice_net_value_GM]=0
+
+[vinvoice_gross_value_DC]=0
+[vinvoice_gross_value_LT]=0
+[vinvoice_gross_value_LF]=0
+[vinvoice_gross_value_GF]=0
+[vinvoice_gross_value_GM]=0
+
+END IF
+//[invoice_net_value_FX]=[vinvoice_net_value_FX]
+[invoice_net_value_DC]=[vinvoice_net_value_DC]
+[invoice_net_value_LT]=[vinvoice_net_value_LT]
+[invoice_net_value_LF]=[vinvoice_net_value_LF]
+[invoice_net_value_GF]=[vinvoice_net_value_GF]
+[invoice_net_value_GM]=[vinvoice_net_value_GM]
+
+[invoice_gross_value_DC]=[vinvoice_gross_value_DC]
+[invoice_gross_value_LT]=[vinvoice_gross_value_LT]
+[invoice_gross_value_LF]=[vinvoice_gross_value_LF]
+[invoice_gross_value_GF]=[vinvoice_gross_value_GF]
+[invoice_gross_value_GM]=[vinvoice_gross_value_GM]
+
+DIM [vinvoice_net_value_FX_indexType] as FLOAT
+/*IF  [SC-PriceIndex_Fact12mAdded.posting_date]=[AllDates.Posting_date] AND [SC-PriceIndex_Fact12mAdded.index_type_key]=1 
+THEN [vinvoice_net_value_FX_indexType]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_FX]
+ELSE [vinvoice_net_value_FX_indexType]=0
+END IF
+[invoice_net_value_FX_indexType]=[vinvoice_net_value_FX_indexType]
+*/
+
+//[Month]=DATEPART(Month,[SC-PriceIndex_Fact12mAdded.posting_date])
+//[Year]=DATEPART(Year,[SC-PriceIndex_Fact12mAdded.posting_date])
+
+
+//DIM [vNextMonth] as INTEGER
+//IF IFNULL([NextMonth.posting_date],NOW)=NOW THEN [vNextMonth]=0 ELSE [vNextMonth]=INTEGER(DATEPART(Month,([NextMonth.posting_date]))) END IF
+
+/*Cumulative Supplier relation*/
+
+IF [vPrevCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode] IS NOT NULL AND [vPrevYear] IS NOT NULL THEN
+IF [vPrevCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]=[vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode] AND [vPrevYear]=[vCurrYear] THEN 
+PRINT '1'
+
+   //Cumulative
+   
+//   [vinvoice_net_value_FX_Cumm]=[vinvoice_net_value_FX_Cumm]+[vinvoice_net_value_FX]
+   [vinvoice_net_value_DC_Cumm]=[vinvoice_net_value_DC_Cumm]+[vinvoice_net_value_DC]
+   [vinvoice_net_value_LT_Cumm]=[vinvoice_net_value_LT_Cumm]+[vinvoice_net_value_LT]
+   [vinvoice_net_value_LF_Cumm]=[vinvoice_net_value_LF_Cumm]+[vinvoice_net_value_LF]
+   [vinvoice_net_value_GF_Cumm]=[vinvoice_net_value_GF_Cumm]+[vinvoice_net_value_GF]
+   [vinvoice_net_value_GM_Cumm]=[vinvoice_net_value_GM_Cumm]+[vinvoice_net_value_GM]
+
+   [vinvoice_gross_value_DC_Cumm]=[vinvoice_gross_value_DC_Cumm]+[vinvoice_gross_value_DC]
+   [vinvoice_gross_value_LT_Cumm]=[vinvoice_gross_value_LT_Cumm]+[vinvoice_gross_value_LT]
+   [vinvoice_gross_value_LF_Cumm]=[vinvoice_gross_value_LF_Cumm]+[vinvoice_gross_value_LF]
+   [vinvoice_gross_value_GF_Cumm]=[vinvoice_gross_value_GF_Cumm]+[vinvoice_gross_value_GF]
+   [vinvoice_gross_value_GM_Cumm]=[vinvoice_gross_value_GM_Cumm]+[vinvoice_gross_value_GM]
+   
+   [vinvoice_qty_Cumm]=[vinvoice_qty_Cumm]+[vinvoice_qty]
+
+   //Cumulative for IndexType
+//   [vinvoice_net_value_FX_Cumm_indexType]=[vinvoice_net_value_FX_Cumm_indexType]+[vinvoice_net_value_FX_indexType]
+  // [vinvoice_qty_Cumm_indexType]=[vinvoice_qty_Cumm_indexType]+[vinvoice_qty_indexType]
+   
+ELSE
+PRINT '2'
+//   [vinvoice_net_value_FX_Cumm]=0.0
+   [vinvoice_net_value_DC_Cumm]=0.0
+   [vinvoice_net_value_LT_Cumm]=0.0
+   [vinvoice_net_value_LF_Cumm]=0.0
+   [vinvoice_net_value_GF_Cumm]=0.0
+   [vinvoice_net_value_GM_Cumm]=0.0
+
+   [vinvoice_gross_value_DC_Cumm]=0.0
+   [vinvoice_gross_value_LT_Cumm]=0.0
+   [vinvoice_gross_value_LF_Cumm]=0.0
+   [vinvoice_gross_value_GF_Cumm]=0.0
+   [vinvoice_gross_value_GM_Cumm]=0.0
+   
+  [vinvoice_qty_Cumm]=0.0
+
+   //Cumulative
+//   [vinvoice_net_value_FX_Cumm]=[vinvoice_net_value_FX_Cumm]+[vinvoice_net_value_FX]
+   [vinvoice_net_value_DC_Cumm]=[vinvoice_net_value_DC_Cumm]+[vinvoice_net_value_DC]
+   [vinvoice_net_value_LT_Cumm]=[vinvoice_net_value_LT_Cumm]+[vinvoice_net_value_LT]
+   [vinvoice_net_value_LF_Cumm]=[vinvoice_net_value_LF_Cumm]+[vinvoice_net_value_LF]
+   [vinvoice_net_value_GF_Cumm]=[vinvoice_net_value_GF_Cumm]+[vinvoice_net_value_GF]
+   [vinvoice_net_value_GM_Cumm]=[vinvoice_net_value_GM_Cumm]+[vinvoice_net_value_GM]
+
+   [vinvoice_gross_value_DC_Cumm]=[vinvoice_gross_value_DC_Cumm]+[vinvoice_gross_value_DC]
+   [vinvoice_gross_value_LT_Cumm]=[vinvoice_gross_value_LT_Cumm]+[vinvoice_gross_value_LT]
+   [vinvoice_gross_value_LF_Cumm]=[vinvoice_gross_value_LF_Cumm]+[vinvoice_gross_value_LF]
+   [vinvoice_gross_value_GF_Cumm]=[vinvoice_gross_value_GF_Cumm]+[vinvoice_gross_value_GF]
+   [vinvoice_gross_value_GM_Cumm]=[vinvoice_gross_value_GM_Cumm]+[vinvoice_gross_value_GM]
+   
+   [vinvoice_qty_Cumm]=[vinvoice_qty_Cumm]+[vinvoice_qty]
+
+   [vinvoice_net_value_FX_Cumm_indexType]=0.0
+   [vinvoice_qty_Cumm_indexType]=0.0
+   //Cumulative for IndexType
+   //[vinvoice_net_value_FX_Cumm_indexType]=[vinvoice_net_value_FX_Cumm_indexType]+[vinvoice_net_value_FX_indexType]
+   //[vinvoice_qty_Cumm_indexType]=[vinvoice_qty_Cumm_indexType]+[vinvoice_qty_indexType]
+   
+END IF
+ELSE
+PRINT '3'
+ //  [vinvoice_net_value_FX_Cumm]=0.0
+   [vinvoice_net_value_DC_Cumm]=0.0
+   [vinvoice_net_value_LT_Cumm]=0.0
+   [vinvoice_net_value_LF_Cumm]=0.0
+   [vinvoice_net_value_GF_Cumm]=0.0
+   [vinvoice_net_value_GM_Cumm]=0.0
+
+   [vinvoice_gross_value_DC_Cumm]=0.0
+   [vinvoice_gross_value_LT_Cumm]=0.0
+   [vinvoice_gross_value_LF_Cumm]=0.0
+   [vinvoice_gross_value_GF_Cumm]=0.0
+   [vinvoice_gross_value_GM_Cumm]=0.0
+   
+[vinvoice_qty_Cumm]=0.0
+
+  //Cumulative
+ //  [vinvoice_net_value_FX_Cumm]=[vinvoice_net_value_FX_Cumm]+[vinvoice_net_value_FX]
+   [vinvoice_net_value_DC_Cumm]=[vinvoice_net_value_DC_Cumm]+[vinvoice_net_value_DC]
+   [vinvoice_net_value_LT_Cumm]=[vinvoice_net_value_LT_Cumm]+[vinvoice_net_value_LT]
+   [vinvoice_net_value_LF_Cumm]=[vinvoice_net_value_LF_Cumm]+[vinvoice_net_value_LF]
+   [vinvoice_net_value_GF_Cumm]=[vinvoice_net_value_GF_Cumm]+[vinvoice_net_value_GF]
+   [vinvoice_net_value_GM_Cumm]=[vinvoice_net_value_GM_Cumm]+[vinvoice_net_value_GM]
+
+   [vinvoice_gross_value_DC_Cumm]=[vinvoice_gross_value_DC_Cumm]+[vinvoice_gross_value_DC]
+   [vinvoice_gross_value_LT_Cumm]=[vinvoice_gross_value_LT_Cumm]+[vinvoice_gross_value_LT]
+   [vinvoice_gross_value_LF_Cumm]=[vinvoice_gross_value_LF_Cumm]+[vinvoice_gross_value_LF]
+   [vinvoice_gross_value_GF_Cumm]=[vinvoice_gross_value_GF_Cumm]+[vinvoice_gross_value_GF]
+   [vinvoice_gross_value_GM_Cumm]=[vinvoice_gross_value_GM_Cumm]+[vinvoice_gross_value_GM]
+   
+  [vinvoice_qty_Cumm]=[vinvoice_qty_Cumm]+[vinvoice_qty]
+ 
+   [vinvoice_net_value_FX_Cumm_indexType]=0.0
+   [vinvoice_qty_Cumm_indexType]=0.0
+   //Cumulative for IndexType
+  // [vinvoice_net_value_FX_Cumm_indexType]=[vinvoice_net_value_FX_Cumm_indexType]+[vinvoice_net_value_FX_indexType]
+   //[vinvoice_qty_Cumm_indexType]=[vinvoice_qty_Cumm_indexType]+[vinvoice_qty_indexType]
+ 
+END IF
+[vPrevCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]=[vCompCodePlantCodeSupplierCodeMaterialCodeUomCodeCurrCode]
+//[vPrevCompCode]=[vCompCode]
+[vPrevYear]=[vCurrYear]
+[vPrevMonth]=[vCurrMonth]
+
+//PRINT 'Cumm value: ' + [vinvoice_net_value_FX_Cumm]
+//[invoice_net_value_FX_Cumm]=[vinvoice_net_value_FX_Cumm]
+[invoice_net_value_DC_Cumm]=[vinvoice_net_value_DC_Cumm]
+[invoice_net_value_LT_Cumm]=[vinvoice_net_value_LT_Cumm]
+[invoice_net_value_LF_Cumm]=[vinvoice_net_value_LF_Cumm]
+[invoice_net_value_GF_Cumm]=[vinvoice_net_value_GF_Cumm]
+[invoice_net_value_GM_Cumm]=[vinvoice_net_value_GM_Cumm]
+
+[invoice_gross_value_DC_Cumm]=[vinvoice_gross_value_DC_Cumm]
+[invoice_gross_value_LT_Cumm]=[vinvoice_gross_value_LT_Cumm]
+[invoice_gross_value_LF_Cumm]=[vinvoice_gross_value_LF_Cumm]
+[invoice_gross_value_GF_Cumm]=[vinvoice_gross_value_GF_Cumm]
+[invoice_gross_value_GM_Cumm]=[vinvoice_gross_value_GM_Cumm]
+
+[invoice_qty_Cumm]=[vinvoice_qty_Cumm]
+//[invoice_net_value_FX_Cumm_indexType]=[vinvoice_net_value_FX_Cumm_indexType]
+[invoice_qty_Cumm_indexType]=[vinvoice_qty_Cumm_indexType]
+
+
+[Posting_alldate]=[AllDates.Posting_date]
+
+IF DATEPART(Month,[SC-PriceIndex_Fact12mAdded.posting_date])<12
+	THEN [Posting_date_NM]=min([NextMonth.posting_date])
+ELSE [Posting_date_NM]=NULL
+END IF
+	
+[posting_date_year]=[SC-PriceIndex_Fact12mAdded.posting_date_year]
+[posting_date_month]=[SC-PriceIndex_Fact12mAdded.posting_date_month]
+
+/* 12 months - Previous whole year*/
+[invoice_qty_12m]=[SC-PriceIndex_Fact12mAdded.invoice_qty_12m]
+[invoice_net_value_DC_12m]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_DC_12m]
+[invoice_net_value_LT_12m]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_LT_12m]
+[invoice_net_value_LF_12m]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_LF_12m]
+[invoice_net_value_GF_12m]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_GF_12m]
+[invoice_net_value_GM_12m]=[SC-PriceIndex_Fact12mAdded.invoice_net_value_GM_12m]
+
+WRITERECORD

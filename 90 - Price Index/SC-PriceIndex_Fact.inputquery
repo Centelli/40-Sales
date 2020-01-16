@@ -1,0 +1,67 @@
+SELECT [Fact.company_code]
+	,[Fact.plant_code]
+	,[Fact.material_code]
+	,[Fact.uom_code]
+	,[Fact.supplier_code]
+	,[Fact.curr_code]
+	,[Fact.rate]
+	,[Fact.invoice_qty]
+	,[Fact.invoice_net]
+	,[Fact.invoice_gross]
+	,[Fact.debit_credit_flag]
+	,[Fact.baseline_date]
+	,[Fact.posting_date]
+	,[Fact.posting_date]
+	,[Fact.record_source_key]
+	,[Fact.active]
+	,[Fact.invoice_no]
+	,[Fact.invoice_pos]
+	,[Fact.correct_flag]
+	,[Fact.posting_date_day]
+	,[Fact.posting_date_year]
+	,[Fact.posting_date_month]
+FROM [SC-PI_Fact] 'Fact'
+LEFT OUTER JOIN 
+SELECT [FactCorrection.company_code]
+	,[FactCorrection.plant_code]
+	,[FactCorrection.material_code]
+	,[FactCorrection.uom_code]
+	,[FactCorrection.supplier_code]
+	,[FactCorrection.curr_code]
+	,[FactCorrection.rate]
+	,[FactCorrection.invoice_qty]
+	,[FactCorrection.invoice_net]
+	,[FactCorrection.debit_credit_flag]
+	,[FactCorrection.baseline_date]
+	,[FactCorrection.posting_date]
+	,[FactCorrection.posting_date]
+	,[FactCorrection.active]
+	,[FactCorrection.invoice_no]
+	,[FactCorrection.invoice_pos]
+,[FactCorrection.correct_flag]
+FROM [FactCorrection] 
+ON [Fact.invoice_no] = [FactCorrection.invoice_no] and [Fact.invoice_pos]=[FactCorrection.invoice_pos] and [Fact.material_code]=[FactCorrection.material_code] and [Fact.company_code]=[FactCorrection.company_code] and [FactCorrection.correct_flag]=1
+LEFT OUTER JOIN
+Select [Level(Company.Company).Comp Currency Key] FROM [Level(Company.Company)] 
+ON [Level(Company.Company).Comp Code Key]=[Fact.company_code]
+LEFT OUTER JOIN 
+SELECT [Level(Exchange Rates.Exchange Rates).Exchange Rate] FROM [Level(Exchange Rates.Exchange Rates)] 
+ON [Level(Exchange Rates.Exchange Rates).Valid From Date] <= [Fact.posting_date] AND [Level(Exchange Rates.Exchange Rates).Valid To Date] >= [Fact.posting_date] AND [Level(Exchange Rates.Exchange Rates).From Currency Key] = [Level(Company.Company).Comp Currency Key] AND [Level(Exchange Rates.Exchange Rates).To Currency Key] = 'CHF'
+LEFT OUTER JOIN 
+SELECT [LocalFixedYearly.rate_with_factor] FROM [SC-Exchange Rates FixedYearly] 'LocalFixedYearly'
+ON [LocalFixedYearly.date_valid_from] <= [Fact.posting_date] AND [LocalFixedYearly.date_valid_to] >= [Fact.posting_date] AND [LocalFixedYearly.curr_code_to] = [Level(Company.Company).Comp Currency Key] AND [LocalFixedYearly.curr_code_from] = [Fact.curr_code]
+LEFT OUTER JOIN 
+SELECT [SC-Exchange Rates FixedYearly.rate_with_factor] FROM [SC-Exchange Rates FixedYearly]
+ON [SC-Exchange Rates FixedYearly.date_valid_from] <= [Fact.posting_date] AND [SC-Exchange Rates FixedYearly.date_valid_to] >= [Fact.posting_date] AND [SC-Exchange Rates FixedYearly.curr_code_to] = 'CHF' AND [SC-Exchange Rates FixedYearly.curr_code_from] = [Level(Company.Company).Comp Currency Key]
+LEFT OUTER JOIN 
+SELECT
+[min.company_code]
+,[min.plant_code]
+,[min.material_code]
+,[min.supplier_code]
+,[min.posting_date_year]
+,[min.uom_code]
+,[min.curr_code]
+,MIN([min.posting_date_month])
+FROM [SC-PI_Fact] 'min'
+ON [Fact.company_code]=[min.company_code] AND [Fact.plant_code]=[min.plant_code] AND [Fact.material_code]=[min.material_code] AND [Fact.supplier_code]=[min.supplier_code] AND [Fact.posting_date_year]-1=[min.posting_date_year] and [Fact.uom_code]=[min.uom_code] and [Fact.curr_code]=[min.curr_code]

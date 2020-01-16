@@ -1,0 +1,5 @@
+SELECT [supplier_country.country_code], [supplier_country.country_name], [supplier_country.curr_code], [supplier_country.subregion_key], [supplier_country.subregion_name], [supplier_country.area_key], [supplier_country.area_name], [supplier_country.region_key], [supplier_country.region_name] FROM [supplier_country]
+INNER JOIN
+SELECT [SC-Stage_Supplier.country_code] 
+FROM [SC-Stage_Supplier]
+ON [supplier_country.country_code]=[SC-Stage_Supplier.country_code]

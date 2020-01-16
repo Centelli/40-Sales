@@ -1,0 +1,1 @@
+SELECT distinct [EKBE.Mat_ Doc_ Year], [EKBE.Material Doc_],[EKBE.PO History Cat_] FROM [EKBE]

@@ -1,0 +1,5 @@
+[supplier_segmentation_code]=[supplier_segmentation.supplier_segmentation_code]
+[supplier_segmentation_name]=[supplier_segmentation.supplier_segmentation_name]
+[active]=[supplier_segmentation.active]
+
+WRITERECORD

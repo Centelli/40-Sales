@@ -1,0 +1,8 @@
+[Comp Code Key]=[Level(Company.Company).Comp Code Key]
+DIM [vCompanyName] as VARCHAR(50)
+[vCompanyName]= [Level(Company.Company).Comp Name] + ' (' + [Level(Company.Company).Comp Code Key] + ')'
+[Comp Name]=[vCompanyName]
+[Comp Country Key]=[Level(Company.Company).Comp Country Key]
+[Comp Currency Key]=[Level(Company.Company).Comp Currency Key]
+
+WRITERECORD

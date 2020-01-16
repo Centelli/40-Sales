@@ -1,0 +1,60 @@
+SELECT [SC-PriceIndex_Fact_AggData.company_code]
+	,[SC-PriceIndex_Fact_AggData.plant_code]
+	,[SC-PriceIndex_Fact_AggData.material_code]
+	,sum([SC-PriceIndex_Fact_AggData.invoice_qty])
+	,[SC-PriceIndex_Fact_AggData.uom_code]
+	,[SC-PriceIndex_Fact_AggData.supplier_code_invoice]
+	,[SC-PriceIndex_Fact_AggData.supplier_code]
+	,[SC-PriceIndex_Fact_AggData.debit_credit_flag]
+	,sum([SC-PriceIndex_Fact_AggData.tcurr_amnt])
+	,[SC-PriceIndex_Fact_AggData.subsequent_debitor_creditor]
+	,[SC-PriceIndex_Fact_AggData.baseline_date]
+	,[SC-PriceIndex_Fact_AggData.no_of_days1]
+	,[SC-PriceIndex_Fact_AggData.disc_perc1]
+	,[SC-PriceIndex_Fact_AggData.no_of_days2]
+	,[SC-PriceIndex_Fact_AggData.disc_perc2]
+	,[SC-PriceIndex_Fact_AggData.posting_date]
+	,[SC-PriceIndex_Fact_AggData.correct_flag]
+	,[SC-PriceIndex_Fact_AggData.active]
+	,sum([SC-PriceIndex_Fact_AggData.tcurr_amnt_discounted])
+	,[SC-PriceIndex_Fact_AggData.factor]
+	,[SC-PriceIndex_Fact_AggData.record_source_key]
+	,sum([SC-PriceIndex_Fact_AggData.invoice_net])
+	,sum([SC-PriceIndex_Fact_AggData.invoice_gross])
+	,[SC-PriceIndex_Fact_AggData.rate_key]
+	,[SC-PriceIndex_Fact_AggData.rate_type_key]
+	,[SC-PriceIndex_Fact_AggData.curr_type_key]
+	,[SC-PriceIndex_Fact_AggData.invoice_currency_key]
+	,sum([SC-PriceIndex_Fact_AggData.invoice_net_value])
+	,sum([SC-PriceIndex_Fact_AggData.invoice_net_value_Cumm])
+	,[SC-PriceIndex_Fact_AggData.purchase_group_key]
+	,[SC-PriceIndex_Fact_AggData.purchase_organisation_code]
+	,sum([SC-PriceIndex_Fact_AggData.invoice_qty_Cumm])
+,sum([SC-PriceIndex_Fact_AggData.invoice_net_value_FX_Cumm_indexType])
+,sum([SC-PriceIndex_Fact_AggData.invoice_qty_Cumm_indexType])
+,[SC-PriceIndex_Fact_AggData.Division Key]
+,[SC-PriceIndex_Fact_AggData.material_category_name]
+,[SC-PriceIndex_Fact_AggData.material_sub_category_name1]
+,[SC-PriceIndex_Fact_AggData.material_sub_category_name]
+,[SC-PriceIndex_Fact_AggData.material_group_name1]
+,[SC-PriceIndex_Fact_AggData.material_group_name]
+,[SC-PriceIndex_Fact_AggData.inco_term_code]
+,[SC-PriceIndex_Fact_AggData.material_exclude_key]
+,[SC-PriceIndex_Fact_AggData.material_planner_code]
+,[SC-PriceIndex_Fact_AggData.metal_key]
+,[SC-PriceIndex_Fact_AggData.sourcing_manager_code]
+,[SC-PriceIndex_Fact_AggData.supplier_classification_code]
+,[SC-PriceIndex_Fact_AggData.supplier_segmentation_code]
+,[SC-PriceIndex_Fact_AggData.supplier_group_key]
+,[SC-PriceIndex_Fact_AggData.supplier_exclude_key]
+,[SC-PriceIndex_Fact_AggData.supplier_country_code]
+,[SC-PriceIndex_Fact_AggData.curr_code]
+,sum([SC-PriceIndex_Fact_AggData.invoice_qty_12m])
+,sum([SC-PriceIndex_Fact_AggData.invoice_net_value_12m])
+,[SC-PriceIndex_Fact_AggData.supplier_relation_key]
+,[SC-PriceIndex_Fact_AggData.plant_relation_key]
+,[SC-PriceIndex_Fact_AggData.company_relation_key]
+,sum([SC-PriceIndex_Fact_AggData.invoice_gross_value])
+,sum([SC-PriceIndex_Fact_AggData.invoice_gross_value_Cumm])
+,[SC-PriceIndex_Fact_AggData.CurrRateKey]
+FROM [SC-PriceIndex_Fact_AggData]

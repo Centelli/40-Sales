@@ -1,0 +1,30 @@
+SELECT distinct [material_group.material_group_key]
+	,[material_group.company_code]
+	,[material_group.material_group_code]
+	,[material_group.material_group_name]
+	,[material_group.material_group_name1]
+	,[material_group.material_sub_category_key]
+	,[material_group.material_category_type_key]
+	,[material_group.member_type]
+	,[material_group.active]
+	,[material_group.AUDIT_USER]
+	,[material_group.AUDIT_TIME]
+FROM [material_group]
+WHERE [material_group.material_group_key] <> 0
+LEFT OUTER JOIN
+Select [material_sub_category.material_sub_category_name],[material_sub_category.material_sub_category_name1],[material_sub_category.material_sub_category_code]
+FROM [material_sub_category]
+ON [material_group.material_sub_category_key]=[material_sub_category.material_sub_category_key]
+LEFT OUTER JOIN
+Select [material_category.material_category_name],[material_category.material_category_code]
+FROM [material_category]
+ON [material_sub_category.material_category_key]=[material_category.material_category_key]
+LEFT OUTER JOIN
+SELECT min([map_material_sub_group.material_sub_group_code]), [map_material_sub_group.material_group_code] 
+FROM
+[map_material_sub_group]
+ON [material_group.material_group_code]=[map_material_sub_group.material_group_code] AND [map_material_sub_group.material_group_code]<>0
+LEFT OUTER JOIN
+SELECT [SC-Stage_material_sub_group.exclude_flag], [SC-Stage_material_sub_group.material_exclude_key],[SC-Stage_material_sub_group.nf_metal_flag],[SC-Stage_material_sub_group.metal_key] 
+FROM [SC-Stage_material_sub_group]
+ON [map_material_sub_group.material_sub_group_code]=[SC-Stage_material_sub_group.material_sub_group_code]

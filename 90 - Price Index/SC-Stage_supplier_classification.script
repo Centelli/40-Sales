@@ -1,0 +1,3 @@
+[supplier_classification_code]=[supplier_classification.supplier_classification_code]
+[supplier_classification_name]=[supplier_classification.supplier_classification_name]
+WRITERECORD

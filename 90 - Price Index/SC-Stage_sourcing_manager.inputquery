@@ -1,0 +1,9 @@
+SELECT DISTINCT [USER_GetList.Benutzername im Benutzerstamm]
+	,[USER_GetList.Vorname]
+	,[USER_GetList.Nachname]
+	,[USER_GetList.Vollständiger Name der Person]
+FROM [USER_GetList]
+INNER JOIN
+SELECT [SC-Stage_Supplier.sourcing_manager_code] FROM [SC-Stage_Supplier]
+WHERE [SC-Stage_Supplier.active]=1
+ON [USER_GetList.Benutzername im Benutzerstamm]=[SC-Stage_Supplier.sourcing_manager_code]

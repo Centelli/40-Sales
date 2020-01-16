@@ -1,0 +1,41 @@
+SELECT [RBKP_RSEG.rbkp_bukrs]
+	,[RBKP_RSEG.Plant]
+	,[RBKP_RSEG.rseg_matnr]
+	,sum([RBKP_RSEG.rseg_menge])
+	,[RBKP_RSEG.rseg_bstme]
+	,[RBKP_RSEG.rbkp_lifnr]
+,[RBKP_RSEG.ekko_lifnr]
+	,[RBKP_RSEG.rseg_shkzg]
+	,sum([RBKP_RSEG.rseg_wrbtr])
+	,[RBKP_RSEG.rbkp_waers]
+	,[RBKP_RSEG.rbkp_kursf]
+	,[RBKP_RSEG.rbkp_belnr]
+	,[RBKP_RSEG.rseg_buzei]
+	,[RBKP_RSEG.rseg_tbtkz]
+	,[RBKP_RSEG.rbkp_zfbdt]
+	,[RBKP_RSEG.rbkp_zbd1t]
+	,[RBKP_RSEG.rbkp_zbd1p]
+	,[RBKP_RSEG.rbkp_zbd2t]
+	,[RBKP_RSEG.rbkp_ZBD2P]
+	,[RBKP_RSEG.rbkp_BUDAT]
+FROM [RBKP_RSEG]
+WHERE [RBKP_RSEG.rseg_shkzg] IN (
+		'H'
+		,'S'
+		)
+AND [RBKP_RSEG.rbkp_BUDAT] >='2018-01-01' 		
+LEFT OUTER JOIN
+
+SELECT [SC-Stage_currency_factor.curr_code]
+	,[SC-Stage_currency_factor.decimals]
+	,[SC-Stage_currency_factor.factor1]
+	,[SC-Stage_currency_factor.factor2]
+FROM [SC-Stage_currency_factor] ON [RBKP_RSEG.rbkp_waers] = [SC-Stage_currency_factor.curr_code]
+
+LEFT OUTER JOIN
+SELECT [SC-Stage_PO_Bill_Types.PO History Cat_] 
+FROM [SC-Stage_PO_Bill_Types] ON [RBKP_RSEG.rbkp_belnr]=[SC-Stage_PO_Bill_Types.Document Number] and [RBKP_RSEG.rseg_buzei]=[SC-Stage_PO_Bill_Types.Mat_ Doc_Item]
+
+LEFT OUTER JOIN
+SELECT [SC-Stage_EKBE_PO_Hist.PO History Cat_] 
+FROM [SC-Stage_EKBE_PO_Hist] ON [RBKP_RSEG.rbkp_belnr]=[SC-Stage_EKBE_PO_Hist.Material Doc_] and [RBKP_RSEG.rseg_buzei]=[SC-Stage_EKBE_PO_Hist.Mat_ Doc_Item]

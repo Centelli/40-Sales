@@ -1,0 +1,11 @@
+SELECT DISTINCT
+	[Level(Company.Company).Comp Code Key]
+	,[Level(Company.Company).Comp Name]
+	,[Level(Company.Company).Comp Country Key]
+	,[Level(Company.Company).Comp Currency Key]
+
+FROM [Level(Company.Company)] 
+INNER JOIN
+SELECT DISTINCT [SC-PriceIndex_Fact2.company_code]
+FROM [SC-PriceIndex_Fact2]
+ON [Level(Company.Company).Comp Code Key]=[SC-PriceIndex_Fact2.company_code]

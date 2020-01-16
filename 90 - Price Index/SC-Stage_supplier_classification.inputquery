@@ -1,0 +1,1 @@
+SELECT [supplier_classification.supplier_classification_code], [supplier_classification.supplier_classification_name] FROM [supplier_classification]

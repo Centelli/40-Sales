@@ -1,0 +1,51 @@
+[Comp Code Key]=[SC-PriceIndex_Fact_12mMissing.Comp Code Key]
+[plant_code]=[SC-PriceIndex_Fact_12mMissing.plant_code]
+[material_code]=[SC-PriceIndex_Fact_12mMissing.material_code]
+[invoice_qty]=[SC-PriceIndex_Fact_12mMissing.invoice_qty]
+[uom_code]=[SC-PriceIndex_Fact_12mMissing.uom_code]
+[supplier_code]=[SC-PriceIndex_Fact_12mMissing.supplier_code]
+[currency_code]=[SC-PriceIndex_Fact_12mMissing.currency_code]
+[posting_date_year]=[SC-PriceIndex_Fact_12mMissing.posting_date_year]
+[invoice_net_value]=[SC-PriceIndex_Fact_12mMissing.invoice_net_value]
+
+[invoice_gross_value]=[SC-PriceIndex_Fact_12mMissing.invoice_gross_value]
+
+[invoice_currency_key]=[SC-PriceIndex_Fact_12mMissing.invoice_currency_key]
+
+[supplier_relation_regular_key]=[SC-PriceIndex_Fact_12mMissing.supplier_relation_regular_key]
+[supplier_relation_neutral_key]=[SC-PriceIndex_Fact_12mMissing.supplier_relation_neutral_key]
+[plant_relation_regular_key]=[SC-PriceIndex_Fact_12mMissing.plant_relation_regular_key]
+[plant_relation_neutral_key]=[SC-PriceIndex_Fact_12mMissing.plant_relation_neutral_key]
+[company_relation_regular_key]=[SC-PriceIndex_Fact_12mMissing.company_relation_regular_key]
+[company_relation_neutral_key]=[SC-PriceIndex_Fact_12mMissing.company_relation_neutral_key]
+[CurrRateKey]=[SC-PriceIndex_Fact_12mMissing.CurrRateKey]
+//[isNull]=[SC-PriceIndex_Fact_12mMissing.isNull]
+//[comp_key_2]=[SC-PriceIndex_Fact_12mMissing.comp_key_2]
+
+[inco_term_code]=[SC-PriceIndex_Fact_12mMissing.inco_term_code]
+[material_exclude_key]=[SC-PriceIndex_Fact_12mMissing.material_exclude_key]
+[material_planner_code]=[SC-PriceIndex_Fact_12mMissing.material_planner_code]
+[metal_key]=[SC-PriceIndex_Fact_12mMissing.metal_key]
+[material_type_key]=[SC-PriceIndex_Fact_12mMissing.material_type_key]
+[sourcing_manager_code]=[SC-PriceIndex_Fact_12mMissing.sourcing_manager_code]
+[supplier_classification_code]=[SC-PriceIndex_Fact_12mMissing.supplier_classification_code]
+[supplier_segmentation_code]=[SC-PriceIndex_Fact_12mMissing.supplier_segmentation_code]
+[supplier_group_key]=[SC-PriceIndex_Fact_12mMissing.supplier_group_key]
+[supplier_exclude_key]=[SC-PriceIndex_Fact_12mMissing.supplier_exclude_key]
+[supplier_country_code]=[SC-PriceIndex_Fact_12mMissing.supplier_country_code]
+[order_type_key]=[SC-PriceIndex_Fact_12mMissing.order_type_key]
+[purchase_group_key]=[SC-PriceIndex_Fact_12mMissing.purchase_group_key]
+[purchase_organisation_code]=[SC-PriceIndex_Fact_12mMissing.purchase_organisation_code]
+[posting_date]=[SC-PriceIndex_Fact_12mMissing.posting_date]
+/*
+Dim [v_posting_date] as DATETIME
+[v_posting_date] = DATEADD(Year, 1, [AllDates.Posting_date])
+[posting_date] =[v_posting_date]
+*/
+[Division Key]=[SC-PriceIndex_Fact_12mMissing.Division Key]
+
+DIM [visNull] as VARCHAR(1)
+IF [SC-PriceIndex_Fact_min.Comp Code Key] is null THEN [visNull]='Y' ELSE [visNull]='N' END IF
+[isNull]=[visNull]
+
+WRITERECORD

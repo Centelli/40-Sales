@@ -1,0 +1,21 @@
+SELECT 
+[T023T.Material Group]
+,[T023T.Matl Grp Desc_]
+,[T023T.Mat_grp desc_ 2] 
+FROM [T023T]
+LEFT OUTER JOIN
+SELECT [map_material_sub_group_exclude.exclude_flag]
+FROM [map_material_sub_group_exclude]
+ON [T023T.Material Group]=[map_material_sub_group_exclude.code]
+LEFT OUTER JOIN
+SELECT [SC-Stage_material_exclude.material_exclude_key]
+FROM [SC-Stage_material_exclude]
+ON [map_material_sub_group_exclude.exclude_flag]=[SC-Stage_material_exclude.exclude_flag]
+LEFT OUTER JOIN
+SELECT [map_material_sub_group_metal.nf_metal_flag]
+FROM [map_material_sub_group_metal]
+ON [T023T.Material Group]=[map_material_sub_group_metal.code]
+LEFT OUTER JOIN
+SELECT [SC-Stage_material_metal.metal_key] 
+FROM [SC-Stage_material_metal]
+ON [map_material_sub_group_metal.nf_metal_flag]=[SC-Stage_material_metal.nf_metal_flag]

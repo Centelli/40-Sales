@@ -1,0 +1,10 @@
+[supplier_country_code]=[supplier_country.country_code]
+[supplier_country_name]=[supplier_country.country_name]
+[supplier_curr_code]=[supplier_country.curr_code]
+[supplier_subregion_key]=[supplier_country.subregion_key]
+[supplier_subregion_name]=[supplier_country.subregion_name]
+[supplier_area_key]=[supplier_country.area_key]
+[supplier_area_name]=[supplier_country.area_name]
+[supplier_region_key]=[supplier_country.region_key]
+[supplier_region_name]=[supplier_country.region_name]
+WRITERECORD

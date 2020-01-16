@@ -1,0 +1,1 @@
+SELECT [supplier_segmentation.supplier_segmentation_code], [supplier_segmentation.supplier_segmentation_name], [supplier_segmentation.active] FROM [supplier_segmentation]

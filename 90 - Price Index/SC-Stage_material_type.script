@@ -1,0 +1,6 @@
+[material_type_key]=[material_type.material_type_key]
+[material_type_name]=[material_type.material_type_name]
+[active]=[material_type.active]
+[AUDIT_USER]=[material_type.AUDIT_USER]
+[AUDIT_TIME]=[material_type.AUDIT_TIME]
+WRITERECORD
