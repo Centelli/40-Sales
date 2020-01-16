@@ -1,0 +1,154 @@
+Dim [vSalesOrg] as Varchar(10)
+Dim [vSalesDate] as Date
+Dim [vSalesCurr] as Varchar(10)
+Dim [vSalesNet] as Float
+Dim [vSalesCost] as Float
+Dim [vExcRatetoHC] as Float
+
+Dim [vSecurityKey] as Varchar(25) 
+
+Dim [vSalesNetHC] as Float
+Dim [vSalesNetGC] as Float
+Dim [vSalesCostHC] as Float
+Dim [vSalesCostGC] as Float
+
+// Change cost factor to adjust margin. Should always be negative.
+Dim [vBKtelCostFactor] as float
+[vBKtelCostFactor] = -0.6
+
+Dim [v_rate_home_to_chf] as Float
+Dim [v_rate_chf_to_reg] as Float
+
+[vSalesOrg] = [SC-BKtel Sales.Sales Org Key]
+[vSalesDate] = [SC-BKtel Sales.Date]
+[vSalesCurr] = [SC-BKtel Sales.Currency]
+[vSalesNet] = [SC-BKtel Sales.Sales]
+[vSalesCost] = [SC-BKtel Sales.Sales] * [vBKtelCostFactor]
+
+// Rate is Company Rate Thus HC already
+
+[vExcRatetoHC] = 1
+
+[Item Key]=[SC-BKtel Sales.Item Key]
+[Invoice Number]=[SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy')
+[Bill Type Key]='ZF2'
+[Currency Key]=[vSalesCurr]
+[Sales Org Key]=[vSalesOrg]
+[Distr Channel]='00'
+[Billing Date]=[vSalesDate]
+[Analysis Date]=[SC-BKtel Sales.Date]
+[Comp Code Key]=[SC-BKtel Sales.Comp Code Key]
+
+[Customer Key] = [SC-BKtel Sales.Customer Key]
+[CustArea Key] = [SC-BKtel Sales.Customer Key] + [SC-BKtel Sales.Comp Code Key] 
+[vSecurityKey] = [vSalesOrg] + '21' + [SC-BKtel Sales.Customer Key]
+
+// [Delivery Customer Key]='DEL_I2_'+[SC-BKtel Sales.Customer_Delivery_Country]
+
+[Sales Invoice Number]=[SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy')
+[Sales Invoice Item]='000010'
+[Sales Invoice Key]=[SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy')+''+'000010'
+
+[Sales Net]=[vSalesNet]
+
+// [Sales Office Key]=[SC-BKtel Sales.Sales Office Key]
+
+[DelMarker]= [SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy')+'_I3'
+[Source] = 'I3'
+
+[v_rate_home_to_chf] = 1
+IF [SC-BKtel Sales.Currency] <> 'CHF' THEN
+   [v_rate_home_to_chf] = [HomeRates.Exchange Rate]
+END IF
+
+[v_rate_chf_to_reg] = 1
+IF [tbl_dim_sales_region.regional_currency_code] <> 'CHF' THEN
+   [v_rate_chf_to_reg] = [RegRates.Exchange Rate]
+END IF
+PRINT '[SC-Customer Sales Area I2.RC Currency Key]:'+[tbl_dim_sales_region.regional_currency_code]+' [v_rate_chf_to_reg] ='+[v_rate_chf_to_reg]   
+
+IF [v_rate_home_to_chf] IS NULL THEN
+    [v_rate_home_to_chf] = 1
+
+  END IF
+  
+  IF [v_rate_chf_to_reg] IS NULL THEN
+    [v_rate_chf_to_reg] = 1
+    PRINT 'ISSUE WITH RATE FOR v_rate_chf_to_reg '+ [tbl_dim_sales_region.regional_currency_code] +' NOT FOUND - SET TO 1'
+  END IF  
+
+[Currency Key DC]=[SC-BKtel Sales.Currency]
+[Ex Rate DC]=1
+[Net Sales DC]=[vSalesNet]
+
+
+[Currency Key HC] = [SC-BKtel Sales.Currency]
+
+   IF [vExcRatetoHC] > FLOAT(0.00) THEN
+    [Ex Rate HC]=[vExcRatetoHC]
+  [vSalesNetHC]=IFNULL([vSalesNet],0.00)*[vExcRatetoHC]
+  [vSalesCostHC]=IFNULL([vSalesCost],0.00)*[vExcRatetoHC] 
+   ELSEIF [vExcRatetoHC] < FLOAT(0.00)
+    [Ex Rate HC]=FLOAT(1/([vExcRatetoHC]*-1))
+    [vSalesNetHC]=FLOAT(IFNULL([vSalesNet],0.00)/([vExcRatetoHC]*-1))
+    [vSalesCostHC]=FLOAT(IFNULL([vSalesCost],0.00)/([vExcRatetoHC]*-1))
+   END IF
+   [Net Sales HC]=[vSalesNetHC]
+   [Sales COGS HC]=[vSalesCostHC]
+   
+
+[Currency Key GC] = 'CHF'
+IF [SC-BKtel Sales.Currency] = 'CHF' THEN
+  [Ex Rate GC] = 1
+  [vSalesNetGC] = [vSalesNetHC]
+  [vSalesCostGC] = [vSalesCostHC]
+ELSE
+  [Ex Rate GC] = [v_rate_home_to_chf]
+  [vSalesNetGC] = IFNULL([vSalesNetHC],0.00)*[v_rate_home_to_chf]
+  [vSalesCostGC] = IFNULL([vSalesCostHC],0.00)*[v_rate_home_to_chf]
+END IF   
+  [Net Sales GC] = [vSalesNetGC]
+  [Sales COGS GC] = [vSalesCostGC]
+
+[Currency Key RC] = [tbl_dim_sales_region.regional_currency_code]
+IF [tbl_dim_sales_region.regional_currency_code] = 'CHF' THEN
+  [Ex Rate RC] = 1
+  [Net Sales RC] = [vSalesNetGC]
+  [Sales COGS RC] = [vSalesCostGC]
+ELSE
+  [Ex Rate RC] = FLOAT(1/[v_rate_chf_to_reg])
+  [Net Sales RC] = IFNULL([vSalesNetGC],0.00)/[v_rate_chf_to_reg]
+  [Sales COGS RC] = IFNULL([vSalesCostGC],0.00)/[v_rate_chf_to_reg]
+END IF      
+   
+[Sales ICOGS GC] = 0.00
+[Sales ICOGS HC] = 0.00
+[Sales ICOGS RC] = 0.00
+[Security Key] = 'N' + [vSecurityKey]
+
+WRITERECORD
+
+/* ICOGS Block */
+
+[Net Sales DC] = 0.00
+[Net Sales HC] = 0.00
+[Net Sales GC] = 0.00
+[Net Sales RC] = 0.00
+[Sales COGS DC] = 0.00
+[Sales COGS HC] = 0.00
+[Sales COGS GC] = 0.00
+[Sales COGS RC] = 0.00
+[Sales Net] = 0.00
+
+
+// [vSalesIcogsHC] = [SC-BKtel Sales.Sales] * ??? Value from controlling ???
+
+// If ICOGS is zero, user COGS
+
+  [Sales ICOGS HC]=FLOAT([vSalesCostHC])
+  [Sales ICOGS GC]=FLOAT([vSalesCostHC])*[v_rate_home_to_chf]
+  [Sales ICOGS RC]=[vSalesCostGC]/[v_rate_chf_to_reg]
+
+[Security Key] = 'Y'+[vSecurityKey]
+
+WRITERECORD

@@ -135,3 +135,9 @@ AUSP,False,1.1.Configuration
 tbl_weee_country_mapping,False,1.1.Configuration
 tbl_weee_item_cubo,False,1.1.Configuration
 tbl_weee_item_polatis,False,1.1.Configuration
+BKtel Company Keys,True,
+BKtel German Sales,False,1.1.Transaction;BKtel
+BKtel Subsidiary Sales,False,1.1.Transaction;BKtel
+SC-Orders BKtel,False,SC-Orders BKtel;1.3.Orders BKtel;BKtel
+SC-Invoices BKtel,False,SC-Invoices BKtel;1.4.Invoices BKtel;BKtel
+SC-BKtel Sales,False,SC-BKtel Sales;1.1.Transaction;BKtel

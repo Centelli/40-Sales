@@ -1,0 +1,3 @@
+SELECT [BKtel German Sales.Company], [BKtel German Sales.Date], [BKtel German Sales.Sales], [BKtel German Sales.Order Entry], [BKtel German Sales.Currency], [BKtel German Sales.Factor], [BKtel German Sales.Period] FROM [BKtel German Sales]
+UNIONALL 
+SELECT [BKtel Subsidiary Sales.Company], [BKtel Subsidiary Sales.Date], [BKtel Subsidiary Sales.Sales], [BKtel Subsidiary Sales.Order Entry], [BKtel Subsidiary Sales.Currency], [BKtel Subsidiary Sales.Factor], [BKtel Subsidiary Sales.Period] FROM [BKtel Subsidiary Sales]

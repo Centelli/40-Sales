@@ -1,0 +1,93 @@
+Dim [vSalesDate] as Date
+Dim [vSalesCurr] as Varchar(10)
+Dim [vMatKey] as Varchar(18)
+Dim [vOrderNet] as Float
+
+Dim [vOrderNetHC] as Float
+Dim [vOrderNetGC] as Float
+
+Dim [v_rate_home_to_chf] as Float
+Dim [v_rate_chf_to_reg] as Float
+
+[vOrderNet]=[SC-BKtel Sales.Order Entry]
+
+[vSalesDate]=[SC-BKtel Sales.Date]
+[vSalesCurr]=[SC-BKtel Sales.Currency]
+
+[Sales Order Number]=[SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy')
+[Sales Order Item]='000010'
+[Sales Order ScL Line]='0001'
+[Sales Order Key]=[SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy')+'000010'
+
+[Analysis Date]=[SC-BKtel Sales.Date]
+
+[Sales Org Key]=[SC-BKtel Sales.Sales Org Key]
+[Comp Code Key] = [SC-BKtel Sales.Comp Code Key]
+
+[Sales Office Key]=[SC-BKtel Sales.Sales Office Key]
+
+[Customer Key]=[SC-BKtel Sales.Customer Key]
+[CustArea Key] = [SC-BKtel Sales.Customer Key] + [SC-BKtel Sales.Sales Org Key] 
+
+[Item Key]=[SC-BKtel Sales.Item Key]
+
+[Order Net]=[vOrderNet]
+[Currency Key]=[SC-BKtel Sales.Currency]
+
+[Security Key] = 'N' + [SC-BKtel Sales.Sales Org Key] + '21' + [SC-BKtel Sales.Customer Key] 
+[RecType] = 'New Record'
+[DelMarker] = 'I3'
+[Source] = 'I3'
+
+[v_rate_home_to_chf] = 1
+IF [SC-BKtel Sales.Currency] <> 'CHF' THEN
+   [v_rate_home_to_chf] = [HomeRates.Exchange Rate]
+END IF
+PRINT '[SC-BKtel Sales.Currency]:'+[SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy') +' [v_rate_home_to_chf] ='+[v_rate_home_to_chf] 
+[v_rate_chf_to_reg] = 1
+IF [tbl_dim_sales_region.regional_currency_code] <> 'CHF' THEN
+    [v_rate_chf_to_reg] = [RegRates.Exchange Rate]
+END IF
+PRINT '[SC-Customer Sales Area I2.RC Currency Key]:'+ [tbl_dim_sales_region.regional_currency_code] +' [v_rate_chf_to_reg] ='+[v_rate_chf_to_reg]   
+/* Catch Issue RATE NOT FOUND Code */
+IF [v_rate_home_to_chf] IS NULL THEN
+    [v_rate_home_to_chf] = 1
+    PRINT 'ISSUE WITH RATE FOR v_rate_home_to_chf '+[SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy') +' NOT FOUND - SET TO 1'
+  END IF
+  
+  IF [v_rate_chf_to_reg] IS NULL THEN
+    [v_rate_chf_to_reg] = 1
+    PRINT 'ISSUE WITH RATE FOR v_rate_chf_to_reg '+ [tbl_dim_sales_region.regional_currency_code] +' NOT FOUND - SET TO 1'
+  END IF  
+  
+
+  [Currency Key DC]=[vSalesCurr]
+  [Ex Rate DC]=1
+  [Order Intake DC]=[vOrderNet]
+  
+  [Currency Key HC] = [SC-BKtel Sales.Currency]
+  [vOrderNetHC]=[vOrderNet]
+  [Order Intake HC]=[vOrderNetHC]
+
+  [Currency Key GC] = 'CHF'
+  IF [SC-BKtel Sales.Currency] = 'CHF' THEN
+    [Ex Rate GC] = 1
+    [vOrderNetGC] = [vOrderNetHC]
+  ELSE
+    [Ex Rate GC] = [v_rate_home_to_chf]
+    [vOrderNetGC] = [vOrderNetHC]*[v_rate_home_to_chf]
+  END IF
+  [Order Intake GC]=[vOrderNetGC]
+
+  [Currency Key RC] = [tbl_dim_sales_region.regional_currency_code]
+  IF [tbl_dim_sales_region.regional_currency_code] = 'CHF' THEN
+    [Ex Rate RC] = 1
+    [Order Intake RC] = [vOrderNetGC]
+  ELSE
+    [Ex Rate RC] = FLOAT(1/[v_rate_chf_to_reg])
+    [Order Intake RC] = FLOAT([vOrderNetGC]/[v_rate_chf_to_reg])
+  END IF
+
+  [Current Record] = 1
+
+WRITERECORD

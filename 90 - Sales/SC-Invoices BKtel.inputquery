@@ -1,0 +1,7 @@
+SELECT [SC-BKtel Sales.Comp Code Key], [SC-BKtel Sales.Date], [SC-BKtel Sales.Sales], [SC-BKtel Sales.Currency], [SC-BKtel Sales.Factor], [SC-BKtel Sales.Period], [SC-BKtel Sales.Item Key], [SC-BKtel Sales.Customer Key], [SC-BKtel Sales.Sales Office Key], [SC-BKtel Sales.Sales Org Key] FROM [SC-BKtel Sales]
+INNER JOIN 
+SELECT [tbl_dim_sales_region.regional_currency_code]
+  FROM [tbl_dim_sales_region] on [tbl_dim_sales_region.sales_office_code] = [SC-BKtel Sales.Sales Office Key]
+LEFT OUTER JOIN
+SELECT [RegRates.Exchange Rate]  FROM [SC-Ex Rates] 'RegRates' ON [RegRates.Valid From Date] <= [SC-BKtel Sales.Date] AND [RegRates.Valid To Date] >= [SC-BKtel Sales.Date] AND [RegRates.From Currency Key] = [tbl_dim_sales_region.regional_currency_code]
+LEFT OUTER JOINSELECT [HomeRates.Exchange Rate]  FROM [SC-Ex Rates] 'HomeRates' ON [HomeRates.Valid From Date] <= [SC-BKtel Sales.Date] AND [HomeRates.Valid To Date] >= [SC-BKtel Sales.Date] AND [HomeRates.From Currency Key] = [SC-BKtel Sales.Currency]
