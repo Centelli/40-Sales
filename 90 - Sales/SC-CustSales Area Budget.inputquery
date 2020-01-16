@@ -1,11 +1,10 @@
-SELECT DISTINCT [SQL Sales Budget Forecast.customer_code], [SQL Sales Budget Forecast.sales_rep_code], [SQL Sales Budget Forecast.sales_office_key], [SQL Sales Budget Forecast.div_comp_code], [SQL Sales Budget Forecast.customer_type], [SQL Sales Budget Forecast.sap_comp_code], [SQL Sales Budget Forecast.sales_rep_email], [SQL Sales Budget Forecast.sales_org_key], [SQL Sales Budget Forecast.comp_type]
-  FROM [SQL Sales Budget Forecast] 
-where [SQL Sales Budget Forecast.customer_type] = 'new biz'
+SELECT DISTINCT [SQL Sales Budget Forecast.Customer_Key], [SQL Sales Budget Forecast.Outside_Sales_Key], [SQL Sales Budget Forecast.Sales_Office_Key], [SQL Sales Budget Forecast.Customer_Type], [SQL Sales Budget Forecast.Comp_Key], [SQL Sales Budget Forecast.Outside_Sales_Email_Adress], [SQL Sales Budget Forecast.Sales_Org_Key] FROM [SQL Sales Budget Forecast] 
+WHERE [SQL Sales Budget Forecast.Customer_Type] = 'new biz'														   
 LEFT OUTER JOIN
 SELECT [tbl_dim_sales_region.sales_region_code], [tbl_dim_sales_region.sales_subregion_code], [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.sales_office_name], [tbl_dim_sales_region.regional_currency_code]
   FROM [tbl_dim_sales_region]
-    ON [tbl_dim_sales_region.sales_office_code] = [SQL Sales Budget Forecast.sales_office_key]
+    ON [tbl_dim_sales_region.sales_office_code] = [SQL Sales Budget Forecast.Sales_Office_Key]
 LEFT OUTER JOIN 
 SELECT [SC-Employee Hierarchy.Name], [SC-Employee Hierarchy.AD ID], [SC-Employee Hierarchy.Manager AD ID], [SC-Employee Hierarchy.Manager Name], [SC-Employee Hierarchy.Managerx2 AD ID], [SC-Employee Hierarchy.Managerx2 Name], [SC-Employee Hierarchy.Managerx3 AD ID], [SC-Employee Hierarchy.Managerx3 Name], [SC-Employee Hierarchy.Managerx4 AD ID], [SC-Employee Hierarchy.Managerx4 Name] 
   FROM [SC-Employee Hierarchy] 
-  ON [SC-Employee Hierarchy.Email ID] = [SQL Sales Budget Forecast.sales_rep_email]
+  ON [SC-Employee Hierarchy.Email ID] = [SQL Sales Budget Forecast.Outside_Sales_Email_Adress]
