@@ -1,5 +1,5 @@
 Source Name,Disabled,Processing Groups
-RBKP_RSEG,False,1.1 Raw Tables - Fact
+RBKP_RSEG,False,1.1 Raw Tables - Fact;RBKP_RSEG
 TCURX,False,1.0 Raw Tables - Dim
 SC-Stage_currency_factor,False,2.0 Stage Tables - Dim
 SC-Stage_PI_Fact,False,2.1 Stage Tables - Fact
@@ -35,7 +35,7 @@ SC-PriceIndex_Fact_Distinct,False,2.5 Stage Tables - Fact
 FactCorrection,False,2.3 Stage Tables - Fact
 MARC,False,1.0 Raw Tables - Dim
 Exchange Rates FixedYearly,False,1.0 Raw Tables - Dim
-SC-Exchange Rates FixedYearly,False,2.0 Stage Tables - Dim
+SC-Exchange Rates FixedYearly,False,2.0 Stage Tables - Dim;SC-ExRateFixedYearly
 AllDates,False,1.0 Raw Tables - Dim
 SC-PriceIndex_Fact_min,False,3.5 Stage Tables - Fact
 SC-PriceIndex_Fact_min_PY,False,2.7 Stage Tables - Fact

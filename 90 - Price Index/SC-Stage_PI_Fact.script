@@ -115,5 +115,7 @@ IF [RBKP_RSEG.rbkp_lifnr] is null then [v_IC_value_var]=[RBKP_RSEG.ekko_lifnr] e
 IF [v_IC_value]>9999 [v_IC_flag]=0 else [v_IC_flag]=1 end if
 [IC_flag]=[v_IC_flag]
 
-
-WRITERECORD
+// HUB-811 - ignore records that do now have any PO History Category - they are FI documents only
+IF length(ifnull([SC-Stage_EKBE_PO_Hist.PO History Cat_],''))>0 THEN
+  WRITERECORD
+END IF

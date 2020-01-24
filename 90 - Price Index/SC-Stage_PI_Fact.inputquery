@@ -38,4 +38,4 @@ FROM [SC-Stage_PO_Bill_Types] ON [RBKP_RSEG.rbkp_belnr]=[SC-Stage_PO_Bill_Types.
 
 LEFT OUTER JOIN
 SELECT [SC-Stage_EKBE_PO_Hist.PO History Cat_] 
-FROM [SC-Stage_EKBE_PO_Hist] ON [RBKP_RSEG.rbkp_belnr]=[SC-Stage_EKBE_PO_Hist.Material Doc_] and [RBKP_RSEG.rseg_buzei]=[SC-Stage_EKBE_PO_Hist.Mat_ Doc_Item]
+FROM [SC-Stage_EKBE_PO_Hist] ON [RBKP_RSEG.rbkp_belnr]=[SC-Stage_EKBE_PO_Hist.Material Doc_]
