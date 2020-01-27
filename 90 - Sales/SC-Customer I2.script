@@ -41,7 +41,12 @@ END IF
 [Sales Partner]=[tbl_dim_market_role.sales_partner_name]
 [Market Role Group]=[tbl_dim_market_role.market_role_group_name]
 
-[Customer Type]=[tbl_dim_customer_type.customer_type_name]
+//HUB-816 - Customer Type is empty
+IF [tbl_dim_customer_type.customer_type_name] IS NOT NULL THEN
+  [Customer Type]=[tbl_dim_customer_type.customer_type_name]
+ELSE
+  [Customer Type]='Third'
+END IF
 
 [Customer Group Parent]=IFNULL([tbl_dim_customer_group.customer_group_parent_name],[vDefaultCustGroupParent])
 
