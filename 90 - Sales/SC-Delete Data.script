@@ -2,7 +2,7 @@
 
 COMPLETE
 
-//HUB-774 - Delete ZF5 data from Invoices --> Run on 09Sep19
-//DELETE From [Grain(SC-Invoices)] where [Grain(SC-Invoices).Bill Type Key]='ZF5'
+//BKTel Data - sync shadow and main space
+// DELETE From [Grain(SC-Invoices)] where [Grain(SC-Invoices).Comp Code Key] IN ('9200','9600','9700') and [Grain(SC-Invoices).Customer Key] in ('BK_000Z20', 'BK_000Z60', 'BK_000Z70')
 
 END COMPLETE
