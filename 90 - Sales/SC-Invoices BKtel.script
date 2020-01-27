@@ -14,7 +14,7 @@ Dim [vSalesCostGC] as Float
 
 // Change cost factor to adjust margin. Should always be negative.
 Dim [vBKtelCostFactor] as float
-[vBKtelCostFactor] = -0.6
+[vBKtelCostFactor] = -0.565
 
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
@@ -38,6 +38,7 @@ Dim [v_rate_chf_to_reg] as Float
 [Billing Date]=[vSalesDate]
 [Analysis Date]=[SC-BKtel Sales.Date]
 [Comp Code Key]=[SC-BKtel Sales.Comp Code Key]
+[Division Key] = '21'
 
 [Customer Key] = [SC-BKtel Sales.Customer Key]
 [CustArea Key] = [SC-BKtel Sales.Customer Key] + [SC-BKtel Sales.Comp Code Key] 
@@ -53,7 +54,8 @@ Dim [v_rate_chf_to_reg] as Float
 
 // [Sales Office Key]=[SC-BKtel Sales.Sales Office Key]
 
-[DelMarker]= [SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy')+'_I3'
+[DelMarker]= 'I3'
+// [DelMarker]= [SC-BKtel Sales.Comp Code Key]+'_'+format([SC-BKtel Sales.Date],'ddMMyyyy')+'_I3'
 [Source] = 'I3'
 
 [v_rate_home_to_chf] = 1

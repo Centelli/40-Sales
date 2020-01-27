@@ -1,28 +1,28 @@
 [Date]=[BKtel German Sales.Date]
-[Sales]=ifnull([BKtel German Sales.Sales],0) * [BKtel German Sales.Factor]
-[Order Entry]=ifnull([BKtel German Sales.Order Entry],0) * [BKtel German Sales.Factor]
+[Sales]=ifnull([BKtel German Sales.Sales],0.0) * [BKtel German Sales.Factor]
+[Order Entry]=ifnull([BKtel German Sales.Order Entry],0.0) * [BKtel German Sales.Factor]
 [Currency]=[BKtel German Sales.Currency]
 [Factor]=[BKtel German Sales.Factor]
 [Period]=[BKtel German Sales.Period]
 
 
-IF [BKtel German Sales.Company] in (200, 300, 400) THEN
+IF [BKtel German Sales.Company] in (200, 300, 400, 500) THEN
   [Comp Code Key]='9200'
   [Sales Office Key] = '9200'
   [Sales Org Key] = '9200'
-  [Customer Key] = 'BK_000Z20'
+  [Customer Key] = 'BK_000720'
   [Item Key] = 'BK_98999720'
 ELSEIF [BKtel German Sales.Company] = 600 THEN
   [Comp Code Key]='9600'
   [Sales Office Key] = '9600'
   [Sales Org Key] = '9600'
-  [Customer Key] = 'BK_000Z60'
+  [Customer Key] = 'BK_000760'
   [Item Key] = 'BK_98999760'
 ELSEIF [BKtel German Sales.Company] = 700 THEN
   [Comp Code Key]='9700'
   [Sales Office Key] = '9700'
   [Sales Org Key] = '9700'
-  [Customer Key] = 'BK_000Z70'
+  [Customer Key] = 'BK_000770'
   [Item Key] = 'BK_98999770'
 ELSE
   Print 'Error: Could not determine Customer Key for BKtel Company ' + [BKtel German Sales.Company]

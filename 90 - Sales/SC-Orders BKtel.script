@@ -38,6 +38,7 @@ Dim [v_rate_chf_to_reg] as Float
 [RecType] = 'New Record'
 [DelMarker] = 'I3'
 [Source] = 'I3'
+[Division Key] = '21'
 
 [v_rate_home_to_chf] = 1
 IF [SC-BKtel Sales.Currency] <> 'CHF' THEN
