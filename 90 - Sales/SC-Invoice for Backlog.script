@@ -2,31 +2,49 @@ Dim [vSONumber] as varchar(10)
 Dim [vSOItem] as Varchar(6)
 Dim [vSOKey] as varchar(16)
 
-if length([Grain(SC-Invoices).# SI Reference SO Key])<12 then
-  print [Grain(SC-Invoices).# SI Reference SO Key]
+//Added this on 20-Jan2019, As there was null in SO Key
+DIM [vSOKeyLength] AS INTEGER 
+DIM [vSOItemLength] AS INTEGER 
+PRINT [Grain(SC-Invoices).# SI Reference SO Key]
+
+IF [Grain(SC-Invoices).# SI Reference SO Key] IS NOT NULL THEN
+  PRINT [Grain(SC-Invoices).# SI Reference SO Key]
+  [vSOKeyLength] =  LENGTH([Grain(SC-Invoices).# SI Reference SO Key])
+ELSE
+  PRINT 'ELSE'
+  [vSOKeyLength] = 0
+END IF
+
+IF [vSOKeyLength] < 12 THEN
   [vSOKey] = [Grain(SC-Invoices).# SI Reference SO Key]
   [vSONumber] = null
   [vSOItem] = null
-else
+ELSE
  [vSONumber] = SUBSTRING([Grain(SC-Invoices).# SI Reference SO Key],0,10)
- [vSOItem] = SUBSTRING([Grain(SC-Invoices).# SI Reference SO Key],10,length([Grain(SC-Invoices).# SI Reference SO Key]))
-  [vSOKey] = null
-end if
+ [vSOItem] = SUBSTRING([Grain(SC-Invoices).# SI Reference SO Key],10,[vSOKeyLength])
+ [vSOKey] = null
+END IF
 
-IF [vSOKey] is null then
-  [SI Reference SO Key] = [vSONumber] + SUBSTRING('000000',0,6 - LENGTH([vSOItem])) + [vSOItem]
-else
+IF [vSOItem] IS NOT NULL
+[vSOItemLength] = LENGTH([vSOItem])
+ELSE
+[vSOItemLength] = 0
+END IF
+
+IF [vSOKey] is null THEN
+  [SI Reference SO Key] = [vSONumber] + SUBSTRING('000000',0,6 - [vSOItemLength]) + [vSOItem]
+ELSE
   [SI Reference SO Key] = [Grain(SC-Invoices).# SI Reference SO Key]
-end if
+END IF
 
 //[Bill Type Key] = [Grain(SC-Invoices).Bill Type Key]
 [Customer Key] = [Grain(SC-Invoices).Customer Key]
 [Customer Type] = [Level(Customer.Customer).Customer Type]
-[Invoice Qty] = sum([Grain(SC-Invoices).Invoice Qty])
-print [vSONumber] + ':' + [vSOItem]
+[Invoice Qty] = SUM([Grain(SC-Invoices).Invoice Qty])
+//print [vSONumber] + ':' + [vSOItem]
 [Sales Order Number] = [vSONumber]
 [Sales Order Item] = [vSOItem]
 
-if sum([Grain(SC-Invoices).Invoice Qty]) <> 0 then
+IF SUM([Grain(SC-Invoices).Invoice Qty]) <> 0 THEN
  WRITERECORD
-end if
+END IF
