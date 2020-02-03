@@ -79,3 +79,9 @@ SELECT [Level(History Sales Order.History Sales Order).VBAP_VBELN],
        [Level(History Sales Order.History Sales Order).VBKD_KURSK],
        [Level(History Sales Order.History Sales Order).Load Time]
 FROM   [Level(History Sales Order.History Sales Order)]
+WHERE [Level(History Sales Order.History Sales Order).Load Time] = '202001290402'
+LEFT OUTER JOIN
+SELECT [VBAK_VBAP_VBEP For Backlog.VBAP_VBELN], [VBAK_VBAP_VBEP For Backlog.VBAP_POSNR],[VBAK_VBAP_VBEP For Backlog.VBAP_ZZEXTWGVC] FROM [VBAK_VBAP_VBEP For Backlog]
+ON  [VBAK_VBAP_VBEP For Backlog.VBAP_VBELN] = [Level(History Sales Order.History Sales Order).VBAP_VBELN]
+AND [VBAK_VBAP_VBEP For Backlog.VBAP_POSNR] = [Level(History Sales Order.History Sales Order).VBAP_POSNR]
+AND [VBAK_VBAP_VBEP For Backlog.VBEP_ETENR] = [Level(History Sales Order.History Sales Order).VBEP_ETENR]

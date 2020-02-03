@@ -1,0 +1,1 @@
+PRINT [Grain(SC-Orders SL Update).Sales Order Number] + ' : ' + [Grain(SC-Orders SL Update).# RecType]

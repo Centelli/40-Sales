@@ -78,6 +78,7 @@
 [VBPA_KUNNR]=[Level(History Sales Order.History Sales Order).VBPA_KUNNR]
 [VBKD_KURSK]=[Level(History Sales Order.History Sales Order).VBKD_KURSK]
 [Load Time] =[Level(History Sales Order.History Sales Order).Load Time]
+[VBAP_ZZEXTWGVC] = [VBAK_VBAP_VBEP For Backlog.VBAP_ZZEXTWGVC]
 
 /*[VBLB_LFMKD]=[Level(History Sales Order.History Sales Order).VBLB_LFMKD]
 [VBLB_ABEFZ]=[Level(History Sales Order.History Sales Order).VBLB_ABEFZ]*/

@@ -141,3 +141,4 @@ BKtel Subsidiary Sales,False,1.1.Transaction;BKtel
 SC-Orders BKtel,False,SC-Orders BKtel;1.3.Orders BKtel;BKtel
 SC-Invoices BKtel,False,SC-Invoices BKtel;1.4.Invoices BKtel;BKtel
 SC-BKtel Sales,False,SC-BKtel Sales;1.1.Transaction;BKtel
+Test_RK,True,
