@@ -1,0 +1,8 @@
+SELECT [Level(History VBKD.History VBKD).VBKD_MANDT], 
+       [Level(History VBKD.History VBKD).VBKD_VBELN], 
+       [Level(History VBKD.History VBKD).VBKD_POSNR], 
+       [Level(History VBKD.History VBKD).VBKD_KURSK], 
+       [Level(History VBKD.History VBKD).VBKD_PRSDT], 
+       [Level(History VBKD.History VBKD).VBKD_FKDAT]
+FROM   [Level(History VBKD.History VBKD)]
+WHERE [Level(History VBKD.History VBKD).Load Time] = '202002030328'

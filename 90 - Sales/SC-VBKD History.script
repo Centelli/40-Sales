@@ -1,0 +1,7 @@
+[VBKD_MANDT]=[Level(History VBKD.History VBKD).VBKD_MANDT]
+[VBKD_VBELN]=[Level(History VBKD.History VBKD).VBKD_VBELN]
+[VBKD_POSNR]=[Level(History VBKD.History VBKD).VBKD_POSNR]
+[VBKD_KURSK]=[Level(History VBKD.History VBKD).VBKD_KURSK]
+[VBKD_PRSDT]=[Level(History VBKD.History VBKD).VBKD_PRSDT]
+[VBKD_FKDAT]=[Level(History VBKD.History VBKD).VBKD_FKDAT]
+WRITERECORD
