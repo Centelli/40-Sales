@@ -1,5 +1,7 @@
 Dim [vSnapshotMonth] AS VARCHAR(10) = GetVariable('vSnapShotMonth')
 
+print [Level(Opportunity.Opportunity).Opportunity-1088646945] + ':' + [Grain(SC-Opportunities).Opportunity-1088646945]
+
 [Opp Number]=[Level(Opportunity.Opportunity).Opp Number]
 [Opp Name]=[Level(Opportunity.Opportunity).Opp Name]
 [Account Group Key]=[Level(Opportunity.Opportunity).Account Group Key]

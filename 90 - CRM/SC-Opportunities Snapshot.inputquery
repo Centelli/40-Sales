@@ -1,4 +1,5 @@
 SELECT 
+[Level(Opportunity.Opportunity).Opportunity-1088646945],
 [Level(Opportunity.Opportunity).Opp Number],
 [Level(Opportunity.Opportunity).Opp Name],
 [Level(Opportunity.Opportunity).Account Group Key],
@@ -39,9 +40,10 @@ SELECT
 [Level(Opportunity.Opportunity).Is Won],
 [Level(Opportunity.Opportunity).Opp Status]
 FROM   [Level(Opportunity.Opportunity)]
-WHERE [Level(Opportunity.Opportunity).Opp Level Key] < 60
+WHERE [Level(Opportunity.Opportunity).Opp Level Key] < 60 AND [Level(Opportunity.Opportunity).Reporting Month] = getVariable('vLastSnapShotMonth')
 INNER JOIN
 SELECT 
+[Grain(SC-Opportunities).Opportunity-1088646945],
 [Grain(SC-Opportunities).Opp Number],
 [Grain(SC-Opportunities).Reporting Month],
 [Grain(SC-Opportunities).Comp Code Key],

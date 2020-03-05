@@ -25,7 +25,7 @@ SELECT
 [Level(Quotation.Quotation).Closing Date]
 FROM [Level(Quotation.Quotation)]
 WHERE ([Level(Quotation.Quotation).Order Reason] IS NULL OR [Level(Quotation.Quotation).Order Reason] = 'Z60')
-AND [Level(Quotation.Quotation).Quote Valid From] >=NOWDATE AND [Level(Quotation.Quotation).Quote Valid To]<=NOWDATE
+AND [Level(Quotation.Quotation).Quote Valid From] >=NOWDATE AND [Level(Quotation.Quotation).Quote Valid To]<=NOWDATE AND [Level(Quotation.Quotation).Reporting Month] = getVariable('vLastSnapShotMonth')
 INNER JOIN
 SELECT
 [Grain(SC-Quotations).Quote Number],
@@ -34,7 +34,7 @@ SELECT
 [Grain(SC-Quotations).# Quote Value RC],
 [Grain(SC-Quotations).# Quote Value HC],
 [Grain(SC-Quotations).# Quote Value GC],
-[Grain(SC-Quotations).Delivery Customer Key],
+//[Grain(SC-Quotations).Delivery Customer Key],
 [Grain(SC-Quotations).CustArea Key],
 [Grain(SC-Quotations).Customer Key],
 [Grain(SC-Quotations).Opp Number],
