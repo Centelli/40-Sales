@@ -123,8 +123,7 @@ Test Date,False,
 VBEP,True,ST-VBEP
 VBKD-For Backlog,False,1.5.Backlog;ST-VBKD-For Backlog
 VBAK_VBAP_VBEP For Backlog,False,ST-VBAK_VBAP_VBEP For Backlog
-SC-VBAK_VBAP_VBEP History,False,SC-VBAK_VBAP_VBEP History
-SC-VBAK_VBAP_VBEP History New,True,
+SC-VBAK_VBAP_VBEP History,False,SC-VBAK_VBAP_VBEP History;Order Rebuild
 tbl_vc_item,False,1.1.Files
 SC-Orders SL VC Update,False,SC-Orders SL VC Update
 SC-Item VC File,False,1.2.Dimensions;SC-Item VC File
@@ -142,3 +141,4 @@ SC-Orders BKtel,False,SC-Orders BKtel;1.3.Orders BKtel;BKtel
 SC-Invoices BKtel,False,SC-Invoices BKtel;1.4.Invoices BKtel;BKtel
 SC-BKtel Sales,False,SC-BKtel Sales;1.1.Transaction;BKtel
 Test_RK,True,
+SC-VBKD History,False,SC-VBKD History;Order Rebuild
