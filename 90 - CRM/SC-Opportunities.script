@@ -108,6 +108,11 @@ ELSE
   print 'Ex Rates - WAERS' + ':' + [Opportunities.T001_WAERS] + ':' + [HomeRates.Exchange Rate] + ':' + [vExRateHCtoGC] + ':' + [tbl_dim_sales_region.regional_currency_code] + ':' + [RegRates.Exchange Rate] + ':' + [vExRateHCtoRC]
 END IF
 
+//HUB-812 - CRM analysis logic change
+
+[vOppValueChar] = [Opportunities.KNA1_/ITML/VOLUMEN]
+
+/*
 IF [Opportunities.KNA1_/ITML/FWERT1] <> 0.00 THEN
   print 'Checking FWERT1 value'
   [vOppValueChar] = [Opportunities.KNA1_/ITML/FWERT1]
@@ -115,6 +120,7 @@ ELSE
   print 'Checking Volumen value'
   [vOppValueChar] = [Opportunities.KNA1_/ITML/VOLUMEN]
 END IF
+*/
 
 IF [vOppValueChar] IS NOT NULL THEN
   IF (SUBSTRING([vOppValueChar],LENGTH([vOppValueChar])-1,LENGTH([vOppValueChar]))) = '-' THEN
