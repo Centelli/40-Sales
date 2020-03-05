@@ -35,7 +35,7 @@ Dim [vSnapshotMonth] AS VARCHAR(10) = GetVariable('vSnapShotMonth')
 [Opp Number]=[Grain(SC-Quotations).Opp Number]
 [Comp Code Key]=[Grain(SC-Quotations).Comp Code Key]
 [Outside Sales Key]=''
-[Delivery Customer Key]=[Grain(SC-Quotations).Delivery Customer Key]
+[Delivery Customer Key]=''
 [CustArea Key]=[Grain(SC-Quotations).CustArea Key]
 [Closing Date]=[Level(Quotation.Quotation).Closing Date]
 

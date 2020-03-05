@@ -27,10 +27,12 @@ PRINT [Quotations.VBAK_VBELN] + ':' + [Quotations.VBAP_POSNR] + ':' + [Quotation
 [vScLFactor] =  [vScLQty]/[vOrderItemQty] 
 
 PRINT 'Starting processing:' + [Quotations.VBAP_VBELN]
-IF [Opportunity.VBPA_KUNNR] IS NULL THEN
+IF [Opportunity.VBPA_KUNNR] IS NOT NULL THEN
 [Opp Number] = [Opportunity.VBPA_KUNNR]
+print 'Opp Number:' + [Opportunity.VBPA_KUNNR]
 ELSE
-[Opp Number] = [Quotations.VBAP_VBELN]
+[Opp Number] = [Quotations.VBAP_VBELN] + [Quotations.VBAP_POSNR]
+print 'Opp Number:' + [Quotations.VBAP_VBELN] + [Quotations.VBAP_POSNR]
 END IF
 
 IF [Quotations.VBAP_ERDAT] IS NOT NULL THEN
