@@ -30,11 +30,21 @@ END IF
 // Go down to sales office level for Sales Org 6100 for new biz customers.
   IF [SQL Sales Budget Forecast.Sales_Org_Key] = '6100' and [SQL Sales Budget Forecast.Customer_Type] = 'new biz' THEN
     [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.Sales_Office_Key]
+// HUB-829 - need to change 6110 and 6120 sales office records to be based
+    IF [SQL Sales Budget Forecast.Sales_Office_Key] in ('6110','6120') THEN
+      print 'Using Sales office Key: ' + 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Office_Key])) + [SQL Sales Budget Forecast.Sales_Office_Key] + '' + [SQL Sales Budget Forecast.Business_Unit_Key] + '' + [vCustomerKey] 
+      [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Office_Key])) + [SQL Sales Budget Forecast.Sales_Office_Key] + '' + [SQL Sales Budget Forecast.Business_Unit_Key] + '' + [vCustomerKey] 
+    ELSE
+// HUB-633 / HUB-664: New biz customers not visible for users with company based security
+       [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Org_Key])) + [SQL Sales Budget Forecast.Sales_Org_Key] + '' + [SQL Sales Budget Forecast.Business_Unit_Key] + '' + [vCustomerKey]
+    END IF
+
   ELSE
     [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.Sales_Org_Key]
-  END IF
 // HUB-633 / HUB-664: New biz customers not visible for users with company based security
-  [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Org_Key])) + [SQL Sales Budget Forecast.Sales_Org_Key] + '' + [SQL Sales Budget Forecast.Business_Unit_Key] + '' + [vCustomerKey]
+    [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Org_Key])) + [SQL Sales Budget Forecast.Sales_Org_Key] + '' + [SQL Sales Budget Forecast.Business_Unit_Key] + '' + [vCustomerKey]
+
+  END IF
 
 
 [Division Key]=[SQL Sales Budget Forecast.Business_Unit_Key]
