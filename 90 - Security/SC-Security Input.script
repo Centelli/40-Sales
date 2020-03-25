@@ -2,8 +2,15 @@
 DIM [vSecMask] AS VARCHAR(25)
 DIM [vVKORG] AS VARCHAR(4)
 DIM [vSalesRepCode] as Integer
-PRINT [vw_cockpit_users.mail]
+
+DIM [mUserMapping] as MAP(varchar(20),varchar(20)) = select [dwh_user_mapping.Mapped User],[dwh_user_mapping.User] from [dwh_user_mapping]
+
+PRINT 'Processing user: ' + [vw_cockpit_users.mail]
+PRINT '[mUserMapping]([vw_cockpit_users.uid]):' + [mUserMapping]([vw_cockpit_users.uid])
+
 // Make base assignments
+
+IF [mUserMapping]([vw_cockpit_users.uid]) is not null then 
 
 [User] = [vw_cockpit_users.mail]
 [Cust Role Entity] = [vw_cockpit_map_customer.Entity]
@@ -41,10 +48,10 @@ END IF
 IF [vw_cockpit_user_roles.div_role_key] = 'DIV_ALL' THEN 
    [vSecMask] = [vSecMask] + '__'
 ELSE 
-   IF [vw_cockpit_map_divsion.division_code] = 0 THEN 
+   IF [vw_cockpit_map_division.division_code] = 0 THEN 
       [vSecMask] = [vSecMask] + '00'
    ELSE 
-      [vSecMask] = [vSecMask] + [vw_cockpit_map_divsion.division_code]
+      [vSecMask] = [vSecMask] + [vw_cockpit_map_division.division_code]
    END IF
 END IF
 PRINT 'Division:' + [vSecMask]
@@ -76,10 +83,20 @@ IF [vw_cockpit_user_roles.comp_role_key] IS NOT NULL AND [vw_cockpit_user_roles.
    END IF
    // Write record for everything apart from ICOGS. Append 'N' for non-ICOGS
    [Security Mask] = 'N' + [vSecMask]
+   print 'Writing record'
    WRITERECORD
+
+   IF [vw_cockpit_map_company.VKORG] = '6100'
+      print [vSecMask] + ':' + [vw_cockpit_map_company.VKBUR] + ':' + 'N' + [vw_cockpit_map_company.VKBUR] + substring([vSecMask], 4, length([vSecMask]))
+      [Security Mask] = 'N' + [vw_cockpit_map_company.VKBUR] + substring([vSecMask], 4, length([vSecMask]))
+      WRITERECORD
+   END IF
+
    // If user has access to ICOGS, then add a record for ICOGS as well
    IF [vw_cockpit_user_roles.icogs] = 1 THEN 
       [Security Mask] = 'Y' + [vSecMask]
+      print 'Writing ICOGS record'
       WRITERECORD
    END IF
+END IF
 END IF
