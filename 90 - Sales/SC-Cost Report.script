@@ -6,8 +6,10 @@ print [SC-Cost Report Cleansing.COSS_OBJNR]
 [Item Number] = substring([SC-Cost Report Cleansing.COSS_OBJNR],12,18)
 // [Cost Element] = [COSP.COSP_KSTAR]
 
-[vValue] =  sum([SC-Cost Report Cleansing.COSS_WTG001]) + sum([SC-Cost Report Cleansing.COSS_WTG002]) + sum([SC-Cost Report Cleansing.COSS_WTG003])
-[vValue] =  [vValue] + sum([SC-Cost Report Cleansing.COSS_WTG004]) + sum([SC-Cost Report Cleansing.COSS_WTG005]) + sum([SC-Cost Report Cleansing.COSS_WTG006])
-[vValue] =  [vValue] + sum([SC-Cost Report Cleansing.COSS_WTG007]) + sum([SC-Cost Report Cleansing.COSS_WTG008]) + sum([SC-Cost Report Cleansing.COSS_WTG009])
-[Value] =  [vValue] + sum([SC-Cost Report Cleansing.COSS_WTG010]) + sum([SC-Cost Report Cleansing.COSS_WTG011]) + sum([SC-Cost Report Cleansing.COSS_WTG012])
+
+
+[vValue] =  sum([SC-Cost Report Cleansing.COSS_WOG001]) + sum([SC-Cost Report Cleansing.COSS_WOG002]) + sum([SC-Cost Report Cleansing.COSS_WOG003])
+[vValue] =  [vValue] + sum([SC-Cost Report Cleansing.COSS_WOG004]) + sum([SC-Cost Report Cleansing.COSS_WOG005]) + sum([SC-Cost Report Cleansing.COSS_WOG006])
+[vValue] =  [vValue] + sum([SC-Cost Report Cleansing.COSS_WOG007]) + sum([SC-Cost Report Cleansing.COSS_WOG008]) + sum([SC-Cost Report Cleansing.COSS_WOG009])
+[Value] =  [vValue] + sum([SC-Cost Report Cleansing.COSS_WOG010]) + sum([SC-Cost Report Cleansing.COSS_WOG011]) + sum([SC-Cost Report Cleansing.COSS_WOG012])
 WRITERECORD

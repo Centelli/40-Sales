@@ -19,15 +19,15 @@ SELECT [MARA.MARA_MTART], [MARA.MARA_SPART] FROM [MARA] ON [MARA.MARA_MATNR] = [
 LEFT OUTER JOIN
 SELECT SUM([VPRS.Condition value])
   FROM [ZBI_BIRST_ZbapiSalesorderGet] 'VPRS' 
-  ON [VPRS.Sales Document] = [VBRK_VBRP.VBRK_VBELN] AND [VPRS.Number of the document condition] = [VBRK_VBRP.VBRK_KNUMV] AND [VPRS.Condition item number] = [VBRK_VBRP.VBRP_POSNR] and [VPRS.Condition is inactive] IS NULL AND [VPRS.Condition Type] = 'VPRS'
+  ON [VPRS.Sales Document] = [VBRK_VBRP.VBRK_VBELN] AND [VPRS.Number of the document condition] = [VBRK_VBRP.VBRK_KNUMV] AND [VPRS.Condition item number] = [VBRK_VBRP.VBRP_POSNR] AND [VPRS.Condition Type] = 'VPRS'
 LEFT OUTER JOIN
 SELECT SUM([ZPTP.Condition value])
   FROM [ZBI_BIRST_ZbapiSalesorderGet] 'ZPTP' 
-  ON [ZPTP.Sales Document] = [VBRK_VBRP.VBRK_VBELN] AND [ZPTP.Number of the document condition] = [VBRK_VBRP.VBRK_KNUMV] AND [ZPTP.Condition item number] = [VBRK_VBRP.VBRP_POSNR] and [ZPTP.Condition is inactive] IS NULL AND [ZPTP.Condition Type] = 'ZPTP'
+  ON [ZPTP.Sales Document] = [VBRK_VBRP.VBRK_VBELN] AND [ZPTP.Number of the document condition] = [VBRK_VBRP.VBRK_KNUMV] AND [ZPTP.Condition item number] = [VBRK_VBRP.VBRP_POSNR] AND [ZPTP.Condition Type] = 'ZPTP'
  LEFT OUTER JOIN
  SELECT SUM([ZVA0.Condition value])
   FROM [ZBI_BIRST_ZbapiSalesorderGet] 'ZVA0' 
-  ON [ZVA0.Sales Document] = [VBRK_VBRP.VBRK_VBELN] AND [ZVA0.Number of the document condition] = [VBRK_VBRP.VBRK_KNUMV] AND [ZVA0.Condition item number] = [VBRK_VBRP.VBRP_POSNR] and [ZVA0.Condition is inactive] IS NULL AND [ZVA0.Condition Type] = 'ZVA0'
+  ON [ZVA0.Sales Document] = [VBRK_VBRP.VBRK_VBELN] AND [ZVA0.Number of the document condition] = [VBRK_VBRP.VBRK_KNUMV] AND [ZVA0.Condition item number] = [VBRK_VBRP.VBRP_POSNR] AND [ZVA0.Condition Type] = 'ZVA0'
 LEFT OUTER JOIN
   SELECT [MSEG601.ZZMM_MSEG_DMBTR] from [SC-ZZMM_MSEG Condensed] 'MSEG601' on [MSEG601.ZZMM_MSEG_KDAUF] = [VBRK_VBRP.VBRP_AUBEL] and [MSEG601.ZZMM_MSEG_KDPOS] = [VBRK_VBRP.VBRP_AUPOS] AND [MSEG601.ZZMM_MSEG_BWART] = '601'
 LEFT OUTER JOIN

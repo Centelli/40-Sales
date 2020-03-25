@@ -142,3 +142,6 @@ SC-Invoices BKtel,False,SC-Invoices BKtel;1.4.Invoices BKtel;BKtel
 SC-BKtel Sales,False,SC-BKtel Sales;1.1.Transaction;BKtel
 Test_RK,True,
 SC-VBKD History,False,SC-VBKD History;Order Rebuild
+EKKN,False,ST-EKKN;1.4.Invoices
+SC-Invoices Stg,False,SC-Invoices Stg;1.4.Invoices
+SC-ZZMM_MSEG PO Condensed,False,SC-ZZMM_MSEG PO Condensed;ICOGS;1.4.Invoices
