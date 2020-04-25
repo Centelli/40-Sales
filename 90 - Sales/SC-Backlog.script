@@ -32,6 +32,43 @@ Dim [vInvoiceBacklogDC] as Float
 Dim [vOrderBacklogDC] as Float
 Dim [vMatKey] as Varchar(18)
 
+
+//HUB-821 - Check whether Backlog is applicable determined here...
+DIM [vBacklogFlag] as VARCHAR(1)
+
+[vBacklogFlag] = 'N'
+IF [VBEP.VBUP_GBSTA] = 'C' THEN
+ IF     [VBEP.VBAP_FKREL] = 'B' 
+     OR [VBEP.VBAP_FKREL] = 'C' 
+     OR [VBEP.VBAP_FKREL] = 'F' 
+     OR [VBEP.VBAP_FKREL] = 'G' 
+     OR [VBEP.VBAP_FKREL] = 'I' 
+     OR [VBEP.VBAP_FKREL] = 'S'
+ THEN
+  IF [VBEP.VBUP_FKSAA] = 'C' THEN
+   [vBacklogFlag] = 'N'
+  ELSE
+   [vBacklogFlag] = 'Y'
+  END IF 
+ ELSE
+  IF [SC-Orders for Backlog Condensed.Order Source] = 'Delivery' THEN
+   [vBacklogFlag] = 'Y'
+  ELSE
+   [vBacklogFlag] = 'N'
+  END IF 
+ END IF
+ELSE
+ IF [VBEP.VBUP_ABSTA] = 'C' THEN
+  [vBacklogFlag] = 'N'
+ ELSE
+  [vBacklogFlag] = 'Y'
+ END IF 
+END IF
+
+PRINT '[VBEP.VBUP_GBSTA]: ' + [VBEP.VBUP_GBSTA] + ' [VBEP.VBAP_FKREL]:' + [VBEP.VBAP_FKREL] + ' [VBEP.VBUP_FKSAA]:' + [VBEP.VBUP_FKSAA] + ' [SC-Orders for Backlog Condensed.Order Source]:' + [SC-Orders for Backlog Condensed.Order Source] + ' [VBEP.VBUP_ABSTA]:' + [VBEP.VBUP_ABSTA]
+PRINT '[vBacklogFlag] :' + [vBacklogFlag]
+
+
 [vWriteRecord] = ''
 [vOrdKey] = [VBEP.VBAP_VBELN] + '' + [VBEP.VBAP_POSNR]
 IF [VBEP.VBAK_AUART] IN ('ZL2M','ZG2M') THEN
@@ -103,7 +140,8 @@ END IF
 
 
 // HUB-728 - Order net set to zero for Stratos
-IF [VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON') then
+// HUB-885 - Order net set to zero for ZREP
+IF [VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON', 'ZREP') then
   [vInvoiceBacklogDC] = 0.00
   [vOrderBacklogDC] = 0.00
 END IF
@@ -310,7 +348,7 @@ END IF
 
 PRINT 'Sch Line:' + [VBEP.VBEP_ETENR] + ' :Sch Qty:' + [vSchedQty] + ' :Sch DC:' + [vInvoiceBacklogDC]+ ' :Order Qty:' + [vOrderQty] + ' :Order Backlog Dc:' + [vInvoiceBacklogDC]
 // IF [vInvoiceBacklogDC] <> 0.00 THEN 
-IF 1 = 1 THEN 
+IF [vBacklogFlag] = 'Y' THEN 
    IF [vSchedQty] IS NULL THEN 
 //      [vSchedQty] = 0.0
 // HUB-791

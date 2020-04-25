@@ -1,4 +1,4 @@
-print getcolumnvalue(13) + ':' + [VBUP-Orders.VBUP_VBELN] + ':' + [VBUP-Orders.VBUP_POSNR] + ':' + ifnull(getcolumnvalue(0),'Null') + ':' + ifnull(getcolumnvalue(1),'Null') + ':' + getcolumnvalue(10) + ':' + [DelFilter.VBUP_GBSTA] + ':' + [VBUP-Deliveries.VBUP_FKSTA] + ':' + getcolumnvalue(13)
+//print getcolumnvalue(13) + ':' + [VBUP-Orders.VBUP_VBELN] + ':' + [VBUP-Orders.VBUP_POSNR] + ':' + ifnull(getcolumnvalue(0),'Null') + ':' + ifnull(getcolumnvalue(1),'Null') + ':' + getcolumnvalue(10) + ':' + [DelFilter.VBUP_GBSTA] + ':' + [VBUP-Deliveries.VBUP_FKSTA] + ':' + getcolumnvalue(13)
 [VBUP_VBELN]=[VBUP-Orders.VBUP_VBELN]
 [VBUP_POSNR]=[VBUP-Orders.VBUP_POSNR]
 [VBUP_GBSTA]=[VBUP-Orders.VBUP_GBSTA]
@@ -22,4 +22,6 @@ ELSE
  print 'Using header FKDAT'
  [VBKD_FKDAT] = [VBKD_HEAD.VBKD_FKDAT]
 END IF
+
+
 WRITERECORD
