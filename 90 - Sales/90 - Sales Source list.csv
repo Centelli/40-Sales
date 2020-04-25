@@ -145,3 +145,4 @@ SC-VBKD History,False,SC-VBKD History;Order Rebuild
 EKKN,False,ST-EKKN;1.4.Invoices
 SC-Invoices Stg,False,SC-Invoices Stg;1.4.Invoices
 SC-ZZMM_MSEG PO Condensed,False,SC-ZZMM_MSEG PO Condensed;ICOGS;1.4.Invoices
+SC-Item Repopulate,True,SC-Item Repopulate
