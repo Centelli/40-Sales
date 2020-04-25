@@ -114,7 +114,8 @@ ELSE
 END IF
 
 // HUB-728 - Order net set to zero for Stratos
-IF [VBAK_VBAP_VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON') then
+// HUB-855 - Order net set to zero for ZREP
+IF [VBAK_VBAP_VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON', 'ZREP') then
  [vOrderNet] = 0.00
 else
   [vOrderNet] = ifnull([vOrderNetVBAP],0.00)
