@@ -394,6 +394,7 @@ ELSE
  [vPartialFactor] = 1
 END IF   
 
+PRINT '[vPartialFactor] = ' + [vInvQty] + ' / ' + [SC-Invoices Stg.VBAP_QTY] + ' = ' + [vPartialFactor]
 
 /* General rule – if ZVA0 is 0 then use cost report*/
 IF [SC-Invoices Stg.VBRP_ZVA0] = 0 THEN 
@@ -633,6 +634,32 @@ ELSEIF [SC-Invoices Stg.VBAP_BEDAE] = 'SE' AND ([vInvType] <> 'C' AND [vInvType]
   Print 'ERROR:' +  [vDebugString] + ':12'
   [vCostScenario] = '12E'
 END IF
+
+/* HUB-830 ZG0 Galvanik - RK Added */
+/* Scenario Number 14: */
+IF [SC-Invoices Stg.VBAP_BEDAE] = 'ZG0' AND [vInvType] = 'C' AND [vICS] = ''  THEN
+  [vCostsHandled] = 'Y'
+  [vCostScenario] = '14'
+  IF [SC-Invoices Stg.VBRP_COST_REPORT] <> 0.00 THEN
+   [vCOGSSource] = 'Cost Report'
+   [vCOGSHC] = [vCostReport]
+  ELSE
+   [vCOGSSource] = 'VPRS'
+   IF [vExcRatetoHC] > FLOAT(0.00) THEN
+     [vCOGSHC]=IFNULL([SC-Invoices Stg.VBRP_VPRS],0.00)*[vExcRatetoHC]
+   ELSEIF [vExcRatetoHC] < FLOAT(0.00)
+     [vCOGSHC]=FLOAT(IFNULL([SC-Invoices Stg.VBRP_VPRS],0.00)/([vExcRatetoHC]*-1))
+   END IF
+  END IF 
+  
+  [vICOGSSource] = [vCOGSSource]
+  [vICOGSHC] = [vCOGSHC]
+ELSEIF [SC-Invoices Stg.VBAP_BEDAE] = 'ZG0' AND [vInvType] <> 'C' AND [vICS] = 'X' THEN
+  Print 'ERROR:' +  [vDebugString] + ':14'
+  [vCostScenario] = '14E'
+END IF
+
+
 
   print 'Currency Keys:DC-' + [vSalesCurr] + ':HC-' + [SC-Invoices Stg.Comp Currency Key] + ':RC-' + [vRegCurrency] + ':Plant-' + [SC-Invoices Stg.T001K_WAERS]
   print 'Ex Rates:DC to HC-' + [vExcRatetoHC]+ ':HC to GC-' + [v_rate_home_to_chf] + ':GC to RC-' + [v_rate_reg_to_chf] + ':Plant to CHF-' + IFNULL([PlantExRate.Exchange Rate],0.00)
