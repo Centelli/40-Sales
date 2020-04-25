@@ -1,6 +1,7 @@
 Dim [vSalesDate] as Date
 Dim [vSalesCurr] as Varchar(10)
-Dim [vMatKey] as Varchar(18)
+Dim [vMatKey] as Varchar(30) 
+//HUB-854 - Increased variable length to 30 from 18
 Dim [vOrderNet] as Float
 
 Dim [vOrderNetHC] as Float
