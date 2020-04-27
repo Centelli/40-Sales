@@ -1,2 +1,1 @@
-print [SC-Invoices Warmup.VBRK_VBELN] + ':' + [SC-Invoices Warmup.VBRP_WERKS] + ':' + [SC-Invoices Warmup.VBRP_MATNR] + ':' + [SC-Invoices Warmup.VBRK_BUKRS]
-print [SC-Invoices Warmup.VBRK_FKDAT]
+print 'Test'
