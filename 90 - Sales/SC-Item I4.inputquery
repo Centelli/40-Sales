@@ -1,0 +1,16 @@
+SELECT [S_Artikel.AenderungBenutzer], [S_Artikel.AenderungDatum], [S_Artikel.AenderungZeit], [S_Artikel.Firma], [S_Artikel.Artikel], [S_Artikel.Suchbegriff], [S_Artikel.Selektion], [S_Artikel.SortBezeichnung], [S_Artikel.VerteilerGruppe], [S_Artikel.ArtikelGruppe], [S_Artikel.ArtikelArt], [S_Artikel.archiviert], [S_Artikel.Ursprungszeugnis], [S_Artikel.Ursprungsland], [S_Artikel.Tarifbezeichnung], [S_Artikel.Zolltarifnummer], [S_Artikel.Embargoware], [S_Artikel.Kennung], [S_Artikel.BME_Faktor], [S_Artikel.genehmigt_von], [S_Artikel.genehmigt_bis], [S_Artikel.Gefahrgutnummer], [S_Artikel.WBZ], [S_Artikel.KalkPreis1], [S_Artikel.KalkDatum1], [S_Artikel.KalkPreis2], [S_Artikel.KalkDatum2], [S_Artikel.SNRArt], [S_Artikel.StkZeilenArt], [S_Artikel.ArtVarTyp], [S_Artikel.KommLager], [S_Artikel.SB_ProduktManager], [S_Artikel.ABC_Klasse], [S_Artikel.DIN_ISO], [S_Artikel.LagerME], [S_Artikel.StkFaktor], [S_Artikel.StkME], [S_Artikel.Bundesland], [S_Artikel.Planung], [S_Artikel.Detailplanung], [S_Artikel.Planpreis], [S_Artikel.SME_Faktor], [S_Artikel.LagerGewicht], [S_Artikel.GewichtME], [S_Artikel.Gewicht], [S_Artikel.Kundenstatistik], [S_Artikel.Rabattfaehig], [S_Artikel.provisionsfaehig], [S_Artikel.skontofaehig], [S_Artikel.Preiseinheit], [S_Artikel.PruefNr], [S_Artikel.Produktakte], [S_Artikel.AnlageBenutzer], [S_Artikel.AnlageDatum], [S_Artikel.AnlageZeit], [S_Artikel.Eurokonvertierung], [S_Artikel.fixSetPreis], [S_Artikel.SNRTyp], [S_Artikel.Bild], [S_Artikel.KalkSchema], [S_Artikel.WEBShop], [S_Artikel.Werkstoff], [S_Artikel.Prioritaet], [S_Artikel.x_Bez2], [S_Artikel.x_Bez3], [S_Artikel.x_Bez4], [S_Artikel.WBZ_Lieferant], [S_Artikel.WBZFaktor], [S_Artikel.ZeiteinheitWBZ], [S_Artikel.GewichtBestaetigt], [S_Artikel.StkFormel], [S_Artikel.S_Artikel_Obj], [S_Artikel.AvgPriceSurveillance], [S_Artikel.AvgPriceVariance], [S_Artikel.SBM_ValueFlowGroup_Obj] FROM [BKtel-proAlpha_S_Artikel] 'S_Artikel'
+LEFT OUTER JOIN
+SELECT [S_ArtikelSpr.Firma], [S_ArtikelSpr.Artikel], [S_ArtikelSpr.Sprache], [S_ArtikelSpr.Bezeichnung] FROM [BKtel-proAlpha_S_ArtikelSpr] 'S_ArtikelSpr'
+ON [S_ArtikelSpr.Artikel] = [S_Artikel.Artikel]
+LEFT OUTER JOIN
+SELECT [Ext Material Group.Ext Mat Group Key], [Ext Material Group.Ext Mat Group] FROM [Ext Material Group]
+ON [Ext Material Group.Ext Mat Group Key] = [S_Artikel.ArtikelGruppe]
+LEFT OUTER JOIN 
+SELECT [Structure_Dimension_Item.item group code], [Structure_Dimension_Item.item group name], [Structure_Dimension_Item.product group code], [Structure_Dimension_Item.product group name], [Structure_Dimension_Item.product unit code], [Structure_Dimension_Item.product unit name], [Structure_Dimension_Item.product division code], [Structure_Dimension_Item.product division name], [Structure_Dimension_Item.product segment code], [Structure_Dimension_Item.product segment name], [Structure_Dimension_Item.solution code], [Structure_Dimension_Item.solution name] FROM [Structure_Dimension_Item]
+ON [Structure_Dimension_Item.item group code] = 'FOBK00'
+LEFT OUTER JOIN 
+SELECT [tbl_weee_item_cubo.SKU] FROM [tbl_weee_item_cubo]
+ON 'CO_'+[tbl_weee_item_cubo.SKU] = [S_Artikel.Artikel]
+LEFT OUTER JOIN 
+SELECT [tbl_weee_item_polatis.SKU] FROM [tbl_weee_item_polatis]
+ON 'PA_'+[tbl_weee_item_polatis.SKU] = [S_Artikel.Artikel] OR 'PB_'+[tbl_weee_item_polatis.SKU] = [S_Artikel.Artikel]

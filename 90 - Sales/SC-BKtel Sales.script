@@ -12,6 +12,9 @@ IF [BKtel German Sales.Company] in (200, 300, 400, 500) THEN
   [Sales Org Key] = '9200'
   [Customer Key] = 'BK_000720'
   [Item Key] = 'BK_98999720'
+// Sales and Order entry should now come from I4-proAlpha, so setting to zero
+  [Sales] = 0.00
+  [Order Entry] = 0.00
 ELSEIF [BKtel German Sales.Company] = 600 THEN
   [Comp Code Key]='9600'
   [Sales Office Key] = '9600'

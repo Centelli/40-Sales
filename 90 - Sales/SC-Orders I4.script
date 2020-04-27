@@ -1,0 +1,80 @@
+Dim [vOrderNet] as Float
+Dim [vOrderQty] as Float
+Dim [vOrderNetHC] as Float
+Dim [vOrderNetGC] as Float
+
+IF [V_AuftragsEingang.Belegart] = 'G' THEN
+  [vOrderNet] = [V_AuftragsEingang.PositionsWert] * -1
+  [vOrderQty] = [V_AuftragsEingang.Menge] * -1
+ELSE
+  [vOrderNet] = [V_AuftragsEingang.PositionsWert]
+  [vOrderQty] = [V_AuftragsEingang.Menge]
+END IF
+
+[Sales Order Number]=[V_AuftragsEingang.BelegNummer]
+[Sales Order Item]=[V_AuftragsEingang.PositionsNr]
+[Sales Order ScL Line] = '0001'
+[Sales Order Key]='9200'+'_'+[V_AuftragsEingang.BelegNummer]+[V_AuftragsEingang.PositionsNr]
+[Analysis Date]=[V_AuftragsEingang.AnlageDatum]
+[Sales Org Key]='9200'
+[Comp Code Key]='9200'
+[Sales Office Key]='9200'
+[Customer Key] = [V_AuftragsEingang.Firma] + '_' + [V_AuftragsEingang.Kunde]
+[CustArea Key] = [V_AuftragsEingang.Firma] + '_' +[V_AuftragsEingang.Kunde] + '9200' 
+[Item Key]=[V_AuftragsEingang.Artikel]
+[Order Net]=[vOrderNet]
+[Currency Key]=[V_AuftragsEingang.Waehrung]
+[Security Key] = 'N' + '9200' + '21' + [V_AuftragsEingang.Kunde]
+[RecType] = 'New Record'
+[DelMarker] = '9200'+'_'+[V_AuftragsEingang.BelegNummer] + '_' + format([V_AuftragsEingang.AnlageDatum],'yyyy-MM-dd')
+// Only 10 characters will get updated for source, which is ok
+[Source] = 'I4-proAlpha'
+[Division Key] = '21'
+[Order Qty]=[vOrderQty]
+[Delivery Customer Key]=[V_BelegKopfAdr.Staat] // The Staat values are notmatching with existing Delivery Customer Key
+[Current Record] = 1
+IF [V_AuftragsEingang.Belegart] = 'G' THEN
+  [RecType] = 'Credit Memo'
+ELSEIF [V_AuftragsEingang.Belegart] = 'U' THEN
+  [RecType] = 'Order'
+ELSEIF [V_AuftragsEingang.Belegart] = 'R' THEN
+  [RecType] = 'Invoice'
+ELSEIF [V_AuftragsEingang.Belegart] = 'L' THEN
+  [RecType] = 'Delivery'
+ELSE
+  [RecType] = [V_AuftragsEingang.Belegart]
+END IF
+
+
+  [Currency Key DC]= [S_Waehrung.ISO_KurzBez]
+  [Ex Rate DC]=1
+  [Order Intake DC]=[vOrderNet]
+
+  [Currency Key RC] = 'EUR'
+  [Currency Key HC] = 'EUR'
+
+IF [S_Waehrung.ISO_KurzBez] = 'EUR' THEN
+  [Ex Rate HC]=1.0
+  [vOrderNetHC]= [vOrderNet] 
+  [Order Intake HC]=[vOrderNetHC]
+
+  [Ex Rate RC] = 1.0
+  [Order Intake RC] = [vOrderNetHC]
+ELSE
+  [Ex Rate HC]=[CurrtoCHF.Exchange Rate] / [EURtoCHF.Exchange Rate] 
+  [vOrderNetHC]= (([vOrderNet] * [CurrtoCHF.Exchange Rate]) / [EURtoCHF.Exchange Rate])
+  [Order Intake HC]=[vOrderNetHC]
+
+  [Ex Rate RC] = [CurrtoCHF.Exchange Rate] / [EURtoCHF.Exchange Rate] 
+  [Order Intake RC] = [vOrderNetHC]
+END IF
+  
+  [Currency Key GC] = 'CHF'
+  [Ex Rate GC] = [EURtoCHF.Exchange Rate] 
+  [vOrderNetGC] = [vOrderNetHC]*[EURtoCHF.Exchange Rate] 
+  [Order Intake GC]=[vOrderNetGC]
+
+Print [V_AuftragsEingang.BelegNummer] + ':' + [V_AuftragsEingang.PositionsNr] + ':' + format([V_AuftragsEingang.AnlageDatum],'yyyy-MM-dd') + ':' + [V_AuftragsEingang.Belegart] + ':' + [S_Waehrung.ISO_KurzBez] + ':' + [CurrtoCHF.Exchange Rate] + ':' + ([CurrtoCHF.Exchange Rate]/[EURtoCHF.Exchange Rate] ) + ':' +  [EURtoCHF.Exchange Rate] + ':' + [vOrderNet] + ':' + [vOrderNetHC] + ':' + ([vOrderNetHC]*[EURtoCHF.Exchange Rate]) 
+
+
+WRITERECORD

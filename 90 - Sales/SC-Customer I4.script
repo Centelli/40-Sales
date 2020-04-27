@@ -1,0 +1,57 @@
+DIM [vDefaultCustGroupParent] AS Varchar(20) = SELECT [tbl_dim_customer_group.customer_group_parent_name] FROM [tbl_dim_customer_group] WHERE [tbl_dim_customer_group.customer_group_parent_code] = 'Z00'
+DIM [vDefaultMarketName] AS VARCHAR(28) = SELECT [tbl_dim_market.market_name] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+DIM [vDefaultMarketKey] AS VARCHAR(28) = SELECT [tbl_dim_market.market_code] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segment_name] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+
+
+[Customer Key]=[S_Kunde.Firma] + '_' + [S_Kunde.Kunde]
+[Country Key]=[S_Kunde.Staat]
+[Customer]=[S_Adresse.Name1]
+[Customer Name 2]=''
+[City]=''
+[Postal Code]=[S_Kunde.PLZ]
+[Search term]=''
+[Customer Address1]=''
+[Address Key]=''
+[Market Role Key]='Z0'
+[Market Role] = [tbl_dim_market_role.market_role_name]
+[Account group]=''
+[Market Segment Key]='Z10D000'
+[Market] = [tbl_dim_market.market_name]
+[Market Segment] = [tbl_dim_market.market_segment_name]
+[Market Key] = [tbl_dim_market.market_code]
+
+[ConsCustomer]=''
+[Customer Country]=[tbl_dim_country.country_name]
+
+[Customer Group Parent]=[vDefaultCustGroupParent]
+// [Market] = [vDefaultMarketName]
+// [Market Segment] = [vDefaultMarketSegment]
+// [Market Key]=[vDefaultMarketKey]
+
+// Only 10 characters will get updated for source, which is ok
+[Source]='I4-proAlpha'
+[Customer Address2]= ''
+
+
+[Geographical SubRegion Key] = [tbl_dim_country.subregion_key]
+[Geographical SubRegion] = [tbl_dim_country.subregion_name]
+[Geographical Area Key] = [tbl_dim_country.area_key]
+[Geographical Area] = [tbl_dim_country.area_name]
+[Geographical Region Key] = [tbl_dim_country.region_key]
+[Geographical Region] = [tbl_dim_country.region_name]
+
+[Customer Group]=[S_Kunde.Konzern]
+[Customer / Customer Group]= ''
+[Sales Partner]= ''
+[Market Role Group]= ''
+
+IF [S_Kunde.Konzern] = 100300 THEN
+  [Customer Type]= 'Group'
+ELSE
+  [Customer Type]= 'Third'
+END IF
+
+[Customer / Customer Group Key]= ''
+
+WRITERECORD
