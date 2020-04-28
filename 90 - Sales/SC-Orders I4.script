@@ -24,7 +24,7 @@ END IF
 [Item Key]=[V_AuftragsEingang.Artikel]
 [Order Net]=[vOrderNet]
 [Currency Key]=[V_AuftragsEingang.Waehrung]
-[Security Key] = 'N' + '9200' + '21' + [V_AuftragsEingang.Kunde]
+[Security Key] = 'N' + '9200' + '21' + [V_AuftragsEingang.Firma] + '_' + [V_AuftragsEingang.Kunde]
 [RecType] = 'New Record'
 [DelMarker] = '9200'+'_'+[V_AuftragsEingang.BelegNummer] + '_' + format([V_AuftragsEingang.AnlageDatum],'yyyy-MM-dd')
 // Only 10 characters will get updated for source, which is ok

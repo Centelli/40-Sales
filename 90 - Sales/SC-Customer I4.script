@@ -52,6 +52,12 @@ ELSE
   [Customer Type]= 'Third'
 END IF
 
-[Customer / Customer Group Key]= ''
+IF IFNULL([tbl_dim_customer_group.customer_group_name],'Other Customers')='Other Customers' THEN
+ [Customer / Customer Group]= [S_Adresse.Name1]
+ [Customer / Customer Group Key]= [S_Kunde.Firma] + '_' + [S_Kunde.Kunde]
+ELSE
+ [Customer / Customer Group]=[tbl_dim_customer_group.customer_group_name]
+ [Customer / Customer Group Key]=''
+END IF
 
 WRITERECORD
