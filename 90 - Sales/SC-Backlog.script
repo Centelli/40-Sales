@@ -340,6 +340,11 @@ IF [tbl_dim_sales_region.regional_currency_code] <> 'CHF' THEN
   END IF
 END IF
 
+[Ex Rate DC]=1.0
+[Ex Rate HC]=[vExRateDCtoHC]
+[Ex Rate GC]=[vExRateHCtoGC]
+[Ex Rate RC]=[vExRateHCtoRC]
+
 IF [VBEP.VBAP_WAERK] is not null then
   print 'Ex Rates' + ':' + [VBEP.VBAP_WAERK] + ':' + [DCRate.Exchange Rate] + ':' + [vExRateDCtoHC] + ':' + [LEVEL(Company.Company).Comp Currency Key] + ':' + [HCRate.Exchange Rate] + ':' + [vExRateHCtoGC] + ':' + [tbl_dim_sales_region.regional_currency_code] + ':' + [RCRate.Exchange Rate] + ':' + [vExRateHCtoRC]
 ELSE
