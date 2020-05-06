@@ -1,5 +1,5 @@
 [CustArea Key]=[S_Kunde.Firma] + '_' + [S_Kunde.Kunde] + '9200'
-[Customer Key]=[S_Kunde.Kunde]
+[Customer Key]=[S_Kunde.Firma] + '_' +[S_Kunde.Kunde]
 // Only 10 characters will get updated for source, which is ok
 [Source]='I4-proAlpha'
 [Comp Code Key]='9200'
