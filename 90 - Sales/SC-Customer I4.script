@@ -15,7 +15,8 @@ DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segme
 [Address Key]=''
 [Market Role Key]='Z0'
 [Market Role] = [tbl_dim_market_role.market_role_name]
-[Account group]=''
+// Default set to Z001 for planning & budgeting on request from Martin Harbauer on 06May2020
+[Account group]='Z001'
 [Market Segment Key]='Z10D000'
 [Market] = [tbl_dim_market.market_name]
 [Market Segment] = [tbl_dim_market.market_segment_name]
