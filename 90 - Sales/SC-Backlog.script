@@ -333,7 +333,7 @@ END IF
 [vExRateHCtoRC] = 1
 IF [tbl_dim_sales_region.regional_currency_code] <> 'CHF' THEN
   IF [RCRate.Exchange Rate] IS NOT NULL THEN
-    [vExRateHCtoRC] = [RCRate.Exchange Rate] / [vExRateHCtoGC]
+    [vExRateHCtoRC] = [vExRateHCtoGC] / [RCRate.Exchange Rate] 
   ELSE
     [vExRateHCtoRC] = 1
     PRINT 'ERROR: Determining Ex Rate for RC to CHF: RATE FOR vExRateRCtoCHF '+[tbl_dim_sales_region.regional_currency_code]+' NOT FOUND - SET TO 1'
