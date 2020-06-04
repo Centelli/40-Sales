@@ -81,7 +81,7 @@ tbl_dim_division,False,1.1.Files
 tbl_dim_market,False,1.1.Files
 tbl_dim_market_role,False,1.1.Files
 tbl_dim_sales_region,False,1.1.Files
-SC-Division,False,1.2.Dimensions
+SC-Division,False,1.2.Dimensions;SC-Division
 VBKD,False,1.1.Transaction;ST_VBKD
 SQL_I2_vw_Sales_Org,False,1.1.SQL Sources
 SC-Sales Org,False,1.2.Dimensions;SC-Sales Org
@@ -136,7 +136,7 @@ tbl_weee_item_cubo,False,1.1.Configuration
 tbl_weee_item_polatis,False,1.1.Configuration
 BKtel Company Keys,True,
 BKtel German Sales,False,1.1.Transaction;BKtel
-BKtel Subsidiary Sales,False,1.1.Transaction;BKtel
+BKtel Subsidiary Sales,True,
 SC-Orders BKtel,False,SC-Orders BKtel;1.3.Orders BKtel;BKtel
 SC-Invoices BKtel,False,SC-Invoices BKtel;1.4.Invoices BKtel;BKtel
 SC-BKtel Sales,False,SC-BKtel Sales;1.1.Transaction;BKtel
@@ -161,3 +161,5 @@ SC-Customer I4,False,1.2.Dimensions I4;SC-Customer I4;BKtel I4
 SC-Customer Sales Area I4,False,1.2.Dimensions I4;SC-Customer Sales Area I4;BKtel I4
 SC-Invoices I4,False,SC-Invoices I4;1.4.Invoices BKtel;BKtel I4
 SC-Orders I4,False,SC-Orders I4;1.3.Orders BKtel;BKtel I4
+BKtel-Files_BKtel_daily_statistics_xlsx BKtel Company Keys,True,
+BKtel-Files_BKtel_daily_statistics_xlsx BKtel Subsidiary Sales,False,1.1.Transaction;BKtel

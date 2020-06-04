@@ -1,3 +1,6 @@
+// BKTel Germany sales kept for continutity and to set values for Germany to Zero for Source I3.
+// 02Jun2020: Source repointed to BKtel Server Agent
+
 [Date]=[BKtel German Sales.Date]
 [Sales]=ifnull([BKtel German Sales.Sales],0.0) * [BKtel German Sales.Factor]
 [Order Entry]=ifnull([BKtel German Sales.Order Entry],0.0) * [BKtel German Sales.Factor]
