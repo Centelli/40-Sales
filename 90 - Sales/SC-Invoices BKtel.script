@@ -12,9 +12,6 @@ Dim [vSalesNetGC] as Float
 Dim [vSalesCostHC] as Float
 Dim [vSalesCostGC] as Float
 
-// Change cost factor to adjust margin. Should always be negative.
-Dim [vBKtelCostFactor] as float
-[vBKtelCostFactor] = -0.565
 
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
@@ -23,7 +20,15 @@ Dim [v_rate_chf_to_reg] as Float
 [vSalesDate] = [SC-BKtel Sales.Date]
 [vSalesCurr] = [SC-BKtel Sales.Currency]
 [vSalesNet] = [SC-BKtel Sales.Sales]
-[vSalesCost] = [SC-BKtel Sales.Sales] * [vBKtelCostFactor]
+
+
+//HUB-867 - Change CGM for BKtel for 01Jan2020 onwards
+IF [SC-BKtel Sales.Date] >= #2020-01-01# THEN
+  [vSalesCost] = [SC-BKtel Sales.Sales] * -0.62
+ELSE
+  [vSalesCost] = [SC-BKtel Sales.Sales] * -0.565
+End If
+
 
 // Rate is Company Rate Thus HC already
 

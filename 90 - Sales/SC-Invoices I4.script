@@ -12,8 +12,7 @@ Dim [vSalesCostGC] as Float
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
 // Change cost factor to adjust margin. Should always be negative.
-Dim [vBKtelCostFactor] as float
-[vBKtelCostFactor] = -0.565
+
 [Analysis Date]=[V_BelegKopf.BelegDatum]
 [vSalesDate] = [V_BelegKopf.BelegDatum]
 [vSalesCurr] = [V_BelegKopf.Waehrung]
@@ -26,7 +25,14 @@ Else
   [vSalesNet] = [V_BelegPos.Gesamtpreis] 
 End IF
 
-[vSalesCost] = [vSalesNet] * [vBKtelCostFactor]
+//HUB-867 - Change CGM for BKtel for 01Jan2020 onwards
+IF [V_BelegKopf.BelegDatum] >= #2020-01-01# THEN
+  [vSalesCost] = [vSalesNet] * -0.62
+ELSE
+  [vSalesCost] = [vSalesNet] * -0.565
+End If
+
+
 [vExcRatetoHC] = [V_BelegKopf.Kurs]
 [vSalesOrg] = '9200'
 [Distr Channel]='00'
@@ -100,5 +106,3 @@ WRITERECORD
 
 [Security Key] = 'Y'+[vSecurityKey]
 WRITERECORD
-
-print [V_BelegKopf.BelegNummer] +':' + [V_BelegPos.PositionsNr]+ ':' + [V_BelegKopf.VorgangsNummer] + ':' + [V_BelegPos.BelegArt] + ':' + format([V_BelegKopf.BelegDatum], 'yyyy-MM-dd') + ':' + format([V_BelegKopf.AenderungDatum], 'yyyy-MM-dd') + ':' + [V_BelegKopf.Kunde] + ':' + [V_BelegPos.Gesamtpreis] + ':' + [V_BelegKopf.Kurs] + ':' + [V_BelegKopf.BelegFreigabe] + ':' + [V_BelegKopf.offen] + ':' + [vSalesNetHC] + ':' + [vSalesNetGC]
