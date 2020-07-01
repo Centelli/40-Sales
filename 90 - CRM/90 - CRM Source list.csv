@@ -14,3 +14,5 @@ SC-Opportunities Snapshot,False,SC-Opp Snapshot
 SC-Quotations Snapshot,False,SC-Quote Snapshot
 SC-CRM User Access,False,SC-CRM User Access
 VBFA,False,Staging
+SFDC_CurrencyType,False,SFDC-Ex Rates
+SC-Ex Rate to SFDC,False,SFDC-Ex Rates

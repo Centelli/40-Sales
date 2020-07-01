@@ -1,0 +1,3 @@
+SELECT [SFDC_CurrencyType.Currency Type ID], [SFDC_CurrencyType.Currency ISO Code], [SFDC_CurrencyType.Conversion Rate] FROM [SFDC_CurrencyType]
+LEFT OUTER JOIN 
+SELECT [ExRates.Exchange Rate] FROM [SC-Exchange Rates] 'ExRates' ON [ExRates.Valid From Date] <= NowDate AND [ExRates.Valid To Date] >= NowDate AND [ExRates.From Currency Key] = [SFDC_CurrencyType.Currency ISO Code]

@@ -1,0 +1,15 @@
+DIM [UpdateExRates] AS MAP(VARCHAR(18),NONE)
+
+[UpdateExRates]('sfdc:id') = [SFDC_CurrencyType.Currency Type ID]
+[UpdateExRates]('sfdc:type') = 'CurrencyType'
+[UpdateExRates]('sfdc:ConnectionName') = 'SalesForce-Prod'
+
+[Currency Type ID] =[SFDC_CurrencyType.Currency Type ID]
+[Currency ISO Code] = [SFDC_CurrencyType.Currency ISO Code]
+[SFDC Conversion Rate] = [SFDC_CurrencyType.Conversion Rate]
+IF [ExRates.Exchange Rate] is not null then
+  [H_S Conversation Rate] = 1/[ExRates.Exchange Rate]
+  [UpdateExRates]('Conversion Rate') = 1/[ExRates.Exchange Rate]
+  WRITERECORD
+  UPDATESFDC [UpdateExRates]
+END IF
