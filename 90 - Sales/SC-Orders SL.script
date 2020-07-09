@@ -272,7 +272,12 @@ end if
 
   PRINT [vChangeDate]
 
-  [Analysis Date]=[vChangeDate]
+// HUB-864 - Post changes to SO 0010434471 to original created date
+  IF [VBAK_VBAP_VBEP.VBAP_VBELN] = '0010434471' THEN  
+    [Analysis Date]=[VBAK_VBAP_VBEP.VBAK_ERDAT]
+  ELSE
+    [Analysis Date]=[vChangeDate]
+  END IF
   [Change Date]=[vChangeDate]
   
   [Pricing Date]=[VBAK_VBAP_VBEP.VBKD_PRSDT]
