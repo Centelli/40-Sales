@@ -42,7 +42,7 @@ End If
 [Customer Key] = [V_BelegPos.Firma] + '_' + [V_BelegKopf.Kunde]
 [CustArea Key] = [V_BelegPos.Firma] + '_' +[V_BelegKopf.Kunde] + [vSalesOrg] 
 [vSecurityKey] = [vSalesOrg] + '21' + [V_BelegPos.Firma] + '_' + [V_BelegKopf.Kunde]
-[Delivery Customer Key] = [V_BelegKopfAdr.Staat] // The Staat values are notmatching with existing Delivery Customer Key
+[Delivery Customer Key] = 'DEL_I4_' + [V_BelegKopfAdr.Staat] 
 [Sales Order Number] = [V_BelegKopf.AuftragsNr]
 [SI Header Create Date] = [V_BelegKopf.AnlageDatum]
 [SI Header Change Date] = [V_BelegPos.AenderungDatum]

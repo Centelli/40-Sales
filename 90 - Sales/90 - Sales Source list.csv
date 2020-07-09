@@ -152,7 +152,7 @@ BKtel-proAlpha_S_ArtikelSpr,False,
 BKtel-proAlpha_S_Konzern,False,
 BKtel-proAlpha_S_Kunde,False,
 BKtel-proAlpha_S_Waehrung,False,
-BKtel-proAlpha_V_BelegKopfAdr,False,
+BKtel-proAlpha_V_BelegKopfAdr,False,ST-BKtel-proAlpha;ST-BKtel-proAlpha-V_BelegKopfAdr
 BKtel-proAlpha_V_BelegKopf,False,
 BKtel-proAlpha_V_BelegPos,False,
 BKtel-proAlpha_V_AuftragsEingang,False,
@@ -163,3 +163,5 @@ SC-Invoices I4,False,SC-Invoices I4;1.4.Invoices BKtel;BKtel I4
 SC-Orders I4,False,SC-Orders I4;1.3.Orders BKtel;BKtel I4
 BKtel-Files_BKtel_daily_statistics_xlsx BKtel Company Keys,True,
 BKtel-Files_BKtel_daily_statistics_xlsx BKtel Subsidiary Sales,False,1.1.Transaction;BKtel
+SC-Delivery Customer I4,False,1.2.Dimensions I4;SC-Delivery Customer I4;BKtel I4
+BKtel-proAlpha_S_Staat,False,

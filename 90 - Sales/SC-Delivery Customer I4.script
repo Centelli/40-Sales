@@ -1,0 +1,15 @@
+[Delivery Customer Key] = 'DEL_I4_'+[tbl_dim_country.country_iso_alpha_code]
+[Delivery Country Key] = [tbl_dim_country.country_iso_alpha_code]
+[Delivery Country] = [tbl_dim_country.country_name]
+[Geographical SubRegion Key] = [tbl_dim_country.subregion_key]
+[Geographical SubRegion] = [tbl_dim_country.subregion_name]
+[Geographical Area Key] = [tbl_dim_country.area_key]
+[Geographical Area] = [tbl_dim_country.area_name]
+[Geographical Region Key] = [tbl_dim_country.region_key]
+[Geographical Region] = [tbl_dim_country.region_name]
+[Source] = 'I4-proAlpha'
+//WEEE Changes
+[LPP Name]=[tbl_weee_country_mapping.LPP name]
+[LPP ID]=[tbl_weee_country_mapping.LPP ID]
+
+WRITERECORD

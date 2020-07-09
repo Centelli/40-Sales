@@ -31,7 +31,7 @@ END IF
 [Source] = 'I4-proAlpha'
 [Division Key] = '21'
 [Order Qty]=[vOrderQty]
-[Delivery Customer Key]=[V_BelegKopfAdr.Staat] // The Staat values are notmatching with existing Delivery Customer Key
+[Delivery Customer Key]= 'DEL_I4_' + [V_BelegKopfAdr.Staat] // The Staat values are notmatching with existing Delivery Customer Key
 [Current Record] = 1
 IF [V_AuftragsEingang.Belegart] = 'G' THEN
   [RecType] = 'Credit Memo'

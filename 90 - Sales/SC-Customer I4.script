@@ -5,7 +5,7 @@ DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segme
 
 
 [Customer Key]=[S_Kunde.Firma] + '_' + [S_Kunde.Kunde]
-[Country Key]=[S_Kunde.Staat]
+[Country Key]= [BKtel-proAlpha_S_Staat.IsoAlpha2Code]
 [Customer]=[S_Adresse.Name1]
 [Customer Name 2]=''
 [City]=''
