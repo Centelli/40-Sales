@@ -1,5 +1,5 @@
-[Item Group Key] = [Ext Material Group.Ext Mat Group Key]
-[Item Group] = [Ext Material Group.Ext Mat Group]
+[Item Group Key] =  [Structure_Dimension_Item.item group code]
+[Item Group] = [Structure_Dimension_Item.item group name]
 [Division] = [Division.Division]
 [Item Key]=[MARA.MARA_MATNR]
 [Item Type]=[MARA.MARA_MTART]
