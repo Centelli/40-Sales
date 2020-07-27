@@ -1,0 +1,39 @@
+PRINT [SFDC_Account.Account ID]+'_'+[SFDC_Account.Sales Org]
+//PRINT 'IN: '+[InSales.KNVP_KUNN2]+' OUT: '+[OutSales.KNVP_KUNN2]
+
+[CustArea Key]=[SFDC_Account.Account ID]+''+[SFDC_Account.Sales Org]
+//[Inside Sales Key]=[InSales.KNVP_KUNN2]
+//[Outside Sales Key]=[OutSales.KNVP_KUNN2]
+[Customer Key]=[SFDC_Account.Account ID]
+[Comp Code Key]=[SFDC_Account.Sales Org]
+[Sales Office Key] = [SFDC_Account.Sales Office]
+[Source]='I5-SFDC'
+
+[Sales Office] = [tbl_dim_sales_region.sales_office_name]
+IF [tbl_dim_sales_region.regional_currency_code] = 'RMB' THEN
+ [RC Currency Key] = 'CNY'
+ELSE
+ [RC Currency Key] = [tbl_dim_sales_region.regional_currency_code]
+END IF
+[Sales Region]=[tbl_dim_sales_region.sales_region_code]
+[Sales SubRegion]=[tbl_dim_sales_region.sales_subregion_code]
+
+/*
+[Outside Sales]=[OutCust.KNA1_NAME1]
+[Outside Sales AG]=[OutCust.KNA1_KTOKD]
+[Outside Sales Email Address]=[ADR6.ADR6_SMTP_ADDR]
+[Outside Sales AD ID]=[SC-Employee Hierarchy.AD ID]
+[RSM AD ID]=[SC-Employee Hierarchy.Manager AD ID]
+[RSM]=[SC-Employee Hierarchy.Manager Name]
+[MD/GM AD ID]=[SC-Employee Hierarchy.Managerx2 AD ID]
+[MD/GM]=[SC-Employee Hierarchy.Managerx2 Name]
+[RMD AD ID]=[SC-Employee Hierarchy.Managerx3 AD ID]
+[RMD]=[SC-Employee Hierarchy.Managerx3 Name]
+[Global Sales AD ID]=[SC-Employee Hierarchy.Managerx4 AD ID]
+[Global Sales]=[SC-Employee Hierarchy.Managerx4 Name]
+
+
+[Inside Sales]=[InCust.KNA1_NAME1]
+[Inside Sales AG]=[InCust.KNA1_KTOKD]
+*/
+WRITERECORD

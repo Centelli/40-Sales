@@ -178,4 +178,13 @@ IF [Opportunities.KNA1_/ITML/OPPSTADIUM] = '80' THEN
 [Opp Status] = '4. Declined'
 END IF
 	
+/*
+RK - Added to not write the Migrated Opps
+*/
+DIM [mMigratedOpp] as MAP(Varchar(18),Varchar(18)) = Select [Level(Migrated Opportunity.Migrated Opportunity).SAP Opportunity ID], [Level(Migrated Opportunity.Migrated Opportunity).SAP Opportunity ID] FROM [Level(Migrated Opportunity.Migrated Opportunity)] WHERE [Level(Migrated Opportunity.Migrated Opportunity).SAP Opportunity ID] is not null
+
+PRINT 'Migrated Check :' + [mMigratedOpp]([Opportunities.KNA1_KUNNR]) + '_'
+
+IF [mMigratedOpp]([Opportunities.KNA1_KUNNR]) IS NULL
 WRITERECORD
+END IF

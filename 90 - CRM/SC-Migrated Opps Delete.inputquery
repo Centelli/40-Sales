@@ -1,0 +1,70 @@
+SELECT 
+[Level(Opportunity.Opportunity).Opportunity-1088646945],
+[Level(Opportunity.Opportunity).Opp Number],
+[Level(Opportunity.Opportunity).Opp Name],
+[Level(Opportunity.Opportunity).Account Group Key],
+[Level(Opportunity.Opportunity).Opp Quotation Date],
+[Level(Opportunity.Opportunity).Opp Delivery Date],
+[Level(Opportunity.Opportunity).Opp Lifetime Value],
+[Level(Opportunity.Opportunity).Opp Probability],
+[Level(Opportunity.Opportunity).Opp Reason for Result Key],
+[Level(Opportunity.Opportunity).Opp Type Key],
+[Level(Opportunity.Opportunity).Opp Level Key],
+[Level(Opportunity.Opportunity).Opp Created Date],
+[Level(Opportunity.Opportunity).Opp Changed Date],
+[Level(Opportunity.Opportunity).Opp Currency],
+[Level(Opportunity.Opportunity).Opp Reason for Result],
+[Level(Opportunity.Opportunity).Opp Type],
+[Level(Opportunity.Opportunity).Opp Level],
+[Level(Opportunity.Opportunity).Opp Value per Year],
+[Level(Opportunity.Opportunity).Opp Closing Date],
+[Level(Opportunity.Opportunity).Level 10 Date],
+[Level(Opportunity.Opportunity).Level 20 Date],
+[Level(Opportunity.Opportunity).Level 30 Date],
+[Level(Opportunity.Opportunity).Level 40 Date],
+[Level(Opportunity.Opportunity).Level 50 Date],
+[Level(Opportunity.Opportunity).Level 60 Date],
+[Level(Opportunity.Opportunity).Level 70 Date],
+[Level(Opportunity.Opportunity).Level 80 Date],
+[Level(Opportunity.Opportunity).Analysis Date],
+[Level(Opportunity.Opportunity).Reporting Month],
+[Level(Opportunity.Opportunity).Currency Key DC],
+[Level(Opportunity.Opportunity).Currency Key RC],
+[Level(Opportunity.Opportunity).Currency Key GC],
+[Level(Opportunity.Opportunity).Currency Key HC],
+[Level(Opportunity.Opportunity).Opp Source], 
+[Level(Opportunity.Opportunity).Is Open], 
+[Level(Opportunity.Opportunity).Is Closed], 
+[Level(Opportunity.Opportunity).Is Lost], 
+[Level(Opportunity.Opportunity).Is Closed except Declined], 
+[Level(Opportunity.Opportunity).Is Won],
+[Level(Opportunity.Opportunity).Opp Status]
+FROM   [Level(Opportunity.Opportunity)]
+INNER JOIN
+SELECT 
+[Grain(SC-Opportunities).Opportunity-1088646945],
+[Grain(SC-Opportunities).Opp Number],
+[Grain(SC-Opportunities).Reporting Month],
+[Grain(SC-Opportunities).Comp Code Key],
+[Grain(SC-Opportunities).CustArea Key],
+[Grain(SC-Opportunities).Customer Key],
+[Grain(SC-Opportunities).Division Key],
+[Grain(SC-Opportunities).Security Key],
+[Grain(SC-Opportunities).Sales Org Key],
+[Grain(SC-Opportunities).# Unweighted Opp Value DC],
+[Grain(SC-Opportunities).# Unweighted Opp Value HC],
+[Grain(SC-Opportunities).# Unweighted Opp Value RC],
+[Grain(SC-Opportunities).# Unweighted Opp Value GC],
+[Grain(SC-Opportunities).# Weighted Opp Value RC],
+[Grain(SC-Opportunities).# Weighted Opp Value GC],
+[Grain(SC-Opportunities).# Weighted Opp Value HC],
+[Grain(SC-Opportunities).# Weighted Opp Value DC]
+FROM 
+[Grain(SC-Opportunities)]
+ON [Grain(SC-Opportunities).Opp Number] = [Level(Opportunity.Opportunity).Opp Number] 
+AND [Grain(SC-Opportunities).Reporting Month] = [Level(Opportunity.Opportunity).Reporting Month] 
+AND [Grain(SC-Opportunities).Reporting Month] = getVariable('vSnapShotMonth') 
+INNER JOIN 
+SELECT [Level(Migrated Opportunity.Migrated Opportunity).SAP Opportunity ID] 
+FROM [Level(Migrated Opportunity.Migrated Opportunity)]
+ON [Level(Migrated Opportunity.Migrated Opportunity).SAP Opportunity ID] =  [Level(Opportunity.Opportunity).Opp Number]

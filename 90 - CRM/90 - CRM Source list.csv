@@ -14,5 +14,17 @@ SC-Opportunities Snapshot,False,SC-Opp Snapshot
 SC-Quotations Snapshot,False,SC-Quote Snapshot
 SC-CRM User Access,False,SC-CRM User Access
 VBFA,False,Staging
-SFDC_CurrencyType,False,SFDC-Ex Rates
+SFDC_CurrencyType,False,SFDC-Ex Rates;ST-SFDC_CurrencyType;ST-SFDC
 SC-Ex Rate to SFDC,False,SFDC-Ex Rates
+SC-SF Opportunities,False,SC-SF Opportunities;Opportunities
+SC-SF Opportunities Customer Change,True,
+SFDC_Opportunity,False,ST-SFDC;ST-SFDC_Opportunity
+SFDC_Product2,False,ST-SFDC;ST-SFDC_Product
+SC-SFDC Opportunity,False,SC-SFDC Opportunity;Opportunities
+SFDC_OpportunityLineItem,False,ST-SFDC;ST-SFDC_Opportunity
+SFDC_Account,False,ST-SFDC;ST-SFDC_Account
+SC-tbl_dim_sales_region,False,SC-tbl_dim_sales_region;SC-SF Opportunities;Opportunities
+SFDC_OpportunityLineItemSchedule,True,
+Migrated Opportunities,False,
+SC-Migrated Opportunities,False,SC-Migrated Opportunities
+SC-Migrated Opps Delete,False,SC-Migrated Opps Delete

@@ -1,0 +1,164 @@
+[Opportunity ID] = [SFDC_OpportunityLineItem.Opportunity ID]
+[Product ID] = [SFDC_OpportunityLineItem.Product ID]
+[Product Code] = [SFDC_OpportunityLineItem.Product Code]
+[Created Date] = [SFDC_Product2.Created Date]
+[Created By ID] = [SFDC_Product2.Created By ID]
+[Last Modified Date] = [SFDC_Product2.Last Modified Date]
+[Last Modified By ID] = [SFDC_Product2.Last Modified By ID]
+[System Modstamp] = [SFDC_Product2.System Modstamp]
+[Deleted] = [SFDC_Product2.Deleted]
+[SAP account ID] = [SFDC_Account.SAP account ID]
+[Line Item ID] = [SFDC_OpportunityLineItem.Line Item ID]
+//[Price Book Entry ID] = [SFDC_OpportunityLineItem.Price Book Entry ID]
+//[Opportunity Product Name] = [SFDC_OpportunityLineItem.Opportunity Product Name]
+[Quantity] = [SFDC_OpportunityLineItem.Quantity]
+// [Date] = [SFDC_OpportunityLineItem.Date]
+// [Has Revenue Schedule] = [SFDC_OpportunityLineItem.Has Revenue Schedule]
+// [Has Quantity Schedule] = [SFDC_OpportunityLineItem.Has Quantity Schedule]
+// [Has Schedule] = [SFDC_OpportunityLineItem.Has Schedule]
+// [Created Date] = [SFDC_OpportunityLineItem.Created Date]
+// [Created By ID] = [SFDC_OpportunityLineItem.Created By ID]
+// [Last Modified Date] = [SFDC_OpportunityLineItem.Last Modified Date]
+// [Last Modified By ID] = [SFDC_OpportunityLineItem.Last Modified By ID]
+// [System Modstamp] = [SFDC_OpportunityLineItem.System Modstamp]
+// [Deleted] = [SFDC_OpportunityLineItem.Deleted]
+// [Quote Quantity] = [SFDC_OpportunityLineItem.Quote Quantity]
+// [Quote Sales Price] = [SFDC_OpportunityLineItem.Quote Sales Price]
+// [Quantity Difference] = [SFDC_OpportunityLineItem.Quantity Difference]
+// [Price Difference] = [SFDC_OpportunityLineItem.Price Difference]
+// [Quantity Check] = [SFDC_OpportunityLineItem.Quantity Check]
+// [Sales Price Check] = [SFDC_OpportunityLineItem.Sales Price Check]
+[Requested Delivery Date]=[SFDC_Opportunity.Requested Delivery Date]
+[First Delivery Date]=[SFDC_Opportunity.First Delivery Date]
+[Product ID] = [SFDC_Product2.Product ID]
+// [Product Name] = [SFDC_Product2.Product Name]
+[Product Code] = [SFDC_Product2.Product Code]
+// [Product Description] = [SFDC_Product2.Product Description]
+// [Product Family] = [SFDC_Product2.Product Family]
+// [Item Group] = [SFDC_Product2.Item Group]
+// [Solution Code] = [SFDC_Product2.Solution Code]
+// [Product Unit] = [SFDC_Product2.Product Unit]
+// [Product Division] = [SFDC_Product2.Product Division]
+// [Product Group] = [SFDC_Product2.Product Group]
+[Account ID]=[SFDC_Opportunity.Company Name]
+[Amount]=[SFDC_Opportunity.Amount]
+[Budget Confirmed]=[SFDC_Opportunity.Budget Confirmed]
+[CP: ClosePlan Count]=[SFDC_Opportunity.CP: ClosePlan Count]
+[CP: Stage Progression]=[SFDC_Opportunity.CP: Stage Progression]
+[Close Date]=[SFDC_Opportunity.Close Date]
+[Closed]=[SFDC_Opportunity.Closed]
+[Competitive Opportunity]=[SFDC_Opportunity.Competitive Opportunity]
+[Created By ID]=[SFDC_Opportunity.Created By ID]
+[Created Date]=[SFDC_Opportunity.Created Date]
+[Deleted]=[SFDC_Opportunity.Deleted]
+[Discovery Completed]=[SFDC_Opportunity.Discovery Completed]
+ 
+[Expected Amount]=[SFDC_Opportunity.Expected Amount]
+[Fiscal Period]=[SFDC_Opportunity.Fiscal Period]
+[Fiscal Quarter]=[SFDC_Opportunity.Fiscal Quarter]
+[Fiscal Year]=[SFDC_Opportunity.Fiscal Year]
+[Forecast Category]=[SFDC_Opportunity.Forecast Category]
+[ForecastCategoryName]=[SFDC_Opportunity.ForecastCategoryName]
+[Has Line Item]=[SFDC_Opportunity.Has Line Item]
+[Key Opportunity]=[SFDC_Opportunity.Key Opportunity]
+
+[Last Modified By ID]=[SFDC_Opportunity.Last Modified By ID]
+[Last Modified Date]=[SFDC_Opportunity.Last Modified Date]
+
+[Name]=[SFDC_Opportunity.Name]
+
+[Opportunity Currency]=[SFDC_Opportunity.Opportunity Currency]
+[Opportunity ID]=[SFDC_Opportunity.Opportunity ID]
+[Opportunity Type]=[SFDC_Opportunity.Opportunity Type]
+[Owner ID]=[SFDC_Opportunity.Owner ID]
+
+[Probability _%_]=[SFDC_Opportunity.Probability _%_]
+
+
+[ROI Analysis Completed]=[SFDC_Opportunity.ROI Analysis Completed]
+
+
+[SAP Quote ID]=[SFDC_Opportunity.SAP Quote ID]
+[Stage]=[SFDC_Opportunity.Stage]
+[System Modstamp]=[SFDC_Opportunity.System Modstamp]
+[Won]=[SFDC_Opportunity.Won]
+[Description]=[SFDC_Opportunity.Description]
+ 
+[Division]=[SFDC_Opportunity.Division]
+ 
+/* IF no Line Item Use Opportunity Values */
+IF [SFDC_OpportunityLineItem.Opportunity ID] IS NULL THEN
+[Currency ISO Code] = [SFDC_Opportunity.Opportunity Currency]
+[Amount]=[SFDC_Opportunity.Amount]
+ELSE
+[Currency ISO Code] = [SFDC_OpportunityLineItem.Currency ISO Code]
+[Amount] = [SFDC_OpportunityLineItem.Total Price]
+END IF
+ 
+ 
+ 
+DIM [vCustArea] as VARCHAR(22)
+DIM [vCompCode] as VARCHAR(4)
+DIM [vSalesOffice] as VARCHAR(4)
+ 
+DIM [mDivision] as MAP(Varchar(2),Varchar(7)) = Select [Level(Division.Division).Division Code], [Level(Division.Division).Division Key] FROM [Level(Division.Division)] WHERE [Level(Division.Division).Division Key] is not null
+DIM [mCustArea] as MAP(Varchar(18),Varchar(22)) = Select [Level(Customer Sales Area.Customer Sales Area).Customer Key], [Level(Customer Sales Area.Customer Sales Area).CustArea Key] FROM [Level(Customer Sales Area.Customer Sales Area)] WHERE [Level(Customer Sales Area.Customer Sales Area).CustArea Key] IS NOT NULL AND [Level(Customer Sales Area.Customer Sales Area).Comp Code Key] IS NOT NULL AND [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] IS NOT NULL
+DIM [mCompany] as MAP(Varchar(22),Varchar(4)) = Select [Level(Customer Sales Area.Customer Sales Area).CustArea Key], [Level(Customer Sales Area.Customer Sales Area).Comp Code Key] FROM [Level(Customer Sales Area.Customer Sales Area)] WHERE [Level(Customer Sales Area.Customer Sales Area).CustArea Key] IS NOT NULL AND [Level(Customer Sales Area.Customer Sales Area).Comp Code Key] IS NOT NULL AND [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] IS NOT NULL
+DIM [mSOffice] as MAP(Varchar(22),Varchar(4)) = Select [Level(Customer Sales Area.Customer Sales Area).CustArea Key], [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] FROM [Level(Customer Sales Area.Customer Sales Area)] WHERE [Level(Customer Sales Area.Customer Sales Area).CustArea Key] IS NOT NULL AND [Level(Customer Sales Area.Customer Sales Area).Comp Code Key] IS NOT NULL AND [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] IS NOT NULL
+DIM [mHCCurr] as MAP(Varchar(4),Varchar(3)) = Select [Level(Company.Company).Comp Code Key], [Level(Company.Company).Comp Currency Key] FROM [Level(Company.Company)] WHERE [Level(Company.Company).Comp Code Key] IS NOT NULL
+//DIM [mRCCurr] as MAP(Varchar(4),Varchar(3)) = Select [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.regional_currency_code] FROM [tbl_dim_sales_region]
+ 
+DIM [mRCCurr] as MAP(Varchar(4),Varchar(3)) = Select [SC-tbl_dim_sales_region.sales_office_code], [SC-tbl_dim_sales_region.regional_currency_code] FROM [SC-tbl_dim_sales_region]
+ 
+//PRINT 'RC Test:'+[mRCCurr]('6100')
+ 
+[Item Key]=[SFDC_Product2.Product Code]
+IF [Level(Item.Item).Item Division Key] IS NULL THEN
+[Division Key]=[mDivision]([SFDC_Opportunity.Division])
+ELSE
+[Division Key]=[Level(Item.Item).Item Division Key]
+END IF
+ 
+PRINT 'SAP account ID:' + [SFDC_Account.SAP account ID]
+ 
+DIM [vCustomerKey] AS VARCHAR(18)
+ 
+ 
+ 
+IF [SFDC_Account.SAP account ID] IS NOT NULL THEN
+[vCustomerKey] = SUBSTRING('0000000000',0,10 - LENGTH([SFDC_Account.SAP account ID])) + [SFDC_Account.SAP account ID]
+[Customer Key]=[vCustomerKey]
+[vCustArea]=[mCustArea]([vCustomerKey])
+[CustArea Key]=[vCustArea]
+[vSalesOffice]=[mSOffice]([vCustArea])
+[Sales Office Key]=[vSalesOffice]
+[vCompCode]=[mCompany]([vCustArea])
+[Sales Org Key]=[SFDC_Account.Sales Org]
+[Comp Code Key]=[vCompCode]
+[HC Currency Key]=[mHCCurr]([vCompCode])
+[RC Currency Key]=[mRCCurr]([vSalesOffice])
+ 
+PRINT '1'
+PRINT 'CustArea Key:' + [vCustArea]
+PRINT 'Comp Code:' + [vCompCode]
+PRINT 'Sales Office:' + [vSalesOffice]
+PRINT 'RC Currency:' + [mRCCurr]([vSalesOffice])
+ 
+ELSE
+[Customer Key]=[SFDC_Opportunity.Company Name]
+[CustArea Key]=[SFDC_Opportunity.Company Name]+[SFDC_Account.Sales Org]
+[Sales Org Key]=[SFDC_Account.Sales Org]
+[Sales Office Key]=[SFDC_Account.Sales Office]
+[Comp Code Key]= [Level(Sales Org.Sales Org).Sales Org Comp Code]
+ [HC Currency Key]=[mHCCurr]([Level(Sales Org.Sales Org).Sales Org Comp Code])
+[RC Currency Key]=[mRCCurr]([SFDC_Account.Sales Office])
+ 
+PRINT '2'
+PRINT 'Comp Code:' + [SFDC_Account.Sales Org]
+PRINT 'Sales Office:' + [SFDC_Account.Sales Office]
+PRINT 'RC Currency:' + [mRCCurr]([SFDC_Account.Sales Office])
+ 
+END IF
+ 
+ 
+WRITERECORD

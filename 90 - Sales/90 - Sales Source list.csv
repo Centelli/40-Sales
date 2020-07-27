@@ -7,7 +7,7 @@ MARA,False,1.1.Master;2.Material;3.Staging;4.ST_MARA
 KONV,False,1.1.Transaction;2.Pricing;3.Staging;4.ST_KONV
 VBPA,False,1.1.Transaction;2.Partner Functions;3.Staging;4.ST_VBPA
 Company Code,False,1.1.Configuration
-Sales Org,False,1.1.Configuration
+Sales Org,False,1.1.Configuration;ST-Sales Org
 Sales Office,False,1.1.Configuration
 Sales Document,False,1.1.Configuration
 Item Category,False,1.1.Configuration
@@ -165,3 +165,6 @@ BKtel-Files_BKtel_daily_statistics_xlsx BKtel Company Keys,True,
 BKtel-Files_BKtel_daily_statistics_xlsx BKtel Subsidiary Sales,False,1.1.Transaction;BKtel
 SC-Delivery Customer I4,False,1.2.Dimensions I4;SC-Delivery Customer I4;BKtel I4
 BKtel-proAlpha_S_Staat,False,
+SC-Customer SFDC,False,1.2.Dimensions SFDC;SC-Customer SFDC
+SC-Customer Sales Area SFDC,False,1.2.Dimensions SFDC;SC-Customer Sales Area SFDC
+SFDC_Account,False,

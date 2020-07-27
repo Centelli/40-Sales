@@ -1,3 +1,4 @@
-SELECT [Sales Org.Sales Org Key], [Sales Org.Sales Org], 'SAP ECC' FROM [Sales Org]
+SELECT [Sales Org.Sales Org Key], [Sales Org.Sales Org], [Sales Org.Comp Code], 'SAP ECC'
+  FROM [Sales Org]
 UNIONALL 
-SELECT [SQL_I2_vw_Sales_Org.Sales Org Key], [SQL_I2_vw_Sales_Org.Sales Org], [SQL_I2_vw_Sales_Org.Source] FROM [SQL_I2_vw_Sales_Org]
+SELECT [SQL_I2_vw_Sales_Org.Sales Org Key], [SQL_I2_vw_Sales_Org.Sales Org], [SQL_I2_vw_Sales_Org.Comp Code], [SQL_I2_vw_Sales_Org.Source] FROM [SQL_I2_vw_Sales_Org]

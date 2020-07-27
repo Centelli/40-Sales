@@ -1,0 +1,58 @@
+DIM [vDefaultCustGroupParent] AS Varchar(20) = SELECT [tbl_dim_customer_group.customer_group_parent_name] FROM [tbl_dim_customer_group] WHERE [tbl_dim_customer_group.customer_group_parent_code] = 'Z00'
+DIM [vDefaultMarketName] AS VARCHAR(28) = SELECT [tbl_dim_market.market_name] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+DIM [vDefaultMarketKey] AS VARCHAR(28) = SELECT [tbl_dim_market.market_code] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segment_name] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+
+[Customer Key]=[SFDC_Account.Account ID]
+[Country Key]=[SFDC_Account.Sold-To Country Code]
+[Customer]=[SFDC_Account.Company Name]
+//[Customer Name 2]=[KNA1.KNA1_NAME2]
+[City]=[SFDC_Account.Sold-To City]
+[Postal Code]=[SFDC_Account.Sold-To Zip/Postal Code]
+//[Region]=[KNA1.KNA1_REGIO]
+//[Search term]=[KNA1.KNA1_SORTL]
+[Customer Address1]=[SFDC_Account.Sold-To Street]
+//[Address Key]=[KNA1.KNA1_ADRNR]
+//[Account group]=[KNA1.KNA1_KTOKD]
+
+[Market Role Key]=[SFDC_Account.Market Role]
+[Customer Country] = [tbl_dim_country.country_name]
+[Market Role] = [tbl_dim_market_role.market_role_name]
+
+[Source] = 'I5-SFDC'
+
+[Geographical SubRegion Key] = [tbl_dim_country.subregion_key]
+[Geographical SubRegion] = [tbl_dim_country.subregion_name]
+[Geographical Area Key] = [tbl_dim_country.area_key]
+[Geographical Area] = [tbl_dim_country.area_name]
+[Geographical Region Key] = [tbl_dim_country.region_key]
+[Geographical Region] = [tbl_dim_country.region_name]
+
+PRINT [SFDC_Account.Account ID] + ' - ' + [SFDC_Account.Market Segment] + ' - ' + [tbl_dim_market.market_segment_stat_code]
+
+IF [tbl_dim_market.market_segment_stat_code] = '0' THEN
+ [Market Segment Key]=[tbl_dim_market.market_segment_stat_code]
+ [Market] = [vDefaultMarketName]
+ [Market Segment] = [vDefaultMarketSegment]
+ [Market Key] = [vDefaultMarketKey]
+ELSE
+ [Market Segment Key]=[SFDC_Account.Market Segment]
+ [Market] = [tbl_dim_market.market_name]
+ [Market Segment] = [tbl_dim_market.market_segment_name]
+ [Market Key] = [tbl_dim_market.market_code]
+END IF
+
+
+[Customer Type]=[tbl_dim_customer_type.customer_type_name]
+
+[Customer Group]='Other Customers'
+[Customer Group Parent]=[vDefaultCustGroupParent]
+
+[Sales Partner]=[tbl_dim_market_role.sales_partner_name]
+[Market Role Group]=[tbl_dim_market_role.market_role_group_name]
+
+[Customer / Customer Group]=[SFDC_Account.Company Name]
+[Customer / Customer Group Key]=[SFDC_Account.Account ID]
+
+
+WRITERECORD

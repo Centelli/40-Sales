@@ -1,4 +1,7 @@
 [Sales Org Key]=[Sales Org.Sales Org Key]
 [Sales Org]=[Sales Org.Sales Org]
+//RK Added for CRM salesforce
+[Sales Org Comp Code]=[Sales Org.Comp Code]
+
 [Source]=GETCOLUMNVALUE(2)
 WRITERECORD

@@ -1,0 +1,203 @@
+Dim [vExRateHCtoGC] AS FLOAT
+Dim [vExRateHCtoRC] AS FLOAT
+Dim [vExRateDCtoHC] AS FLOAT
+Dim [vOppValue] as Float
+Dim [vOppValueChar] as Varchar(15)
+Dim [vProbability] as Float
+
+Print 'Starting processing:' + [SC-SFDC Opportunity.Opportunity ID]
+
+[Opp Source] = 'SFDC'
+
+[vProbability] = 0.00
+
+IF [SC-SFDC Opportunity.Last Modified Date] IS NULL THEN
+[Analysis Date] = [SC-SFDC Opportunity.Last Modified Date]
+ELSE
+[Analysis Date] = [SC-SFDC Opportunity.Created Date]
+END IF 
+
+[Reporting Month] = SUBSTRING((FORMAT(DATEADD(Day, -1, NOWDATE),'yyyy-MMM-dd')), 5,8 ) +'-'+ DATEPART(YEAR, DATEADD(Day, -1, NOWDATE))
+[Opp Number]=[SC-SFDC Opportunity.Opportunity ID]
+[Opp Name]=[SC-SFDC Opportunity.Name]
+/*[Opp Country]=[Opportunities.KNA1_LAND1]*/
+//[Opp City]=[Opportunities.KNA1_ORT01] 
+//[Opp Sort Field]=[Opportunities.KNA1_SORTL] 
+[Created On]=[SC-SFDC Opportunity.Created Date]
+[Account Group Key]=[SC-SFDC Opportunity.Account ID]
+[Division Key]=[SC-SFDC Opportunity.Division Key]
+//[Opp Quotation Date]=[Opportunities.KNA1_/ITML/ANGEBOTDAT]
+[Opp Delivery Date]=[SC-SFDC Opportunity.First Delivery Date]
+//[Opp Lifetime Value]=[Opportunities.KNA1_/ITML/VOLUMEN]
+[Opp Probability]=[SC-SFDC Opportunity.Probability _%_]
+//[Opp Status Key]=[Opportunities.KNA1_/ITML/OPPSTATUS]
+//[Opp Type Key] = [Opportunities.KNA1_/ITML/OPPTYP]
+[Opp Type] = [SC-SFDC Opportunity.Opportunity Type] 
+
+// Mapping to SAP levels
+IF [SC-SFDC Opportunity.Stage] = 'Closed Won' THEN
+  [Opp Level Key]='60'
+  [Opp Level] = 'Closed won 100%'
+ELSEIF [SC-SFDC Opportunity.Stage] = 'Closed Lost' THEN
+  [Opp Level Key]='70'
+  [Opp Level] = 'Closed lost 0%'
+ELSEIF [SC-SFDC Opportunity.Stage] = 'Identified' THEN
+  [Opp Level Key]='20'
+  [Opp Level] = 'First meeting (FM) 0%'
+ELSEIF [SC-SFDC Opportunity.Stage] = 'Proposal available' THEN
+  [Opp Level Key]='40'
+  [Opp Level] = 'Level 2 - 50%'
+ELSEIF [SC-SFDC Opportunity.Stage] = 'Qualified' THEN
+  [Opp Level Key]='30'
+  [Opp Level] = 'Level 1 - 25%'
+ELSEIF [SC-SFDC Opportunity.Stage] = 'Short listed' THEN
+  [Opp Level Key]='50'
+  [Opp Level] = 'Level 3 - 75%'
+ELSE
+  [Opp Level Key]=[SC-SFDC Opportunity.Stage]
+  [Opp Level] = [SC-SFDC Opportunity.Stage]
+END IF
+
+[Opp Stage] = [SC-SFDC Opportunity.Stage]
+//[Opp Reason for Result] = [Opportunities./ITML/CRM_ERGGRT_LTEXT]
+//[Opp Reason for Result Key] = [Opportunities.KNA1_/ITML/ERG_GRUND]
+[Opp Created Date]=[SC-SFDC Opportunity.Created Date]
+//[Opp Created Time]=[Opportunities.KNA1_/ITML/ERFZEIT]
+[Opp Changed Date]=[SC-SFDC Opportunity.Last Modified Date]
+//[Opp Created Time]=[Opportunities.KNA1_/ITML/AENZEIT]
+[Opp Currency]=[SC-SFDC Opportunity.Opportunity Currency]
+
+[Sales Org Key]=[SC-SFDC Opportunity.Comp Code Key]
+[Sales Office Key]=[SC-SFDC Opportunity.Sales Office Key]
+[Comp Code Key]=[SC-SFDC Opportunity.Comp Code Key]
+[Customer Key] = [SC-SFDC Opportunity.Customer Key]
+//[Outside Sales Key] = [Owner.KNVP_KUNNR]
+//[Opp Value per Year] = [Opportunities.KNA1_/ITML/FWERT1]
+[Opp Closing Date] = [SC-SFDC Opportunity.Close Date]
+
+
+[Currency Key DC]=[SC-SFDC Opportunity.Currency ISO Code]
+[Currency Key HC]=[SC-SFDC Opportunity.HC Currency Key]
+[Currency Key GC]= 'CHF'
+[Currency Key RC]=[SC-SFDC Opportunity.RC Currency Key]
+
+PRINT '[Currency Key DC]='+[SC-SFDC Opportunity.Currency ISO Code]
+PRINT '[Currency Key HC]='+[SC-SFDC Opportunity.HC Currency Key]
+PRINT '[Currency Key GC]=CHF'
+PRINT '[Currency Key RC]='+[SC-SFDC Opportunity.RC Currency Key]
+
+DIM [vDivisionKey] AS VARCHAR(2)
+[vDivisionKey] = IFNULL([SC-SFDC Opportunity.Division Key],'00')
+DIM [vCustomerKey] AS VARCHAR(18)
+[vCustomerKey] = IFNULL([SC-SFDC Opportunity.Customer Key],'000000000000000000')
+
+[CustArea Key] = [vCustomerKey]+''+[SC-SFDC Opportunity.Comp Code Key]
+
+[Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SC-SFDC Opportunity.Comp Code Key])) + [SC-SFDC Opportunity.Comp Code Key] + SUBSTRING('00',0,2 - LENGTH([vDivisionKey])) + [vDivisionKey] + [SC-SFDC Opportunity.Customer Key]
+/*
+[Level 10 Date] = [SC-Level History.Level 10 Date]
+[Level 20 Date] = [SC-Level History.Level 20 Date]
+[Level 30 Date] = [SC-Level History.Level 30 Date]
+[Level 40 Date] = [SC-Level History.Level 40 Date]
+[Level 50 Date] = [SC-Level History.Level 50 Date]
+[Level 60 Date] = [SC-Level History.Level 60 Date]
+[Level 70 Date] = [SC-Level History.Level 70 Date]
+[Level 80 Date] = [SC-Level History.Level 80 Date]
+*/
+
+[vExRateHCtoGC] = 1
+IF [SC-SFDC Opportunity.HC Currency Key] <> 'CHF' THEN
+  IF [HomeRates.Exchange Rate] IS NOT NULL THEN
+    [vExRateHCtoGC] = [HomeRates.Exchange Rate]
+  ELSE
+    [vExRateHCtoGC] = 1
+    PRINT 'ERROR: Determining Ex Rate for HC to CHF: RATE FOR vExRateHCtoCHF '+[SC-SFDC Opportunity.HC Currency Key]+' NOT FOUND - SET TO 1'
+  END IF
+END IF
+
+[vExRateDCtoHC] = 1
+IF ([SC-SFDC Opportunity.Currency ISO Code] <> [SC-SFDC Opportunity.HC Currency Key]) THEN
+  IF [SC-SFDC Opportunity.Currency ISO Code] <> 'CHF'  THEN
+    IF [DocRates.Exchange Rate] IS NOT NULL AND [SC-SFDC Opportunity.Currency ISO Code] IS NOT NULL THEN
+      [vExRateDCtoHC] = [DocRates.Exchange Rate] / [vExRateHCtoGC]
+    ELSEIF [SC-SFDC Opportunity.Currency ISO Code] IS NULL THEN
+      [vExRateDCtoHC] = 1
+    ELSE
+      PRINT 'ERROR: Determining Ex Rate for DC to HC: RATE FOR vExRateDCtoHC '+[SC-SFDC Opportunity.Currency ISO Code]+' NOT FOUND - SET TO 1'
+      [vExRateDCtoHC] = 1
+    END IF
+  ELSE
+    [vExRateDCtoHC] = 1 / [vExRateHCtoGC]
+  END IF
+END IF
+
+[vExRateHCtoRC] = 1
+IF [SC-SFDC Opportunity.RC Currency Key] <> 'CHF' THEN
+  IF [RegRates.Exchange Rate] IS NOT NULL THEN
+    [vExRateHCtoRC] = [RegRates.Exchange Rate]  / [vExRateHCtoGC]
+  ELSE
+    [vExRateHCtoRC] = 1
+    PRINT 'ERROR: Determining Ex Rate for RC to CHF: RATE FOR vExRateRCtoCHF '+[SC-SFDC Opportunity.RC Currency Key]+' NOT FOUND - SET TO 1'
+  END IF
+ELSE
+  [vExRateHCtoRC] = 1
+END IF
+
+IF [SC-SFDC Opportunity.Currency ISO Code] IS NOT NULL THEN
+  print 'Ex Rates - WAEHRUNG' + ':' + [SC-SFDC Opportunity.Currency ISO Code] + ':' + [DocRates.Exchange Rate] + ':' + [vExRateDCtoHC] + ':' + [SC-SFDC Opportunity.HC Currency Key] + ':' + [HomeRates.Exchange Rate] + ':' + [vExRateHCtoGC] + ':' + [SC-SFDC Opportunity.RC Currency Key] + ':' + [RegRates.Exchange Rate] + ':' + [vExRateHCtoRC]
+ELSE
+  print 'Ex Rates - WAERS' + ':' + [SC-SFDC Opportunity.HC Currency Key] + ':' + [HomeRates.Exchange Rate] + ':' + [vExRateHCtoGC] + ':' + [SC-SFDC Opportunity.RC Currency Key] + ':' + [RegRates.Exchange Rate] + ':' + [vExRateHCtoRC]
+END IF
+
+//HUB-812 - CRM analysis logic change
+
+//[vOppValueChar] = [Opportunities.KNA1_/ITML/VOLUMEN]
+
+/*
+IF [Opportunities.KNA1_/ITML/FWERT1] <> 0.00 THEN
+  print 'Checking FWERT1 value'
+  [vOppValueChar] = [Opportunities.KNA1_/ITML/FWERT1]
+ELSE
+  print 'Checking Volumen value'
+  [vOppValueChar] = [Opportunities.KNA1_/ITML/VOLUMEN]
+END IF
+*/
+
+    [vOppValue] = IFNULL([SC-SFDC Opportunity.Amount],0.0)
+    
+    [Unweighted Opp Value DC] = [vOppValue]
+    print 'Converting HC'
+    [Unweighted Opp Value HC] = [vOppValue] * [vExRateDCtoHC]
+    print 'Converting RC'
+    [Unweighted Opp Value RC] = [vOppValue] * [vExRateDCtoHC] * [vExRateHCtoRC]
+    print 'Converting GC'
+    [Unweighted Opp Value GC] = [vOppValue] * [vExRateDCtoHC] * [vExRateHCtoGC]
+    print 'Calculating Weighted values'
+    print 'Before Null check: ' + [vProbability] + ':' + [SC-SFDC Opportunity.Probability _%_]
+    [vProbability] = ifnull([SC-SFDC Opportunity.Probability _%_], 0.0) * 0.01
+    print 'After Null check: ' + [vProbability] + ':' + [SC-SFDC Opportunity.Probability _%_]
+    [Weighted Opp Value DC] =  [vOppValue] * [vProbability]
+    [Weighted Opp Value HC] =  [vOppValue] * [vExRateDCtoHC] * [vProbability]
+    [Weighted Opp Value GC] =  [vOppValue] * [vExRateDCtoHC] * [vExRateHCtoGC] * [vProbability]
+    [Weighted Opp Value RC] =  [vOppValue] * [vExRateDCtoHC] * [vExRateHCtoRC] * [vProbability]
+
+IF [SC-SFDC Opportunity.Stage] = 'Closed Won' THEN
+ [Is Open] = 'No'
+ [Is Closed] = 'Yes'
+ [Is Lost] = 'No'
+ [Opp Status] = '2. Won'
+ELSEIF [SC-SFDC Opportunity.Stage] = 'Closed Lost' THEN
+ [Is Open] = 'No'
+ [Is Closed] = 'Yes'
+ [Is Lost] = 'Yes'
+ [Opp Status] = '3. Lost'
+ELSE
+ [Is Open] = 'Yes'
+ [Is Closed] = 'No'
+ [Is Lost] = 'No'
+ [Opp Status] = '1. Open'
+END IF
+
+
+  
+WRITERECORD
