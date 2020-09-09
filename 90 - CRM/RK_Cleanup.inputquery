@@ -1,0 +1,11 @@
+SELECT [Level(Quotation.Quotation).Quote Number]
+  FROM [Level(Quotation.Quotation)]
+  WHERE ([Level(Quotation.Quotation).Reporting Month] = 'Jul-2020' or [Level(Quotation.Quotation).Reporting Month] = 'Aug-2020')
+INNER JOIN
+SELECT [Grain(SC-Quotations).Reporting Month]
+  FROM [Grain(SC-Quotations)]
+  ON [Level(Quotation.Quotation).Quote Number] = [Grain(SC-Quotations).Quote Number] and [Level(Quotation.Quotation).Reporting Month] = [Grain(SC-Quotations).Reporting Month] and [Level(Quotation.Quotation).Quote Item] = [Grain(SC-Quotations).Quote Item]
+INNER JOIN 
+SELECT [Level(Migrated Quotes.Migrated Quotes).Opp Name], count([Level(Migrated Quotes.Migrated Quotes).Opp Number])
+FROM [Level(Migrated Quotes.Migrated Quotes)]
+ON [Grain(SC-Quotations).Quote Number] = [Level(Migrated Quotes.Migrated Quotes).Opp Name]

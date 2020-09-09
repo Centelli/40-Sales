@@ -1,0 +1,13 @@
+SELECT [Grain(SC-Quotations).Quote Number], [Grain(SC-Quotations).Reporting Month], [Grain(SC-Quotations).Quote Item]
+  FROM [Grain(SC-Quotations)]
+ WHERE ( [Grain(SC-Quotations).Reporting Month] = getVariable('vCurrentRepMonth')  )
+INNER JOIN
+SELECT [Level(Quotation.Quotation).Quote Number]
+  FROM [Level(Quotation.Quotation)]
+  ON [Level(Quotation.Quotation).Quote Number] = [Grain(SC-Quotations).Quote Number]
+ AND [Level(Quotation.Quotation).Reporting Month] = [Grain(SC-Quotations).Reporting Month]
+ AND [Level(Quotation.Quotation).Quote Item] = [Grain(SC-Quotations).Quote Item]
+INNER JOIN 
+SELECT  [Level(Migrated Quotes.Migrated Quotes).Opp Name] 
+FROM [Level(Migrated Quotes.Migrated Quotes)]
+ON  [Level(Migrated Quotes.Migrated Quotes).Opp Number] =  [Level(Quotation.Quotation).Quote Key]

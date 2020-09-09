@@ -63,8 +63,8 @@ FROM
 [Grain(SC-Opportunities)]
 ON [Grain(SC-Opportunities).Opp Number] = [Level(Opportunity.Opportunity).Opp Number] 
 AND [Grain(SC-Opportunities).Reporting Month] = [Level(Opportunity.Opportunity).Reporting Month] 
-AND ( [Grain(SC-Opportunities).Reporting Month] = getVariable('vCurrentRepMonth') or [Grain(SC-Opportunities).Reporting Month] = 'Jul-2020' ) 
+AND [Grain(SC-Opportunities).Reporting Month] =  getVariable('vCurrentRepMonth') 
 INNER JOIN 
-SELECT [Level(Migrated Opportunity.Migrated Opportunity).SAP Opportunity ID] 
-FROM [Level(Migrated Opportunity.Migrated Opportunity)]
-ON  ([Level(Migrated Opportunity.Migrated Opportunity).SAP Opportunity ID] =  [Level(Opportunity.Opportunity).Opp Number] AND [Level(Opportunity.Opportunity).Opp Source] = 'Opportunity')
+SELECT [Level(Migrated Quotes.Migrated Quotes).Opp Number] 
+FROM [Level(Migrated Quotes.Migrated Quotes)]
+ON  [Level(Migrated Quotes.Migrated Quotes).Opp Number] =  [Level(Opportunity.Opportunity).Opp Number]

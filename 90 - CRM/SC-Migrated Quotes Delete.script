@@ -1,0 +1,15 @@
+DIM [vQuoteNum] as varchar(18)
+DIM [vRepMth] as varchar(20)
+DIM [vQuoteItem] as varchar(8)
+
+[vQuoteNum] = [Level(Quotation.Quotation).Quote Number]
+[vRepMth] = [Grain(SC-Quotations).Reporting Month]
+[vQuoteItem] = [Grain(SC-Quotations).Quote Item]
+
+PRINT 'Delete of Quote Number:' + [vQuoteNum] + ' Rep Month:' + [vRepMth] + ' Quote Item:' + [vQuoteItem] + ' Migrated Opp:' + [Level(Migrated Quotes.Migrated Quotes).Opp Name]
+
+
+
+DELETE FROM [Level(Quotation.Quotation)] WHERE [Level(Quotation.Quotation).Quote Number] = [vQuoteNum] AND [Level(Quotation.Quotation).Reporting Month] = [vRepMth] AND [Level(Quotation.Quotation).Quote Item] = [vQuoteItem]
+
+DELETE FROM [Grain(SC-Quotations)] WHERE [Grain(SC-Quotations).Opp Number] = [vQuoteNum] AND [Grain(SC-Quotations).Reporting Month] = [vRepMth] AND [Grain(SC-Quotations).Quote Item] = [vQuoteItem]

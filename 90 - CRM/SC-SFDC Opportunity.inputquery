@@ -17,7 +17,7 @@ SELECT [Level(Sales Org.Sales Org).Sales Org Key], [Level(Sales Org.Sales Org).S
   FROM [Level(Sales Org.Sales Org)]
   ON [Level(Sales Org.Sales Org).Sales Org Key] = [SFDC_Account.Sales Org]
 LEFT OUTER JOIN
-SELECT [Level(Item.Item).Item Division Key]
+SELECT [Level(Item.Item).Item Key], [Level(Item.Item).Item Division Key]
 FROM [Level(Item.Item)]
 ON [Level(Item.Item).Item Key] = [SFDC_Product2.Product Code]
 and [Level(Item.Item).Item Key] IS NOT NULL

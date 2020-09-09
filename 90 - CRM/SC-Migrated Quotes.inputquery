@@ -1,0 +1,1 @@
+SELECT [Migrated Quotes.Customer], [Migrated Quotes.Customer Key], [Migrated Quotes.Opp Number], [Migrated Quotes.Opp Name], [Migrated Quotes.Opp Level], [Migrated Quotes.Reason for Result], [Migrated Quotes.Opp Value], [Migrated Quotes.Opp Closing Date], [Migrated Quotes.Opp Delivery Date] FROM [Migrated Quotes]

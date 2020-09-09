@@ -159,7 +159,22 @@ ELSE
 END IF
 
 Print [Quotations.VBAP_POSNR] + ':' + [Quotations.VBAP_ABGRU] + ':' + [vScLFactor] + ':' + [VBFA.VBFA_VBELN]
+
+/*
+RK - Modified to not write the Migrated Quotes
+*/
+DIM [mMigratedQuote] as MAP(Varchar(18),Varchar(18)) = Select [Level(Migrated Quotes.Migrated Quotes).Opp Name], [Level(Migrated Quotes.Migrated Quotes).Opp Name] FROM [Level(Migrated Quotes.Migrated Quotes)] WHERE [Level(Migrated Quotes.Migrated Quotes).Opp Name] is not null
+
+
 // Filter out ScL that do not have any quantity
 IF [vScLFactor] <> 0.00 THEN
-  WRITERECORD
+
+	PRINT 'Migrated Check :' + [mMigratedQuote]([Quotations.VBAP_VBELN]) + '_'
+
+	IF [mMigratedQuote]([Quotations.VBAP_VBELN]) IS NULL
+
+	 WRITERECORD
+
+	END IF
+
 END IF

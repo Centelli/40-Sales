@@ -1,0 +1,9 @@
+DIM [vQuoteNum] as varchar(18)
+DIM [vRepMth] as varchar(20)
+
+[vQuoteNum] = [Level(Quotation.Quotation).Quote Number]
+[vRepMth] = [Grain(SC-Quotations).Reporting Month]
+
+DELETE FROM [Level(Quotation.Quotation)] WHERE [Level(Quotation.Quotation).Quote Number] = [vQuoteNum] AND [Level(Quotation.Quotation).Reporting Month] = [vRepMth]
+
+DELETE FROM [Grain(SC-Quotations)] WHERE [Grain(SC-Quotations).Quote Number] = [vQuoteNum] AND [Grain(SC-Quotations).Reporting Month] = [vRepMth]

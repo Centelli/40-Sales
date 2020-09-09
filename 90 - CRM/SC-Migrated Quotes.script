@@ -1,0 +1,10 @@
+[Customer]=[Migrated Quotes.Customer]
+[Customer Key]=[Migrated Quotes.Customer Key]
+[Opp Number]=[Migrated Quotes.Opp Number]
+[Opp Name]=[Migrated Quotes.Opp Name]
+[Opp Level]=[Migrated Quotes.Opp Level]
+[Reason for Result]=[Migrated Quotes.Reason for Result]
+[Opp Value]=[Migrated Quotes.Opp Value]
+[Opp Closing Date]=[Migrated Quotes.Opp Closing Date]
+[Opp Delivery Date]=[Migrated Quotes.Opp Delivery Date]
+WRITERECORD

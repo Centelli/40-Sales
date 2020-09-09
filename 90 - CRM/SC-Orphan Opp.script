@@ -192,5 +192,19 @@ IF  [Opportunity.VBPA_KUNNR] IS NULL AND [vScLFactor] <> 0.00 THEN
     [Weighted Opp Value HC] =  [vQuoteValue] * [vExRateDCtoHC] * [vProbability]
     [Weighted Opp Value GC] =  [vQuoteValue] * [vExRateDCtoHC] * [vExRateHCtoGC] * [vProbability]
     [Weighted Opp Value RC] =  [vQuoteValue] * [vExRateDCtoHC] * [vExRateHCtoRC] * [vProbability]
+
+    /*
+    RK - Modified to not write the Migrated Quotes
+    */
+    DIM [mMigratedQuote] as MAP(Varchar(18),Varchar(18)) = Select [Level(Migrated Quotes.Migrated Quotes).Opp Name], [Level(Migrated Quotes.Migrated Quotes).Opp Name] FROM [Level(Migrated Quotes.Migrated Quotes)] WHERE [Level(Migrated Quotes.Migrated Quotes).Opp Name] is not null
+
+    PRINT 'Migrated Check :' + [mMigratedQuote]([Quotations.VBAP_VBELN]) + '_'
+
+    IF [mMigratedQuote]([Quotations.VBAP_VBELN]) IS NULL
+
      WRITERECORD
+
+    END IF	
+
+
 END IF

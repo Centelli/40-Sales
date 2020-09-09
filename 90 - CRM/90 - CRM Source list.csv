@@ -25,6 +25,13 @@ SFDC_OpportunityLineItem,False,ST-SFDC;ST-SFDC_Opportunity
 SFDC_Account,False,ST-SFDC;ST-SFDC_Account
 SC-tbl_dim_sales_region,False,SC-tbl_dim_sales_region;SC-SF Opportunities;Opportunities
 SFDC_OpportunityLineItemSchedule,True,
-Migrated Opportunities,False,
 SC-Migrated Opportunities,False,SC-Migrated Opportunities
 SC-Migrated Opps Delete,False,SC-Migrated Opps Delete
+Migrated Quotes,False,
+SC-Migrated Quotes,False,SC-Migrated Quotes
+Migrated Opportunities,False,ST-Migrated Opportunities
+RK_Cleanup,False,RK_Cleanup
+SC-Migrated Quotes Delete,False,SC-Migrated Quotes Delete
+SC-Migrated Orphan Opp Delete,False,SC-Migrated Orphan Opp Delete
+Data,True,
+Metadata,True,
