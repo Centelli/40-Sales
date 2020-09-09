@@ -168,3 +168,6 @@ BKtel-proAlpha_S_Staat,False,
 SC-Customer SFDC,False,1.2.Dimensions SFDC;SC-Customer SFDC
 SC-Customer Sales Area SFDC,False,1.2.Dimensions SFDC;SC-Customer Sales Area SFDC
 SFDC_Account,False,
+SC-HUB-885 Order Cancellation,False,SC-HUB-885 Order Cancellation
+HUB-885 Order Cancellations,False,ST-HUB-885 Orders
+SC-HUB-885 Order Cleanup,False,SC-HUB-885 Order Cleanup

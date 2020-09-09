@@ -1,0 +1,11 @@
+print 'Cancellation: ' +  [Grain(SC-Orders SL Update).Sales Order Number] + ':' + [Grain(SC-Orders SL Update).Sales Order Item] + ':' + [Level(Sales Order.Sales Order).Sales Order ScL Line] + ':' + format([Grain(SC-Orders SL Update).Analysis Date], 'dd/MM/yyyy') + ':' + [Level(Sales Order.Sales Order).RecType] + ':' + [Level(Sales Order.Sales Order).Ex Rate GC]
+
+DIM [vOrderKey] as FLOAT
+[vOrderKey] = [Grain(SC-Orders SL Update).Sales Order2123327471]
+
+print [Grain(SC-Orders SL Update).Sales Order2123327471]
+
+
+DELETE FROM [Grain(SC-Orders SL Update)] where [Grain(SC-Orders SL Update).Sales Order2123327471] = [vOrderKey]
+
+DELETE FROM [Level(Sales Order.Sales Order)] where [Level(Sales Order.Sales Order).Sales Order2123327471] = [vOrderKey]
