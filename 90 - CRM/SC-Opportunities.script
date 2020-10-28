@@ -7,7 +7,7 @@ Dim [vProbability] as Float
 
 Print 'Starting processing:' + [Opportunities.KNA1_KUNNR]
 
-[Opp Source] = 'Opportunity'
+[Opp Source] = 'Initiated in CRM'
 
 [vProbability] = 0.00
 

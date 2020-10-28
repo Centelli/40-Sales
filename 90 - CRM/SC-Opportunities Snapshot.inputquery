@@ -38,7 +38,8 @@ SELECT
 [Level(Opportunity.Opportunity).Is Lost], 
 [Level(Opportunity.Opportunity).Is Closed except Declined], 
 [Level(Opportunity.Opportunity).Is Won],
-[Level(Opportunity.Opportunity).Opp Status]
+[Level(Opportunity.Opportunity).Opp Status],
+[Level(Opportunity.Opportunity).Opp Source]
 FROM   [Level(Opportunity.Opportunity)]
 WHERE [Level(Opportunity.Opportunity).Opp Level Key] IN ('10', '20', '30', '35', '40', '50' ) 
 AND [Level(Opportunity.Opportunity).Reporting Month] = getVariable('vLastSnapShotMonth')

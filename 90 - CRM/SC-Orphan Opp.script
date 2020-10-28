@@ -16,7 +16,7 @@ Dim [vOrderItemQty] as FLOAT
 
 [vProbability] = 0.00
 
-[Opp Source] = 'Quotation'
+[Opp Source] = 'Initiated in SAP'
 
 FUNCTION [CheckValue]([Input] AS VARCHAR(15)) AS FLOAT
   IF [Input] IS NOT NULL THEN

@@ -7,7 +7,7 @@ Dim [vProbability] as Float
 
 Print 'Starting processing:' + [SC-SFDC Opportunity.Opportunity ID]
 
-[Opp Source] = 'SFDC'
+[Opp Source] = [SC-SFDC Opportunity.Opp Source]  /* Added as part of HSBI-2 */
 
 [vProbability] = 0.00
 
@@ -198,6 +198,7 @@ ELSE
  [Opp Status] = '1. Open'
 END IF
 
-
+[SF Division Source] = [SC-SFDC Opportunity.Division Source]
+[SF Product Code] = [SC-SFDC Opportunity.Product Code]
   
 WRITERECORD
