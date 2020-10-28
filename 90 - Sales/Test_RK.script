@@ -1,1 +1,29 @@
-PRINT [Grain(SC-Orders SL Update).Sales Order Number] + ' : ' + [Grain(SC-Orders SL Update).# RecType]
+DIM [vOrderKey] as FLOAT
+[vOrderKey] = [Grain(SC-Orders SL Update).Sales Order2123327471]
+
+print [Grain(SC-Orders SL Update).Sales Order2123327471]
+
+
+
+DIM [vLoadId] as Varchar(10)
+[vLoadId] = ''
+IF (length([Grain(SC-Orders SL Update).# DelMarker])>40) THEN
+ [vLoadId] = Substring([Grain(SC-Orders SL Update).# DelMarker],41,45)
+ELSE  
+ [vLoadId] = '9999' 
+END IF
+
+PRINT [Grain(SC-Orders SL Update).Sales Order Number] + ' : ' + [vLoadId] + ' : ' + [Grain(SC-Orders SL Update).# RecType] + ' : ' + [Grain(SC-Orders SL Update).# DelMarker] + ' : ' + [Grain(SC-Orders SL Update).Analysis Date]
+
+IF [vLoadId] = '3593' THEN
+  PRINT [Grain(SC-Orders SL Update).# DelMarker]
+  [DelMarker] = [Grain(SC-Orders SL Update).# DelMarker]
+  WRITERECORD
+
+  
+DELETE FROM [Grain(SC-Orders SL Update)] where [Grain(SC-Orders SL Update).Sales Order2123327471] = [vOrderKey]
+
+DELETE FROM [Level(Sales Order.Sales Order)] where [Level(Sales Order.Sales Order).Sales Order2123327471] = [vOrderKey]
+
+
+END IF

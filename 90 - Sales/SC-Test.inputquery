@@ -1,14 +1,6 @@
-SELECT [MARA.MARA_MATNR], [MARA.MARA_MTART], [MARA.MARA_MBRSH], [MARA.MARA_MATKL], [MARA.MARA_BISMT], [MARA.MARA_MEINS], [MARA.MARA_LABOR], [MARA.MARA_SPART], [MARA.MARA_EAN11], [MARA.MAKT_MAKTX], [MARA.MAKT_MAKTG], [MARA.MARA_EXTWG]
-  FROM [MARA] where [MARA.MARA_MATNR] = '000000000091000055'
+SELECT [Level(Sales Invoices.Sales Invoices).Profit Center], [Level(Sales Invoices.Sales Invoices).SI Doc Condition], [Level(Sales Invoices.Sales Invoices).Payer], [Level(Sales Invoices.Sales Invoices).SI Header Change Date], [Level(Sales Invoices.Sales Invoices).SI Cancellation Document], [Level(Sales Invoices.Sales Invoices).Sales Invoice Number], [Level(Sales Invoices.Sales Invoices).Sales Invoice Item], [Level(Sales Invoices.Sales Invoices).SI Sales UoM], [Level(Sales Invoices.Sales Invoices).SI Base UoM], [Level(Sales Invoices.Sales Invoices).SI Originating Doc], [Level(Sales Invoices.Sales Invoices).SI Originating Item], [Level(Sales Invoices.Sales Invoices).SI Reference Doc], [Level(Sales Invoices.Sales Invoices).SI Reference Item], [Level(Sales Invoices.Sales Invoices).SI Prec Doc Categ], [Level(Sales Invoices.Sales Invoices).Sales Order Number], [Level(Sales Invoices.Sales Invoices).Sales Order Item], [Level(Sales Invoices.Sales Invoices).Item category], [Level(Sales Invoices.Sales Invoices).Plant], [Level(Sales Invoices.Sales Invoices).Created by Header], [Level(Sales Invoices.Sales Invoices).SI Header Create Date], [Level(Sales Invoices.Sales Invoices).Currency Key DC], [Level(Sales Invoices.Sales Invoices).Ex Rate DC], [Level(Sales Invoices.Sales Invoices).Currency Key GC], [Level(Sales Invoices.Sales Invoices).Ex Rate GC], [Level(Sales Invoices.Sales Invoices).Currency Key HC], [Level(Sales Invoices.Sales Invoices).Ex Rate HC], [Level(Sales Invoices.Sales Invoices).Sales Invoice Key], [Level(Sales Invoices.Sales Invoices).SI Reference SO Key], [Level(Sales Invoices.Sales Invoices).Billing Rule], [Level(Sales Invoices.Sales Invoices).Statistical Value], [Level(Sales Invoices.Sales Invoices).Returns], [Level(Sales Invoices.Sales Invoices).Source], [Level(Sales Invoices.Sales Invoices).Currency Key RC], [Level(Sales Invoices.Sales Invoices).Ex Rate RC], [Level(Sales Invoices.Sales Invoices).DelMarker], [Level(Sales Invoices.Sales Invoices).Cost Scenario], [Level(Sales Invoices.Sales Invoices).COGS Source], [Level(Sales Invoices.Sales Invoices).ICOGS Source], [Level(Sales Invoices.Sales Invoices).WBS Element]
+  FROM [Level(Sales Invoices.Sales Invoices)]
 INNER JOIN
-SELECT [Division.Division Key], [Division.Division]
-  FROM [Division]
-  ON [Division.Division Key] = [MARA.MARA_SPART]
-INNER JOIN
-SELECT [Ext Material Group.Ext Mat Group Key], [Ext Material Group.Ext Mat Group]
-  FROM [Ext Material Group]
-  ON [Ext Material Group.Ext Mat Group Key] = [MARA.MARA_EXTWG]
-LEFT OUTER JOIN 
-SELECT [Structure_Dimension_Item.item group code], [Structure_Dimension_Item.item group name], [Structure_Dimension_Item.product group code], [Structure_Dimension_Item.product group name], [Structure_Dimension_Item.product unit code], [Structure_Dimension_Item.product unit name], [Structure_Dimension_Item.product division code], [Structure_Dimension_Item.product division name], [Structure_Dimension_Item.product segment code], [Structure_Dimension_Item.product segment name], [Structure_Dimension_Item.solution code], [Structure_Dimension_Item.solution name]
-  FROM [Structure_Dimension_Item]
-    ON [Structure_Dimension_Item.item group code] = [MARA.MARA_EXTWG]
+SELECT [VBRK_VBRP.VBRP_VBELN],[VBRK_VBRP.VBRP_POSNR],[VBRK_VBRP.PRPS_POSKI] FROM [VBRK_VBRP] 
+ON [Level(Sales Invoices.Sales Invoices).Sales Invoice Number]=[VBRK_VBRP.VBRP_VBELN] 
+AND [Level(Sales Invoices.Sales Invoices).Sales Invoice Item]=[VBRK_VBRP.VBRP_POSNR]
