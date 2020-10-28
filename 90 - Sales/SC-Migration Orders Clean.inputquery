@@ -1,0 +1,7 @@
+SELECT [Grain(SC-Orders SL Update).Sales Order2123327471], [Grain(SC-Orders SL Update).Comp Code Key]
+  FROM [Grain(SC-Orders SL Update)] 
+  WHERE [Grain(SC-Orders SL Update).Comp Code Key] IN ('350','7300')
+INNER JOIN
+SELECT [Level(Sales Order.Sales Order).Sales Order2123327471]
+  FROM [Level(Sales Order.Sales Order)]
+  ON [Grain(SC-Orders SL Update).Sales Order2123327471] = [Level(Sales Order.Sales Order).Sales Order2123327471]

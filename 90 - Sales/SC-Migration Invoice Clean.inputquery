@@ -1,0 +1,7 @@
+SELECT [Grain(SC-Invoices).Comp Code Key], [Grain(SC-Invoices).Sales Invoices1677092969]
+  FROM [Grain(SC-Invoices)]
+ WHERE [Grain(SC-Invoices).Comp Code Key] IN ('350','7300')
+INNER JOIN
+SELECT [Level(Sales Invoices.Sales Invoices).Sales Invoices1677092969]
+  FROM [Level(Sales Invoices.Sales Invoices)]
+  ON [Grain(SC-Invoices).Sales Invoices1677092969] = [Level(Sales Invoices.Sales Invoices).Sales Invoices1677092969]

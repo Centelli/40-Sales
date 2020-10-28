@@ -1,0 +1,14 @@
+[Comp Code Key] = [Grain(SC-Orders SL Update).Comp Code Key]
+
+DIM [vOrderKey] as INTEGER
+
+[vOrderKey] = [Grain(SC-Orders SL Update).Sales Order2123327471]
+
+print [Grain(SC-Orders SL Update).Sales Order2123327471]
+
+
+DELETE FROM [Grain(SC-Orders SL Update)] where [Grain(SC-Orders SL Update).Sales Order2123327471] = [vOrderKey]
+
+DELETE FROM [Level(Sales Order.Sales Order)] where [Level(Sales Order.Sales Order).Sales Order2123327471] = [vOrderKey]
+
+WRITERECORD

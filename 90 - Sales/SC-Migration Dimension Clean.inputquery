@@ -1,0 +1,3 @@
+SELECT TOP 1 [Level(Customer Sales Area.Customer Sales Area).Comp Code Key]
+  FROM [Level(Customer Sales Area.Customer Sales Area)]
+ WHERE [Level(Customer Sales Area.Customer Sales Area).Comp Code Key] IN ('350', '7300')

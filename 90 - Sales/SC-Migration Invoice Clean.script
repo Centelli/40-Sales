@@ -1,0 +1,13 @@
+[Dummy] = [Grain(SC-Invoices).Comp Code Key]
+
+DIM [vInvoiceKey] as INTEGER
+
+[vInvoiceKey] = [Grain(SC-Invoices).Sales Invoices1677092969]
+
+print [Grain(SC-Invoices).Sales Invoices1677092969]
+
+DELETE FROM [Grain(SC-Invoices)] WHERE [Grain(SC-Invoices).Sales Invoices1677092969] = [vInvoiceKey]
+
+DELETE FROM [Level(Sales Invoices.Sales Invoices)] WHERE [Level(Sales Invoices.Sales Invoices).Sales Invoices1677092969] = [vInvoiceKey]
+
+WRITERECORD
