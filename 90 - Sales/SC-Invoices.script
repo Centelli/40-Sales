@@ -278,6 +278,9 @@ END IF
 [DelMarker]=[SC-Invoices Stg.VBRP_VBELN]+'_'+[SC-Invoices Stg.VBRP_POSNR]+'_CURRENT'
 [Source] = 'SAP ECC'
 
+//HUB-827
+[WBS Element]= [SC-Invoices Stg.PRPS_POSKI]
+
 /* IF SUM([BAPI.Condition value]) IS NOT NULL THEN
   // HUB-578 (30Nov18) - Set ICOGS and COGS for credit/debit memo to zero
   IF [SC-Invoices Stg.VBRP_PSTYV] = 'ZG2N' or [SC-Invoices Stg.VBRP_PSTYV] = 'ZL2N' then
