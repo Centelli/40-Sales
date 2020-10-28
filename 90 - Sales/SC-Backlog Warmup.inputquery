@@ -1,0 +1,33 @@
+SELECT [VBEP.VBAP_VBELN], [VBEP.VBAP_POSNR], [VBEP.VBEP_ETENR], [VBEP.VBEP_WADAT], [VBEP.VBEP_BMENG], [VBEP.VBEP_LMENG], [VBEP.VBEP_WMENG], [VBEP.VBAK_ERDAT], [VBEP.VBAK_AUDAT], [VBEP.VBAK_VBTYP], [VBEP.VBAK_AUART], [VBEP.VBAK_WAERK], [VBEP.VBAK_VKORG], [VBEP.VBAK_VTWEG], [VBEP.VBAK_SPART], [VBEP.VBAK_KNUMV], [VBEP.VBAK_KALSM], [VBEP.VBAK_KUNNR], [VBEP.VBAK_AEDAT], [VBEP.VBAK_BUKRS_VF], [VBEP.VBAP_MATNR], [VBEP.VBAP_MATKL],[VBEP.VBAP_PSTYV], [VBEP.VBAP_ABGRU], [VBEP.VBAP_MEINS], [VBEP.VBAP_SPART], [VBEP.VBAP_NETWR], [VBEP.VBAP_WAERK], [VBEP.VBAP_KWMENG], [VBEP.VBAP_WERKS], [VBEP.VBAP_ERDAT], [VBEP.VBAP_STCUR], [VBEP.VBAP_AEDAT], [VBEP.VBUP_LFSTA], [VBEP.VBUP_LFGSA], [VBEP.VBUP_ABSTA], [VBEP.VBUP_GBSTA], [VBEP.VBAP_BEDAE], [VBEP.VBAP_OBJNR], [VBEP.VBAP_UMVKN], [VBEP.VBAP_UMVKZ], [VBEP.VBEP_ETTYP], [VBEP.VBEP_EDATU], [VBEP.VBEP_EZEIT], [VBEP.VBEP_WMENG], [VBEP.VBEP_BMENG], [VBEP.VBEP_VRKME], [VBEP.VBEP_LMENG], [VBEP.VBEP_MEINS], [VBEP.VBEP_ETART], [VBEP.VBEP_BDART], [VBEP.VBPA_KUNNR], [VBEP.VBAP_NETWR], [VBEP.VBAP_KWMENG], [VBEP.VBAP_ZMENG], [VBEP.VBAP_UMVKZ], [VBEP.VBAP_UMVKN], [VBEP.VBUK_SPSTG], [VBEP.VBUK_CMGST], [VBEP.VBAP_FKREL], [VBEP.VBUP_FKSAA], [VBEP.VBKD_KURSK] from [VBAK_VBAP_VBEP For Backlog] 'VBEP' where [VBEP.VBAK_AUART] NOT IN ('ZAF','ZAG','ZLA','ZLN','ZPF','ZB1','ZB2','ZB3','ZKK','ZKM','ZME','ZKA','ZKB','ZOS','', 'ZAE') 
+and [VBEP.VBAP_PSTYV] NOT IN ('ZAAB','ZAAE','ZAAS','ZAFC','ZAFN','ZAGC','ZAGD','ZAGN','ZAGX','ZANN','ZGAB','ZGAS','ZKAF','ZKAG','ZKEA','ZKLS','ZLAN','ZLNN','ZNLC','ZNLN','ZNNN','ZREX','ZTAX','ZZZ1','ZAAK','ZQAL','ZTAL','ZKNN','B1N','G2TX','ZASM','ZDLW','ZPRO','ZREP','IRRE','IRVE','IRAL','ZSTR','', 'ZSUA', 'ZSUB') 
+// AND ([VBEP.VBEP_ETART] IS NULL OR [VBEP.VBEP_ETART] NOT IN ('4', '6', '7', '9') )
+INNER JOIN
+SELECT [OrderItem.VBAP_VBELN], [OrderItem.VBAP_POSNR], count([OrderItem.VBEP_ETENR]), sum([OrderItem.VBEP_BMENG]) from [VBAK_VBAP_VBEP For Backlog] 'OrderItem' ON [OrderItem.VBAP_VBELN] = [VBEP.VBAP_VBELN] and [OrderItem.VBAP_POSNR] = [VBEP.VBAP_POSNR]
+// AND ([OrderItem.VBEP_ETART] IS NULL OR [OrderItem.VBEP_ETART] NOT IN ('4', '6', '7', '9') )
+INNER JOIN
+SELECT distinct [SC-Orders for Backlog Condensed.VBUP_VBELN], [SC-Orders for Backlog Condensed.VBUP_POSNR], [SC-Orders for Backlog Condensed.VBUP_GBSTA], [SC-Orders for Backlog Condensed.Order Source], [SC-Orders for Backlog Condensed.VBKD_FKDAT], [SC-Orders for Backlog Condensed.VBAP Quantity], [SC-Orders for Backlog Condensed.VBUK_SPSTG] from [SC-Orders for Backlog Condensed] ON
+[VBEP.VBAP_VBELN] = [SC-Orders for Backlog Condensed.VBUP_VBELN] and [VBEP.VBAP_POSNR] = [SC-Orders for Backlog Condensed.VBUP_POSNR] 
+INNER JOIN
+SELECT [LEVEL(Company.Company).Comp Code Key],[LEVEL(Company.Company).Comp Currency Key] FROM [LEVEL(Company.Company)] 
+// HUB-667 - missing sales orders for sales org 6140
+ON [LEVEL(Company.Company).Comp Code Key]=[VBEP.VBAK_BUKRS_VF]
+INNER JOIN 
+SELECT [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.regional_currency_code]
+  FROM [tbl_dim_sales_region]
+    ON [tbl_dim_sales_region.sales_office_code] = [VBEP.VBAK_VKBUR]
+LEFT OUTER JOIN
+SELECT [Invoice.SI Reference SO Key], [Invoice.Invoice Qty] FROM [SC-Invoice for Backlog] 'Invoice' on [Invoice.Sales Order Number] = [VBEP.VBAP_VBELN] and [Invoice.Sales Order Item] = [VBEP.VBAP_POSNR]
+LEFT OUTER JOIN 
+SELECT [HCRate.Exchange Rate]  FROM [SC-Ex Rates] 'HCRate' ON [HCRate.Valid From Date] <= NowDate AND [HCRate.Valid To Date] >= NowDate AND [HCRate.From Currency Key] = [LEVEL(Company.Company).Comp Currency Key]
+LEFT OUTER JOIN
+SELECT [RCRate.Exchange Rate]  FROM [SC-Ex Rates] 'RCRate' ON [RCRate.Valid From Date] <= NowDate AND [RCRate.Valid To Date] >= NowDate AND [RCRate.From Currency Key] = [tbl_dim_sales_region.regional_currency_code]
+LEFT OUTER JOIN
+SELECT [DCRate.Exchange Rate]  FROM [SC-Ex Rates] 'DCRate' ON [DCRate.Valid From Date] <= NowDate AND [DCRate.Valid To Date] >= NowDate AND [DCRate.From Currency Key] = [VBEP.VBAP_WAERK]
+LEFT OUTER JOIN
+SELECT sum([Grain(SC-Orders SL Update).Order Qty]), sum([Grain(SC-Orders SL Update).Order Intake DC]), sum([Grain(SC-Orders SL Update).Order Intake GC]), sum([Grain(SC-Orders SL Update).Order Intake HC]), sum([Grain(SC-Orders SL Update).Order Intake RC]) FROM [Grain(SC-Orders SL Update)] 
+ON [Grain(SC-Orders SL Update).# Current Record] = 1 and ( [Grain(SC-Orders SL Update).Rejection Reason Key] is null or [Grain(SC-Orders SL Update).Rejection Reason Key] = 'ZL' ) AND [VBEP.VBAP_VBELN] = [Grain(SC-Orders SL Update).Sales Order Number] AND [VBEP.VBAP_POSNR] = [Grain(SC-Orders SL Update).Sales Order Item] AND [VBEP.VBEP_ETENR] = [Grain(SC-Orders SL Update).# Sales Order ScL Line] 
+LEFT OUTER JOIN
+SELECT [Level(Customer.Customer).Customer Type]
+  FROM [Level(Customer.Customer)]   
+    ON [Level(Customer.Customer).Customer Key] = [VBEP.VBAK_KUNNR]  
+ORDER BY [VBEP.VBAP_VBELN], [VBEP.VBAP_POSNR], [VBEP.VBEP_WADAT], [VBEP.VBEP_ETENR] ASCENDING

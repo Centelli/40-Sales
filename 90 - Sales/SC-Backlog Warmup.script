@@ -1,0 +1,98 @@
+[VBAP_VBELN] = [VBEP.VBAP_VBELN]
+[VBAP_POSNR] = [VBEP.VBAP_POSNR]
+[VBEP_ETENR] = [VBEP.VBEP_ETENR]
+[VBEP_WADAT] = [VBEP.VBEP_WADAT]
+[VBEP_BMENG] = [VBEP.VBEP_BMENG]
+[VBEP_LMENG] = [VBEP.VBEP_LMENG]
+[VBEP_WMENG] = [VBEP.VBEP_WMENG]
+[VBAK_ERDAT] = [VBEP.VBAK_ERDAT]
+[VBAK_AUDAT] = [VBEP.VBAK_AUDAT]
+[VBAK_VBTYP] = [VBEP.VBAK_VBTYP]
+[VBAK_AUART] = [VBEP.VBAK_AUART]
+[VBAK_WAERK] = [VBEP.VBAK_WAERK]
+[VBAK_VKORG] = [VBEP.VBAK_VKORG]
+[VBAK_VTWEG] = [VBEP.VBAK_VTWEG]
+[VBAK_SPART] = [VBEP.VBAK_SPART]
+[VBAK_KNUMV] = [VBEP.VBAK_KNUMV]
+[VBAK_KALSM] = [VBEP.VBAK_KALSM]
+[VBAK_KUNNR] = [VBEP.VBAK_KUNNR]
+[VBAK_AEDAT] = [VBEP.VBAK_AEDAT]
+[VBAK_BUKRS_VF] = [VBEP.VBAK_BUKRS_VF]
+[VBAP_MATNR] = [VBEP.VBAP_MATNR]
+[VBAP_MATKL] = [VBEP.VBAP_MATKL]
+[VBAP_PSTYV] = [VBEP.VBAP_PSTYV]
+[VBAP_ABGRU] = [VBEP.VBAP_ABGRU]
+[VBAP_MEINS] = [VBEP.VBAP_MEINS]
+[VBAP_SPART] = [VBEP.VBAP_SPART]
+[VBAP_NETWR] = [VBEP.VBAP_NETWR]
+[VBAP_WAERK] = [VBEP.VBAP_WAERK]
+[VBAP_KWMENG] = [VBEP.VBAP_KWMENG]
+[VBAP_WERKS] = [VBEP.VBAP_WERKS]
+[VBAP_ERDAT] = [VBEP.VBAP_ERDAT]
+[VBAP_STCUR] = [VBEP.VBAP_STCUR]
+[VBAP_AEDAT] = [VBEP.VBAP_AEDAT]
+[VBUP_LFSTA] = [VBEP.VBUP_LFSTA]
+[VBUP_LFGSA] = [VBEP.VBUP_LFGSA]
+[VBUP_ABSTA] = [VBEP.VBUP_ABSTA]
+[VBUP_GBSTA] = [VBEP.VBUP_GBSTA]
+[VBAP_BEDAE] = [VBEP.VBAP_BEDAE]
+[VBAP_OBJNR] = [VBEP.VBAP_OBJNR]
+[VBAP_UMVKN] = [VBEP.VBAP_UMVKN]
+[VBAP_UMVKZ] = [VBEP.VBAP_UMVKZ]
+[VBEP_ETTYP] = [VBEP.VBEP_ETTYP]
+[VBEP_EDATU] = [VBEP.VBEP_EDATU]
+[VBEP_EZEIT] = [VBEP.VBEP_EZEIT]
+[VBEP_WMENG] = [VBEP.VBEP_WMENG]
+[VBEP_BMENG] = [VBEP.VBEP_BMENG]
+[VBEP_VRKME] = [VBEP.VBEP_VRKME]
+[VBEP_LMENG] = [VBEP.VBEP_LMENG]
+[VBEP_MEINS] = [VBEP.VBEP_MEINS]
+[VBEP_ETART] = [VBEP.VBEP_ETART]
+[VBEP_BDART] = [VBEP.VBEP_BDART]
+[VBPA_KUNNR] = [VBEP.VBPA_KUNNR]
+[VBAP_NETWR] = [VBEP.VBAP_NETWR]
+[VBAP_KWMENG] = [VBEP.VBAP_KWMENG]
+[VBAP_ZMENG] = [VBEP.VBAP_ZMENG]
+[VBAP_UMVKZ] = [VBEP.VBAP_UMVKZ]
+[VBAP_UMVKN] = [VBEP.VBAP_UMVKN]
+[VBUK_SPSTG] = [VBEP.VBUK_SPSTG]
+[VBUK_CMGST] = [VBEP.VBUK_CMGST]
+[VBAP_FKREL] = [VBEP.VBAP_FKREL]
+[VBUP_FKSAA] = [VBEP.VBUP_FKSAA]
+[VBKD_KURSK] = [VBEP.VBKD_KURSK]
+
+
+[OrderItem_Count_ETENR] = count([OrderItem.VBEP_ETENR])
+[OrderItem_Sum_BMENG] = sum([OrderItem.VBEP_BMENG])
+
+
+[Condensed_VBUP_GBSTA] = [SC-Orders for Backlog Condensed.VBUP_GBSTA]
+[Condensed_Order Source] = [SC-Orders for Backlog Condensed.Order Source]
+[Condensed_VBKD_FKDAT] = [SC-Orders for Backlog Condensed.VBKD_FKDAT]
+[Condensed_VBAP Quantity] = [SC-Orders for Backlog Condensed.VBAP Quantity]
+[Condensed_VBUK_SPSTG] = [SC-Orders for Backlog Condensed.VBUK_SPSTG]
+
+[Company_Comp Code Key] = [LEVEL(Company.Company).Comp Code Key]
+[Company_Comp Currency Key] = [LEVEL(Company.Company).Comp Currency Key]
+
+[region_sales_office_code] = [tbl_dim_sales_region.sales_office_code]
+[region_regional_currency_code] = [tbl_dim_sales_region.regional_currency_code]
+
+
+[Invoice_Invoice Qty] = [Invoice.Invoice Qty]
+
+[DC Ex Rate] = [DCRate.Exchange Rate]
+
+[HC Ex Rate] = [HCRate.Exchange Rate]
+
+[RC Ex Rate] = [RCRate.Exchange Rate]
+
+[SUM_ORDER_QTY] = sum([Grain(SC-Orders SL Update).Order Qty])
+[SUM_ORDER_DC] = sum([Grain(SC-Orders SL Update).Order Intake DC])
+[SUM_ORDER_GC] = sum([Grain(SC-Orders SL Update).Order Intake GC])
+[SUM_ORDER_HC] = sum([Grain(SC-Orders SL Update).Order Intake HC])
+[SUM_ORDER_RC] = sum([Grain(SC-Orders SL Update).Order Intake RC])
+
+[Customer_Customer Type] = [Level(Customer.Customer).Customer Type]
+
+WRITERECORD
