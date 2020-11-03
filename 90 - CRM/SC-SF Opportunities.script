@@ -17,7 +17,7 @@ ELSE
 [Analysis Date] = [SC-SFDC Opportunity.Created Date]
 END IF 
 
-[Reporting Month] = SUBSTRING((FORMAT(DATEADD(Day, -1, NOWDATE),'yyyy-MMM-dd')), 5,8 ) +'-'+ DATEPART(YEAR, DATEADD(Day, -1, NOWDATE))
+[Reporting Month] = SUBSTRING((FORMAT(DATEADD(Day, 0, NOWDATE),'yyyy-MMM-dd')), 5,8 ) +'-'+ DATEPART(YEAR, DATEADD(Day, -1, NOWDATE))
 [Opp Number]=[SC-SFDC Opportunity.Opportunity ID]
 [Opp Name]=[SC-SFDC Opportunity.Name]
 /*[Opp Country]=[Opportunities.KNA1_LAND1]*/

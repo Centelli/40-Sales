@@ -54,7 +54,7 @@ END IF  */
 [Quote Valid To] = [Quotations.VBAK_BNDDT]
 [Quote Valid From] = [Quotations.VBAK_ANGDT]
 [Comp Code Key] = [Quotations.VBAK_BUKRS_VF]
-[Reporting Month] = SUBSTRING((FORMAT(DATEADD(Day, -1, NOWDATE),'yyyy-MMM-dd')), 5,8 ) +'-'+ DATEPART(YEAR, DATEADD(Day, -1, NOWDATE) )
+[Reporting Month] = SUBSTRING((FORMAT(DATEADD(Day, 0, NOWDATE),'yyyy-MMM-dd')), 5,8 ) +'-'+ DATEPART(YEAR, DATEADD(Day, -1, NOWDATE) )
 [Quote Key] = [Quotations.VBAK_VBELN] + [Quotations.VBAP_POSNR]
 [Quote Item] = [Quotations.VBAP_POSNR]
 [Quote Created Date]=[Quotations.VBAK_ERDAT]

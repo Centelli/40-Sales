@@ -1,15 +1,15 @@
 Source Name,Disabled,Processing Groups
 Opp Partners,False,Staging
-AUSP,False,Staging
-SC-Opportunities,False,SC-Opportunities
-SC-Level History,False,SC-Level History
+AUSP,True,Staging
+SC-Opportunities,True,SC-Opportunities
+SC-Level History,True,SC-Level History
 SC-Quotations,False,SC-Quotations
 VBPA,False,Staging
 SC-Reporting Month,False,SC-Reporting Month
-Opportunities,False,Staging
+Opportunities,True,Staging
 Quotations,False,Staging
 SC-Exchange Rates,False,SC-Ex Rate
-SC-Orphan Opp,False,SC-Orphan Opp
+SC-Orphan Opp,True,SC-Orphan Opp
 SC-Opportunities Snapshot,False,SC-Opp Snapshot
 SC-Quotations Snapshot,False,SC-Quote Snapshot
 SC-CRM User Access,False,SC-CRM User Access
@@ -30,8 +30,10 @@ SC-Migrated Opps Delete,False,SC-Migrated Opps Delete
 Migrated Quotes,False,
 SC-Migrated Quotes,False,SC-Migrated Quotes
 Migrated Opportunities,False,ST-Migrated Opportunities
-RK_Cleanup,False,RK_Cleanup
 SC-Migrated Quotes Delete,False,SC-Migrated Quotes Delete
+RK_Cleanup,False,RK_Cleanup
 SC-Migrated Orphan Opp Delete,False,SC-Migrated Orphan Opp Delete
 Data,True,
 Metadata,True,
+Nov-2020 Migrated Opp Names,False,SC-Nov 2020 Delete
+SC-Nov 2020 Migrated Opp Names Delete,False,SC-Nov 2020 Delete
