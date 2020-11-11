@@ -130,7 +130,7 @@ end if
 // HUB-752 --> Conversion of ScL quantity from sales unit to base unit added
     [vSchedLineQty] = IFNULL(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBEP_WMENG])),0.00)*(ifnull(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT([CheckValue]([VBAK_VBAP_VBEP.VBAP_UMVKN])),0.00))
     // Change in logic for Schedule Agreements - agreed with Sven on 17 May 2019
-    IF [VBAK_VBAP_VBEP.VBAK_AUART] ='ZLZ' and ([VBAK_VBAP_VBEP.VBEP_WMENG] <> [VBAK_VBAP_VBEP.VBEP_BMENG]) THEN
+    IF [VBAK_VBAP_VBEP.VBAK_AUART] in ('ZLZ', 'ZLZM') and ([VBAK_VBAP_VBEP.VBEP_WMENG] <> [VBAK_VBAP_VBEP.VBEP_BMENG]) THEN
          [vSchedLineQty] = 0.00
     END IF
   END IF
@@ -242,44 +242,12 @@ end if
   [ScL Quantity] = [vSchedLineQty] * [vMultiplier]
   print 'Order Qty: ' + ([vOrderQty] * [vMultiplier])
   [Security Key] = 'N' + [VBAK_VBAP_VBEP.VBAK_VKORG] + '' + [VBAK_VBAP_VBEP.VBAP_SPART] + '' + [VBAK_VBAP_VBEP.VBAK_KUNNR]
-  
-  PRINT '2.1'
-  PRINT [VBAK_VBAP_VBEP.VBAP_AEDAT]
-  PRINT [VBAK_VBAP_VBEP.VBAK_AEDAT]
-  PRINT [VBAK_VBAP_VBEP.VBAP_ERDAT]
-  
-  /* Changed on Date or Created Date */
-  IF [VBAK_VBAP_VBEP.VBAP_AEDAT] IS NOT NULL THEN
-    IF [VBAK_VBAP_VBEP.VBAK_AEDAT] IS NOT NULL THEN
-      IF [VBAK_VBAP_VBEP.VBAP_AEDAT] > [VBAK_VBAP_VBEP.VBAK_AEDAT] THEN
-        [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_AEDAT]
-      ELSE
-        [vChangeDate] = [VBAK_VBAP_VBEP.VBAK_AEDAT]
-      END IF
-    ELSE
-      [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_AEDAT]
-    END IF
-  ELSE 
-    IF [VBAK_VBAP_VBEP.VBAK_AEDAT] IS NOT NULL THEN
-      IF [VBAK_VBAP_VBEP.VBAP_ERDAT] > [VBAK_VBAP_VBEP.VBAK_AEDAT] THEN
-        [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_ERDAT]
-      ELSE
-        [vChangeDate] = [VBAK_VBAP_VBEP.VBAK_AEDAT]
-    ELSE
-      [vChangeDate] = [VBAK_VBAP_VBEP.VBAP_ERDAT]
-    END IF
-  END IF
+ 
+ [vChangeDate] = [VBAK_VBAP_VBEP.Analysis Date]
+ [Analysis Date]=[vChangeDate]
+ [Change Date]=[vChangeDate]
+ PRINT [vChangeDate]
 
-  PRINT [vChangeDate]
-
-// HUB-864 - Post changes to SO 0010434471 to original created date
-  IF [VBAK_VBAP_VBEP.VBAP_VBELN] = '0010434471' THEN  
-    [Analysis Date]=[VBAK_VBAP_VBEP.VBAK_ERDAT]
-  ELSE
-    [Analysis Date]=[vChangeDate]
-  END IF
-  [Change Date]=[vChangeDate]
-  
   [Pricing Date]=[VBAK_VBAP_VBEP.VBKD_PRSDT]
   [CustArea Key]=[VBAK_VBAP_VBEP.VBAK_KUNNR]+''+[VBAK_VBAP_VBEP.VBAK_VKORG]
   [SO Order Delivery Status]=[VBAK_VBAP_VBEP.VBUP_LFSTA]
@@ -390,7 +358,7 @@ Change 19/10/18 RK: Do not write records for Customer Type 'Group'
 Change 20/05/19 AG: Only write Schedule Agreements after 18 May reload date
 */  
 IF [Level(Customer.Customer).Customer Type] <> 'Group' THEN
-  IF  [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' THEN
+  IF  [VBAK_VBAP_VBEP.VBAK_AUART] in ('ZLZ', 'ZLZM') THEN
     IF [vChangeDate] > #2019-05-18# THEN
        WRITERECORD
     END IF
@@ -404,7 +372,7 @@ IF 1 = 1 then
 
 [vZLZHistoricQty] = 0.00
 print 'Check if ZLZ should be processed:' + [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + [VBAK_VBAP_VBEP.VBAK_AUART] + ':' + [mZLZDocsProcessed]([vOrdKey])
-IF [VBAK_VBAP_VBEP.VBAK_AUART] = 'ZLZ' and [vChangeDate] > #2019-05-18# THEN  
+IF [VBAK_VBAP_VBEP.VBAK_AUART] in ('ZLZ', 'ZLZM') and [vChangeDate] > #2019-05-18# THEN  
   IF [mZLZDocsProcessed]([vOrdKey]) is null THEN
       print 'Processing ZLZ'    
       print 'Historic invoice Quantity:' + [VBAK_VBAP_VBEP.VBAP_VBELN] + ':' + [VBAK_VBAP_VBEP.VBAP_POSNR] + ':' + sum([ZLZ.Invoice Qty])    

@@ -173,7 +173,7 @@ HUB-885 Order Cancellations,False,ST-HUB-885 Orders
 SC-HUB-885 Order Cleanup,False,SC-HUB-885 Order Cleanup
 SC-Backlog Warmup,True,1.5.Backlog;SC-Backlog Warmup
 SC-Backlog Temp,True,1.5.Backlog;SC-Backlog Warmup;SC-Backlog Temp
-SC-Orders SL Warmup,True,
+SC-Orders SL Warmup,False,SC-Orders SL Warmup;1.3.Orders SL
 SC-Invoices Update,False,SC-Invoices Update
 SC-Migration Orders Clean,True,SC-Migration Order Clean
 SC-Migration Invoice Clean,True,SC-Migration Inv Clean
