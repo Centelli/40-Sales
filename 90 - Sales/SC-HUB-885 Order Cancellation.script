@@ -28,8 +28,8 @@ PRINT [Grain(SC-Orders SL Update).Sales Order2123327471]
 [SO Item Rejection Status] = [Level(Sales Order.Sales Order).SO Item Rejection Status]
 [SO Item Overall Status] = [Level(Sales Order.Sales Order).SO Item Overall Status]
 [Change Date] = [Level(Sales Order.Sales Order).Change Date]
-[DelMarker] = [Grain(SC-Orders SL Update).# DelMarker]
-[Source] = [Grain(SC-Orders SL Update).# Source]
+
+
 [Currency Key DC] = [Level(Sales Order.Sales Order).Currency Key DC]
 [Ex Rate DC] = [Level(Sales Order.Sales Order).Ex Rate DC]
 [Requirement Type Key] = [Level(Sales Order.Sales Order).Requirement Type Key]
@@ -46,29 +46,32 @@ PRINT [Grain(SC-Orders SL Update).Sales Order2123327471]
 [Security Key] = [Grain(SC-Orders SL Update).# Security Key]
 [RecType] = [Level(Sales Order.Sales Order).RecType]
 
-[Analysis Date] = [HUB-885 Order Cancellations.SO Date]
+[DelMarker] = [Grain(SC-Orders SL Update).# DelMarker]+'_SCLTYPE_4'
+[Source] = [Grain(SC-Orders SL Update).# Source]+' SC'
 
-[ScL Quantity] = [HUB-885 Order Cancellations.Order Qty]
-[Order Qty] = [HUB-885 Order Cancellations.Order Qty]
+[Analysis Date] = [Grain(SC-Orders SL Update).Analysis Date]
+
+[ScL Quantity] = [Grain(SC-Orders SL Update).# Order Qty]
+[Order Qty] = [Grain(SC-Orders SL Update).# Order Qty]
 
 [Currency Key DC]=[Level(Sales Order.Sales Order).Currency Key DC]
 [Ex Rate DC]=[Level(Sales Order.Sales Order).Ex Rate DC]
-[Order Intake DC]=[HUB-885 Order Cancellations.Order Intake DC]
+[Order Intake DC]=[Grain(SC-Orders SL Update).# Order Intake DC]
 [SO Item Cost DC]=[Grain(SC-Orders SL Update).# SO Item Cost DC]
 
 [Currency Key HC]=[Level(Sales Order.Sales Order).Currency Key HC]
 [Ex Rate HC]=[Level(Sales Order.Sales Order).Ex Rate HC]
-[Order Intake HC]=[HUB-885 Order Cancellations.Order Intake HC]
+[Order Intake HC]=[Grain(SC-Orders SL Update).# Order Intake HC]
 [SO Item Cost HC]=[Grain(SC-Orders SL Update).# SO Item Cost HC]
 	  
 [Currency Key GC] = [Level(Sales Order.Sales Order).Currency Key GC]
 [Ex Rate GC] = [Level(Sales Order.Sales Order).Ex Rate GC]
-[Order Intake GC] = [HUB-885 Order Cancellations.Order Intake GC]
+[Order Intake GC] = [Grain(SC-Orders SL Update).# Order Intake GC]
 [SO Item Cost GC]=[Grain(SC-Orders SL Update).# SO Item Cost GC]
 
 [Currency Key RC]=[Level(Sales Order.Sales Order).Currency Key RC]
 [Ex Rate RC] =  [Level(Sales Order.Sales Order).Ex Rate RC]
-[Order Intake RC] = [HUB-885 Order Cancellations.Order Intake RC]
+[Order Intake RC] = [Grain(SC-Orders SL Update).# Order Intake RC]
 [SO Item Cost RC]=[Grain(SC-Orders SL Update).# SO Item Cost RC]
 
 WRITERECORD
