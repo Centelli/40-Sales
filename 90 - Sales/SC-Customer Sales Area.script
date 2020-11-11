@@ -2,7 +2,17 @@ PRINT [KNVV.KNVV_KUNNR]+'_'+[KNVV.KNVV_VKORG]
 PRINT 'IN: '+[InSales.KNVP_KUNN2]+' OUT: '+[OutSales.KNVP_KUNN2]
 
 [CustArea Key]=[KNVV.KNVV_KUNNR]+''+[KNVV.KNVV_VKORG]
-[Inside Sales Key]=[InSales.KNVP_KUNN2]
+// HSBI-32 - Inside sales counter is sometimes not always 000.
+IF [InSales.KNVP_KUNN2] is not null then
+  [Inside Sales Key]=[InSales.KNVP_KUNN2]
+ElseIf [InSales1.KNVP_KUNN2] is not null then
+  [Inside Sales Key]=[InSales1.KNVP_KUNN2]
+ElseIf [InSales2.KNVP_KUNN2] is not null then
+  [Inside Sales Key]=[InSales2.KNVP_KUNN2]
+Elseif [InSales3.KNVP_KUNN2] is not null then
+  [Inside Sales Key]=[InSales3.KNVP_KUNN2]
+End IF
+
 [Outside Sales Key]=[OutSales.KNVP_KUNN2]
 [Customer Key]=[KNVV.KNVV_KUNNR]
 [Comp Code Key]=[KNVV.TVKO_BUKRS]
