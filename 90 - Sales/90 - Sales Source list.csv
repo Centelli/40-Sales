@@ -82,7 +82,7 @@ tbl_dim_market,False,1.1.Files
 tbl_dim_market_role,False,1.1.Files
 tbl_dim_sales_region,False,1.1.Files
 SC-Division,False,1.2.Dimensions;SC-Division
-VBKD,False,1.1.Transaction;ST_VBKD
+VBKD,False,1.1.Transaction;ST_VBKD;Order Rebuild v0
 SQL_I2_vw_Sales_Org,False,1.1.SQL Sources
 SC-Sales Org,False,1.2.Dimensions;SC-Sales Org
 SQL_vw_bi_ICOGS,False,1.1.SQL Sources
@@ -122,8 +122,8 @@ Test,False,Test
 Test Date,False,
 VBEP,True,ST-VBEP
 VBKD-For Backlog,False,1.5.Backlog;ST-VBKD-For Backlog
-VBAK_VBAP_VBEP For Backlog,False,ST-VBAK_VBAP_VBEP For Backlog
-SC-VBAK_VBAP_VBEP History,False,SC-VBAK_VBAP_VBEP History;Order Rebuild
+VBAK_VBAP_VBEP For Backlog,False,ST-VBAK_VBAP_VBEP For Backlog;Order Rebuild v0
+SC-VBAK_VBAP_VBEP History,False,SC-VBAK_VBAP_VBEP History;Order Rebuild;Order Rebuild v1
 tbl_vc_item,False,1.1.Files
 SC-Orders SL VC Update,False,SC-Orders SL VC Update
 SC-Item VC File,False,1.2.Dimensions;SC-Item VC File
@@ -171,9 +171,9 @@ SFDC_Account,False,
 SC-HUB-885 Order Cancellation,False,SC-HUB-885 Order Cancellation
 HUB-885 Order Cancellations,False,ST-HUB-885 Orders
 SC-HUB-885 Order Cleanup,False,SC-HUB-885 Order Cleanup
-SC-Backlog Warmup,True,1.5.Backlog;SC-Backlog Warmup
+SC-Backlog Warmup,False,1.1.Transaction;SC-Backlog Warmup
 SC-Backlog Temp,True,1.5.Backlog;SC-Backlog Warmup;SC-Backlog Temp
-SC-Orders SL Warmup,False,SC-Orders SL Warmup;1.3.Orders SL
+SC-Orders SL Warmup,False,1.1.Transaction;SC-Orders SL Warmup;Order Rebuild v1
 SC-Invoices Update,False,SC-Invoices Update
 SC-Migration Orders Clean,True,SC-Migration Order Clean
 SC-Migration Invoice Clean,True,SC-Migration Inv Clean
