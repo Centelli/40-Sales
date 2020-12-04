@@ -3,14 +3,23 @@ PRINT 'IN: '+[InSales.KNVP_KUNN2]+' OUT: '+[OutSales.KNVP_KUNN2]
 
 [CustArea Key]=[KNVV.KNVV_KUNNR]+''+[KNVV.KNVV_VKORG]
 // HSBI-32 - Inside sales counter is sometimes not always 000.
+Dim [mInSales] as Map(Varchar(10),Varchar(40)) = SELECT [KNA1.KNA1_KUNNR], [KNA1.KNA1_NAME1] FROM [KNA1]
 IF [InSales.KNVP_KUNN2] is not null then
   [Inside Sales Key]=[InSales.KNVP_KUNN2]
+  [Inside Sales]=[InCust.KNA1_NAME1]
+  [Inside Sales AG]=[InCust.KNA1_KTOKD]
 ElseIf [InSales1.KNVP_KUNN2] is not null then
   [Inside Sales Key]=[InSales1.KNVP_KUNN2]
+  [Inside Sales] = [mInSales]([InSales1.KNVP_KUNN2])
+  [Inside Sales AG]=''
 ElseIf [InSales2.KNVP_KUNN2] is not null then
   [Inside Sales Key]=[InSales2.KNVP_KUNN2]
+  [Inside Sales] = [mInSales]([InSales2.KNVP_KUNN2])
+  [Inside Sales AG]=''
 Elseif [InSales3.KNVP_KUNN2] is not null then
   [Inside Sales Key]=[InSales3.KNVP_KUNN2]
+  [Inside Sales] = [mInSales]([InSales3.KNVP_KUNN2])
+  [Inside Sales AG]=''
 End IF
 
 [Outside Sales Key]=[OutSales.KNVP_KUNN2]
@@ -42,7 +51,5 @@ END IF
 [Global Sales AD ID]=[SC-Employee Hierarchy.Managerx4 AD ID]
 [Global Sales]=[SC-Employee Hierarchy.Managerx4 Name]
 
-[Inside Sales]=[InCust.KNA1_NAME1]
-[Inside Sales AG]=[InCust.KNA1_KTOKD]
 
 WRITERECORD
