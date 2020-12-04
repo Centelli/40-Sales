@@ -439,6 +439,8 @@ SC-Customer Sales Area,Global Sales AD ID,Varchar,50,Customer Sales Area,Custome
 SC-Customer Sales Area,Global Sales,Varchar,100,Customer Sales Area,Customer Sales Area,False,False,False,
 SC-Customer Sales Area,Inside Sales,Varchar,77,Customer Sales Area,Customer Sales Area,False,False,False,
 SC-Customer Sales Area,Inside Sales AG,Varchar,10,Customer Sales Area,Customer Sales Area,False,False,False,
+SC-Customer Sales Area,Referred to Key,Varchar,10,Customer Sales Area,Customer Sales Area,False,False,False,
+SC-Customer Sales Area,Referred to,Varchar,40,Customer Sales Area,Customer Sales Area,False,False,False,
 KNVV,KNVV_MANDT,Varchar,3,,,True,False,False,
 KNVV,KNVV_KUNNR,Varchar,10,,,True,False,False,
 KNVV,KNVV_VKORG,Varchar,4,,,True,False,False,

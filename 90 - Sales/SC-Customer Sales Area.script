@@ -1,25 +1,28 @@
 PRINT [KNVV.KNVV_KUNNR]+'_'+[KNVV.KNVV_VKORG]
 PRINT 'IN: '+[InSales.KNVP_KUNN2]+' OUT: '+[OutSales.KNVP_KUNN2]
 
+Dim [mKNA1] as Map(Varchar(10),Varchar(40)) = SELECT [KNA1.KNA1_KUNNR], [KNA1.KNA1_NAME1] FROM [KNA1]
+
 [CustArea Key]=[KNVV.KNVV_KUNNR]+''+[KNVV.KNVV_VKORG]
 // HSBI-32 - Inside sales counter is sometimes not always 000.
-Dim [mInSales] as Map(Varchar(10),Varchar(40)) = SELECT [KNA1.KNA1_KUNNR], [KNA1.KNA1_NAME1] FROM [KNA1]
+
 IF [InSales.KNVP_KUNN2] is not null then
   [Inside Sales Key]=[InSales.KNVP_KUNN2]
   [Inside Sales]=[InCust.KNA1_NAME1]
   [Inside Sales AG]=[InCust.KNA1_KTOKD]
 ElseIf [InSales1.KNVP_KUNN2] is not null then
   [Inside Sales Key]=[InSales1.KNVP_KUNN2]
-  [Inside Sales] = [mInSales]([InSales1.KNVP_KUNN2])
+  [Inside Sales] = [mKNA1]([InSales1.KNVP_KUNN2])
   [Inside Sales AG]=''
 ElseIf [InSales2.KNVP_KUNN2] is not null then
   [Inside Sales Key]=[InSales2.KNVP_KUNN2]
-  [Inside Sales] = [mInSales]([InSales2.KNVP_KUNN2])
+  [Inside Sales] = [mKNA1]([InSales2.KNVP_KUNN2])
   [Inside Sales AG]=''
-Elseif [InSales3.KNVP_KUNN2] is not null then
-  [Inside Sales Key]=[InSales3.KNVP_KUNN2]
-  [Inside Sales] = [mInSales]([InSales3.KNVP_KUNN2])
-  [Inside Sales AG]=''
+// HSBI-42 Removed to make space for partner function ZR
+// Elseif [InSales3.KNVP_KUNN2] is not null then
+//  [Inside Sales Key]=[InSales3.KNVP_KUNN2]
+//  [Inside Sales] = [mKNA1]([InSales3.KNVP_KUNN2])
+//  [Inside Sales AG]=''
 End IF
 
 [Outside Sales Key]=[OutSales.KNVP_KUNN2]
@@ -50,6 +53,9 @@ END IF
 [RMD]=[SC-Employee Hierarchy.Managerx3 Name]
 [Global Sales AD ID]=[SC-Employee Hierarchy.Managerx4 AD ID]
 [Global Sales]=[SC-Employee Hierarchy.Managerx4 Name]
+//HSBI-42 - Referred to added
+[Referred to Key] = [ReferrTo.KNVP_KUNN2] 
+[Referred to] = [mKNA1]([ReferrTo.KNVP_KUNN2])
 
 
 WRITERECORD
