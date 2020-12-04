@@ -115,7 +115,8 @@ IF [SC-Orders SL.SO Document Type] IN ('ZFOC') THEN
 [Order Intake RC]=0.00
 // HUB-648 - Credit memo requests
 // HUB-781 - Incorrect Order Intake for ZRE and HUB-775 - ZROB to be treated same as ZRE
-ELSEIF [vOrdQty] > 0.00 or [SC-Orders SL.SO Document Type] IN ('ZG2', 'ZG2M', 'ZRE', 'ZROB') then
+// HSBI-20 - ZKR Records from 09Nov2020
+ELSEIF [vOrdQty] > 0.00 or [SC-Orders SL.SO Document Type] IN ('ZG2', 'ZG2M', 'ZRE', 'ZROB', 'ZKR') then
 [Order Intake DC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake DC],0.00)/[vOrdQty])
 [Order Intake GC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake GC],0.00)/[vOrdQty])
 [Order Intake HC]=[vSchedQty]*(IFNULL([SC-Orders SL.Order Intake HC],0.00)/[vOrdQty])
