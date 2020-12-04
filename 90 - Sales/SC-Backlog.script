@@ -11,8 +11,8 @@ FUNCTION [CheckValue]([Input] as Varchar(21)) as Float
 End function 
 
 PRINT 'Processing New Record'
-PRINT [VBEP.VBAP_VBELN] + ':' + [VBEP.VBAP_POSNR] + ':' + [VBEP.VBEP_ETENR] + ':' + [Invoice.SI Reference SO Key] + ':' + [VBEP.VBUP_GBSTA] 
-PRINT 'Order: ' + [VBEP.VBAP_VBELN] + ':' + [VBEP.VBAP_POSNR] + 'Schedule Line Count:' + count([OrderItem.VBEP_ETENR])
+PRINT [VBEP.VBAP_VBELN] + ':' + [VBEP.VBAP_POSNR] + ':' + [VBEP.VBEP_ETENR] + ':' + [VBEP.Invoice_Invoice Qty] + ':' + [VBEP.VBUP_GBSTA] 
+PRINT 'Order: ' + [VBEP.VBAP_VBELN] + ':' + [VBEP.VBAP_POSNR] + 'Schedule Line Count:' + [VBEP.OrderItem_Count_ETENR]
 // PRINT 'Order: ' + [Grain(SC-Orders SL Update).Sales Order Number] + ' Item: ' + [Grain(SC-Orders SL Update).Sales Order Item] + ' ScL: ' + [Grain(SC-Orders SL Update).Sales Order ScL Line]
 // PRINT 'Order: ' + [Grain(SC-Orders SL Update).# RecType]
 
@@ -31,6 +31,7 @@ Dim [vExRateDCtoHC] as Float
 Dim [vInvoiceBacklogDC] as Float
 Dim [vOrderBacklogDC] as Float
 Dim [vMatKey] as Varchar(18)
+Dim [vVBKD_KURSK] as Float
 
 
 //HUB-821 - Check whether Backlog is applicable determined here...
@@ -51,7 +52,7 @@ IF [VBEP.VBUP_GBSTA] = 'C' THEN
    [vBacklogFlag] = 'Y'
   END IF 
  ELSE
-  IF [SC-Orders for Backlog Condensed.Order Source] = 'Delivery' THEN
+  IF [VBEP.Condensed_Order Source] = 'Delivery' THEN
    [vBacklogFlag] = 'Y'
   ELSE
    [vBacklogFlag] = 'N'
@@ -65,7 +66,7 @@ ELSE
  END IF 
 END IF
 
-PRINT '[VBEP.VBUP_GBSTA]: ' + [VBEP.VBUP_GBSTA] + ' [VBEP.VBAP_FKREL]:' + [VBEP.VBAP_FKREL] + ' [VBEP.VBUP_FKSAA]:' + [VBEP.VBUP_FKSAA] + ' [SC-Orders for Backlog Condensed.Order Source]:' + [SC-Orders for Backlog Condensed.Order Source] + ' [VBEP.VBUP_ABSTA]:' + [VBEP.VBUP_ABSTA]
+PRINT '[VBEP.VBUP_GBSTA]: ' + [VBEP.VBUP_GBSTA] + ' [VBEP.VBAP_FKREL]:' + [VBEP.VBAP_FKREL] + ' [VBEP.VBUP_FKSAA]:' + [VBEP.VBUP_FKSAA] + ' [VBEP.Condensed_Order Source]:' + [VBEP.Condensed_Order Source] + ' [VBEP.VBUP_ABSTA]:' + [VBEP.VBUP_ABSTA]
 PRINT '[vBacklogFlag] :' + [vBacklogFlag]
 
 
@@ -78,8 +79,8 @@ ELSE
 END IF
 
 // Changing order quantity to be based on the data extract rather than the warehouse
-/* IF SUM([Grain(SC-Orders SL Update).Order Qty]) is not null then
-  [vOrderQty] = SUM([Grain(SC-Orders SL Update).Order Qty])
+/* IF [VBEP.SUM_ORDER_QTY] is not null then
+  [vOrderQty] = [VBEP.SUM_ORDER_QTY]
 ELSE
   [vOrderQty] = [vVBAPQty]
 end if
@@ -96,29 +97,29 @@ ELSEIF [VBEP.VBAK_AUART] = 'ZG2M' THEN
   [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBAP_ZMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00))) * -1
 ELSE
   [vOrderQty] = (ifnull(FLOAT([CheckValue]([VBEP.VBEP_WMENG])),0.00)*(ifnull(FLOAT(([VBEP.VBAP_UMVKZ])),0.00)/ifnull(FLOAT(([VBEP.VBAP_UMVKN])),0.00)))
-  IF SUM([Grain(SC-Orders SL Update).Order Qty]) < [vOrderQty] and SUM([Grain(SC-Orders SL Update).Order Qty]) is not null THEN
+  IF [VBEP.SUM_ORDER_QTY] < [vOrderQty] and [VBEP.SUM_ORDER_QTY] is not null THEN
     Print 'WARN: Adjusting order quantity to '
-    [vOrderQty] = SUM([Grain(SC-Orders SL Update).Order Qty])
+    [vOrderQty] = [VBEP.SUM_ORDER_QTY]
   end if
 END IF
 
 if [VBEP.VBAP_VBELN] = '0010260855' and [VBEP.VBAP_POSNR] = '000010' then
-  print 'WARN: Dodgy order check:' + SUM([Grain(SC-Orders SL Update).Order Qty]) + ':' + [vOrderQty] 
+  print 'WARN: Dodgy order check:' + [VBEP.SUM_ORDER_QTY] + ':' + [vOrderQty] 
 //  [vOrderQty] = 2000.00
 end if
 
 print 'Check if there is order quantity on the Schedule line: ' + [VBEP.VBEP_WMENG] + ':' + [vOrderQty]
 
 // Changing to remove reference to Warehouse - always use extracted values
-// IF sum([Grain(SC-Orders SL Update).Order Intake DC]) is not null then
-//  [vOrderBacklogDC] = sum([Grain(SC-Orders SL Update).Order Intake DC])
+// IF [VBEP.SUM_ORDER_DC] is not null then
+//  [vOrderBacklogDC] = [VBEP.SUM_ORDER_DC]
 // ELSE
   [vOrderBacklogDC] = ifnull(float([CheckValue]([VBEP.VBAP_NETWR])),0.00) * ( [vOrderQty] / [vVBAPQty])
 // END IF
 
 //IF [VBEP.VBUK_SPSTG] = 'C' THEN
 //HUB-791
-print 'HUB-791:VBUK-CMGST:' + [VBEP.VBUK_CMGST] + ':ETENR:' + [VBEP.VBEP_ETENR] + ':Sum of BMENG:' + sum([OrderItem.VBEP_BMENG]) + ':KWMENG:'+ [VBEP.VBAP_KWMENG]
+print 'HUB-791:VBUK-CMGST:' + [VBEP.VBUK_CMGST] + ':ETENR:' + [VBEP.VBEP_ETENR] + ':Sum of BMENG:' + [VBEP.OrderItem_Sum_BMENG] + ':KWMENG:'+ [VBEP.VBAP_KWMENG]
 IF [VBEP.VBUK_CMGST] = 'B' THEN
   IF [VBEP.VBEP_ETENR] IS NOT NULL and ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00) <> 0.00 THEN
     [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBEP_WMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
@@ -130,7 +131,7 @@ IF [VBEP.VBUK_CMGST] = 'B' THEN
     [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))    
   END IF 
 ELSE
-  IF [VBEP.VBEP_ETENR] IS NOT NULL and sum([OrderItem.VBEP_BMENG]) <> 0.00 THEN
+  IF [VBEP.VBEP_ETENR] IS NOT NULL and [VBEP.OrderItem_Sum_BMENG] <> 0.00 THEN
     [vSchedQty] = ifnull([VBEP.VBEP_BMENG],0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
   ELSE
     [vSchedQty] = ifnull(FLOAT([CheckValue]([VBEP.VBAP_KWMENG])),0.00) *(ifnull([VBEP.VBAP_UMVKZ],0.00)/ifnull([VBEP.VBAP_UMVKN],1.00))
@@ -147,43 +148,30 @@ IF [VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON', 'ZREP') then
 END IF
 
 print 'VBAP_KWMENG' + [vVBAPQty] + ':' + [VBEP.VBAP_KWMENG] + ':SchedQty:' + [vSchedQty] + ':' + [VBEP.VBEP_BMENG] + ':InvoiceBacklogDC:' + [vInvoiceBacklogDC] + ':' + [VBEP.VBAP_NETWR] + ':Order Qty:' + [vOrderQty] + ':vOrderBacklogDC:' + [vOrderBacklogDC]
-PRINT 'Invoice Qty ' + [Invoice.Invoice Qty]
+PRINT 'Invoice Qty ' + [VBEP.Invoice_Invoice Qty]
 
-// [Sales Order Number] = [Grain(SC-Orders SL Update).Sales Order Number]
 [Sales Order Number]=[VBEP.VBAP_VBELN]
 
-// [Sales Order Item] = [Grain(SC-Orders SL Update).Sales Order Item]
 [Sales Order Item]=[VBEP.VBAP_POSNR]
 
-// [Sales Order ScL Line] = [Grain(SC-Orders SL Update).Sales Order ScL Line]
 [Sales Order ScL Line]=[VBEP.VBEP_ETENR]
 
-// [SO Date] = [Level(Sales Order.Sales Order).SO Date]
 [SO Date]=[VBEP.VBAK_AUDAT]
 
-// [SO Document Category] = [Level(Sales Order.Sales Order).SO Document Category]
 [SO Document Category]=[VBEP.VBAK_VBTYP]
 
-// [SO Transaction Group] = [Level(Sales Order.Sales Order).SO Transaction Group]
-
-//[SO Document Type] = [Level(Sales Order.Sales Order).SO Document Type]
 [SO Document Type]=[VBEP.VBAK_AUART]
-  [Comp Code Key] = [VBEP.VBAK_BUKRS_VF]
+[Comp Code Key] = [VBEP.VBAK_BUKRS_VF]
 
-// [Sales Org Key] = [Grain(SC-Orders SL Update).Sales Org Key]
 [Sales Org Key]=[VBEP.VBAK_VKORG]
 
-// [Distr Channel] = [Level(Sales Order.Sales Order).Distr Channel]
 [Distr Channel]=[VBEP.VBAK_VTWEG]
 
-// [Customer Key] = [Grain(SC-Orders SL Update).Customer Key]
 [Customer Key]=[VBEP.VBAK_KUNNR]
 
-// [SO Header Change Date] = [Level(Sales Order.Sales Order).SO Header Change Date]
 [SO Header Change Date]=[VBEP.VBAK_AEDAT]
   
 
-// [Item Key] = [Grain(SC-Orders SL Update).Item Key]
 /*
 Item Key manipulation for VC items 
 */  
@@ -197,146 +185,138 @@ ELSE
 END IF  
 [Item Key]=[vMatKey]
 
-// [Item category] = [Level(Sales Order.Sales Order).Item category]
 [Item category]=[VBEP.VBAP_PSTYV]
 
 
-//[Rejection Reason Key] = [Grain(SC-Orders SL Update).Rejection Reason Key]
 [Rejection Reason Key]=[VBEP.VBAP_ABGRU]
 
-// [Base Unit] = [Level(Sales Order.Sales Order).Base Unit]
 [Base Unit]=[VBEP.VBAP_MEINS]
 
-// [Division Key] = [Grain(SC-Orders SL Update).Division Key]
 [Division Key]=[VBEP.VBAP_SPART]
 
-// [Plant] = [Level(Sales Order.Sales Order).Plant]
 [Plant]=[VBEP.VBAP_WERKS]
 
-// [Currency Key DC] = [Level(Sales Order.Sales Order).Currency Key DC]
 [Currency Key DC] = [VBEP.VBAP_WAERK]
 
 [Currency Key GC] = 'CHF'
 
-//[Currency Key HC] = [Level(Sales Order.Sales Order).Currency Key HC]
-[Currency Key HC] = [LEVEL(Company.Company).Comp Currency Key]
+[Currency Key HC] = [VBEP.Company_Comp Currency Key]
 
 [Analysis Date] = NOWDATE
-// [Pricing Date] = [Level(Sales Order.Sales Order).Pricing Date]
-// [Pricing Date]=[VBEP.VBKD_PRSDT]
 
-// [Sales Order Key] = [Level(Sales Order.Sales Order).Sales Order Key]
 [Sales Order Key] = [VBEP.VBAP_VBELN]+''+[VBEP.VBAP_POSNR]
 
-// [Current Record] = [Level(Sales Order.Sales Order).Current Record]
 [Current Record] = 1
 
-// [CustArea Key] = [Grain(SC-Orders SL Update).CustArea Key]
 [CustArea Key]=[VBEP.VBAK_KUNNR]+''+[VBEP.VBAK_VKORG]
 
-// [SO Item Delivery Status] = [Level(Sales Order.Sales Order).SO Item Delivery Status]
 [SO Item Delivery Status]=[VBEP.VBUP_LFGSA]
 
-// [SO Order Delivery Status] = [Level(Sales Order.Sales Order).SO Order Delivery Status]
 [SO Order Delivery Status]=[VBEP.VBUP_LFSTA]
 
-// [SO Item Rejection Status] = [Level(Sales Order.Sales Order).SO Item Rejection Status]
 [SO Item Rejection Status]=[VBEP.VBUP_ABSTA]
 
-// [SO Item Overall Status] = [Level(Sales Order.Sales Order).SO Item Overall Status]
 [SO Item Overall Status]=[VBEP.VBUP_GBSTA]
 
-// [DelMarker] = [Level(Sales Order.Sales Order).DelMarker]
 [DelMarker] = [VBEP.VBAP_VBELN]+'_'+[VBEP.VBAP_POSNR]
 
-// [Source] = [Level(Sales Order.Sales Order).Source]
 [Source] = 'SAP ECC'
 
-// [Requirement Type Key] = [Level(Sales Order.Sales Order).Requirement Type Key]
 [Requirement Type Key] = [VBEP.VBAP_BEDAE]
 
-//[Object Number] = [Level(Sales Order.Sales Order).Object Number]
 [Object Number] = [VBEP.VBAP_OBJNR]
 
-// [Comp Code Key] = [Grain(SC-Orders SL Update).Comp Code Key]
 [Comp Code Key] = [VBEP.VBAK_BUKRS_VF]
 
-// [ScL Delivery Date] = [Level(Sales Order.Sales Order).ScL Delivery Date]
 [ScL Delivery Date] = [VBEP.VBEP_EDATU]
 
-// [ScL Category] = [Level(Sales Order.Sales Order).ScL Category]
 [ScL Category] = [VBEP.VBEP_ETTYP]
 
-// [ScL Type] = [Level(Sales Order.Sales Order).ScL Type]
 [ScL Type] = [VBEP.VBEP_ETART]
 
-// [ScL Requirement Type] = [Level(Sales Order.Sales Order).ScL Requirement Type]
 [ScL Requirement Type] = [VBEP.VBEP_BDART]
 
-// [ScL Quantity] = SUM([Level(Sales Order.Sales Order).ScL Quantity])
 [ScL Quantity] = [vSchedQty]
 
-// [SO Doc Condition] = [Level(Sales Order.Sales Order).SO Doc Condition]
 [SO Doc Condition]=[VBEP.VBAK_KNUMV]
 
-// [Delivery Customer Key] = [Grain(SC-Orders SL Update).Delivery Customer Key]
 [Delivery Customer Key]=[VBEP.VBPA_KUNNR]
 
-// [Security Key] = [Grain(SC-Orders SL Update).Security Key]
 [Security Key] = 'N' + [VBEP.VBAK_VKORG] + '' + [VBEP.VBAP_SPART] + '' + [VBEP.VBAK_KUNNR]
 
-// [Currency Key RC] = [Level(Sales Order.Sales Order).Currency Key RC]
-[Currency Key RC] = [tbl_dim_sales_region.regional_currency_code]
+[Currency Key RC] = [VBEP.region_sales_office_code]
 
-// [Ex Rate RC] = [Level(Sales Order.Sales Order).Ex Rate RC]
-
-[RecType] = 'Backlog' //[Level(Sales Order.Sales Order).RecType]
+[RecType] = 'Backlog'
 //HUB-660 - add goods issue date for shipping backlog
 [ScL Goods Issue Date] = [VBEP.VBEP_WADAT]
-[Billing Date] = [SC-Orders for Backlog Condensed.VBKD_FKDAT]
-IF [SC-Orders for Backlog Condensed.VBKD_FKDAT] is null then
+[Billing Date] = [VBEP.Condensed_VBKD_FKDAT]
+IF [VBEP.Condensed_VBKD_FKDAT] is null then
   print 'ERROR: FKDAT is null'
 END IF
 // Backlog specific fields
-[Backlog Trigger] = [SC-Orders for Backlog Condensed.Order Source]
+[Backlog Trigger] = [VBEP.Condensed_Order Source]
 /*
 If order Qty NULL means no order line data for this schedule line (theoretically shouldn't happen..)
 */
 
+IF [BD.VBKD_VBELN] IS NOT NULL THEN
+ [vVBKD_KURSK] = [CheckValue]([BD.VBKD_KURSK])
+ELSEIF [VBEP.VBKD_KURSK] IS NOT NULL THEN
+ [vVBKD_KURSK] = [CheckValue]([VBEP.VBKD_KURSK])
+ELSE
+ [vVBKD_KURSK] = 1.00
+END IF
+
+// USE TCURF DATA to apply SAP multiplier, applied to DC to HC Ex RATE
+IF IFNULL([SC-TCURF.TCURF_FFACT],'0') <> '0' AND IFNULL([SC-TCURF.TCURF_TFACT],'0') <> '0' THEN
+ [vVBKD_KURSK] = [vVBKD_KURSK]/(IFNULL(FLOAT([SC-TCURF.TCURF_FFACT]),0.00)/FLOAT([SC-TCURF.TCURF_TFACT]))
+ELSEIF [SC-TCURF.TCURF_TFACT] = '0' THEN
+ [vVBKD_KURSK] = [vVBKD_KURSK]/FLOAT([SC-TCURF.TCURF_FFACT])
+ELSE
+ [vVBKD_KURSK] = [vVBKD_KURSK]
+END IF
+
 
 [vExRateHCtoGC] = 1
-IF [LEVEL(Company.Company).Comp Currency Key] <> 'CHF' THEN
-  IF [HCRate.Exchange Rate] IS NOT NULL THEN
-    [vExRateHCtoGC] = [HCRate.Exchange Rate]
+IF [VBEP.Company_Comp Currency Key] <> 'CHF' THEN
+  IF [VBEP.HC Ex Rate] IS NOT NULL THEN
+    [vExRateHCtoGC] = [VBEP.HC Ex Rate]
   ELSE
     [vExRateHCtoGC] = 1
-    PRINT 'ERROR: Determining Ex Rate for HC to CHF: RATE FOR vExRateHCtoCHF '+[LEVEL(Company.Company).Comp Currency Key]+' NOT FOUND - SET TO 1'
+    PRINT 'ERROR: Determining Ex Rate for HC to CHF: RATE FOR vExRateHCtoCHF '+[VBEP.Company_Comp Currency Key]+' NOT FOUND - SET TO 1'
   END IF
 END IF
 
 [vExRateDCtoHC] = 1
-IF ([VBEP.VBAP_WAERK] <> [LEVEL(Company.Company).Comp Currency Key]) THEN
+IF ([VBEP.VBAP_WAERK] <> [VBEP.Company_Comp Currency Key]) THEN
   IF [VBEP.VBAP_WAERK] <> 'CHF'  THEN
-    IF [DCRate.Exchange Rate] IS NOT NULL and [VBEP.VBAP_WAERK] is not null THEN
-      [vExRateDCtoHC] = [DCRate.Exchange Rate] / [vExRateHCtoGC]
-    ELSEIF [VBEP.VBAP_WAERK] is null THEN
-      [vExRateDCtoHC] = 1
+    IF [VBEP.DC Ex Rate] IS NOT NULL and [VBEP.VBAP_WAERK] is not null THEN
+      [vExRateDCtoHC] = [VBEP.DC Ex Rate] / [vExRateHCtoGC]
+    ELSEIF [vVBKD_KURSK] is not null THEN
+      IF [vVBKD_KURSK] > FLOAT(0.00) THEN
+        [vExRateDCtoHC] = [vVBKD_KURSK]
+      ELSEIF [vVBKD_KURSK] < FLOAT(0.00) THEN
+        [vExRateDCtoHC] = FLOAT(1/([vVBKD_KURSK]*-1))
+      END IF        
     ELSE
       PRINT 'ERROR: Determining Ex Rate for DC to HC: RATE FOR vExRateDCtoHC '+[VBEP.VBAP_WAERK]+' NOT FOUND - SET TO 1'
+	  [vExRateDCtoHC] = 1
     END IF
   ELSE
-    print 'Reverse Ex Rate:DC:' + [VBEP.VBAP_WAERK] + ':HC:' + [LEVEL(Company.Company).Comp Currency Key] + ':' + [HCRate.Exchange Rate]
-  	[vExRateDCtoHC] = 1 / [HCRate.Exchange Rate]
+    print 'Reverse Ex Rate:DC:' + [VBEP.VBAP_WAERK] + ':HC:' + [VBEP.Company_Comp Currency Key] + ':' + [VBEP.HC Ex Rate]
+    [vExRateDCtoHC] = 1 / [VBEP.HC Ex Rate]
   END IF
 END IF
 
+
+
 [vExRateHCtoRC] = 1
-IF [tbl_dim_sales_region.regional_currency_code] <> 'CHF' THEN
-  IF [RCRate.Exchange Rate] IS NOT NULL THEN
-    [vExRateHCtoRC] = [vExRateHCtoGC] / [RCRate.Exchange Rate] 
+IF [VBEP.region_regional_currency_code] <> 'CHF' THEN
+  IF [VBEP.RC Ex Rate] IS NOT NULL THEN
+    [vExRateHCtoRC] = [vExRateHCtoGC] / [VBEP.RC Ex Rate] 
   ELSE
     [vExRateHCtoRC] = 1
-    PRINT 'ERROR: Determining Ex Rate for RC to CHF: RATE FOR vExRateRCtoCHF '+[tbl_dim_sales_region.regional_currency_code]+' NOT FOUND - SET TO 1'
+    PRINT 'ERROR: Determining Ex Rate for RC to CHF: RATE FOR vExRateRCtoCHF '+[VBEP.region_regional_currency_code]+' NOT FOUND - SET TO 1'
   END IF
 END IF
 
@@ -346,7 +326,7 @@ END IF
 [Ex Rate RC]=[vExRateHCtoRC]
 
 IF [VBEP.VBAP_WAERK] is not null then
-  print 'Ex Rates' + ':' + [VBEP.VBAP_WAERK] + ':' + [DCRate.Exchange Rate] + ':' + [vExRateDCtoHC] + ':' + [LEVEL(Company.Company).Comp Currency Key] + ':' + [HCRate.Exchange Rate] + ':' + [vExRateHCtoGC] + ':' + [tbl_dim_sales_region.regional_currency_code] + ':' + [RCRate.Exchange Rate] + ':' + [vExRateHCtoRC]
+  print 'Ex Rates' + ':' + [VBEP.VBAP_WAERK] + ':' + [VBEP.DC Ex Rate] + ':' + [vExRateDCtoHC] + ':' + [VBEP.Company_Comp Currency Key] + ':' + [VBEP.HC Ex Rate] + ':' + [vExRateHCtoGC] + ':' + [VBEP.region_regional_currency_code] + ':' + [VBEP.RC Ex Rate] + ':' + [vExRateHCtoRC]
 ELSE
   print 'Ex Rates ERROR - [VBEP.VBAP_WAERK] is null' 
 END IF
@@ -403,9 +383,9 @@ IF [vBacklogFlag] = 'Y' THEN
               [Invoice Backlog RC] = [vInvoiceBacklogDC] *  [vExRateDCtoHC] * [vExRateHCtoRC]
             ELSE
               PRINT 'ERROR No Order Intake DC, so using HC'
-//            [Invoice Backlog GC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateHCtoGC]
-//            [Invoice Backlog HC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) 
-//            [Invoice Backlog RC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateDCtoHC] * [vExRateHCtoRC]
+//            [Invoice Backlog GC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateHCtoGC]
+//            [Invoice Backlog HC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * [VBEP.SUM_ORDER_HC]) 
+//            [Invoice Backlog RC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateDCtoHC] * [vExRateHCtoRC]
             END IF
          END IF
          IF [vInvRemainOrder] >= [vOrderQty] or [vOrderQty] = 0.00 THEN 
@@ -436,18 +416,18 @@ IF [vBacklogFlag] = 'Y' THEN
               [Order Backlog RC] = [vOrderBacklogDC] *  [vExRateDCtoHC] * [vExRateHCtoRC]
             ELSE
               PRINT 'ERROR No Order Intake DC, so using HC'
-//            [Order Backlog GC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateHCtoGC]
-//            [Order Backlog HC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) 
-//            [Order Backlog RC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateDCtoHC] * [vExRateHCtoRC]
+//            [Order Backlog GC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateHCtoGC]
+//            [Order Backlog HC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * [VBEP.SUM_ORDER_HC]) 
+//            [Order Backlog RC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateDCtoHC] * [vExRateHCtoRC]
             END IF
          END IF
       ELSE 
          PRINT '[vPrevKey] is not equal to [vOrdKey]'
          // For schedule agreements, all schedule lines are backlog
-         IF [VBEP.VBAK_AUART] <> 'ZLZ' THEN
-           [vInvRemain] = [Invoice.Invoice Qty]
-           [vInvRemainOrder] = [Invoice.Invoice Qty]
-           [vInvQty] = [Invoice.Invoice Qty]
+         IF [VBEP.VBAK_AUART] NOT IN ('ZLZ', 'ZLZM') THEN
+           [vInvRemain] = [VBEP.Invoice_Invoice Qty]
+           [vInvRemainOrder] = [VBEP.Invoice_Invoice Qty]
+           [vInvQty] = [VBEP.Invoice_Invoice Qty]
          ELSE
            print 'Schedule agreement'
            [vInvRemain] = 0.00
@@ -489,9 +469,9 @@ IF [vBacklogFlag] = 'Y' THEN
               [Invoice Backlog RC] = [vInvoiceBacklogDC] *  [vExRateDCtoHC] * [vExRateHCtoRC]
             ELSE
               PRINT 'ERROR: No Order Intake DC, so using HC'
-//                [Invoice Backlog GC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateHCtoGC]
-//                [Invoice Backlog HC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) 
-//                [Invoice Backlog RC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateDCtoHC] * [vExRateHCtoRC]
+//                [Invoice Backlog GC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateHCtoGC]
+//                [Invoice Backlog HC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * [VBEP.SUM_ORDER_HC]) 
+//                [Invoice Backlog RC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateDCtoHC] * [vExRateHCtoRC]
             END IF
          END IF
 
@@ -517,9 +497,9 @@ IF [vBacklogFlag] = 'Y' THEN
               [Order Backlog RC] = [vOrderBacklogDC] *  [vExRateDCtoHC] * [vExRateHCtoRC]
             ELSE
               PRINT 'ERROR No Order Intake DC, so using HC'
-//            [Order Backlog GC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateHCtoGC]
-//            [Order Backlog HC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) 
-//            [Order Backlog RC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateDCtoHC] * [vExRateHCtoRC]
+//            [Order Backlog GC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateHCtoGC]
+//            [Order Backlog HC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * [VBEP.SUM_ORDER_HC]) 
+//            [Order Backlog RC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateDCtoHC] * [vExRateHCtoRC]
             END IF
          END IF
 
@@ -530,10 +510,10 @@ IF [vBacklogFlag] = 'Y' THEN
       PRINT '[vPrevKey] is null'
       PRINT 'vKey:' + [vOrdKey]
      // For schedule agreements, all schedule lines are backlog
-     IF [VBEP.VBAK_AUART] <> 'ZLZ' THEN
-       [vInvRemain] = [Invoice.Invoice Qty]
-       [vInvRemainOrder] = [Invoice.Invoice Qty]
-       [vInvQty] = [Invoice.Invoice Qty]
+     IF [VBEP.VBAK_AUART] NOT IN ('ZLZ', 'ZLZM') THEN
+       [vInvRemain] = [VBEP.Invoice_Invoice Qty]
+       [vInvRemainOrder] = [VBEP.Invoice_Invoice Qty]
+       [vInvQty] = [VBEP.Invoice_Invoice Qty]
      ELSE
        print 'Schedule agreement'
        [vInvRemain] = 0.00
@@ -571,9 +551,9 @@ IF [vBacklogFlag] = 'Y' THEN
               [Invoice Backlog RC] = [vInvoiceBacklogDC] *  [vExRateDCtoHC] * [vExRateHCtoRC]
           ELSE
             PRINT 'ERROR: No Order Intake DC, so using HC - THIS SHOULD NEVER HAPPEN'
-//              [Invoice Backlog GC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateHCtoGC]
-//              [Invoice Backlog HC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) 
-//              [Invoice Backlog RC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateDCtoHC] * [vExRateHCtoRC]
+//              [Invoice Backlog GC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateHCtoGC]
+//              [Invoice Backlog HC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * [VBEP.SUM_ORDER_HC]) 
+//              [Invoice Backlog RC] = ((([vSchedQty] - [vInvRemain]) / [vVBAPQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateDCtoHC] * [vExRateHCtoRC]
           END IF
       END IF
       IF [vInvRemainOrder] >= [vOrderQty] THEN 
@@ -600,21 +580,26 @@ IF [vBacklogFlag] = 'Y' THEN
               [Order Backlog RC] = [vOrderBacklogDC] *  [vExRateDCtoHC] * [vExRateHCtoRC]
             ELSE
               PRINT 'ERROR No Order Intake DC, so using HC'
-//            [Order Backlog GC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateHCtoGC]
-//            [Order Backlog HC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) 
-//            [Order Backlog RC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * SUM([Grain(SC-Orders SL Update).Order Intake HC])) *  [vExRateDCtoHC] * [vExRateHCtoRC]
+//            [Order Backlog GC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateHCtoGC]
+//            [Order Backlog HC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * [VBEP.SUM_ORDER_HC]) 
+//            [Order Backlog RC] = ((([vOrderQty] - [vInvRemain]) / [vOrderQty]) * [VBEP.SUM_ORDER_HC]) *  [vExRateDCtoHC] * [vExRateHCtoRC]
             END IF
       END IF
    END IF
    [vPrevKey] = [vOrdKey]
-PRINT 'vWriteRecord:'+[vWriteRecord]+ ' Order:' + [VBEP.VBAP_VBELN] + ':' + [VBEP.VBAP_POSNR] + ':' + [VBEP.VBEP_ETENR]
-   IF [vWriteRecord] = 'X' and [Level(Customer.Customer).Customer Type] = 'Third' THEN 
+PRINT 'vWriteRecord:'+[vWriteRecord]+'_'+ [VBEP.Customer_Customer Type] + ' - Order:' + [VBEP.VBAP_VBELN] + ':' + [VBEP.VBAP_POSNR] + ':' + [VBEP.VBEP_ETENR] + ':' + [VBEP.VBAK_AUART] + ':' + [VBEP.VBEP_ETART]
+PRINT 'X0'
+   IF [vWriteRecord] = 'X' and [VBEP.Customer_Customer Type] = 'Third' THEN 
 // HUB-724 - 09Jul19 - Backlog only for ScL Type (VBEP-ETART) = 1
-     IF [VBEP.VBAK_AUART] = 'ZLZ' THEN
+     PRINT 'X1'
+     IF [VBEP.VBAK_AUART] IN ('ZLZ', 'ZLZM') THEN
+       PRINT 'X2'
        IF [VBEP.VBEP_ETART] = '1' THEN
+          PRINT 'X3'
           WRITERECORD
        END IF
      ELSE
+       PRINT 'X4'
        WRITERECORD
      END IF
    END IF

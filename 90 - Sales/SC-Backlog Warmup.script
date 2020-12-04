@@ -82,7 +82,7 @@
 [Invoice_Invoice Qty] = [Invoice.Invoice Qty]
 
 [DC Ex Rate] = [DCRate.Exchange Rate]
-
+ 
 [HC Ex Rate] = [HCRate.Exchange Rate]
 
 [RC Ex Rate] = [RCRate.Exchange Rate]
