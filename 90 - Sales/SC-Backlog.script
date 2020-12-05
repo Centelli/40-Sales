@@ -244,7 +244,9 @@ END IF
 
 [Security Key] = 'N' + [VBEP.VBAK_VKORG] + '' + [VBEP.VBAP_SPART] + '' + [VBEP.VBAK_KUNNR]
 
-[Currency Key RC] = [VBEP.region_sales_office_code]
+//HSBI-44 - Sales office key going to Currency Key RC
+[Currency Key RC] = [VBEP.region_regional_currency_code]
+[Sales Office Key] = [VBEP.region_sales_office_code]
 
 [RecType] = 'Backlog'
 //HUB-660 - add goods issue date for shipping backlog
