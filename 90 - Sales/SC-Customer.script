@@ -60,4 +60,7 @@ ELSE
  [Customer / Customer Group Key]=''
 END IF
 
+/* Project Momentum Default */
+[Profit Center Default]=[ZFI_MOM_PC_Cust.Prctr MARA]
+
 WRITERECORD

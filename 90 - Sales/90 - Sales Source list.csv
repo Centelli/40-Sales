@@ -178,3 +178,10 @@ SC-Invoices Update,False,SC-Invoices Update
 SC-Migration Orders Clean,True,SC-Migration Order Clean
 SC-Migration Invoice Clean,True,SC-Migration Inv Clean
 SC-Migration Dimension Clean,True,SC-Migration Dim Clean
+Profit Center,True,
+WBS Element,True,
+ZFI_MOM_PC,False,
+ZFI_MOM_DEFAULT,False,
+ZFI_MOM_EXMATGRP,False,
+ZFI_MOM_VC,False,
+tbl_WBS_element_Profit_center,True,

@@ -20,3 +20,7 @@ LEFT OUTER JOIN
 SELECT [tbl_dim_country.country_iso_alpha_code], [tbl_dim_country.subregion_key], [tbl_dim_country.subregion_name], [tbl_dim_country.area_key], [tbl_dim_country.area_name], [tbl_dim_country.region_key], [tbl_dim_country.region_name], [tbl_dim_country.country_name]
   FROM [tbl_dim_country]
   ON [KNA1.KNA1_LAND1] = [tbl_dim_country.country_iso_alpha_code]
+LEFT OUTER JOIN 
+SELECT [ZFI_MOM_PC_Cust.Industry code 1], [ZFI_MOM_PC_Cust.Prctr MARA]   
+FROM [ZFI_MOM_PC] 'ZFI_MOM_PC_Cust'
+ON [ZFI_MOM_PC_Cust.Industry code 1]=[KNA1.KNA1_BRAN1]

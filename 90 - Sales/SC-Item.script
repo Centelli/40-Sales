@@ -23,6 +23,11 @@
 [Solution]=[Structure_Dimension_Item.solution name]
 [Source]='SAP ECC'
 
+/*Momentum Profit Center derivations*/
+[Profit Center Default]=[ZFI_MOM_PC_Default.Prctr MARA] 
+[Profit Center ExtMatGrp]=[ZFI_MOM_PC_ExtMatGrp.Prctr MARA] 
+[Profit Center VCItems]=[ZFI_MOM_PC_VCItems.Prctr MARA]
+
 //WEEE Changes
 IF [AUSP.AUSP_OBJEK] = [MARA.MARA_MATNR] THEN
 [Item WEEE Relevant] = 'Yes'
