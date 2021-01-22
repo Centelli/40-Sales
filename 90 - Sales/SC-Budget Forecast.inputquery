@@ -5,7 +5,7 @@ SELECT [SQL Sales Budget Forecast.Version_Key], [SQL Sales Budget Forecast.Comp_
   FROM [SQL Sales Budget Forecast]
   ON DATEPART(YEAR,[SQL Workdays.day_code]) = [SQL Sales Budget Forecast.Year_Key] 
   and DATEPART(month,[SQL Workdays.day_code]) = [SQL Sales Budget Forecast.Month_Key] 
-and ([SQL Sales Budget Forecast.Year_Key] = '2018' or [SQL Sales Budget Forecast.Year_Key]  = '2019' or [SQL Sales Budget Forecast.Year_Key]  = '2020')
+and ([SQL Sales Budget Forecast.Year_Key] = '2018' or [SQL Sales Budget Forecast.Year_Key]  = '2019' or [SQL Sales Budget Forecast.Year_Key]  = '2020' or [SQL Sales Budget Forecast.Year_Key]  = '2021')
 INNER JOIN
 SELECT [tbl_dim_sales_region.regional_currency_code] from [tbl_dim_sales_region] on [tbl_dim_sales_region.sales_office_code] = [SQL Sales Budget Forecast.Sales_Office_Key]
 LEFT OUTER JOIN

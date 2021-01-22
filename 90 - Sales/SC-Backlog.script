@@ -142,7 +142,8 @@ END IF
 
 // HUB-728 - Order net set to zero for Stratos
 // HUB-885 - Order net set to zero for ZREP
-IF [VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON', 'ZREP') then
+// HSBI-49 - Order net set to zero for  'ZFOC' & 'ZFCC'
+IF [VBEP.VBAK_AUART] IN ('ZFOK', 'ZROK', 'ZRON', 'ZREP', 'ZFOC', 'ZFCC') then 
   [vInvoiceBacklogDC] = 0.00
   [vOrderBacklogDC] = 0.00
 END IF

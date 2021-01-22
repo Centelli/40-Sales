@@ -46,14 +46,14 @@ PRINT [Grain(SC-Orders SL Update).Sales Order2123327471]
 [Security Key] = [Grain(SC-Orders SL Update).# Security Key]
 [RecType] = [Level(Sales Order.Sales Order).RecType]
 
-[DelMarker] = [Grain(SC-Orders SL Update).# DelMarker]+'_SCLTYPE_4'
-[Source] = [Grain(SC-Orders SL Update).# Source]+' SC'
+[DelMarker] = [Grain(SC-Orders SL Update).# DelMarker]
+[Source] = [Grain(SC-Orders SL Update).# Source]
 
 [Analysis Date] = [Grain(SC-Orders SL Update).Analysis Date]
 
 [ScL Quantity] = [Grain(SC-Orders SL Update).# Order Qty]
 [Order Qty] = [Grain(SC-Orders SL Update).# Order Qty]
-
+/*
 [Currency Key DC]=[Level(Sales Order.Sales Order).Currency Key DC]
 [Ex Rate DC]=[Level(Sales Order.Sales Order).Ex Rate DC]
 [Order Intake DC]=[Grain(SC-Orders SL Update).# Order Intake DC]
@@ -73,5 +73,28 @@ PRINT [Grain(SC-Orders SL Update).Sales Order2123327471]
 [Ex Rate RC] =  [Level(Sales Order.Sales Order).Ex Rate RC]
 [Order Intake RC] = [Grain(SC-Orders SL Update).# Order Intake RC]
 [SO Item Cost RC]=[Grain(SC-Orders SL Update).# SO Item Cost RC]
+*/
+
+
+[Currency Key DC]=[Level(Sales Order.Sales Order).Currency Key DC]
+[Ex Rate DC]=[Level(Sales Order.Sales Order).Ex Rate DC]
+[Order Intake DC]= 0.0
+[SO Item Cost DC]= 0.0
+
+[Currency Key HC]=[Level(Sales Order.Sales Order).Currency Key HC]
+[Ex Rate HC]=[Level(Sales Order.Sales Order).Ex Rate HC]
+[Order Intake HC]= 0.0
+[SO Item Cost HC]= 0.0
+	  
+[Currency Key GC] = [Level(Sales Order.Sales Order).Currency Key GC]
+[Ex Rate GC] = [Level(Sales Order.Sales Order).Ex Rate GC]
+[Order Intake GC] = 0.0
+[SO Item Cost GC]= 0.0
+
+[Currency Key RC]=[Level(Sales Order.Sales Order).Currency Key RC]
+[Ex Rate RC] =  [Level(Sales Order.Sales Order).Ex Rate RC]
+[Order Intake RC] = 0.0
+[SO Item Cost RC] = 0.0
+
 
 WRITERECORD
