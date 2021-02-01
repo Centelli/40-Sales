@@ -44,10 +44,11 @@ End If
 [Analysis Date]=[SC-BKtel Sales.Date]
 [Comp Code Key]=[SC-BKtel Sales.Comp Code Key]
 [Division Key] = '21'
-
+[Profit Center Key] = '204'
 [Customer Key] = [SC-BKtel Sales.Customer Key]
 [CustArea Key] = [SC-BKtel Sales.Customer Key] + [SC-BKtel Sales.Comp Code Key] 
-[vSecurityKey] = [vSalesOrg] + '21' + [SC-BKtel Sales.Customer Key]
+[vSecurityKey] = [vSalesOrg] + '21' + '204' + [SC-BKtel Sales.Customer Key]
+[WBS Element] = '00000000'
 
 // [Delivery Customer Key]='DEL_I2_'+[SC-BKtel Sales.Customer_Delivery_Country]
 

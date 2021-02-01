@@ -1,0 +1,12 @@
+SELECT [Level(Customer.Customer).Customer], [Level(Customer.Customer).Customer Key], [Level(Customer.Customer).Account group], [Level(Customer.Customer).Market Segment Key], [Level(Customer.Customer).Source]
+  FROM [Level(Customer.Customer)]   
+
+LEFT OUTER JOIN
+SELECT [SC-Customer.Account group], [SC-Customer.Customer], [SC-Customer.Customer Key], [SC-Customer.Market Segment Key], [SC-Customer.Profit Center Default], [SC-Customer.Source] 
+  FROM [SC-Customer]
+    ON [SC-Customer.Customer Key] = [Level(Customer.Customer).Customer Key]
+	
+LEFT OUTER JOIN 
+SELECT [ZFI_MOM_PC_Cust.Industry code 1], [ZFI_MOM_PC_Cust.Prctr MARA]   
+FROM [ZFI_MOM_PC] 'ZFI_MOM_PC_Cust'
+ON [ZFI_MOM_PC_Cust.Industry code 1]=[Level(Customer.Customer).Market Segment Key]

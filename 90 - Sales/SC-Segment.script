@@ -1,0 +1,5 @@
+[Profit Center Key]=[tbl_dim_segment.profit_center_key]
+[Profit Center]=[tbl_dim_segment.profit_center]
+[Sub Segment]=[tbl_dim_segment.sub_segment]
+[Segment]=[tbl_dim_segment.segment]
+WRITERECORD

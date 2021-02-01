@@ -178,10 +178,21 @@ SC-Invoices Update,False,SC-Invoices Update
 SC-Migration Orders Clean,True,SC-Migration Order Clean
 SC-Migration Invoice Clean,True,SC-Migration Inv Clean
 SC-Migration Dimension Clean,True,SC-Migration Dim Clean
-Profit Center,True,
-WBS Element,True,
+Profit Center,False,
+WBS Element,False,
 ZFI_MOM_PC,False,
 ZFI_MOM_DEFAULT,False,
 ZFI_MOM_EXMATGRP,False,
 ZFI_MOM_VC,False,
-tbl_WBS_element_Profit_center,True,
+tbl_WBS_element_Profit_center,False,
+VBRK_VBRP_M21,False,VBRK_VBRP_M21
+tbl_dim_segment,False,
+SC-Segment,False,SC-Segment;1.3.Orders SL
+SC-WBS Element,False,SC-WBS Element;1.3.Orders SL
+SC-Orders Data Cleansing,False,SC-Orders Data Cleansing
+SC-Orders SL - Historical Update,True,SC-Orders SL - Historical Update
+VBAK_VBAP_VBEP_M21,False,
+SC-Customer Sales Area-Momentum Cleanup,False,SC-CSA Momentum Cleanup
+SC-Invoices Data Cleansing,False,SC-Invoices Data Cleansing
+SC-Customer M21,False,
+SC-Item M21,False,

@@ -79,7 +79,8 @@ Dim [v_rate_chf_to_reg] as Float
   [Analysis Date]=[vChangeDate]
   [Changed on Line Item]=[vChangeDate]
   [Change Date]=[vChangeDate]
-  
+  [Profit Center Key] = '000'
+  [WBS Element] = '00000000'
 
   [Pricing Date]=[vChangeDate]
   [CustArea Key] = [SQL_M2_vw_migration_fact_orders.VBAK_KUNNR] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_orders.VBAK_VKORG]))+ [SQL_M2_vw_migration_fact_orders.VBAK_VKORG] 

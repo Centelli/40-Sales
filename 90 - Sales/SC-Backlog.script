@@ -32,7 +32,12 @@ Dim [vInvoiceBacklogDC] as Float
 Dim [vOrderBacklogDC] as Float
 Dim [vMatKey] as Varchar(18)
 Dim [vVBKD_KURSK] as Float
-
+DIM [vDivisionKey] as VARCHAR(2)
+DIM [vSegmentKey] as VARCHAR(3)
+DIM [vSegmentKeySource] AS VARCHAR(10)
+DIM [vCustACGroup] as Varchar(10)
+DIM [vCustMktSeg]  as Varchar(10)
+DIM [vCustProfCtr] as varchar(10)
 
 //HUB-821 - Check whether Backlog is applicable determined here...
 DIM [vBacklogFlag] as VARCHAR(1)
@@ -193,7 +198,13 @@ END IF
 
 [Base Unit]=[VBEP.VBAP_MEINS]
 
-[Division Key]=[VBEP.VBAP_SPART]
+IF ([VBEP.VBAP_SPART] = '22') THEN
+ [vDivisionKey] = '21'
+ELSE
+ [vDivisionKey] = [VBEP.VBAP_SPART]
+END IF
+
+[Division Key]=[vDivisionKey]
 
 [Plant]=[VBEP.VBAP_WERKS]
 
@@ -243,7 +254,135 @@ END IF
 
 [Delivery Customer Key]=[VBEP.VBPA_KUNNR]
 
-[Security Key] = 'N' + [VBEP.VBAK_VKORG] + '' + [VBEP.VBAP_SPART] + '' + [VBEP.VBAK_KUNNR]
+
+/* Project Momentum Profit Center Derivation*/
+  [vCustACGroup] = [SC-Customer.Account group]
+  [vCustMktSeg] = [SC-Customer.Market Segment Key]
+  [vCustProfCtr] = [SC-Customer.Profit Center Default]
+
+  dim [mPCLookup] as map(INTEGER,Varchar(7)) = select distinct [ZFI_MOM_PC.Prctr MARA], 'Valid' from [ZFI_MOM_PC]
+  dim [mPCLookupWBS] as map(Varchar(16),Varchar(10)) = select distinct [tbl_WBS_element_Profit_center.wbs_element], [tbl_WBS_element_Profit_center.profit_center] from [tbl_WBS_element_Profit_center]
+
+  IF [mPCLookup] (INTEGER([VBEP.VBAP_PRCTR])) IS NOT NULL THEN
+    PRINT 'VBAP Valid Seg Key: '+ [VBEP.VBAP_PRCTR]
+    [vSegmentKey] = INTEGER([VBEP.VBAP_PRCTR])
+	[vSegmentKeySource] = 'VBAP'
+  ELSE 
+  PRINT 'Determination input: ' + [VBEP.PRPS_POSKI] + ' : ' + [vCustACGroup] + ' : ' + [vCustMktSeg] + ' : ' + [SC-Item.Item Group Key]
+    IF [VBEP.PRPS_POSKI] IS NULL THEN
+	  
+	   IF [vCustACGroup] = 'Z010' THEN
+	     PRINT '1 '+  [SC-Item.Profit Center ExtMatGrp]
+	     IF  [SC-Item.Profit Center ExtMatGrp] IS NOT NULL THEN
+           [vSegmentKey] = [SC-Item.Profit Center ExtMatGrp]
+		   [vSegmentKeySource] = 'ExtMatGrp 1'
+         ELSE
+           [vSegmentKey] = [SC-Item.Profit Center Default]
+		   [vSegmentKeySource] = 'Item 1'
+         END IF
+	   ELSE
+	     IF [vCustMktSeg] = 'Z400000' THEN
+		   /* Distributor */
+		   IF [SC-Item.Item Group Key] = 'ZZZZVC' THEN
+		     PRINT '2 '+  [SC-Item.Profit Center VCItems]
+		     IF [SC-Item.Profit Center VCItems] IS NOT NULL THEN
+		       [vSegmentKey] = [SC-Item.Profit Center VCItems]
+			   [vSegmentKeySource] = 'VC Item 2'
+             ELSE
+               [vSegmentKey] = [SC-Item.Profit Center Default]
+			   [vSegmentKeySource] = 'Item 2'
+             END IF
+		   ELSE
+		     PRINT '3 '+  [SC-Item.Profit Center ExtMatGrp]
+		     IF [SC-Item.Profit Center ExtMatGrp] IS NOT NULL THEN
+  	           [vSegmentKey] = [SC-Item.Profit Center ExtMatGrp]
+			   [vSegmentKeySource] = 'ExtMatGrp 3'
+	         ELSE
+	           [vSegmentKey] = [SC-Item.Profit Center Default]
+			   [vSegmentKeySource] = 'Item 3' 
+	         END IF
+		   END IF
+		 ELSE
+		   /* Not a Distributor */
+		   PRINT '4 '+  [vCustProfCtr]
+	       IF [vCustProfCtr] IS NOT NULL THEN
+  	         [vSegmentKey] = [vCustProfCtr]
+			 [vSegmentKeySource] = 'Customer 4'
+	       ELSE
+	         [vSegmentKey] = [SC-Item.Profit Center Default]
+			 [vSegmentKeySource] = 'Item 4' 
+	       END IF		 
+		 END IF
+	   END IF
+	ELSE
+	  IF [mPCLookupWBS] ([VBEP.PRPS_POSKI]) IS NOT NULL THEN
+	    PRINT '5 '+  [VBEP.PRPS_POSKI]
+	    [vSegmentKey] = [mPCLookupWBS] ([VBEP.PRPS_POSKI])
+		[vSegmentKeySource] = 'WBS'
+	  ELSE
+	    IF [vCustACGroup] = 'Z010' THEN
+		 PRINT '5 '+ [SC-Item.Profit Center ExtMatGrp] 
+	     IF  [SC-Item.Profit Center ExtMatGrp] IS NOT NULL THEN
+           [vSegmentKey] = [SC-Item.Profit Center ExtMatGrp]
+		   [vSegmentKeySource] = 'ExtMatGrp 5'
+         ELSE
+           [vSegmentKey] = [SC-Item.Profit Center Default]
+		   [vSegmentKeySource] = 'Item 5'
+         END IF
+	   ELSE
+	     IF [vCustMktSeg] = 'Z400000' THEN
+		   /* Distributor */
+	       IF [SC-Item.Item Group Key] = 'ZZZZVC' THEN
+		     PRINT '6 '+ [SC-Item.Profit Center VCItems]
+		     IF [SC-Item.Profit Center VCItems] IS NOT NULL THEN
+		       [vSegmentKey] = [SC-Item.Profit Center VCItems]
+			   [vSegmentKeySource] = 'VCItem 6'
+             ELSE
+               [vSegmentKey] = [SC-Item.Profit Center Default]
+			   [vSegmentKeySource] = 'Item 6'
+             END IF
+		   ELSE
+		     PRINT '7 '+ [SC-Item.Profit Center ExtMatGrp]
+			 IF [SC-Item.Profit Center ExtMatGrp] IS NOT NULL THEN
+  	           [vSegmentKey] = [SC-Item.Profit Center ExtMatGrp]
+			   [vSegmentKeySource] = 'ExtMatGrp 7'
+	         ELSE
+	           [vSegmentKey] = [SC-Item.Profit Center Default]
+			   [vSegmentKeySource] = 'Item 7'
+	         END IF
+		   END IF
+		 ELSE /* Not a Distributor */
+	       PRINT '8 '+ [vCustProfCtr]
+		   IF [vCustProfCtr] IS NOT NULL THEN
+  	         [vSegmentKey] = [vCustProfCtr]
+			 [vSegmentKeySource] = 'Customer 8'
+	       ELSE
+	          [vSegmentKey] = [SC-Item.Profit Center Default]
+			 [vSegmentKeySource] = 'Item 8'
+	       END IF		 
+		 END IF
+	   END IF
+	  END IF
+	END IF
+	
+  END IF
+  
+  IF [vSegmentKey] IS NULL THEN
+     [vSegmentKey] = '000'
+     [vSegmentKeySource] = 'Not Found'
+  END IF
+  
+  
+[Profit Center Key] = [vSegmentKey]
+[Profit Center Key Source] = [vSegmentKeySource]
+
+IF [VBEP.PRPS_POSKI] IS NOT NULL THEN 
+[WBS Element] = [VBEP.PRPS_POSKI]
+ELSE
+[WBS Element] = '00000000'
+END IF
+
+[Security Key] = 'N' + [VBEP.VBAK_VKORG] + '' + [vDivisionKey] + '' + [vSegmentKey] + '' + [VBEP.VBAK_KUNNR]
 
 //HSBI-44 - Sales office key going to Currency Key RC
 [Currency Key RC] = [VBEP.region_regional_currency_code]

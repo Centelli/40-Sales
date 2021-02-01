@@ -1,0 +1,17 @@
+[Item]=[Level(Item.Item).Item]
+[Item Group Key]=[Level(Item.Item).Item Group Key]
+[Item Key]=[Level(Item.Item).Item Key]
+
+IF [SC-Item.Item Key] IS NOT NULL THEN
+  [Profit Center Default]=[SC-Item.Profit Center Default]
+  [Profit Center ExtMatGrp]=[SC-Item.Profit Center ExtMatGrp]
+  [Profit Center VCItems]=[SC-Item.Profit Center VCItems]
+  [Source] = 'SC-Item'
+ELSE 
+  [Profit Center Default]=[ZFI_MOM_PC_ExtMatGrp.Prctr MARA]
+  [Profit Center ExtMatGrp]=[ZFI_MOM_PC_ExtMatGrp.Prctr MARA]
+  [Profit Center VCItems]=[ZFI_MOM_PC_VCItems.Prctr MARA]
+  [Source] = 'ZFI_MOM'
+END IF
+  
+WRITERECORD

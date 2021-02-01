@@ -34,6 +34,8 @@
 [ScL Type]=[Level(Sales Order.Sales Order).ScL Type]
 [ScL Requirement Type]=[Level(Sales Order.Sales Order).ScL Requirement Type]
 [ScL Quantity]=[Level(Sales Order.Sales Order).ScL Quantity]
+[WBS Element] = [Grain(SC-Orders SL History).WBS Element]
+[Profit Center Key] = [Grain(SC-Orders SL History).Profit Center Key]
 
 /* Begin of negate fact table */
 /*

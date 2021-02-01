@@ -1,0 +1,294 @@
+DIM [vDivisionKey] as VARCHAR(2)
+DIM [vSegmentKey] as VARCHAR(3)
+
+DIM [vSegmentKeySource] AS VARCHAR(10)
+
+Dim [vCustomerKey] as Varchar(18)  
+DIM [vCustACGroup] as Varchar(10)
+DIM [vCustMktSeg]  as Varchar(10)
+DIM [vCustProfCtr] as varchar(10)
+
+[vDivisionKey] = null
+[vSegmentKey] = null
+[vSegmentKeySource] = null
+[vCustomerKey] = null
+[vCustACGroup] = null
+[vCustMktSeg] = null 
+[vCustProfCtr] = null
+
+[Analysis Date]=[Grain(SC-Orders SL History).Analysis Date]
+[Base Unit]=[Level(Sales Order.Sales Order).Base Unit]
+[Change Date]=[Level(Sales Order.Sales Order).Change Date]
+[Comp Code Key]=[Grain(SC-Orders SL History).Comp Code Key]
+[Currency Key DC]=[Level(Sales Order.Sales Order).Currency Key DC]
+[Currency Key GC]=[Level(Sales Order.Sales Order).Currency Key GC]
+[Currency Key HC]=[Level(Sales Order.Sales Order).Currency Key HC]
+[Currency Key RC]=[Level(Sales Order.Sales Order).Currency Key RC]
+[Current Record]=[Grain(SC-Orders SL History).# Current Record]
+[CustArea Key]=[Grain(SC-Orders SL History).CustArea Key]
+[Customer Key]=[Grain(SC-Orders SL History).Customer Key]
+[Delivery Customer Key]=[Grain(SC-Orders SL History).Delivery Customer Key]
+[DelMarker]=[Grain(SC-Orders SL History).# DelMarker]
+[Distr Channel]=[Level(Sales Order.Sales Order).Distr Channel]
+
+IF ([Grain(SC-Orders SL History).Division Key] = '22') THEN
+ [vDivisionKey]='21'
+ELSE
+ [vDivisionKey]=[Grain(SC-Orders SL History).Division Key]
+END IF
+
+
+[Division Key]=[vDivisionKey]
+[Ex Rate DC]=[Level(Sales Order.Sales Order).Ex Rate DC]
+[Ex Rate GC]=[Level(Sales Order.Sales Order).Ex Rate GC]
+[Ex Rate HC]=[Level(Sales Order.Sales Order).Ex Rate HC]
+[Ex Rate RC]=[Level(Sales Order.Sales Order).Ex Rate RC]
+[Item category]=[Level(Sales Order.Sales Order).Item category]
+[Item Key]=[Grain(SC-Orders SL History).Item Key]
+[Object Number]=[Level(Sales Order.Sales Order).Object Number]
+[Order Intake DC]=[Grain(SC-Orders SL History).# Order Intake DC]
+[Order Intake GC]=[Grain(SC-Orders SL History).# Order Intake GC]
+[Order Intake HC]=[Grain(SC-Orders SL History).# Order Intake HC]
+[Order Intake RC]=[Grain(SC-Orders SL History).# Order Intake RC]
+[Order Qty]=[Grain(SC-Orders SL History).Order Qty]
+[Plant]=[Level(Sales Order.Sales Order).Plant]
+[Pricing Date]=[Level(Sales Order.Sales Order).Pricing Date]
+[RecType]=[Level(Sales Order.Sales Order).RecType]
+[Rejection Reason Key]=[Grain(SC-Orders SL History).Rejection Reason Key]
+//[Request Date]=[VBAK_VBAP_VBEP_M21.VBEP_WADAT]
+[Requirement Type Key]=[Level(Sales Order.Sales Order).Requirement Type Key]
+[Sales Order Item]=[Level(Sales Order.Sales Order).Sales Order Item]
+[Sales Order Key]=[Level(Sales Order.Sales Order).Sales Order Key]
+[Sales Order Number]=[Level(Sales Order.Sales Order).Sales Order Number]
+[Sales Order ScL Line]=[Level(Sales Order.Sales Order).Sales Order ScL Line]
+[Sales Org Key]=[Grain(SC-Orders SL History).Sales Org Key]
+[ScL Category]=[Level(Sales Order.Sales Order).ScL Category]
+[ScL Delivery Date]=[Level(Sales Order.Sales Order).ScL Delivery Date]
+[ScL Quantity]=[Level(Sales Order.Sales Order).ScL Quantity]
+[ScL Requirement Type]=[Level(Sales Order.Sales Order).ScL Requirement Type]
+[ScL Type]=[Level(Sales Order.Sales Order).ScL Type]
+[SO Date]=[Level(Sales Order.Sales Order).SO Date]
+[SO Doc Condition]=[Level(Sales Order.Sales Order).SO Doc Condition]
+[SO Document Category]=[Level(Sales Order.Sales Order).SO Document Category]
+[SO Document Type]=[Level(Sales Order.Sales Order).SO Document Type]
+[SO Header Change Date]=[Level(Sales Order.Sales Order).SO Header Change Date]
+[SO Item Cost DC]=[Grain(SC-Orders SL History).# SO Item Cost DC]
+[SO Item Cost GC]=[Grain(SC-Orders SL History).# SO Item Cost GC]
+[SO Item Cost HC]=[Grain(SC-Orders SL History).# SO Item Cost HC]
+[SO Item Cost RC]=[Grain(SC-Orders SL History).# SO Item Cost RC]
+[SO Item Delivery Status]=[Level(Sales Order.Sales Order).SO Item Delivery Status]
+[SO Item Overall Status]=[Level(Sales Order.Sales Order).SO Item Overall Status]
+[SO Item Rejection Status]=[Level(Sales Order.Sales Order).SO Item Rejection Status]
+[SO Order Delivery Status]=[Level(Sales Order.Sales Order).SO Order Delivery Status]
+[SO Transaction Group]=[Level(Sales Order.Sales Order).SO Transaction Group]
+[Source]=[Level(Sales Order.Sales Order).Source]
+IF [VBAK_VBAP_VBEP_M21.PRPS_POSKI] IS NOT NULL THEN
+  [WBS Element]=[VBAK_VBAP_VBEP_M21.PRPS_POSKI]
+ELSE
+  [WBS Element]='00000000'
+END IF	  
+
+[vCustomerKey] = [Grain(SC-Orders SL History).Customer Key]
+[vCustACGroup] = [SC_Customer.Account group]
+[vCustMktSeg] = [SC_Customer.Market Segment Key]
+[vCustProfCtr] = [SC_Customer.Profit Center Default]
+
+[Customer Key]=[vCustomerKey]
+ 
+PRINT 'Grain: ' + [Grain(SC-Orders SL History).Sales Order Number] +' '+ [Grain(SC-Orders SL History).Sales Order Item] + ' '+ [Level(Sales Order.Sales Order).Source] + ' '+ [Grain(SC-Orders SL History).Profit Center Key] 
+PRINT 'Source: ' + [VBAK_VBAP_VBEP_M21.VBAP_VBELN] +' '+ [VBAK_VBAP_VBEP_M21.VBAP_POSNR]
+PRINT 'Cust Dim: ' + [Level(Customer.Customer).Customer Key] +' '+ [Level(Customer.Customer).Market Segment Key]
+PRINT 'VBAP Seg Key: '+ [VBAK_VBAP_VBEP_M21.VBAP_PRCTR]
+PRINT 'Item Key: '+ [Grain(SC-Orders SL History).Item Key] + ' _ ' +[SC_Item.Item Key]
+PRINT 'Cust Key: '+ [Grain(SC-Orders SL History).Customer Key] + ' _ ' +[SC_Customer.Customer Key]
+PRINT 'Item Default: '+[SC_Item.Profit Center Default]
+PRINT 'Item ExtMatGrp: '+[SC_Item.Profit Center ExtMatGrp]
+PRINT 'Item VCItems: '+[SC_Item.Profit Center VCItems]
+PRINT 'Cust Default: '+[SC_Customer.Profit Center Default]
+
+
+/* HSBI-60 Cust Profit Center for Non-SAP Records */
+IF [vCustProfCtr] IS NULL AND [Level(Sales Order.Sales Order).Source] <> 'SAP ECC' THEN
+      IF [Level(Customer.Customer).Market Segment Key]='Z30C000' THEN	
+         [vCustProfCtr]='101'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z30A000' THEN	
+         [vCustProfCtr]='102'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z30B000' THEN	
+         [vCustProfCtr]='103'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z30D000' THEN	
+         [vCustProfCtr]='104'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z10A000' THEN	
+         [vCustProfCtr]='201'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z10B000' THEN	
+         [vCustProfCtr]='202'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z10C000' THEN	
+         [vCustProfCtr]='203'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z10D000' THEN	
+         [vCustProfCtr]='204'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z20A000' THEN	
+         [vCustProfCtr]='301'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z20B000' THEN	
+         [vCustProfCtr]='302'
+      END IF
+   PRINT 'Non-ECC CustProfit Center '+[vCustProfCtr]
+END IF
+
+
+PRINT '1'
+/* Project Momentum Profit Center Derivation*/
+  dim [mPCLookup] as map(INTEGER,Varchar(7)) = select distinct [ZFI_MOM_PC.Prctr MARA], 'Valid' from [ZFI_MOM_PC]
+  dim [mPCLookupWBS] as map(Varchar(16),Varchar(10)) = select distinct [tbl_WBS_element_Profit_center.wbs_element], [tbl_WBS_element_Profit_center.profit_center] from [tbl_WBS_element_Profit_center]
+
+  IF [mPCLookup] (INTEGER([VBAK_VBAP_VBEP_M21.VBAP_PRCTR])) IS NOT NULL THEN
+    PRINT 'VBAP Valid Seg Key: '+ [VBAK_VBAP_VBEP_M21.VBAP_PRCTR]
+    [vSegmentKey] = INTEGER([VBAK_VBAP_VBEP_M21.VBAP_PRCTR])
+	[vSegmentKeySource] = 'VBAP'
+  ELSE 
+  PRINT 'Determination input: ' + [VBAK_VBAP_VBEP_M21.PRPS_POSKI] + ' : ' + [vCustACGroup] + ' : ' + [vCustMktSeg] + ' : ' + [SC_Item.Item Group Key]
+    IF [VBAK_VBAP_VBEP_M21.PRPS_POSKI] IS NULL THEN
+	  
+	   IF [vCustACGroup] = 'Z010' THEN
+	     PRINT '1 '+  [SC_Item.Profit Center ExtMatGrp]
+	     IF  [SC_Item.Profit Center ExtMatGrp] IS NOT NULL THEN
+           [vSegmentKey] = [SC_Item.Profit Center ExtMatGrp]
+		   [vSegmentKeySource] = 'ExtMatGrp 1'
+         ELSE
+           [vSegmentKey] = [SC_Item.Profit Center Default]
+		   [vSegmentKeySource] = 'Item 1'
+         END IF
+	   ELSE
+	     IF [vCustMktSeg] = 'Z400000' THEN
+		   /* Distributor */
+		   IF [SC_Item.Item Group Key] = 'ZZZZVC' THEN
+		     PRINT '2 '+  [SC_Item.Profit Center VCItems]
+		     IF [SC_Item.Profit Center VCItems] IS NOT NULL THEN
+		       [vSegmentKey] = [SC_Item.Profit Center VCItems]
+			   [vSegmentKeySource] = 'VC Item 2'
+             ELSE
+               [vSegmentKey] = [SC_Item.Profit Center Default]
+			   [vSegmentKeySource] = 'Item 2'
+             END IF
+		   ELSE
+		     PRINT '3 '+  [SC_Item.Profit Center ExtMatGrp]
+		     IF [SC_Item.Profit Center ExtMatGrp] IS NOT NULL THEN
+  	           [vSegmentKey] = [SC_Item.Profit Center ExtMatGrp]
+			   [vSegmentKeySource] = 'ExtMatGrp 3'
+	         ELSE
+	           [vSegmentKey] = [SC_Item.Profit Center Default]
+			   [vSegmentKeySource] = 'Item 3' 
+	         END IF
+		   END IF
+		 ELSE
+		   /* Not a Distributor */
+		   PRINT '4 '+  [vCustProfCtr]
+	       IF [vCustProfCtr] IS NOT NULL THEN
+  	         [vSegmentKey] = [vCustProfCtr]
+			 [vSegmentKeySource] = 'Customer 4'
+	       ELSE
+	         [vSegmentKey] = [SC_Item.Profit Center Default]
+			 [vSegmentKeySource] = 'Item 4' 
+	       END IF		 
+		 END IF
+	   END IF
+	ELSE
+	  IF [mPCLookupWBS] ([VBAK_VBAP_VBEP_M21.PRPS_POSKI]) IS NOT NULL THEN
+	    PRINT '5 '+  [VBAK_VBAP_VBEP_M21.PRPS_POSKI]
+	    [vSegmentKey] = [mPCLookupWBS] ([VBAK_VBAP_VBEP_M21.PRPS_POSKI])
+		[vSegmentKeySource] = 'WBS'
+	  ELSE
+	    IF [vCustACGroup] = 'Z010' THEN
+		 PRINT '5 '+ [SC_Item.Profit Center ExtMatGrp] 
+	     IF  [SC_Item.Profit Center ExtMatGrp] IS NOT NULL THEN
+           [vSegmentKey] = [SC_Item.Profit Center ExtMatGrp]
+		   [vSegmentKeySource] = 'ExtMatGrp 5'
+         ELSE
+           [vSegmentKey] = [SC_Item.Profit Center Default]
+		   [vSegmentKeySource] = 'Item 5'
+         END IF
+	   ELSE
+	     IF [vCustMktSeg] = 'Z400000' THEN
+		   /* Distributor */
+	       IF [SC_Item.Item Group Key] = 'ZZZZVC' THEN
+		     PRINT '6 '+ [SC_Item.Profit Center VCItems]
+		     IF [SC_Item.Profit Center VCItems] IS NOT NULL THEN
+		       [vSegmentKey] = [SC_Item.Profit Center VCItems]
+			   [vSegmentKeySource] = 'VCItem 6'
+             ELSE
+               [vSegmentKey] = [SC_Item.Profit Center Default]
+			   [vSegmentKeySource] = 'Item 6'
+             END IF
+		   ELSE
+		     PRINT '7 '+ [SC_Item.Profit Center ExtMatGrp]
+			 IF [SC_Item.Profit Center ExtMatGrp] IS NOT NULL THEN
+  	           [vSegmentKey] = [SC_Item.Profit Center ExtMatGrp]
+			   [vSegmentKeySource] = 'ExtMatGrp 7'
+	         ELSE
+	           [vSegmentKey] = [SC_Item.Profit Center Default]
+			   [vSegmentKeySource] = 'Item 7'
+	         END IF
+		   END IF
+		 ELSE /* Not a Distributor */
+	       PRINT '8 '+ [vCustProfCtr]
+		   IF [vCustProfCtr] IS NOT NULL THEN
+  	         [vSegmentKey] = [vCustProfCtr]
+			 [vSegmentKeySource] = 'Customer 8'
+	       ELSE
+	          [vSegmentKey] = [SC_Item.Profit Center Default]
+			 [vSegmentKeySource] = 'Item 8'
+	       END IF		 
+		 END IF
+	   END IF
+	  END IF
+	END IF
+	
+  END IF
+PRINT 'PRE [vSegmentKey] : '+ [vSegmentKey]
+IF [Level(Sales Order.Sales Order).Source] = 'I4-proAlph' THEN
+  [vSegmentKey] = '204'
+  [vSegmentKeySource] = 'I4'
+END IF  
+
+IF [vSegmentKey] IS NULL THEN
+   PRINT '[vSegmentKey] IS NULL'								
+   IF [Level(Sales Order.Sales Order).Source] <> 'SAP ECC' THEN
+      IF [Level(Customer.Customer).Market Segment Key]='Z30C000' THEN	
+         [vSegmentKey]='101'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z30A000' THEN	
+         [vSegmentKey]='102'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z30B000' THEN	
+         [vSegmentKey]='103'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z30D000' THEN	
+         [vSegmentKey]='104'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z10A000' THEN	
+         [vSegmentKey]='201'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z10B000' THEN	
+         [vSegmentKey]='202'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z10C000' THEN	
+         [vSegmentKey]='203'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z10D000' THEN	
+         [vSegmentKey]='204'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z20A000' THEN	
+         [vSegmentKey]='301'
+      ELSEIF [Level(Customer.Customer).Market Segment Key]='Z20B000' THEN	
+         [vSegmentKey]='302'
+      ELSE
+         [vSegmentKey]='000'
+      END IF
+	  [vSegmentKeySource] = 'Non ECC'
+   ELSE
+     [vSegmentKey] = '000'
+     [vSegmentKeySource] = 'Not Found'
+   END IF
+
+END IF
+
+PRINT 'POST [vSegmentKey] : '+ [vSegmentKey]
+PRINT 'POST [vSegmentKeySource] : '+ [vSegmentKeySource]
+
+[Profit Center Key] = [vSegmentKey]
+[Profit Center Key Source] = [vSegmentKeySource]
+
+[Security Key] = 'N' + [Grain(SC-Orders SL History).Sales Org Key] + '' + [vDivisionKey] + '' + [vSegmentKey] + ''+ [Grain(SC-Orders SL History).Customer Key]
+
+
+WRITERECORD

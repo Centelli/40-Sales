@@ -78,7 +78,8 @@ Dim [v_rate_chf_to_reg] as Float
   [Analysis Date]=[vChangeDate]
   [Changed on Line Item]=[vChangeDate]
   [Change Date]=[vChangeDate]
-  
+  [Profit Center Key] = '000'
+  [WBS Element] = '00000000'
 
   [Pricing Date]=[SQL_I2_vw_VBAK_VBAP.VKBD_PRSDT]
   [CustArea Key] = [SQL_I2_vw_VBAK_VBAP.VBAK_KUNNR] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBAK_VBAP.VBAK_VKORG]))+ [SQL_I2_vw_VBAK_VBAP.VBAK_VKORG] 

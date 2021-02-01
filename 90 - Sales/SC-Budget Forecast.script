@@ -1,6 +1,8 @@
 DIM [mWorkYearMonth] AS Map(VARCHAR(6), INTEGER) = SELECT [SC-Work Year.YearMonth], [SC-Work Year.WorkCount] FROM [SC-Work Year] 
 DIM [vYearMonth] as VARCHAR(6)
 DIM [vCustomerKey] as VARCHAR(20)
+DIM [vDivisionKey] as VARCHAR(3)
+Dim [vSegmentKey] as varchar(3)
 
 // Only take records which have a budget value. Checking using month code 
 // as it is used in format function which fails if month is null - double safety
@@ -14,6 +16,12 @@ PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ':' + [SQL Sales Budget For
 
 END IF
 
+IF [SQL Sales Budget Forecast.Segment_Key] is null or [SQL Sales Budget Forecast.Segment_Key] = 0 then
+[vSegmentKey] = '000'
+Else
+[vSegmentKey]=[SQL Sales Budget Forecast.Segment_Key]
+End if
+
 [Analysis Date]=[SQL Workdays.day_code]
 [Sales Org Key]=[SQL Sales Budget Forecast.Sales_Org_Key] 
 
@@ -26,20 +34,29 @@ END IF
 [Customer Key]=[vCustomerKey]
 [Comp Code Key]=[SQL Sales Budget Forecast.Comp_Key]
 
+IF ([SQL Sales Budget Forecast.Business_Unit_Key] = '22') THEN
+ [vDivisionKey] = '21'
+ELSE
+ [vDivisionKey] = [SQL Sales Budget Forecast.Business_Unit_Key]
+END IF
+
 // HUB-785 - Sales org. 6100 has multiple sales offices belonging to different regions.
 // HUB-829 - Go down to sales office level for Sales Org 6100 for new biz customers. Need to change security Key based on sales office  
   
 IF [SQL Sales Budget Forecast.Sales_Org_Key] = '6100' and [SQL Sales Budget Forecast.Customer_Type] = 'new biz' THEN
 	[CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.Sales_Office_Key]
 	[Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Office_Key])) + [SQL Sales Budget Forecast.Sales_Office_Key] + '' + [SQL Sales Budget Forecast.Business_Unit_Key] + '' + [vCustomerKey]  
-	PRINT 'Using Sales office Key: ' + 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Office_Key])) + [SQL Sales Budget Forecast.Sales_Office_Key] + '' + [SQL Sales Budget Forecast.Business_Unit_Key] + '' + [vCustomerKey] 
+	PRINT 'Using Sales office Key: ' + 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Office_Key])) + [SQL Sales Budget Forecast.Sales_Office_Key] + '' + [vDivisionKey] + '' + [vSegmentKey] + '' + [vCustomerKey] 
 ELSE
     [CustArea Key]=[vCustomerKey]+''+[SQL Sales Budget Forecast.Sales_Org_Key]
     // HUB-633 / HUB-664: New biz customers not visible for users with company based security
-    [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Org_Key])) + [SQL Sales Budget Forecast.Sales_Org_Key] + '' + [SQL Sales Budget Forecast.Business_Unit_Key] + '' + [vCustomerKey]
+    [Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SQL Sales Budget Forecast.Sales_Org_Key])) + [SQL Sales Budget Forecast.Sales_Org_Key] + '' + [vDivisionKey] + '' + [vSegmentKey] + '' + [vCustomerKey]
 END IF
 
-[Division Key]=[SQL Sales Budget Forecast.Business_Unit_Key]
+
+
+[Division Key]=[vDivisionKey]
+[Profit Center Key] = [vSegmentKey]
 [In Sales Key]=[SQL Sales Budget Forecast.Outside_Sales_Key]
 [Currency Key]=[SQL Sales Budget Forecast.Currency_Key]
 [Customer Type]=[SQL Sales Budget Forecast.Customer_Type]

@@ -23,6 +23,8 @@ Dim [vSalesIcogsGC] as Float
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
 
+Dim [vDivisionKey] as Varchar(2)
+
 PRINT '1'
 
 [vSalesOrg] = [SQL_M2_vw_migration_fact_sales.VBRK_BUKRS]
@@ -46,12 +48,20 @@ Dim [vSalesDocItem] as Varchar(10) = [SQL_M2_vw_migration_fact_sales.VBRP_POSNR]
 [SI Header Create Date]=[SQL_M2_vw_migration_fact_sales.VBRK_ERDAT]
 [SI Doc Condition]=[SQL_M2_vw_migration_fact_sales.VBRK_KNUMV]
 [Payer]=[SQL_M2_vw_migration_fact_sales.VBRK_KUNRG]
+[Profit Center Key] = '000'
+[WBS Element] = '00000000'
+
+IF ([SQL_M2_vw_migration_fact_sales.VBRP_SPART] = '22') THEN
+ [vDivisionKey] = '21'
+ELSE
+ [vDivisionKey]= [SQL_M2_vw_migration_fact_sales.VBRP_SPART]
+END IF
 
 [vCustomerKey] = [SQL_M2_vw_migration_fact_sales.VBRK_KUNAG]
 
 [Customer Key] = [vCustomerKey]
 [CustArea Key] = [vCustomerKey] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG]))+ [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] 
-[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG])) + [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] + '' + [SQL_M2_vw_migration_fact_sales.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG])) + [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] + '' + [vDivisionKey] + '' + [vCustomerKey] 
 print SUBSTRING('0000',0,4 - LENGTH([SQL_M2_vw_migration_fact_sales.VBRK_VKORG])) + [SQL_M2_vw_migration_fact_sales.VBRK_VKORG] + '' + [SQL_M2_vw_migration_fact_sales.VBRP_SPART] + '' + [vCustomerKey] 
 
 [Delivery Customer Key]='DEL_I2_'+[SQL_M2_vw_migration_fact_sales.Customer_Delivery_Country]
@@ -81,11 +91,15 @@ PRINT '2'
 [SI Reference SO Key]=[SQL_M2_vw_migration_fact_sales.VBRP_AUBEL]+substring('000000',0,6-length([SQL_M2_vw_migration_fact_sales.VBRP_AUPOS]))+[SQL_M2_vw_migration_fact_sales.VBRP_AUPOS]
 [Item Key]=[SQL_M2_vw_migration_fact_sales.VBRP_MATNR]
 [Item category]=[SQL_M2_vw_migration_fact_sales.VBRP_PSTYV]
-[Division Key]=[SQL_M2_vw_migration_fact_sales.VBRP_SPART]
+
+  
+[Division Key]=[vDivisionKey]
+
+
 [Plant]=[SQL_M2_vw_migration_fact_sales.VBRP_WERKS]
 [Sales Office Key]=[SQL_M2_vw_migration_fact_sales.VBRP_VKBUR]
 [Exch_rate stats]=[SQL_M2_vw_migration_fact_sales.VBRP_STCUR]
-[Profit Center]=[SQL_M2_vw_migration_fact_sales.VBRP_PRCTR]
+[Profit Center Key]=[SQL_M2_vw_migration_fact_sales.VBRP_PRCTR]
 [Analysis Date]=[SQL_M2_vw_migration_fact_sales.VBRK_FKDAT]
 [Statistical Value] = [SQL_M2_vw_migration_fact_sales.VBRP_KOWRR]
 [Billing Rule] = [SQL_M2_vw_migration_fact_sales.VBRP_FAREG]

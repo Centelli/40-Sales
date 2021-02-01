@@ -6,7 +6,7 @@ LEFT OUTER JOIN
 SELECT [Ext Material Group.Ext Mat Group Key], [Ext Material Group.Ext Mat Group] FROM [Ext Material Group]
 ON [Ext Material Group.Ext Mat Group Key] = [S_Artikel.ArtikelGruppe]
 LEFT OUTER JOIN 
-SELECT [Structure_Dimension_Item.item group code], [Structure_Dimension_Item.item group name], [Structure_Dimension_Item.product group code], [Structure_Dimension_Item.product group name], [Structure_Dimension_Item.product unit code], [Structure_Dimension_Item.product unit name], [Structure_Dimension_Item.product division code], [Structure_Dimension_Item.product division name], [Structure_Dimension_Item.product segment code], [Structure_Dimension_Item.product segment name], [Structure_Dimension_Item.solution code], [Structure_Dimension_Item.solution name] FROM [Structure_Dimension_Item]
+SELECT [Structure_Dimension_Item.item group code], [Structure_Dimension_Item.item group name], [Structure_Dimension_Item.product group code], [Structure_Dimension_Item.product group name], [Structure_Dimension_Item.product unit code], [Structure_Dimension_Item.product unit name], [Structure_Dimension_Item.product segment code], [Structure_Dimension_Item.product segment name], [Structure_Dimension_Item.solution code], [Structure_Dimension_Item.solution name] FROM [Structure_Dimension_Item]
 ON [Structure_Dimension_Item.item group code] = 'FOBK00'
 LEFT OUTER JOIN 
 SELECT [tbl_weee_item_cubo.SKU] FROM [tbl_weee_item_cubo]

@@ -3,6 +3,8 @@ Dim [vOrderQty] as Float
 Dim [vOrderNetHC] as Float
 Dim [vOrderNetGC] as Float
 
+
+
 IF [V_AuftragsEingang.Belegart] = 'G' THEN
   [vOrderNet] = [V_AuftragsEingang.PositionsWert] * -1
   [vOrderQty] = [V_AuftragsEingang.Menge] * -1
@@ -24,7 +26,12 @@ END IF
 [Item Key]=[V_AuftragsEingang.Artikel]
 [Order Net]=[vOrderNet]
 [Currency Key]=[V_AuftragsEingang.Waehrung]
-[Security Key] = 'N' + '9200' + '21' + [V_AuftragsEingang.Firma] + '_' + [V_AuftragsEingang.Kunde]
+
+
+[Profit Center Key]='204'
+[WBS Element] = '00000000'
+
+[Security Key] = 'N' + '9200' + '21' + '204' +  [V_AuftragsEingang.Firma] + '_' + [V_AuftragsEingang.Kunde]
 [RecType] = 'New Record'
 [DelMarker] = '9200'+'_'+[V_AuftragsEingang.BelegNummer] + '_' + format([V_AuftragsEingang.AnlageDatum],'yyyy-MM-dd')
 // Only 10 characters will get updated for source, which is ok

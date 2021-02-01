@@ -55,6 +55,8 @@ print [Grain(SC-Orders SL Update).# Source] */
 [Delivery Customer Key] = [Grain(SC-Orders SL Update).Delivery Customer Key]
 [Security Key] = [Grain(SC-Orders SL Update).# Security Key]
 [RecType] = [Level(Sales Order.Sales Order).RecType]
+[WBS Element] = [Grain(SC-Orders SL Update).WBS Element]
+[Profit Center Key] = [Grain(SC-Orders SL Update).Profit Center Key]
 
 [v_rate_home_to_chf] = 1.0
 IF [Level(Sales Order.Sales Order).Currency Key HC] <> [Level(Sales Order.Sales Order).Currency Key GC] THEN                  

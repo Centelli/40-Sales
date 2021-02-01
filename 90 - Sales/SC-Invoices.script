@@ -40,6 +40,8 @@ DIM [vDebugString] as VARCHAR(100)
 DIM [vInvCategory] as VARCHAR(4)
 DIM [vPlantToHC] as float
 
+DIM [vDivisionKey] as VARCHAR(2)
+
 //HUB-797
 DIM [vInvQty] as FLOAT
 DIM [vPartialFactor] as FLOAT
@@ -184,6 +186,21 @@ Dim [vSalesDocItem] as Varchar(10) = [SC-Invoices Stg.VBRP_POSNR]
 [SI Doc Condition]=[SC-Invoices Stg.VBRK_KNUMV]
 [Payer]=[SC-Invoices Stg.VBRK_KUNRG]
 
+
+// HUB-751 - Division for Group invoices should be from MARA
+IF [SC-Invoices Stg.VBRP_SPART] <> '00' THEN
+  [vDivisionKey]=[SC-Invoices Stg.VBRP_SPART]
+ELSE
+  [vDivisionKey]=[SC-Invoices Stg.MARA_SPART]
+  IF [SC-Invoices Stg.VBRP_AUTYP] <> 'V' THEN
+    PRINT 'WARN: Check for Division - ' + [SC-Invoices Stg.VBRK_VBELN] + ' references ' + [SC-Invoices Stg.VBRP_AUTYP]
+  END IF
+END IF
+
+IF ([vDivisionKey] = '22') THEN
+ [vDivisionKey] = '21'
+END IF
+
 // For intercompany invoices, i.e. FKART=ZIV or ZIVS, payer should be used as customer
 IF [SC-Invoices Stg.VBRK_FKART] IN ('ZIV', 'ZIVS')  THEN
   [vCustomerKey] = [SC-Invoices Stg.VBRK_KUNRG]
@@ -201,7 +218,7 @@ END IF
 
 [Customer Key] = [vCustomerKey] 
 [CustArea Key] = [vCustomerKey] + '' + [SC-Invoices Stg.VBRK_VKORG]
-[vSecurityKey] = [SC-Invoices Stg.VBRK_VKORG] + '' + [SC-Invoices Stg.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = [SC-Invoices Stg.VBRK_VKORG] + '' + [vDivisionKey] + '' + [SC-Invoices Stg.VBRP_PRCTR] + '' + [vCustomerKey] 
 
 [SI Cancellation Document]=[SC-Invoices Stg.VBRK_SFAKN]
 [Delivery Customer Key]=[vDelCustomerKey]
@@ -244,15 +261,9 @@ END IF
 [Ext Mat Group Key]=[SC-Invoices Stg.VBRP_MATKL]
 [Item category]=[SC-Invoices Stg.VBRP_PSTYV]
 [Item type]=[SC-Invoices Stg.VBRP_POSAR]
-// HUB-751 - Division for Group invoices should be from MARA
-IF [SC-Invoices Stg.VBRP_SPART] <> '00' THEN
-  [Division Key]=[SC-Invoices Stg.VBRP_SPART]
-ELSE
-  [Division Key]=[SC-Invoices Stg.MARA_SPART]
-  IF [SC-Invoices Stg.VBRP_AUTYP] <> 'V' THEN
-    PRINT 'WARN: Check for Division - ' + [SC-Invoices Stg.VBRK_VBELN] + ' references ' + [SC-Invoices Stg.VBRP_AUTYP]
-  END IF
-END IF
+
+
+[Division Key] = [vDivisionKey]
 [Plant]=[SC-Invoices Stg.VBRP_WERKS]
 [Country]=[SC-Invoices Stg.VBRP_ALAND]
 [Sales Group]=[SC-Invoices Stg.VBRP_VKGRP]
@@ -269,7 +280,6 @@ END IF
 [SI Item Subtotal 5]=[CheckValue]([SC-Invoices Stg.VBRP_KZWI5])
 [SI Item Subtotal 6]=[CheckValue]([SC-Invoices Stg.VBRP_KZWI6])
 [Exch_rate stats]=[CheckValue]([SC-Invoices Stg.VBRP_STCUR])
-[Profit Center]=[SC-Invoices Stg.VBRP_PRCTR]
 [Document cat]=[SC-Invoices Stg.VBRP_AUTYP]
 [Analysis Date]=[SC-Invoices Stg.VBRK_FKDAT]
 [Statistical Value] = [SC-Invoices Stg.VBRP_KOWRR]
@@ -279,7 +289,15 @@ END IF
 [Source] = 'SAP ECC'
 
 //HUB-827
-[WBS Element]= [SC-Invoices Stg.PRPS_POSKI]
+IF ([SC-Invoices Stg.PRPS_POSKI] IS NOT NULL) THEN
+ [WBS Element]= [SC-Invoices Stg.PRPS_POSKI]
+ELSE
+ [WBS Element] = '00000000'
+END IF
+
+/* Project Momentum */
+[Profit Center Key]=[SC-Invoices Stg.Profit Center Key]
+[Profit Center Key Source]=[SC-Invoices Stg.Profit Center Key Source]
 
 /* IF SUM([BAPI.Condition value]) IS NOT NULL THEN
   // HUB-578 (30Nov18) - Set ICOGS and COGS for credit/debit memo to zero

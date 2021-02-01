@@ -7,7 +7,7 @@ Dim [vWriteRecord] as varchar(1)
 
 Dim [vDebug] as Varchar(1)
 
-IF [Grain(SC-Security Input).# User] = 'marc.delmotte@hubersuhner.com' then
+IF [Grain(SC-Security Input).# User] IN ('veronica.baumgartner@hubersuhner.com' ,'veronika.baumgartner@hubersuhner.com') then
   [vDebug] = 'X'
 ELSE
   [vDebug] = ''
@@ -26,12 +26,12 @@ in print output for now */
 
 [vWriteRecord] = ''
 
-IF length([Level(Security Key.Security Key).Security Key]) > 6 THEN
+IF length([Level(Security Key.Security Key).Security Key]) > 9 THEN
 
 	/* Determine customer key and cust sales area key
 	Assumption: First character is ICOGS flag, 4 for company and 2 for division to get customer */
-	[vCustomerKey] = substring([Level(Security Key.Security Key).Security Key],7,length([Level(Security Key.Security Key).Security Key]))
-	[vCustSalesAreaKey] = substring([Level(Security Key.Security Key).Security Key],7,length([Level(Security Key.Security Key).Security Key])) + substring([Level(Security Key.Security Key).Security Key],1,5)
+	[vCustomerKey] = substring([Level(Security Key.Security Key).Security Key],10,length([Level(Security Key.Security Key).Security Key]))
+	[vCustSalesAreaKey] = substring([Level(Security Key.Security Key).Security Key],10,length([Level(Security Key.Security Key).Security Key])) + substring([Level(Security Key.Security Key).Security Key],1,5)
 
 	if [vDebug] = 'X' then
 	  print [Grain(SC-Security Input).# User] + ':' + [Grain(SC-Security Input).# Security Mask] + ':'  + [Grain(SC-Security Input).# Sales Office Key] + ':' + [Grain(SC-Security Input).# Cust Role Entity]+ ':' + [Grain(SC-Security Input).# Cust Role Code]+':'+[Grain(SC-Security Input).# Cust Role Name] + ':' + [Level(Security Key.Security Key).Security Key] + ':' + [vCustomerKey] + ':' + [vCustSalesAreaKey] + ':' + [mCustCountry]([vCustomerKey]) + ':' + [mCustCustomerGroup]([vCustomerKey])+':' + [mCustMarket]([vCustomerKey])+':' + [mCustSalesRep]([vCustSalesAreaKey]) + ':' + [mCustSalesOffice]([vCustSalesAreaKey])

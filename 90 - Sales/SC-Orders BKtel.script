@@ -35,11 +35,14 @@ Dim [v_rate_chf_to_reg] as Float
 [Order Net]=[vOrderNet]
 [Currency Key]=[SC-BKtel Sales.Currency]
 
-[Security Key] = 'N' + [SC-BKtel Sales.Sales Org Key] + '21' + [SC-BKtel Sales.Customer Key] 
+[Security Key] = 'N' + [SC-BKtel Sales.Sales Org Key] + '21' + '204' + [SC-BKtel Sales.Customer Key] 
 [RecType] = 'New Record'
 [DelMarker] = 'I3'
 [Source] = 'I3'
 [Division Key] = '21'
+
+[Profit Center Key] = '204'
+[WBS Element] = '00000000'
 
 [v_rate_home_to_chf] = 1
 IF [SC-BKtel Sales.Currency] <> 'CHF' THEN

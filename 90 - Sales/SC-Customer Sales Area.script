@@ -37,7 +37,10 @@ IF [tbl_dim_sales_region.regional_currency_code] = 'RMB' THEN
 ELSE
  [RC Currency Key] = [tbl_dim_sales_region.regional_currency_code]
 END IF
-[Sales Region]=[tbl_dim_sales_region.sales_region_code]
+// Project momentum changed the definition os sales region
+// [Sales Region]=[tbl_dim_sales_region.sales_region_code]
+[Sales Region]=[tbl_dim_sales_region.sales_office_region]
+
 [Sales SubRegion]=[tbl_dim_sales_region.sales_subregion_code]
 
 

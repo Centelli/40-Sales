@@ -1,0 +1,13 @@
+[Account group]=[Level(Customer.Customer).Account group]
+[Customer]=[Level(Customer.Customer).Customer]
+[Customer Key]=[Level(Customer.Customer).Customer Key]
+[Market Segment Key]=[Level(Customer.Customer).Market Segment Key]
+IF [SC-Customer.Profit Center Default] IS NOT NULL THEN
+  [Profit Center Default]=[SC-Customer.Profit Center Default]
+  [Source]='SC-Customer'
+ELSE
+  [Profit Center Default]=[ZFI_MOM_PC_Cust.Prctr MARA]
+  [Source]='ZFI_MOM'
+END IF 
+
+WRITERECORD

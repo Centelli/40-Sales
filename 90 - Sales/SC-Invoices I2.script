@@ -21,6 +21,8 @@ Dim [vSalesIcogsGC] as Float
 Dim [v_rate_home_to_chf] as Float
 Dim [v_rate_chf_to_reg] as Float
 
+Dim [vDivisionKey] as Varchar(2)
+
 [vSalesOrg] = [SQL_I2_vw_VBRK_VBRP.VBRK_BUKRS]
 [vSalesDate] = [SQL_I2_vw_VBRK_VBRP.VBRK_FKDAT]
 [vSalesCurr] = [SQL_I2_vw_VBRK_VBRP.VBRK_WAERK]
@@ -89,6 +91,12 @@ Dim [vSalesDocItem] as Varchar(10) = [SQL_I2_vw_VBRK_VBRP.VBRP_POSNR]
 [SI Doc Condition]=[SQL_I2_vw_VBRK_VBRP.VBRK_KNUMV]
 [Payer]=[SQL_I2_vw_VBRK_VBRP.VBRK_KUNRG]
 
+IF ([SQL_I2_vw_VBRK_VBRP.VBRP_SPART] = '22') THEN
+ [vDivisionKey] = '21'
+ELSE
+ [vDivisionKey]= [SQL_I2_vw_VBRK_VBRP.VBRP_SPART]
+END IF
+
 // For intercompany invoices, i.e. FKART=ZIV or ZIVS, payer should be used as customer
 //IF [SQL_I2_vw_VBRK_VBRP.VBRK_FKART] IN ('ZIV', 'ZIVS')  THEN
 //  [vCustomerKey] = [SQL_I2_vw_VBRK_VBRP.VBRK_KUNRG]
@@ -99,7 +107,7 @@ Dim [vSalesDocItem] as Varchar(10) = [SQL_I2_vw_VBRK_VBRP.VBRP_POSNR]
 [Customer Key] = [vCustomerKey]
 [CustArea Key] = [vCustomerKey] + '' + SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_VKORG]))+ [SQL_I2_vw_VBRK_VBRP.VBRK_VKORG] 
 // HUB-668: User not getting any B1 net sales
-[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_VKORG])) + [SQL_I2_vw_VBRK_VBRP.VBRK_VKORG] + '' + [SQL_I2_vw_VBRK_VBRP.VBRP_SPART] + '' + [vCustomerKey] 
+[vSecurityKey] = SUBSTRING('0000',0,4 - LENGTH([SQL_I2_vw_VBRK_VBRP.VBRK_VKORG])) + [SQL_I2_vw_VBRK_VBRP.VBRK_VKORG] + '' + [vDivisionKey] + '' + [vCustomerKey] 
 
 //[SI Cancellation Document]=[SQL_I2_vw_VBRK_VBRP.VBRK_SFAKN]
 [Delivery Customer Key]='DEL_I2_'+[SQL_I2_vw_VBRK_VBRP.Customer_Delivery_Country]
@@ -131,7 +139,11 @@ END IF
 //[Ext Mat Group Key]=[SQL_I2_vw_VBRK_VBRP.VBRP_MATKL]
 [Item category]=[SQL_I2_vw_VBRK_VBRP.VBRP_PSTYV]
 //[Item type]=[SQL_I2_vw_VBRK_VBRP.VBRP_POSAR]
-[Division Key]=[SQL_I2_vw_VBRK_VBRP.VBRP_SPART]
+  
+[Division Key]=[vDivisionKey]
+[WBS Element] = '00000000'
+[Profit Center Key] = '000'
+
 [Plant]=[SQL_I2_vw_VBRK_VBRP.VBRP_WERKS]
 //[Country]=[SQL_I2_vw_VBRK_VBRP.VBRP_ALAND]
 //[Sales Group]=[SQL_I2_vw_VBRK_VBRP.VBRP_VKGRP]
@@ -148,7 +160,7 @@ END IF
 //[SI Item Subtotal 5]=[SQL_I2_vw_VBRK_VBRP.VBRP_KZWI5]
 //[SI Item Subtotal 6]=[SQL_I2_vw_VBRK_VBRP.VBRP_KZWI6]
 [Exch_rate stats]=[SQL_I2_vw_VBRK_VBRP.VBRP_STCUR]
-[Profit Center]=[SQL_I2_vw_VBRK_VBRP.VBRP_PRCTR]
+[Profit Center Key]=[SQL_I2_vw_VBRK_VBRP.VBRP_PRCTR]
 //[Document cat]=[SQL_I2_vw_VBRK_VBRP.VBRP_AUTYP]
 [Analysis Date]=[SQL_I2_vw_VBRK_VBRP.VBRK_FKDAT]
 [Statistical Value] = [SQL_I2_vw_VBRK_VBRP.VBRP_KOWRR]

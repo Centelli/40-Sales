@@ -1,0 +1,1 @@
+SELECT [WBS Element.PRPS_POSKI], [WBS Element.PRPS_PSPNR], [WBS Element.PRPS_PBUKR], [WBS Element.PRPS_PRCTR] FROM [WBS Element]

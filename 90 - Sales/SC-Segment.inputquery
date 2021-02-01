@@ -1,0 +1,11 @@
+SELECT [tbl_dim_segment.profit_center_key], 
+[tbl_dim_segment.profit_center], 
+[tbl_dim_segment.sub_segment], 
+[tbl_dim_segment.segment] 
+FROM [tbl_dim_segment]
+LEFT OUTER JOIN
+SELECT 
+[Profit Center.Profit Center], 
+[Profit Center.Name]
+FROM [Profit Center]
+ON VARCHAR(INTEGER([Profit Center.Profit Center])) = [tbl_dim_segment.profit_center_key]

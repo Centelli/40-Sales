@@ -5,4 +5,7 @@ COMPLETE
 //BKTel Data - sync shadow and main space
 // DELETE From [Grain(SC-Invoices)] where [Grain(SC-Invoices).Comp Code Key] IN ('9200','9600','9700') and [Grain(SC-Invoices).Customer Key] in ('BK_000Z20', 'BK_000Z60', 'BK_000Z70')
 
+// M21 - Project Momentum
+DELETE FROM [Level(Security Key.Security Key)] where [Level(Security Key.Security Key).Security Key401666498] is not null
+
 END COMPLETE

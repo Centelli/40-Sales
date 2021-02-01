@@ -39,9 +39,11 @@ End If
 [Comp Code Key]=[vSalesOrg]
 [Division Key] = '21'
 
+[Profit Center Key] = '204'
+[WBS Element] = '00000000'
 [Customer Key] = [V_BelegPos.Firma] + '_' + [V_BelegKopf.Kunde]
 [CustArea Key] = [V_BelegPos.Firma] + '_' +[V_BelegKopf.Kunde] + [vSalesOrg] 
-[vSecurityKey] = [vSalesOrg] + '21' + [V_BelegPos.Firma] + '_' + [V_BelegKopf.Kunde]
+[vSecurityKey] = [vSalesOrg] + '21' + '204' + [V_BelegPos.Firma] + '_' + [V_BelegKopf.Kunde]
 [Delivery Customer Key] = 'DEL_I4_' + [V_BelegKopfAdr.Staat] 
 [Sales Order Number] = [V_BelegKopf.AuftragsNr]
 [SI Header Create Date] = [V_BelegKopf.AnlageDatum]

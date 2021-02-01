@@ -1,0 +1,34 @@
+PRINT [Level(Customer Sales Area.Customer Sales Area).CustArea Key] + ' '+[tbl_dim_sales_region.sales_office_region]
+
+[CustArea Key]=[Level(Customer Sales Area.Customer Sales Area).CustArea Key]
+[Inside Sales Key]=[Level(Customer Sales Area.Customer Sales Area).Inside Sales Key]
+[Outside Sales Key]=[Level(Customer Sales Area.Customer Sales Area).Outside Sales Key]
+[Customer Key]=[Level(Customer Sales Area.Customer Sales Area).Customer Key]
+[Sales SubRegion]=[Level(Customer Sales Area.Customer Sales Area).Sales SubRegion]
+[Source]=[Level(Customer Sales Area.Customer Sales Area).Source]
+[Comp Code Key]=[Level(Customer Sales Area.Customer Sales Area).Comp Code Key]
+[Sales Office Key]=[Level(Customer Sales Area.Customer Sales Area).Sales Office Key]
+[Sales Office]=[Level(Customer Sales Area.Customer Sales Area).Sales Office]
+[RC Currency Key]=[Level(Customer Sales Area.Customer Sales Area).RC Currency Key]
+[Outside Sales]=[Level(Customer Sales Area.Customer Sales Area).Outside Sales]
+[Outside Sales AG]=[Level(Customer Sales Area.Customer Sales Area).Outside Sales AG]
+[Outside Sales Email Address]=[Level(Customer Sales Area.Customer Sales Area).Outside Sales Email Address]
+[Outside Sales AD ID]=[Level(Customer Sales Area.Customer Sales Area).Outside Sales AD ID]
+[RSM AD ID]=[Level(Customer Sales Area.Customer Sales Area).RSM AD ID]
+[RSM]=[Level(Customer Sales Area.Customer Sales Area).RSM]
+[MD/GM AD ID]=[Level(Customer Sales Area.Customer Sales Area).MD/GM AD ID]
+[MD/GM]=[Level(Customer Sales Area.Customer Sales Area).MD/GM]
+[RMD AD ID]=[Level(Customer Sales Area.Customer Sales Area).RMD AD ID]
+[RMD]=[Level(Customer Sales Area.Customer Sales Area).RMD]
+[Global Sales AD ID]=[Level(Customer Sales Area.Customer Sales Area).Global Sales AD ID]
+[Global Sales]=[Level(Customer Sales Area.Customer Sales Area).Global Sales]
+[Inside Sales]=[Level(Customer Sales Area.Customer Sales Area).Inside Sales]
+[Inside Sales AG]=[Level(Customer Sales Area.Customer Sales Area).Inside Sales AG]
+[Referred to Key]=[Level(Customer Sales Area.Customer Sales Area).Referred to Key]
+[Referred to]=[Level(Customer Sales Area.Customer Sales Area).Referred to]
+/* Momentum Changes */
+[Sales Region]=[tbl_dim_sales_region.sales_office_region]
+
+IF [tbl_dim_sales_region.sales_office_region] IS NOT NULL THEN
+WRITERECORD
+END IF

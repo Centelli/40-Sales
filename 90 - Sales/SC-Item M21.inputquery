@@ -1,0 +1,25 @@
+SELECT [Level(Item.Item).Item], [Level(Item.Item).Item Group Key], [Level(Item.Item).Item Key] 
+FROM [Level(Item.Item)]
+
+LEFT OUTER JOIN
+SELECT [SC-Item.Item Key], [SC-Item.Profit Center Default], [SC-Item.Profit Center ExtMatGrp], [SC-Item.Profit Center VCItems] 
+FROM [SC-Item]
+ON [SC-Item.Item Key]  = [Level(Item.Item).Item Key] 
+
+LEFT OUTER JOIN 
+SELECT [ZFI_MOM_EXMATGRP.Industry code 1], [ZFI_MOM_EXMATGRP.Ext_ Matl Group] 
+FROM [ZFI_MOM_EXMATGRP]
+ON [ZFI_MOM_EXMATGRP.Ext_ Matl Group] = [Level(Item.Item).Item Group Key]
+LEFT OUTER JOIN 
+SELECT [ZFI_MOM_PC_ExtMatGrp.Industry code 1], [ZFI_MOM_PC_ExtMatGrp.Prctr MARA] 
+FROM [ZFI_MOM_PC] 'ZFI_MOM_PC_ExtMatGrp'
+ON [ZFI_MOM_PC_ExtMatGrp.Industry code 1]=[ZFI_MOM_EXMATGRP.Industry code 1]
+
+LEFT OUTER JOIN 
+SELECT [ZFI_MOM_VC.Industry code 1], [ZFI_MOM_VC.Material] 
+FROM [ZFI_MOM_VC]
+ON [ZFI_MOM_VC.Material]=[Level(Item.Item).Item Key] 
+LEFT OUTER JOIN 
+SELECT [ZFI_MOM_PC_VCItems.Industry code 1], [ZFI_MOM_PC_VCItems.Prctr MARA] 
+FROM [ZFI_MOM_PC] 'ZFI_MOM_PC_VCItems'
+ON [ZFI_MOM_PC_VCItems.Industry code 1]=[ZFI_MOM_VC.Industry code 1]

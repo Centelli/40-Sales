@@ -6,7 +6,11 @@
 [Sales Office Key]='9200'
 [Sales Office]=[tbl_dim_sales_region.sales_office_name]
 [Sales SubRegion]=[tbl_dim_sales_region.sales_subregion_code]
-[Sales Region]=[tbl_dim_sales_region.sales_region_code]
+
+// Project momentum changed the definition os sales region
+// [Sales Region]=[tbl_dim_sales_region.sales_region_code]
+[Sales Region]=[tbl_dim_sales_region.sales_office_region]
+
 [RC Currency Key]=[tbl_dim_sales_region.regional_currency_code]
 
 WRITERECORD

@@ -92,6 +92,6 @@ Select [SFDC_Account.Account ID],
     [SFDC_Account.Shipping Condition] 
 	FROM [SFDC_Account]
 LEFT OUTER JOIN
-SELECT [tbl_dim_sales_region.sales_region_code], [tbl_dim_sales_region.sales_subregion_code], [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.sales_office_name], [tbl_dim_sales_region.regional_currency_code]
+SELECT [tbl_dim_sales_region.sales_region_code], [tbl_dim_sales_region.sales_subregion_code], [tbl_dim_sales_region.sales_office_code], [tbl_dim_sales_region.sales_office_name], [tbl_dim_sales_region.regional_currency_code], [tbl_dim_sales_region.sales_office_region]
   FROM [tbl_dim_sales_region]
     ON [tbl_dim_sales_region.sales_office_code] = [SFDC_Account.Sales Office]

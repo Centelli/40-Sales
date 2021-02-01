@@ -74,6 +74,7 @@ print SUM([VPRS.Condition value])
 [VBRP_KOWRR]=[VBRK_VBRP.VBRP_KOWRR]
 [VBRP_FAREG]=[VBRK_VBRP.VBRP_FAREG]
 [VBRP_FKLMG]=[VBRK_VBRP.VBRP_FKLMG]
+[VBRP_PS_PSP_PNR]=[VBRK_VBRP.VBRP_PS_PSP_PNR]
 
 // HUB-780
 Dim [mRegCurr] as MAP(Varchar(22),Varchar(4)) = SELECT [Level(Customer Sales Area.Customer Sales Area).CustArea Key],[Level(Customer Sales Area.Customer Sales Area).RC Currency Key] FROM [Level(Customer Sales Area.Customer Sales Area)] WHERE [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] is not null
