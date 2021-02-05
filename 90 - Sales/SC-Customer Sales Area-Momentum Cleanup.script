@@ -27,7 +27,8 @@ PRINT [Level(Customer Sales Area.Customer Sales Area).CustArea Key] + ' '+[tbl_d
 [Referred to Key]=[Level(Customer Sales Area.Customer Sales Area).Referred to Key]
 [Referred to]=[Level(Customer Sales Area.Customer Sales Area).Referred to]
 /* Momentum Changes */
-[Sales Region]=[tbl_dim_sales_region.sales_office_region]
+//[Sales Region]=[tbl_dim_sales_region.sales_office_region]
+[Sales Region]='Unkn'
 
 IF [tbl_dim_sales_region.sales_office_region] IS NOT NULL THEN
 WRITERECORD

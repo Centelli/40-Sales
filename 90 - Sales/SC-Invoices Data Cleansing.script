@@ -100,7 +100,7 @@ END IF
 [SI Sales UoM] = [Level(Sales Invoices.Sales Invoices).SI Sales UoM]
 [Source] = [Grain(SC-Invoices).# Source]
 [Statistical Value] = [Level(Sales Invoices.Sales Invoices).Statistical Value]
-IF [VBRK_VBRP.PRPS_POSKI] IS NOT NULL
+IF [VBRK_VBRP.PRPS_POSKI] IS NOT NULL THEN
   [WBS Element] = [VBRK_VBRP.PRPS_POSKI]
 ELSE
   [WBS Element]='00000000'
