@@ -218,7 +218,7 @@ END IF
 
 [Customer Key] = [vCustomerKey] 
 [CustArea Key] = [vCustomerKey] + '' + [SC-Invoices Stg.VBRK_VKORG]
-[vSecurityKey] = [SC-Invoices Stg.VBRK_VKORG] + '' + [vDivisionKey] + '' + [SC-Invoices Stg.VBRP_PRCTR] + '' + [vCustomerKey] 
+[vSecurityKey] = [SC-Invoices Stg.VBRK_VKORG] + '' + [vDivisionKey] + '' + [SC-Invoices Stg.Profit Center Key] + '' + [vCustomerKey] 
 
 [SI Cancellation Document]=[SC-Invoices Stg.VBRK_SFAKN]
 [Delivery Customer Key]=[vDelCustomerKey]

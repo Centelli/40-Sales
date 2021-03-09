@@ -1,4 +1,4 @@
-SELECT DISTINCT [SQL Sales Budget Forecast.Customer_Key], [SQL Sales Budget Forecast.Outside_Sales_Key], [SQL Sales Budget Forecast.Sales_Office_Key], [SQL Sales Budget Forecast.Customer_Type], [SQL Sales Budget Forecast.Comp_Key], [SQL Sales Budget Forecast.Outside_Sales_Email_Adress], [SQL Sales Budget Forecast.Sales_Org_Key] FROM [SQL Sales Budget Forecast] 
+SELECT DISTINCT [SQL Sales Budget Forecast.Customer_Key], [SQL Sales Budget Forecast.Outside_Sales_Key], [SQL Sales Budget Forecast.Sales_Office_Key], [SQL Sales Budget Forecast.Customer_Type], [SQL Sales Budget Forecast.Comp_Key], [SQL Sales Budget Forecast.Outside_Sales_Email_Address], [SQL Sales Budget Forecast.Sales_Org_Key] FROM [SQL Sales Budget Forecast] 
 INNER JOIN
 SELECT [SQL Customer New Biz.Customer_Key],  [SQL Customer New Biz.Customer_Name], [SQL Customer New Biz.Customer_Name_1], [SQL Customer New Biz.Market_Segment_Name], [SQL Customer New Biz.Market_Role_Key], [SQL Customer New Biz.Customer_Group], [SQL Customer New Biz.Market_Segment_Key]
   FROM [SQL Customer New Biz]

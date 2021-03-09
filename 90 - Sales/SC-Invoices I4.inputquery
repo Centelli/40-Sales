@@ -3,7 +3,7 @@ INNER JOIN
 SELECT [V_BelegKopf.BelegNummer], [V_BelegKopf.BelegDatum], [V_BelegKopf.BelegArt], [V_BelegKopf.ReferenzNr], [V_BelegKopf.Firma], [V_BelegKopf.VorgangsNummer], [V_BelegKopf.Waehrung], [V_BelegKopf.Kurs], [V_BelegKopf.AnlageDatum], [V_BelegKopf.AenderungDatum], [V_BelegKopf.Kunde], [V_BelegKopf.AuftragsNr], [V_BelegKopf.BelegFreigabe], [V_BelegKopf.offen] FROM [BKtel-proAlpha_V_BelegKopf] 'V_BelegKopf'
 ON [V_BelegKopf.ReferenzNr] = [V_BelegPos.ReferenzNr] and [V_BelegKopf.Firma] = [V_BelegPos.Firma]  and [V_BelegKopf.BelegDatum] >= '2019-12-02'
 INNER JOIN
-select [S_Kunde.Kunde], [S_Kunde.Konzern] from [BKtel-proAlpha_S_Kunde] 'S_Kunde' on [V_BelegKopf.Kunde] = [S_Kunde.Kunde] and [S_Kunde.Firma] = [V_BelegKopf.Firma] 
+select [S_Kunde.Kunde], [S_Kunde.Konzern], [S_Kunde.Sachbearbeiter] from [BKtel-proAlpha_S_Kunde] 'S_Kunde' on [V_BelegKopf.Kunde] = [S_Kunde.Kunde] and [S_Kunde.Firma] = [V_BelegKopf.Firma] 
 LEFT OUTER JOIN
 SELECT [V_BelegKopfAdr.ReferenzNr], [V_BelegKopfAdr.Typ], [V_BelegKopfAdr.Staat] FROM [BKtel-proAlpha_V_BelegKopfAdr] 'V_BelegKopfAdr'
 ON [V_BelegKopfAdr.ReferenzNr] = [V_BelegPos.ReferenzNr] AND [V_BelegKopfAdr.Typ] = 'L' 

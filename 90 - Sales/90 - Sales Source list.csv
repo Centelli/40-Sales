@@ -41,14 +41,14 @@ SC-Customer New Biz,False,1.2.Dimensions;SC-Customer New Biz
 SC-CustSales Area Budget,False,1.2.Dimensions;SC-Customer Sales Area Budget
 SQL Customer New Biz,False,1.1.SQL Sources;ST-Customer New Biz
 SC-Item VC,False,SC-Item VC
-SC-Invoices I2,False,1.4.Invoices I2
+SC-Invoices I2,True,
 SQL_I2_vw_MARA,False,1.1.SQL Sources
 SC-Item I2,False,1.2.Dimensions I2;SC-Item I2
 SC-Customer I2,False,1.2.Dimensions I2;SC-Customer I2
 SQL_I2_vw_VBRK_VBRP,False,1.1.SQL Sources
 SC-Customer Sales Area I2,False,1.2.Dimensions I2;SC-Customer Sales Area I2
 SQL_I2_vw_VBAK_VBAP,False,1.1.SQL Sources;SQL_I2_VBAK_VBAP
-SC-Orders I2,False,1.3.Orders I2
+SC-Orders I2,True,
 TCURF,False,1.1.Transaction;ST-TCURF
 SC-Currency Factors,False,1.2.Dimensions;SC-Currency Factors
 SQL_I2_vw_dim_customer,False,1.1.SQL Sources;ST_SQL_dim_customer
@@ -61,7 +61,6 @@ SC-User Access,False,1.2.User Access
 SC-Ex Rates,False,1.2.Dimensions
 SQL_CCR_Fastnet_xomrv,False,1.1.SQL Sources
 Key Account,False,
-ADR6,False,1.1.Master
 SC-Active Directory,False,1.2.Dimensions;SC-Active Directory
 SC-Employee Hierarchy,False,1.2.Dimensions;SC-Employee Hierarchy
 Active Directory,False,1.1.Hierarchies;ST-Active Directory
@@ -85,19 +84,18 @@ SC-Division,False,1.2.Dimensions;SC-Division
 VBKD,False,1.1.Transaction;ST_VBKD;Order Rebuild v0
 SQL_I2_vw_Sales_Org,False,1.1.SQL Sources
 SC-Sales Org,False,1.2.Dimensions;SC-Sales Org
-SQL_vw_bi_ICOGS,False,1.1.SQL Sources
 User_Defaults,False,User Deafults
 ZBI_BIRST_ZbapiSalesorderGet,False,1.1.Transaction;2.Pricing;3.Staging;4.ST_BAPI_Pricing
 SC-TCURF,False,1.2.Dimensions;SC-TCURF
 SC-Delivery Partner Default,False,1.4.Invoices;SC-Delivery Partner Default
 SQL_M2_vw_migration_fact_sales,False,1.6.Migration Sources;SQL_M2_vw_migration_fact_sales
-SC-Invoices M2 Curr,False,1.7.M2 Curr Invoices
-SC-Invoices M2,False,1.9.Invoices M2;SC-Invoices M2
+SC-Invoices M2 Curr,True,1.7.M2 Curr Invoices
+SC-Invoices M2,True,1.9.Invoices M2;SC-Invoices M2
 SQL_M2_vw_migration_fact_orders,False,1.6.Migration Sources;SQL_M2_vw_migration_fact_orders
-SC-Orders M2,False,1.8.Orders M2;SC-Orders M2
-SC-Invoices M2 Fin,False,1.7.M2 Curr Invoices
-SC-Orders M2 Curr,False,1.7.M2 Curr Orders;SC-Orders M2 Curr
-SC-Orders M2 Fin,False,1.7.M2 Curr Orders;SC-Orders M2 Fin
+SC-Orders M2,True,1.8.Orders M2;SC-Orders M2
+SC-Invoices M2 Fin,True,1.7.M2 Curr Invoices
+SC-Orders M2 Curr,True,1.7.M2 Curr Orders;SC-Orders M2 Curr
+SC-Orders M2 Fin,True,1.7.M2 Curr Orders;SC-Orders M2 Fin
 md_outside_sales,False,md_outside_sales
 SC-Invoices Warmup,False,1.4.Invoices;SC-Invoices Warmup
 SC-Invoice for Backlog,False,1.5.Backlog;SC-Invoice for Backlog
@@ -191,8 +189,11 @@ SC-Segment,False,SC-Segment;1.3.Orders SL
 SC-WBS Element,False,SC-WBS Element;1.3.Orders SL
 SC-Orders Data Cleansing,False,SC-Orders Data Cleansing
 SC-Orders SL - Historical Update,True,SC-Orders SL - Historical Update
-VBAK_VBAP_VBEP_M21,False,
+VBAK_VBAP_VBEP_M21,False,VBAK_VBAP_VBEP_M21
 SC-Customer Sales Area-Momentum Cleanup,False,SC-CSA Momentum Cleanup
 SC-Invoices Data Cleansing,False,SC-Invoices Data Cleansing
 SC-Customer M21,False,
 SC-Item M21,False,
+SQL_vw_bi_ICOGS,False,1.1.SQL Sources;ST_SQL_vw_bi_ICOGS
+ADR6,False,1.1.Master;ST_ADR6
+SC-ICS Invoice Profit Center M21,False,SC-ICS Invoice M21

@@ -1,4 +1,5 @@
 // Project Momentum Segment derivation changes
+DIM [vICS] AS VARCHAR(2)
 DIM [vDivisionKey] as VARCHAR(2)
 DIM [vProfitCenterKey] as VARCHAR(3)
 
@@ -10,6 +11,7 @@ DIM [vCustomerKey] as Varchar(18)
 DIM [vCustACGroup] as Varchar(10)
 DIM [vCustMktSeg] as Varchar(10)
 DIM [vCustProfCtr] as varchar(10)
+DIM [vCustType] as varchar(10)
 
 
 
@@ -122,21 +124,31 @@ END IF
 [PRPS_POSKI]=[SC-Invoices Warmup.PRPS_POSKI]
 [VBRP_PS_PSP_PNR]=[SC-Invoices Warmup.VBRP_PS_PSP_PNR]
 
+
+//Momentum ICS check
+IF [SC-Invoices Warmup.VBAK_VKORG] = [SC-Invoices Warmup.VBAP_WERKS]  and  [SC-Invoices Warmup.VBRK_FKART] NOT in ('ZIV', 'ZIVS', 'ZIVA', 'ZIG', 'ZIGA', 'ZIGS') THEN
+  [vICS] = ''
+ELSE
+  [vICS] = 'X' 
+END IF
+
 /* Project Momentum Profit Center Derivation*/
 IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZIV', 'ZIVS')  THEN
   [vCustomerKey] = [SC-Invoices Warmup.VBRK_KUNRG]
   [vCustACGroup] = [SC_Cust_RG.Account group]
   [vCustMktSeg] = [SC_Cust_RG.Market Segment Key]
   [vCustProfCtr] = [SC_Cust_RG.Profit Center Default]
+  [vCustType] = [SC_Cust_RG.Customer Type]
 ELSE
   [vCustomerKey] = [SC-Invoices Warmup.VBRK_KUNAG]
   [vCustACGroup] = [SC_Cust_AG.Account group]
   [vCustMktSeg] = [SC_Cust_AG.Market Segment Key]
   [vCustProfCtr] = [SC_Cust_AG.Profit Center Default]
+  [vCustType] = [SC_Cust_AG.Customer Type]
 END IF
 
-PRINT '[VBRK_VBRP.VBRK_VBELN]: '+[SC-Invoices Warmup.VBRK_VBELN]+' [VBRK_VBRP.VBRP_POSNR]: '+[SC-Invoices Warmup.VBRP_POSNR]
-PRINT '[VBRK_VBRP.VBRP_PRCTR]:'+[SC-Invoices Warmup.VBRP_PRCTR]
+PRINT '[SC-Invoices Warmup.VBRK_VBELN]: '+[SC-Invoices Warmup.VBRK_VBELN]+' [SC-Invoices Warmup.VBRP_POSNR]: '+[SC-Invoices Warmup.VBRP_POSNR]
+PRINT '[SC-Invoices Warmup.VBRP_PRCTR]:'+[SC-Invoices Warmup.VBRP_PRCTR]
 PRINT 'Item Key: '+ [SC-Invoices Warmup.VBRP_MATNR] +' _ '+ [SC-Item.Item Key]
 PRINT 'Cust Key: '+ [vCustomerKey]
 PRINT 'Item Default: '+[SC-Item.Profit Center Default]
@@ -146,16 +158,24 @@ PRINT 'Cust Default: '+[vCustProfCtr]
   
   dim [mPCLookup] as map(INTEGER,Varchar(7)) = select distinct [ZFI_MOM_PC.Prctr MARA], 'Valid' from [ZFI_MOM_PC]
   dim [mPCLookupWBS] as map(Varchar(16),Varchar(10)) = select distinct [tbl_WBS_element_Profit_center.wbs_element], [tbl_WBS_element_Profit_center.profit_center] from [tbl_WBS_element_Profit_center]
+  DIM [mOrderPC] as MAP(VARCHAR(16), VARCHAR(3)) = SELECT [Grain(SC-Orders SL History).# Sales Order Key], [Grain(SC-Orders SL History).Profit Center Key] FROM [Grain(SC-Orders SL History)] where [Grain(SC-Orders SL History).Current Record] = '1' 
 
-  IF [mPCLookup] (INTEGER([SC-Invoices Warmup.VBRP_PRCTR])) IS NOT NULL THEN
+  IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZIV','ZIVS') AND [SC-Invoices Warmup.VBAK_VKORG] IS NULL AND [vCustType] = 'Group' THEN
+    PRINT 'VBRP Seg Key: '+ [SC-Invoices Warmup.VBRP_PRCTR]
+    [vProfitCenterKey] = INTEGER([SC-Invoices Warmup.VBRP_PRCTR])
+    [vProfitCenterKeySource] = 'ZIV VBRP'
+  ELSEIF [mPCLookup] (INTEGER([SC-Invoices Warmup.VBRP_PRCTR])) IS NOT NULL THEN
     PRINT 'VBRP Seg Key: '+ [SC-Invoices Warmup.VBRP_PRCTR]
     [vProfitCenterKey] = INTEGER([SC-Invoices Warmup.VBRP_PRCTR])
 	[vProfitCenterKeySource] = 'VBRP'
   ELSE 
-  PRINT 'Determination input: ' + [SC-Invoices Warmup.PRPS_POSKI] + ' : ' + [vCustACGroup] + ' : ' + [vCustMktSeg] + ' : ' + [SC-Item.Item Group Key]
-    IF [SC-Invoices Warmup.PRPS_POSKI] IS NULL THEN
+  PRINT 'Determination input: ' + [SC-Invoices Warmup.PRPS_POSKI] + ' : ' + [mPCLookupWBS] ([SC-Invoices Warmup.PRPS_POSKI]) + ' : ' + [vCustACGroup] + ' : ' + [vCustMktSeg] + ' : ' + [SC-Item.Item Group Key]
+    IF [mPCLookupWBS] ([SC-Invoices Warmup.PRPS_POSKI]) IS NULL THEN
 	  
-	   IF [vCustACGroup] = 'Z010' THEN
+	   IF [vICS] = 'X' AND [SC_ICS_M21.3rd Profit Center Key] IS NOT NULL THEN
+	    [vProfitCenterKey] = [SC_ICS_M21.3rd Profit Center Key]
+	    [vProfitCenterKeySource] = 'ICS 3rd'
+      ELSEIF [vCustACGroup] = 'Z010' THEN
 	     PRINT '1 '+  [SC-Item.Profit Center ExtMatGrp]
 	     IF  [SC-Item.Profit Center ExtMatGrp] IS NOT NULL THEN
            [vProfitCenterKey] = [SC-Item.Profit Center ExtMatGrp]
@@ -197,54 +217,9 @@ PRINT 'Cust Default: '+[vCustProfCtr]
 		 END IF
 	   END IF
 	ELSE
-	  IF [mPCLookupWBS] ([SC-Invoices Warmup.PRPS_POSKI]) IS NOT NULL THEN
-	    PRINT '5 '+  [SC-Invoices Warmup.PRPS_POSKI]
-	    [vProfitCenterKey] = [mPCLookupWBS] ([SC-Invoices Warmup.PRPS_POSKI])
-		[vProfitCenterKeySource] = 'WBS'
-	  ELSE
-	    IF [vCustACGroup] = 'Z010' THEN
-		 PRINT '5 '+ [SC-Item.Profit Center ExtMatGrp] 
-	     IF  [SC-Item.Profit Center ExtMatGrp] IS NOT NULL THEN
-           [vProfitCenterKey] = [SC-Item.Profit Center ExtMatGrp]
-		   [vProfitCenterKeySource] = 'ExtMatGrp 5'
-         ELSE
-           [vProfitCenterKey] = [SC-Item.Profit Center Default]
-		   [vProfitCenterKeySource] = 'Item 5'
-         END IF
-	   ELSE
-	     IF [vCustMktSeg] = 'Z400000' THEN
-		   /* Distributor */
-	       IF [SC-Item.Item Group Key] = 'ZZZZVC' THEN
-		     PRINT '6 '+ [SC-Item.Profit Center VCItems]
-		     IF [SC-Item.Profit Center VCItems] IS NOT NULL THEN
-		       [vProfitCenterKey] = [SC-Item.Profit Center VCItems]
-			   [vProfitCenterKeySource] = 'VCItem 6'
-             ELSE
-               [vProfitCenterKey] = [SC-Item.Profit Center Default]
-			   [vProfitCenterKeySource] = 'Item 6'
-             END IF
-		   ELSE
-		     PRINT '7 '+ [SC-Item.Profit Center ExtMatGrp]
-			 IF [SC-Item.Profit Center ExtMatGrp] IS NOT NULL THEN
-  	           [vProfitCenterKey] = [SC-Item.Profit Center ExtMatGrp]
-			   [vProfitCenterKeySource] = 'ExtMatGrp 7'
-	         ELSE
-	           [vProfitCenterKey] = [SC-Item.Profit Center Default]
-			   [vProfitCenterKeySource] = 'Item 7'
-	         END IF
-		   END IF
-		 ELSE /* Not a Distributor */
-	       PRINT '8 '+ [vCustProfCtr]
-		   IF [vCustProfCtr] IS NOT NULL THEN
-  	         [vProfitCenterKey] = [vCustProfCtr]
-			 [vProfitCenterKeySource] = 'Customer 8'
-	       ELSE
-	          [vProfitCenterKey] = [SC-Item.Profit Center Default]
-			 [vProfitCenterKeySource] = 'Item 8'
-	       END IF		 
-		 END IF
-	   END IF
-	  END IF
+	   PRINT '5 '+  [SC-Invoices Warmup.PRPS_POSKI]
+       [vProfitCenterKey] = [mPCLookupWBS] ([SC-Invoices Warmup.PRPS_POSKI])
+       [vProfitCenterKeySource] = 'WBS'
 	END IF
 	
   END IF

@@ -1,0 +1,15 @@
+SELECT [VBRK_VBRP_M21.VBRK_VBELN], [VBRK_VBRP_M21.VBRK_FKART], [VBRK_VBRP_M21.VBRK_KUNRG], [VBRK_VBRP_M21.VBRK_KUNAG], [VBRK_VBRP_M21.VBRP_POSNR], [VBRK_VBRP_M21.VBRP_MATNR], [VBRK_VBRP_M21.VBRP_MATKL], [VBRK_VBRP_M21.VBRP_PRCTR], [VBRK_VBRP_M21.PRPS_POSKI], [VBRK_VBRP_M21.VBRP_PS_PSP_PNR], [VBRK_VBRP_M21.VBRP_WERKS], [VBRK_VBRP_M21.VBRK_BUKRS], [VBRK_VBRP_M21.VBRP_AUBEL], [VBRK_VBRP_M21.VBRP_AUPOS] 
+FROM [VBRK_VBRP] 'VBRK_VBRP_M21'
+WHERE [VBRK_VBRP_M21.VBRK_FKART] IN ('ZIV', 'ZIVS', 'ZIVA', 'ZIG', 'ZIGA', 'ZIGS') AND [VBRK_VBRP_M21.VBRK_VBELN] = '1050109565'
+LEFT OUTER JOIN
+SELECT [Level(Sales Invoices.Sales Invoices).Sales Invoice Number], [Level(Sales Invoices.Sales Invoices).Sales Invoice Item], [Level(Sales Invoices.Sales Invoices).Sales Order Number], [Level(Sales Invoices.Sales Invoices).Sales Order Item], [Level(Sales Invoices.Sales Invoices).Sales Invoices1677092969]
+FROM [Level(Sales Invoices.Sales Invoices)]
+ON [Level(Sales Invoices.Sales Invoices).Sales Order Number] = [VBRK_VBRP_M21.VBRP_AUBEL] AND [Level(Sales Invoices.Sales Invoices).Sales Order Item] = [VBRK_VBRP_M21.VBRP_AUPOS]
+LEFT OUTER JOIN
+SELECT [Grain(SC-Invoices).Comp Code Key], [Grain(SC-Invoices).Customer Key], [Grain(SC-Invoices).Profit Center Key]
+FROM [Grain(SC-Invoices)]
+ON [Grain(SC-Invoices).Sales Invoices1677092969] = [Level(Sales Invoices.Sales Invoices).Sales Invoices1677092969]
+LEFT OUTER JOIN 
+SELECT [Level(Customer.Customer).Customer Key] , [Level(Customer.Customer).Market Segment Key], [Level(Customer.Customer).Customer Type] 
+FROM [Level(Customer.Customer)] WHERE [Level(Customer.Customer).Customer Type] = 'Third'
+ON [Grain(SC-Invoices).Customer Key] =  [Level(Customer.Customer).Customer Key]

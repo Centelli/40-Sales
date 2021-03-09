@@ -16,6 +16,30 @@ DIM [vCustProfCtr] as varchar(10)
 [vCustMktSeg] = null 
 [vCustProfCtr] = null
 
+/*Item derivation to handle VC Items*/
+DIM [vItemProfCtrDefault] as varchar(3)
+DIM [vItemProfCtrExtMatGrp] as varchar(3)
+DIM [vItemProfCtrVCItems] as varchar(3)
+DIM [vItemGroupKey] as varchar(10)
+
+IF [Item_VBAP.Item Key] IS NOT NULL THEN
+  [vItemProfCtrDefault] = [Item_VBAP.Profit Center Default]
+  [vItemProfCtrExtMatGrp] = [Item_VBAP.Profit Center ExtMatGrp]
+  [vItemProfCtrVCItems] = [Item_VBAP.Profit Center VCItems]
+  [vItemGroupKey] = [Item_VBAP.Item Group Key]
+ELSEIF [Item_Grain.Item Key] IS NOT NULL THEN
+  [vItemProfCtrDefault] = [Item_Grain.Profit Center Default]
+  [vItemProfCtrExtMatGrp] = [Item_Grain.Profit Center ExtMatGrp]
+  [vItemProfCtrVCItems] = [Item_Grain.Profit Center VCItems]
+  [vItemGroupKey] = [Item_Grain.Item Group Key]
+ELSE 
+  [vItemProfCtrDefault] = null
+  [vItemProfCtrExtMatGrp] = null
+  [vItemProfCtrVCItems] = null
+  [vItemGroupKey] = null
+END IF
+
+
 [Analysis Date]=[Grain(SC-Orders SL History).Analysis Date]
 [Base Unit]=[Level(Sales Order.Sales Order).Base Unit]
 [Change Date]=[Level(Sales Order.Sales Order).Change Date]
@@ -99,11 +123,11 @@ PRINT 'Grain: ' + [Grain(SC-Orders SL History).Sales Order Number] +' '+ [Grain(
 PRINT 'Source: ' + [VBAK_VBAP_VBEP_M21.VBAP_VBELN] +' '+ [VBAK_VBAP_VBEP_M21.VBAP_POSNR]
 PRINT 'Cust Dim: ' + [Level(Customer.Customer).Customer Key] +' '+ [Level(Customer.Customer).Market Segment Key]
 PRINT 'VBAP Seg Key: '+ [VBAK_VBAP_VBEP_M21.VBAP_PRCTR]
-PRINT 'Item Key: '+ [Grain(SC-Orders SL History).Item Key] + ' _ ' +[SC_Item.Item Key]
+PRINT 'Item Key: '+ [Grain(SC-Orders SL History).Item Key] + ' _ ' +[Item_VBAP.Item Key]+ ' _ ' +[Item_Grain.Item Key]
 PRINT 'Cust Key: '+ [Grain(SC-Orders SL History).Customer Key] + ' _ ' +[SC_Customer.Customer Key]
-PRINT 'Item Default: '+[SC_Item.Profit Center Default]
-PRINT 'Item ExtMatGrp: '+[SC_Item.Profit Center ExtMatGrp]
-PRINT 'Item VCItems: '+[SC_Item.Profit Center VCItems]
+PRINT 'Item Default: '+ [vItemProfCtrDefault]
+PRINT 'Item ExtMatGrp: '+ [vItemProfCtrExtMatGrp]
+PRINT 'Item VCItems: '+ [vItemProfCtrVCItems]
 PRINT 'Cust Default: '+[SC_Customer.Profit Center Default]
 
 
@@ -144,37 +168,37 @@ PRINT '1'
     [vSegmentKey] = INTEGER([VBAK_VBAP_VBEP_M21.VBAP_PRCTR])
 	[vSegmentKeySource] = 'VBAP'
   ELSE 
-  PRINT 'Determination input: ' + [VBAK_VBAP_VBEP_M21.PRPS_POSKI] + ' : ' + [vCustACGroup] + ' : ' + [vCustMktSeg] + ' : ' + [SC_Item.Item Group Key]
+  PRINT 'Determination input: ' + [VBAK_VBAP_VBEP_M21.PRPS_POSKI] + ' : ' + [vCustACGroup] + ' : ' + [vCustMktSeg] + ' : ' + [vItemGroupKey]
     IF [VBAK_VBAP_VBEP_M21.PRPS_POSKI] IS NULL THEN
 	  
 	   IF [vCustACGroup] = 'Z010' THEN
-	     PRINT '1 '+  [SC_Item.Profit Center ExtMatGrp]
-	     IF  [SC_Item.Profit Center ExtMatGrp] IS NOT NULL THEN
-           [vSegmentKey] = [SC_Item.Profit Center ExtMatGrp]
+	     PRINT '1 '+  [vItemProfCtrExtMatGrp]
+	     IF  [vItemProfCtrExtMatGrp] IS NOT NULL THEN
+           [vSegmentKey] = [vItemProfCtrExtMatGrp]
 		   [vSegmentKeySource] = 'ExtMatGrp 1'
          ELSE
-           [vSegmentKey] = [SC_Item.Profit Center Default]
+           [vSegmentKey] = [vItemProfCtrDefault]
 		   [vSegmentKeySource] = 'Item 1'
          END IF
 	   ELSE
 	     IF [vCustMktSeg] = 'Z400000' THEN
 		   /* Distributor */
-		   IF [SC_Item.Item Group Key] = 'ZZZZVC' THEN
-		     PRINT '2 '+  [SC_Item.Profit Center VCItems]
-		     IF [SC_Item.Profit Center VCItems] IS NOT NULL THEN
-		       [vSegmentKey] = [SC_Item.Profit Center VCItems]
+		   IF [vItemGroupKey] = 'ZZZZVC' THEN
+		     PRINT '2 '+  [vItemProfCtrVCItems]
+		     IF [vItemProfCtrVCItems] IS NOT NULL THEN
+		       [vSegmentKey] = [vItemProfCtrVCItems]
 			   [vSegmentKeySource] = 'VC Item 2'
              ELSE
-               [vSegmentKey] = [SC_Item.Profit Center Default]
+               [vSegmentKey] = [vItemProfCtrDefault]
 			   [vSegmentKeySource] = 'Item 2'
              END IF
 		   ELSE
-		     PRINT '3 '+  [SC_Item.Profit Center ExtMatGrp]
-		     IF [SC_Item.Profit Center ExtMatGrp] IS NOT NULL THEN
-  	           [vSegmentKey] = [SC_Item.Profit Center ExtMatGrp]
+		     PRINT '3 '+  [vItemProfCtrExtMatGrp]
+		     IF [vItemProfCtrExtMatGrp] IS NOT NULL THEN
+  	           [vSegmentKey] = [vItemProfCtrExtMatGrp]
 			   [vSegmentKeySource] = 'ExtMatGrp 3'
 	         ELSE
-	           [vSegmentKey] = [SC_Item.Profit Center Default]
+	           [vSegmentKey] = [vItemProfCtrDefault]
 			   [vSegmentKeySource] = 'Item 3' 
 	         END IF
 		   END IF
@@ -185,7 +209,7 @@ PRINT '1'
   	         [vSegmentKey] = [vCustProfCtr]
 			 [vSegmentKeySource] = 'Customer 4'
 	       ELSE
-	         [vSegmentKey] = [SC_Item.Profit Center Default]
+	         [vSegmentKey] = [vItemProfCtrDefault]
 			 [vSegmentKeySource] = 'Item 4' 
 	       END IF		 
 		 END IF
@@ -197,33 +221,33 @@ PRINT '1'
 		[vSegmentKeySource] = 'WBS'
 	  ELSE
 	    IF [vCustACGroup] = 'Z010' THEN
-		 PRINT '5 '+ [SC_Item.Profit Center ExtMatGrp] 
-	     IF  [SC_Item.Profit Center ExtMatGrp] IS NOT NULL THEN
-           [vSegmentKey] = [SC_Item.Profit Center ExtMatGrp]
+		 PRINT '5 '+ [vItemProfCtrExtMatGrp] 
+	     IF  [vItemProfCtrExtMatGrp] IS NOT NULL THEN
+           [vSegmentKey] = [vItemProfCtrExtMatGrp]
 		   [vSegmentKeySource] = 'ExtMatGrp 5'
          ELSE
-           [vSegmentKey] = [SC_Item.Profit Center Default]
+           [vSegmentKey] = [vItemProfCtrDefault]
 		   [vSegmentKeySource] = 'Item 5'
          END IF
 	   ELSE
 	     IF [vCustMktSeg] = 'Z400000' THEN
 		   /* Distributor */
-	       IF [SC_Item.Item Group Key] = 'ZZZZVC' THEN
-		     PRINT '6 '+ [SC_Item.Profit Center VCItems]
-		     IF [SC_Item.Profit Center VCItems] IS NOT NULL THEN
-		       [vSegmentKey] = [SC_Item.Profit Center VCItems]
+	       IF [vItemGroupKey] = 'ZZZZVC' THEN
+		     PRINT '6 '+ [vItemProfCtrVCItems]
+		     IF [vItemProfCtrVCItems] IS NOT NULL THEN
+		       [vSegmentKey] = [vItemProfCtrVCItems]
 			   [vSegmentKeySource] = 'VCItem 6'
              ELSE
-               [vSegmentKey] = [SC_Item.Profit Center Default]
+               [vSegmentKey] = [vItemProfCtrDefault]
 			   [vSegmentKeySource] = 'Item 6'
              END IF
 		   ELSE
-		     PRINT '7 '+ [SC_Item.Profit Center ExtMatGrp]
-			 IF [SC_Item.Profit Center ExtMatGrp] IS NOT NULL THEN
-  	           [vSegmentKey] = [SC_Item.Profit Center ExtMatGrp]
+		     PRINT '7 '+ [vItemProfCtrExtMatGrp]
+			 IF [vItemProfCtrExtMatGrp] IS NOT NULL THEN
+  	           [vSegmentKey] = [vItemProfCtrExtMatGrp]
 			   [vSegmentKeySource] = 'ExtMatGrp 7'
 	         ELSE
-	           [vSegmentKey] = [SC_Item.Profit Center Default]
+	           [vSegmentKey] = [vItemProfCtrDefault]
 			   [vSegmentKeySource] = 'Item 7'
 	         END IF
 		   END IF
@@ -233,7 +257,7 @@ PRINT '1'
   	         [vSegmentKey] = [vCustProfCtr]
 			 [vSegmentKeySource] = 'Customer 8'
 	       ELSE
-	          [vSegmentKey] = [SC_Item.Profit Center Default]
+	          [vSegmentKey] = [vItemProfCtrDefault]
 			 [vSegmentKeySource] = 'Item 8'
 	       END IF		 
 		 END IF

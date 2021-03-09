@@ -35,7 +35,7 @@ END IF
 
 [Outside Sales]=[SC-Employee Hierarchy.Name]
 //[Outside Sales AG]=[OutCust.KNA1_KTOKD]
-[Outside Sales Email Address]=[SQL Sales Budget Forecast.Outside_Sales_Email_Adress]
+[Outside Sales Email Address]=[SQL Sales Budget Forecast.Outside_Sales_Email_Address]
 [Outside Sales AD ID]=[SC-Employee Hierarchy.AD ID]
 [RSM AD ID]=[SC-Employee Hierarchy.Manager AD ID]
 [RSM]=[SC-Employee Hierarchy.Manager Name]

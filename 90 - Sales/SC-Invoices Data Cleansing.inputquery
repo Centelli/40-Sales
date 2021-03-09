@@ -1,10 +1,14 @@
-SELECT [Grain(SC-Invoices).Bill Type Key],[Grain(SC-Invoices).Division Key], [Grain(SC-Invoices).Sales Org Key], [Grain(SC-Invoices).Comp Code Key], [Grain(SC-Invoices).Customer Key],[Grain(SC-Invoices).Delivery Customer Key], [Grain(SC-Invoices).Sales Invoice Number], [Grain(SC-Invoices).Sales Invoice Item], [Grain(SC-Invoices).Invoice Qty], [Grain(SC-Invoices).Item Key],[Grain(SC-Invoices).SI Item Cost], [Grain(SC-Invoices).Net Sales DC],[Grain(SC-Invoices).Net Sales GC],[Grain(SC-Invoices).Net Sales HC], [Grain(SC-Invoices).Net Sales RC],[Grain(SC-Invoices).Analysis Date],[Grain(SC-Invoices).Sales COGS DC], [Grain(SC-Invoices).Sales COGS HC], [Grain(SC-Invoices).Sales COGS GC], [Grain(SC-Invoices).CustArea Key], [Grain(SC-Invoices).Sales ICOGS HC], [Grain(SC-Invoices).Sales ICOGS GC],  [Grain(SC-Invoices).Net Sales RC], [Grain(SC-Invoices).Sales COGS RC], [Grain(SC-Invoices).Sales ICOGS RC], [Grain(SC-Invoices).DelMarker], [Grain(SC-Invoices).Security Key], [Grain(SC-Invoices).# Source] FROM [Grain(SC-Invoices)]
-WHERE [Grain(SC-Invoices).Analysis Date] < '01/01/2019'
-
+SELECT distinct [Grain(SC-Invoices).Bill Type Key],[Grain(SC-Invoices).Division Key], [Grain(SC-Invoices).Sales Org Key], [Grain(SC-Invoices).Comp Code Key], [Grain(SC-Invoices).Customer Key],[Grain(SC-Invoices).Delivery Customer Key], [Grain(SC-Invoices).Sales Invoice Number], [Grain(SC-Invoices).Sales Invoice Item], [Grain(SC-Invoices).Invoice Qty], [Grain(SC-Invoices).Item Key],[Grain(SC-Invoices).SI Item Cost], [Grain(SC-Invoices).Net Sales DC],[Grain(SC-Invoices).Net Sales GC],[Grain(SC-Invoices).Net Sales HC], [Grain(SC-Invoices).Net Sales RC],[Grain(SC-Invoices).Analysis Date],[Grain(SC-Invoices).Sales COGS DC], [Grain(SC-Invoices).Sales COGS HC], [Grain(SC-Invoices).Sales COGS GC], [Grain(SC-Invoices).CustArea Key], [Grain(SC-Invoices).Sales ICOGS HC], [Grain(SC-Invoices).Sales ICOGS GC],  [Grain(SC-Invoices).Net Sales RC], [Grain(SC-Invoices).Sales COGS RC], [Grain(SC-Invoices).Sales ICOGS RC], [Grain(SC-Invoices).DelMarker], [Grain(SC-Invoices).Security Key], [Grain(SC-Invoices).# Source] FROM [Grain(SC-Invoices)]
+WHERE 
+//[Grain(SC-Invoices).DelMarker] = '1650777260_000010_CURRENT'
+//[Grain(SC-Invoices).Bill Type Key] IN ('ZIV', 'ZIVS', 'ZIVA', 'ZIG', 'ZIGA', 'ZIGS')
+//[Grain(SC-Invoices).# Source] = 'M2' and [Grain(SC-Invoices).Profit Center Key] = '000' AND [Grain(SC-Invoices).Analysis Date] >= '01-01-2020' 
+//[Grain(SC-Invoices).Sales Invoice Number] IN ('1050111310', '1510011219', '1650773680', '1650777441', '1750044932', '1750045851', '5050001162', '5050001163', '5050001166', '5050001167', '1650771734')
+[Grain(SC-Invoices).Sales Invoice Number] IN ('1650767689', '1750042327', '1750044097', '1050109565')
 INNER JOIN
 
 SELECT [Level(Sales Invoices.Sales Invoices).SI Doc Condition], [Level(Sales Invoices.Sales Invoices).Payer], [Level(Sales Invoices.Sales Invoices).SI Header Change Date], [Level(Sales Invoices.Sales Invoices).SI Cancellation Document], [Level(Sales Invoices.Sales Invoices).Sales Invoice Number], [Level(Sales Invoices.Sales Invoices).Sales Invoice Item], [Level(Sales Invoices.Sales Invoices).SI Sales UoM], [Level(Sales Invoices.Sales Invoices).SI Base UoM], [Level(Sales Invoices.Sales Invoices).SI Originating Doc], [Level(Sales Invoices.Sales Invoices).SI Originating Item], [Level(Sales Invoices.Sales Invoices).SI Reference Doc], [Level(Sales Invoices.Sales Invoices).SI Reference Item], [Level(Sales Invoices.Sales Invoices).SI Prec Doc Categ], [Level(Sales Invoices.Sales Invoices).Sales Order Number], [Level(Sales Invoices.Sales Invoices).Sales Order Item], [Level(Sales Invoices.Sales Invoices).Item category], [Level(Sales Invoices.Sales Invoices).Plant], [Level(Sales Invoices.Sales Invoices).Created by Header], [Level(Sales Invoices.Sales Invoices).SI Header Create Date], [Level(Sales Invoices.Sales Invoices).Currency Key DC], [Level(Sales Invoices.Sales Invoices).Ex Rate DC], [Level(Sales Invoices.Sales Invoices).Currency Key GC], [Level(Sales Invoices.Sales Invoices).Ex Rate GC], [Level(Sales Invoices.Sales Invoices).Currency Key HC], [Level(Sales Invoices.Sales Invoices).Ex Rate HC], [Level(Sales Invoices.Sales Invoices).Sales Invoice Key], [Level(Sales Invoices.Sales Invoices).SI Reference SO Key], [Level(Sales Invoices.Sales Invoices).Billing Rule], [Level(Sales Invoices.Sales Invoices).Statistical Value], [Level(Sales Invoices.Sales Invoices).Returns], [Level(Sales Invoices.Sales Invoices).Source], [Level(Sales Invoices.Sales Invoices).Currency Key RC], [Level(Sales Invoices.Sales Invoices).Ex Rate RC], [Level(Sales Invoices.Sales Invoices).DelMarker], [Level(Sales Invoices.Sales Invoices).Cost Scenario], [Level(Sales Invoices.Sales Invoices).COGS Source], [Level(Sales Invoices.Sales Invoices).ICOGS Source] FROM [Level(Sales Invoices.Sales Invoices)]
-//WHERE [Level(Sales Invoices.Sales Invoices).Sales Invoice Number] IN ('1550001200') and [Level(Sales Invoices.Sales Invoices).Sales Invoice Item] IN ('000010','10')
+
 ON [Grain(SC-Invoices).Sales Invoices1677092969] = [Level(Sales Invoices.Sales Invoices).Sales Invoices1677092969]
 
 LEFT OUTER JOIN
@@ -13,14 +17,20 @@ SELECT [VBRK_VBRP.VBRK_VBELN], [VBRK_VBRP.VBRP_POSNR],
 [VBRK_VBRP.VBRK_KUNRG], [VBRK_VBRP.VBRK_KUNAG], 
 [VBRK_VBRP.VBRP_MATNR], [VBRK_VBRP.VBRP_MATKL], 
 [VBRK_VBRP.VBRP_PRCTR], [VBRK_VBRP.VBRP_PS_PSP_PNR], 
-[VBRK_VBRP.VBRK_FKART], [VBRK_VBRP.PRPS_POSKI]
+[VBRK_VBRP.VBRK_FKART], [VBRK_VBRP.PRPS_POSKI], 
+[VBRK_VBRP.VBRP_WERKS], [VBRK_VBRP.VBRK_BUKRS]
   FROM [VBRK_VBRP_M21]  'VBRK_VBRP'
 ON [Level(Sales Invoices.Sales Invoices).Sales Invoice Number]=[VBRK_VBRP.VBRK_VBELN] 
 AND [Level(Sales Invoices.Sales Invoices).Sales Invoice Item]=[VBRK_VBRP.VBRP_POSNR]
 
 LEFT OUTER JOIN
-SELECT [Level(Customer.Customer).Customer Key] , [Level(Customer.Customer).Market Segment Key] FROM [Level(Customer.Customer)]
-ON [Grain(SC-Invoices).Customer Key] =  [Level(Customer.Customer).Customer Key]
+SELECT [T001K.T001K_BUKRS], [T001K.T001_WAERS]
+  FROM [T001K]
+  ON [T001K.T001K_BWKEY] = [VBRK_VBRP.VBRP_WERKS]
+ 
+LEFT OUTER JOIN
+	SELECT [Level(Customer.Customer).Customer Key] , [Level(Customer.Customer).Market Segment Key], [Level(Customer.Customer).Customer Type] FROM [Level(Customer.Customer)]
+	ON [Grain(SC-Invoices).Customer Key] =  [Level(Customer.Customer).Customer Key]
 
 LEFT OUTER JOIN
 SELECT [Item_VBRP.Item Key], 
@@ -30,7 +40,6 @@ SELECT [Item_VBRP.Item Key],
   [Item_VBRP.Item Group Key]
 FROM [SC-Item M21] 'Item_VBRP'
 ON [Item_VBRP.Item Key] = [VBRK_VBRP.VBRP_MATNR]
-
 
 LEFT OUTER JOIN
 SELECT [Item_Grain.Item Key], 
@@ -49,3 +58,19 @@ SELECT [SC_Customer.Customer Key],
   [SC_Customer.Market Segment Key]
 FROM [SC-Customer M21] 'SC_Customer'
 ON [SC_Customer.Customer Key] = [Grain(SC-Invoices).Customer Key]
+
+LEFT OUTER JOIN 
+
+Select DISTINCT [SC_ICS_M21.VBRK_VBELN], [SC_ICS_M21.VBRP_POSNR], [SC_ICS_M21.3rd Profit Center Key] 
+FROM [SC-ICS Invoice Profit Center M21] 'SC_ICS_M21'
+ON [Level(Sales Invoices.Sales Invoices).Sales Invoice Number]=[SC_ICS_M21.VBRK_VBELN] 
+AND [Level(Sales Invoices.Sales Invoices).Sales Invoice Item]=[SC_ICS_M21.VBRP_POSNR]
+
+LEFT OUTER JOIN 
+
+Select [VBAK_VBAP.VBAP_VBELN],[VBAK_VBAP.VBAP_POSNR], [VBAK_VBAP.VBAK_VKORG], [VBAK_VBAP.VBAP_WERKS] 
+FROM [VBAK_VBAP_VBEP_M21] 'VBAK_VBAP'
+ON  [Level(Sales Invoices.Sales Invoices).Sales Order Number]=[VBAK_VBAP.VBAP_VBELN]
+AND [Level(Sales Invoices.Sales Invoices).Sales Order Item]=[VBAK_VBAP.VBAP_POSNR]
+
+ORDER BY [Grain(SC-Invoices).Sales Invoice Number], [Grain(SC-Invoices).Sales Invoice Item]

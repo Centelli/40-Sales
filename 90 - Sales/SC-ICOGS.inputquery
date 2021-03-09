@@ -1,5 +1,5 @@
 SELECT [SQL_vw_bi_ICOGS.item_code], [SQL_vw_bi_ICOGS.plant_code], [SQL_vw_bi_ICOGS.last_cost_price_trans_date], [SQL_vw_bi_ICOGS.cost_price], [SQL_vw_bi_ICOGS.valid_from], [SQL_vw_bi_ICOGS.valid_to], [SQL_vw_bi_ICOGS.calc_date], [SQL_vw_bi_ICOGS.init_cost_price], [SQL_vw_bi_ICOGS.icogs_status] FROM [SQL_vw_bi_ICOGS]
-LEFT OUTER JOIN
+LEFT OUTER JOIN 
 SELECT [T001K.T001_WAERS] from [T001K] on [T001K.T001K_BWKEY] = [SQL_vw_bi_ICOGS.plant_code]
 LEFT OUTER JOIN
 SELECT [SC-Company.Comp Currency Key] from [SC-Company] on [SC-Company.Comp Code Key] = [SQL_vw_bi_ICOGS.plant_code]

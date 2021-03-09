@@ -1,10 +1,10 @@
 SELECT [Grain(SC-Orders SL History).Sales Order Number], [Grain(SC-Orders SL History).Sales Order Item], [Grain(SC-Orders SL History).Sales Org Key], [Grain(SC-Orders SL History).Customer Key], [Grain(SC-Orders SL History).Item Key], [Grain(SC-Orders SL History).Rejection Reason Key], [Grain(SC-Orders SL History).Division Key],[Grain(SC-Orders SL History).Delivery Customer Key],[Grain(SC-Orders SL History).Order Qty], [Grain(SC-Orders SL History).# Order Intake DC], [Grain(SC-Orders SL History).# Order Intake GC], [Grain(SC-Orders SL History).# Order Intake HC], [Grain(SC-Orders SL History).Analysis Date], [Grain(SC-Orders SL History).# Sales Order Key], [Grain(SC-Orders SL History).# Current Record], [Grain(SC-Orders SL History).CustArea Key], [Grain(SC-Orders SL History).# DelMarker], [Grain(SC-Orders SL History).# Source], [Grain(SC-Orders SL History).# SO Item Cost DC], [Grain(SC-Orders SL History).# SO Item Cost GC], [Grain(SC-Orders SL History).# SO Item Cost HC], [Grain(SC-Orders SL History).Comp Code Key], [Grain(SC-Orders SL History).# Sales Order ScL Line], [Grain(SC-Orders SL History).# Security Key], [Grain(SC-Orders SL History).# Order Intake RC], [Grain(SC-Orders SL History).# SO Item Cost RC], [Grain(SC-Orders SL History).Profit Center Key] 
 FROM [Grain(SC-Orders SL History)] 
-WHERE [Grain(SC-Orders SL History).Sales Order Number] = '0010751457' AND [Grain(SC-Orders SL History).Item Key] = '000000000084058360'
+WHERE 
 //[Grain(SC-Orders SL History).Analysis Date] < '2020-01-01' 
-//[Grain(SC-Orders SL History).Sales Order Number] IN ('0010631431', '0010655392', '0010680708', '0010735739')
+//[Grain(SC-Orders SL History).Sales Order Number] IN ('0010721533', '0010725620', '0010741728', '0010751457' )
 //[Grain(SC-Orders SL History).Analysis Date] >= '2020-01-01' AND [Grain(SC-Orders SL History).Analysis Date] < '2021-01-01'
-//AND [Grain(SC-Orders SL History).# Source] NOT IN ('SAP ECC')
+ [Grain(SC-Orders SL History).# Source] IN ('I2')
 //([Grain(SC-Orders SL History).Profit Center Key] NOT IN ( '101', '102', '103', '104', '201', '202', '203', '204', '301', '302' ) OR [Grain(SC-Orders SL History).Profit Center Key] IS NULL)
 
 INNER JOIN 
@@ -12,7 +12,7 @@ SELECT [Level(Sales Order.Sales Order).Sales Order Number], [Level(Sales Order.S
 ON [Grain(SC-Orders SL Update).Sales Order2123327471] = [Level(Sales Order.Sales Order).Sales Order2123327471] 
 
 LEFT OUTER JOIN 
-SELECT [VBAK_VBAP_VBEP_M21.VBAP_VBELN], [VBAK_VBAP_VBEP_M21.VBAP_POSNR], [VBAK_VBAP_VBEP_M21.PRPS_POSKI], [VBAK_VBAP_VBEP_M21.VBAP_PRCTR], [VBAK_VBAP_VBEP_M21.VBAP_PS_PSP_PNR] FROM [VBAK_VBAP_VBEP_M21]
+SELECT [VBAK_VBAP_VBEP_M21.VBAP_VBELN], [VBAK_VBAP_VBEP_M21.VBAP_POSNR], [VBAK_VBAP_VBEP_M21.PRPS_POSKI], [VBAK_VBAP_VBEP_M21.VBAP_PRCTR], [VBAK_VBAP_VBEP_M21.VBAP_PS_PSP_PNR], [VBAK_VBAP_VBEP_M21.VBAP_MATNR] FROM [VBAK_VBAP_VBEP_M21] 
 ON [Grain(SC-Orders SL History).Sales Order Number]=[VBAK_VBAP_VBEP_M21.VBAP_VBELN] 
 AND [Grain(SC-Orders SL History).Sales Order Item]=[VBAK_VBAP_VBEP_M21.VBAP_POSNR]
 
@@ -21,13 +21,23 @@ SELECT [Level(Customer.Customer).Customer Key] , [Level(Customer.Customer).Marke
 ON [Grain(SC-Orders SL Update).Customer Key] =  [Level(Customer.Customer).Customer Key]
 
 LEFT OUTER JOIN
-SELECT [SC_Item.Item Key], 
-  [SC_Item.Profit Center Default], 
-  [SC_Item.Profit Center ExtMatGrp], 
-  [SC_Item.Profit Center VCItems],
-  [SC_Item.Item Group Key]
-FROM [SC-Item M21] 'SC_Item'
-ON [SC_Item.Item Key] = [Grain(SC-Orders SL History).Item Key]
+SELECT [Item_VBAP.Item Key], 
+  [Item_VBAP.Profit Center Default], 
+  [Item_VBAP.Profit Center ExtMatGrp], 
+  [Item_VBAP.Profit Center VCItems],
+  [Item_VBAP.Item Group Key]
+FROM [SC-Item M21] 'Item_VBAP'
+ON [Item_VBAP.Item Key] = [VBAK_VBAP_VBEP_M21.VBAP_MATNR]
+
+LEFT OUTER JOIN
+SELECT [Item_Grain.Item Key], 
+  [Item_Grain.Profit Center Default], 
+  [Item_Grain.Profit Center ExtMatGrp], 
+  [Item_Grain.Profit Center VCItems],
+  [Item_Grain.Item Group Key]
+FROM [SC-Item M21] 'Item_Grain'
+ON [Item_Grain.Item Key] = [Grain(SC-Orders SL History).Item Key]
+
 
 LEFT OUTER JOIN 
 
