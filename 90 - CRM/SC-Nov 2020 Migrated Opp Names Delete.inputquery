@@ -4,8 +4,9 @@ WHERE [Level(Opportunity.Opportunity).Reporting Month] = 'Nov-2020'
 INNER JOIN
 SELECT [Grain(SC-Opportunities).Opp Number], [Grain(SC-Opportunities).Division Key], [Grain(SC-Opportunities).Sales Org Key], [Grain(SC-Opportunities).Comp Code Key], [Grain(SC-Opportunities).Customer Key], [Grain(SC-Opportunities).Security Key], [Grain(SC-Opportunities).Reporting Month], [Grain(SC-Opportunities).CustArea Key]
   FROM [Grain(SC-Opportunities)]
-  ON [Grain(SC-Opportunities).Opp Number] = [Level(Opportunity.Opportunity).Opp Number] AND [Grain(SC-Opportunities).Reporting Month] = [Level(Opportunity.Opportunity).Reporting Month] AND [Grain(SC-Opportunities).Reporting Month] = 'Nov-2020'
-INNER JOIN
+  ON [Grain(SC-Opportunities).Opp Number] = [Level(Opportunity.Opportunity).Opp Number] AND [Grain(SC-Opportunities).Reporting Month] = [Level(Opportunity.Opportunity).Reporting Month] AND [Grain(SC-Opportunities).Reporting Month] = 'Nov-2020' 
+/*INNER JOIN
 SELECT [Nov-2020 Migrated Opp Names.Sales Organization], [Nov-2020 Migrated Opp Names.Sales Office], [Nov-2020 Migrated Opp Names.Sales Document], [Nov-2020 Migrated Opp Names.Created On], [Nov-2020 Migrated Opp Names.Purchase order no], [Nov-2020 Migrated Opp Names.Order reason], [Nov-2020 Migrated Opp Names.Sold-To Party], [Nov-2020 Migrated Opp Names.Quotation valid from], [Nov-2020 Migrated Opp Names.Quotation valid to], [Nov-2020 Migrated Opp Names.SF Opp Num]
   FROM [Nov-2020 Migrated Opp Names]
-  ON [Level(Opportunity.Opportunity).Opp Name] = [Nov-2020 Migrated Opp Names.Sales Document]
+  ON [Level(Opportunity.Opportunity).Opp Name] = [Nov-2020 Migrated Opp Names.Sales Document]*/
+AND [Level(Opportunity.Opportunity).Opp Number] = '0001013944'

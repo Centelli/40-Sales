@@ -6,7 +6,6 @@ DIM [vRepMth] as varchar(20)
 
 PRINT 'Delete of Opp Number:' + [vOppNum] + ' Rep Month:' + [vRepMth] + ' Opp Source:' + [Level(Opportunity.Opportunity).Opp Source] + ' Migrated Opp:' + [Level(Opportunity.Opportunity).Opp Number] + ' : Opp Name: ' + [Level(Opportunity.Opportunity).Opp Name]
 
-
 DELETE FROM [Level(Opportunity.Opportunity)] WHERE [Level(Opportunity.Opportunity).Opp Number] = [vOppNum] AND [Level(Opportunity.Opportunity).Reporting Month] = [vRepMth]
 
 DELETE FROM [Grain(SC-Opportunities)] WHERE [Grain(SC-Opportunities).Opp Number] = [vOppNum] AND [Grain(SC-Opportunities).Reporting Month] = [vRepMth]

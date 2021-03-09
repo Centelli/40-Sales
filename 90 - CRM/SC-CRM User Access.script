@@ -4,7 +4,7 @@ Dim [vSalesRepKey] as varchar(10)
 Dim [vCustSalesAreaKey] as varchar(24)
 Dim [vSalesOffice] as varchar(4)
 Dim [vWriteRecord] as varchar(1)
-Dim [vSourceSecKey] as varchar(29)
+Dim [vSourceSecKey] as varchar(32)
 
 [vSourceSecKey] = [Level(CRM Security Key.CRM Security Key).Security Key]
 
@@ -29,12 +29,12 @@ in print output for now */
 
 [vWriteRecord] = ''
 
-IF length([vSourceSecKey]) > 6 THEN
+IF length([vSourceSecKey]) > 9 THEN
 
 	/* Determine customer key and cust sales area key
-	Assumption: First character is ICOGS flag, 4 for company and 2 for division to get customer */
-	[vCustomerKey] = substring([vSourceSecKey],7,length([vSourceSecKey]))
-	[vCustSalesAreaKey] = substring([vSourceSecKey],7,length([vSourceSecKey])) + substring([vSourceSecKey],1,5)
+	Assumption: First character is ICOGS flag, 4 for company and 2 for division to get customer and 3 Chararctor for Segment*/
+	[vCustomerKey] = substring([vSourceSecKey],10,length([vSourceSecKey]))
+	[vCustSalesAreaKey] = substring([vSourceSecKey],10,length([vSourceSecKey])) + substring([vSourceSecKey],1,5)
 
 	if [vDebug] = 'X' then
 	  print [Grain(SC-Security Input).# User] + ':' + [Grain(SC-Security Input).# Security Mask] + ':'  + [Grain(SC-Security Input).# Sales Office Key] + ':' + [Grain(SC-Security Input).# Cust Role Entity]+ ':' + [Grain(SC-Security Input).# Cust Role Code]+':'+[Grain(SC-Security Input).# Cust Role Name] + ':' + [vSourceSecKey] + ':' + [vCustomerKey] + ':' + [vCustSalesAreaKey] + ':' + [mCustCountry]([vCustomerKey]) + ':' + [mCustCustomerGroup]([vCustomerKey])+':' + [mCustMarket]([vCustomerKey])+':' + [mCustSalesRep]([vCustSalesAreaKey]) + ':' + [mCustSalesOffice]([vCustSalesAreaKey])
@@ -44,7 +44,7 @@ IF length([vSourceSecKey]) > 6 THEN
 
 	IF [Grain(SC-Security Input).# Role] = null or [Grain(SC-Security Input).# Role] = '' THEN
 	// Update role to no restriction if CUST_ALL, COMP_ALL, DIV_ALL and ICOGS = 1
-	    IF [Grain(SC-Security Input).# Security Mask] = 'Y______%' and ([Grain(SC-Security Input).# Cust Role Entity] = 'Customer All' or [Grain(SC-Security Input).# Cust Role Entity] is null) THEN
+	    IF [Grain(SC-Security Input).# Security Mask] = 'Y_________%' and ([Grain(SC-Security Input).# Cust Role Entity] = 'Customer All' or [Grain(SC-Security Input).# Cust Role Entity] is null) THEN
 	      [Role] = 'All'
 	    ELSE
 	      [Role] = 'Limited'

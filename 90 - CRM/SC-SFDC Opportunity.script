@@ -8,7 +8,7 @@ IF [SFDC_Opportunity.Created from SAP] = 'true' THEN
 [Opp Source] = 'Initiated in SAP'
 ELSE
 [Opp Source] = 'Initiated in CRM'
-END IF			
+END IF
 								 
  /* Opportunity Source is added as part of HSBI-2 */							   
 [SAP account ID] = [SFDC_Account.SAP account ID]
@@ -65,12 +65,13 @@ END IF
 [Division]=[SFDC_Opportunity.Division]
  
 
- 
+
  
  
 DIM [vCustArea] as VARCHAR(22)
 DIM [vCompCode] as VARCHAR(4)
 DIM [vSalesOffice] as VARCHAR(4)
+Dim [vProfitCenterKey] as varchar(3)
  
 DIM [mDivision] as MAP(Varchar(2),Varchar(7)) = Select [Level(Division.Division).Division Code], [Level(Division.Division).Division Key] FROM [Level(Division.Division)] WHERE [Level(Division.Division).Division Key] is not null
 DIM [mCustArea] as MAP(Varchar(18),Varchar(22)) = Select [Level(Customer Sales Area.Customer Sales Area).Customer Key], [Level(Customer Sales Area.Customer Sales Area).CustArea Key] FROM [Level(Customer Sales Area.Customer Sales Area)] WHERE [Level(Customer Sales Area.Customer Sales Area).CustArea Key] IS NOT NULL AND [Level(Customer Sales Area.Customer Sales Area).Comp Code Key] IS NOT NULL AND [Level(Customer Sales Area.Customer Sales Area).Sales Office Key] IS NOT NULL
@@ -86,7 +87,31 @@ DIM [mRCCurr] as MAP(Varchar(4),Varchar(3)) = Select [SC-tbl_dim_sales_region.sa
  
 DIM [vCustomerKey] AS VARCHAR(18)
  
- 
+// M21 Project Momentum
+IF [SFDC_Opportunity.Market Segment Code]='Z30C000' THEN 
+ [vProfitCenterKey]='101'
+ELSEIF [SFDC_Opportunity.Market Segment Code]='Z30A000' THEN       
+ [vProfitCenterKey]='102'
+ELSEIF [SFDC_Opportunity.Market Segment Code]='Z30B000' THEN       
+ [vProfitCenterKey]='103'
+ELSEIF [SFDC_Opportunity.Market Segment Code]='Z30D000' THEN       
+ [vProfitCenterKey]='104'
+ELSEIF [SFDC_Opportunity.Market Segment Code]='Z10A000' THEN       
+ [vProfitCenterKey]='201'
+ELSEIF [SFDC_Opportunity.Market Segment Code]='Z10B000' THEN       
+ [vProfitCenterKey]='202'
+ELSEIF [SFDC_Opportunity.Market Segment Code]='Z10C000' THEN       
+ [vProfitCenterKey]='203'
+ELSEIF [SFDC_Opportunity.Market Segment Code]='Z10D000' THEN       
+ [vProfitCenterKey]='204'
+ELSEIF [SFDC_Opportunity.Market Segment Code]='Z20A000' THEN       
+ [vProfitCenterKey]='301'
+ELSEIF [SFDC_Opportunity.Market Segment Code]='Z20B000' THEN       
+ [vProfitCenterKey]='302'
+ELSE
+ [vProfitCenterKey]='000'
+END IF
+[Profit Center Key] = [vProfitCenterKey]
  
 IF [SFDC_Account.SAP account ID] IS NOT NULL THEN
 [vCustomerKey] = SUBSTRING('0000000000',0,10 - LENGTH([SFDC_Account.SAP account ID])) + [SFDC_Account.SAP account ID]
@@ -122,6 +147,8 @@ PRINT 'Sales Office:' + [SFDC_Account.Sales Office]
 PRINT 'RC Currency:' + [mRCCurr]([SFDC_Account.Sales Office])
  
 END IF
+
+
  
 /*
 WRITERECORD

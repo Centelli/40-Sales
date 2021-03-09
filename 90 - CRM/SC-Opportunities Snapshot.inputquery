@@ -45,24 +45,25 @@ WHERE [Level(Opportunity.Opportunity).Opp Level Key] NOT IN ('10', '20', '30', '
 AND [Level(Opportunity.Opportunity).Reporting Month] = getVariable('vLastSnapShotMonth')
 INNER JOIN
 SELECT 
-[Grain(SC-Opportunities).Opportunity-1088646945],
-[Grain(SC-Opportunities).Opp Number],
-[Grain(SC-Opportunities).Reporting Month],
-[Grain(SC-Opportunities).Comp Code Key],
-[Grain(SC-Opportunities).CustArea Key],
-[Grain(SC-Opportunities).Customer Key],
-[Grain(SC-Opportunities).Division Key],
-[Grain(SC-Opportunities).Security Key],
-[Grain(SC-Opportunities).Sales Org Key],
-[Grain(SC-Opportunities).# Unweighted Opp Value DC],
-[Grain(SC-Opportunities).# Unweighted Opp Value HC],
-[Grain(SC-Opportunities).# Unweighted Opp Value RC],
-[Grain(SC-Opportunities).# Unweighted Opp Value GC],
-[Grain(SC-Opportunities).# Weighted Opp Value RC],
-[Grain(SC-Opportunities).# Weighted Opp Value GC],
-[Grain(SC-Opportunities).# Weighted Opp Value HC],
-[Grain(SC-Opportunities).# Weighted Opp Value DC]
+[Grain(SC-Opportunities Snapshot).Opportunity-1088646945],
+[Grain(SC-Opportunities Snapshot).Opp Number],
+[Grain(SC-Opportunities Snapshot).Reporting Month],
+[Grain(SC-Opportunities Snapshot).Comp Code Key],
+[Grain(SC-Opportunities Snapshot).CustArea Key],
+[Grain(SC-Opportunities Snapshot).Customer Key],
+[Grain(SC-Opportunities Snapshot).Division Key],
+[Grain(SC-Opportunities Snapshot).Security Key],
+[Grain(SC-Opportunities Snapshot).Sales Org Key],
+[Grain(SC-Opportunities Snapshot).Profit Center Key],
+[Grain(SC-Opportunities Snapshot).# Unweighted Opp Value DC],
+[Grain(SC-Opportunities Snapshot).# Unweighted Opp Value HC],
+[Grain(SC-Opportunities Snapshot).# Unweighted Opp Value RC],
+[Grain(SC-Opportunities Snapshot).# Unweighted Opp Value GC],
+[Grain(SC-Opportunities Snapshot).# Weighted Opp Value RC],
+[Grain(SC-Opportunities Snapshot).# Weighted Opp Value GC],
+[Grain(SC-Opportunities Snapshot).# Weighted Opp Value HC],
+[Grain(SC-Opportunities Snapshot).# Weighted Opp Value DC]
 FROM 
-[Grain(SC-Opportunities)]
+[Grain(SC-Opportunities Snapshot)]
 ON
-[Grain(SC-Opportunities).Opp Number] = [Level(Opportunity.Opportunity).Opp Number] AND [Grain(SC-Opportunities).Reporting Month] = [Level(Opportunity.Opportunity).Reporting Month]
+[Grain(SC-Opportunities Snapshot).Opp Number] = [Level(Opportunity.Opportunity).Opp Number] AND [Grain(SC-Opportunities Snapshot).Reporting Month] = [Level(Opportunity.Opportunity).Reporting Month]

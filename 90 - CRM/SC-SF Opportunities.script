@@ -1,4 +1,4 @@
-Dim [vExRateHCtoGC] AS FLOAT
+Dim [vExRateHCtoGC] AS FLOAT 
 Dim [vExRateHCtoRC] AS FLOAT
 Dim [vExRateDCtoHC] AS FLOAT
 Dim [vOppValue] as Float
@@ -17,7 +17,12 @@ ELSE
 [Analysis Date] = [SC-SFDC Opportunity.Created Date]
 END IF 
 
+[Profit Center Key] = [SC-SFDC Opportunity.Profit Center Key] 
+
+
 [Reporting Month] = SUBSTRING((FORMAT(DATEADD(Day, 0, NOWDATE),'yyyy-MMM-dd')), 5,8 ) +'-'+ DATEPART(YEAR, DATEADD(Day, -1, NOWDATE))
+
+
 [Opp Number]=[SC-SFDC Opportunity.Opportunity ID]
 [Opp Name]=[SC-SFDC Opportunity.Name]
 /*[Opp Country]=[Opportunities.KNA1_LAND1]*/
@@ -93,7 +98,7 @@ DIM [vCustomerKey] AS VARCHAR(18)
 
 [CustArea Key] = [vCustomerKey]+''+[SC-SFDC Opportunity.Comp Code Key]
 
-[Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SC-SFDC Opportunity.Comp Code Key])) + [SC-SFDC Opportunity.Comp Code Key] + SUBSTRING('00',0,2 - LENGTH([vDivisionKey])) + [vDivisionKey] + [SC-SFDC Opportunity.Customer Key]
+[Security Key] = 'N' + SUBSTRING('0000',0,4 - LENGTH([SC-SFDC Opportunity.Comp Code Key])) + [SC-SFDC Opportunity.Comp Code Key] + SUBSTRING('00',0,2 - LENGTH([vDivisionKey])) + [vDivisionKey] + [SC-SFDC Opportunity.Profit Center Key] + [SC-SFDC Opportunity.Customer Key]
 /*
 [Level 10 Date] = [SC-Level History.Level 10 Date]
 [Level 20 Date] = [SC-Level History.Level 20 Date]
