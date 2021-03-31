@@ -46,7 +46,6 @@ FROM [SC-Customer] 'SC_Cust_RG'
 ON [SC_Cust_RG.Customer Key] = [SC-Invoices Warmup.VBRK_KUNRG]
 
 LEFT OUTER JOIN 
-
 Select DISTINCT [SC_ICS_M21.VBRK_VBELN], [SC_ICS_M21.VBRP_POSNR], [SC_ICS_M21.3rd Profit Center Key] 
 FROM [SC-ICS Invoice Profit Center M21] 'SC_ICS_M21'
 ON [SC-Invoices Warmup.VBRK_VBELN]=[SC_ICS_M21.VBRK_VBELN] 

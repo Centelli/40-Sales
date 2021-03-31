@@ -1,3 +1,23 @@
+Dim [vMultiplier] as FLOAT
+DIM [vInvQty] as FLOAT
+
+[vInvQty] = 0
+
+
+IF [VBRK_VBRP_M21.VBRK_FKART] IN ('ZG2', 'ZIG', 'ZRE', 'ZS1', 'ZIGA', 'ZIVS', 'ZG2M', 'ZIGA', 'ZREB') 
+OR [VBRK_VBRP_M21.VBRK_VBTYP] IN ('H','K','O','6','N') then
+  [vMultiplier] = -1.00
+ELSE
+  [vMultiplier] = 1.00
+END IF
+
+IF [VBRK_VBRP_M21.VBRK_VBTYP] IN ('K','L','O','P') 
+ AND [VBRK_VBRP_M21.VBRK_FKART] NOT IN ('ZG2M', 'ZL2M', 'ZRE', 'ZROB') THEN
+ [vInvQty]=0
+ELSE
+ [vInvQty]=FLOAT([VBRK_VBRP_M21.VBRP_FKIMG]) * [vMultiplier]
+END IF
+
 [VBRK_VBELN]=[VBRK_VBRP_M21.VBRK_VBELN]
 [VBRK_FKART]=[VBRK_VBRP_M21.VBRK_FKART]
 [VBRK_KUNRG]=[VBRK_VBRP_M21.VBRK_KUNRG]
@@ -18,4 +38,12 @@
 [3rd Inv Position]=[Level(Sales Invoices.Sales Invoices).Sales Invoice Item]
 [3rd Customer]=[Level(Customer.Customer).Customer Key]
 [3rd Profit Center Key]=[Grain(SC-Invoices).Profit Center Key]
+
+[Invoice Qty]=[vInvQty]
+
+PRINT [VBRK_VBRP_M21.VBRK_VBELN] +'_'+ [VBRK_VBRP_M21.VBRP_POSNR]
+PRINT [vInvQty] + ' - ' + [Grain(SC-Invoices).# Invoice Qty]
+
+IF [vInvQty] = [Grain(SC-Invoices).# Invoice Qty] THEN
 WRITERECORD
+END IF

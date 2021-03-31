@@ -147,7 +147,7 @@ PRINT '1'
   
 
   PRINT 'Grain Sales Order Number:'+[Level(Sales Invoices.Sales Invoices).Sales Order Number]+' PC: '+[mOrderPC]([Level(Sales Invoices.Sales Invoices).Sales Order Number]+[Level(Sales Invoices.Sales Invoices).Sales Order Item]) 
-  IF [VBRK_VBRP.VBRK_FKART] IN ('ZIV','ZIVS') AND [VBAK_VBAP.VBAP_VBELN] IS NULL AND [Level(Customer.Customer).Customer Type] = 'Group' THEN
+  IF [VBRK_VBRP.VBRK_FKART] IN ('ZIV','ZIVS') AND [VBAK_VBAP.VBAP_VBELN] IS NULL AND [Level(Customer.Customer).Customer Type] <> 'Third' THEN
     PRINT 'VBRP Seg Key: '+ [VBRK_VBRP.VBRP_PRCTR]
     [vProfitCenterKey] = INTEGER([VBRK_VBRP.VBRP_PRCTR])
     [vProfitCenterKeySource] = 'ZIV VBRP'

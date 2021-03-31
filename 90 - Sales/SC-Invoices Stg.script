@@ -160,7 +160,7 @@ PRINT 'Cust Default: '+[vCustProfCtr]
   dim [mPCLookupWBS] as map(Varchar(16),Varchar(10)) = select distinct [tbl_WBS_element_Profit_center.wbs_element], [tbl_WBS_element_Profit_center.profit_center] from [tbl_WBS_element_Profit_center]
   DIM [mOrderPC] as MAP(VARCHAR(16), VARCHAR(3)) = SELECT [Grain(SC-Orders SL History).# Sales Order Key], [Grain(SC-Orders SL History).Profit Center Key] FROM [Grain(SC-Orders SL History)] where [Grain(SC-Orders SL History).Current Record] = '1' 
 
-  IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZIV','ZIVS') AND [SC-Invoices Warmup.VBAK_VKORG] IS NULL AND [vCustType] = 'Group' THEN
+  IF [SC-Invoices Warmup.VBRK_FKART] IN ('ZIV','ZIVS') AND [SC-Invoices Warmup.VBAK_VKORG] IS NULL AND [vCustType] <> 'Third' THEN
     PRINT 'VBRP Seg Key: '+ [SC-Invoices Warmup.VBRP_PRCTR]
     [vProfitCenterKey] = INTEGER([SC-Invoices Warmup.VBRP_PRCTR])
     [vProfitCenterKeySource] = 'ZIV VBRP'

@@ -1,3 +1,4 @@
+// This has been replaced by SC-Item VC File
 [Item Key]=[VBAK_VBAP_VBEP.VBAP_MATKL]+''+SUBSTRING([SC-Item.Item Key],LENGTH([SC-Item.Item Key])-9,LENGTH([SC-Item.Item Key]))
 [Item Type]=[SC-Item.Item Type]
 [Industry sector]=[SC-Item.Industry sector]
