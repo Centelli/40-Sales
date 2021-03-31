@@ -21,6 +21,7 @@ DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segme
 [Market] = [tbl_dim_market.market_name]
 [Market Segment] = [tbl_dim_market.market_segment_name]
 [Market Key] = [tbl_dim_market.market_code]
+[Sub Market] = [tbl_dim_market.sub_market_name]
 
 [ConsCustomer]=''
 [Customer Country]=[tbl_dim_country.country_name]

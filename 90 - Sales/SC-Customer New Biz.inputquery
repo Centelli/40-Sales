@@ -4,7 +4,7 @@ SELECT [SQL Customer New Biz.Customer_Key],  [SQL Customer New Biz.Customer_Name
   FROM [SQL Customer New Biz]
     ON [SQL Customer New Biz.Customer_Key] = [SQL Sales Budget Forecast.Customer_Key]
 LEFT OUTER JOIN
-SELECT [tbl_dim_market.market_segment_name], [tbl_dim_market.market_name], [tbl_dim_market.market_code]
+SELECT [tbl_dim_market.market_segment_name], [tbl_dim_market.market_name], [tbl_dim_market.market_code], [tbl_dim_market.sub_market_name]
   FROM [tbl_dim_market]
     ON [SQL Customer New Biz.Market_Segment_Key] = [tbl_dim_market.market_segment_code]  
 LEFT OUTER JOIN

@@ -3,6 +3,8 @@ DIM [vDefaultMarketName] AS VARCHAR(28) = SELECT [tbl_dim_market.market_name] FR
 DIM [vDefaultMarketKey] AS VARCHAR(28) = SELECT [tbl_dim_market.market_code] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
 DIM [vDefaultMarketSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.market_segment_name] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
 
+DIM [vDefaultMarketSubSegment] AS VARCHAR(28) = SELECT [tbl_dim_market.sub_market_name] FROM [tbl_dim_market] WHERE [tbl_dim_market.market_segment_stat_code] = '0' AND [tbl_dim_market.market_segment_code] IS NULL 
+
 
 [Customer Key]=[SQL_I2_vw_dim_customer.customer_code]
 [Country Key]=[SQL_I2_vw_dim_customer.Country Key]
@@ -30,11 +32,13 @@ IF [tbl_dim_market.market_segment_stat_code] = '0' THEN
  [Market Segment Key]=[tbl_dim_market.market_segment_stat_code]
  [Market] = [vDefaultMarketName]
  [Market Segment] = [vDefaultMarketSegment]
+ [Sub Market] = [vDefaultMarketSubSegment]
  [Market Key] = [vDefaultMarketKey]
 ELSE
  [Market Segment Key]=[SQL_I2_vw_dim_customer.market_sub_segment_code]
  [Market] = [tbl_dim_market.market_name]
  [Market Segment] = [tbl_dim_market.market_segment_name]
+ [Sub Market] = [tbl_dim_market.sub_market_name]
  [Market Key] = [tbl_dim_market.market_code]
 END IF
 

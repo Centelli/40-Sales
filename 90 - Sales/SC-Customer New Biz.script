@@ -7,6 +7,7 @@
 [Market]=[tbl_dim_market.market_name]
 [Market Key]=[tbl_dim_market.market_code]
 [Market Segment]=[tbl_dim_market.market_segment_name]
+[Sub Market]=[tbl_dim_market.sub_market_name]
 [ConsCustomer]=[SQL Customer New Biz.Customer_Group]
 [Customer Group Parent]=[SQL Customer New Biz.Customer_Group]
 [Customer / Customer Group]=[SQL Customer New Biz.Customer_Group]

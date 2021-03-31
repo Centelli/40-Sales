@@ -9,7 +9,7 @@ SELECT [tbl_dim_customer_group.customer_group_code], [tbl_dim_customer_group.cus
   FROM [tbl_dim_customer_group]
     ON [tbl_dim_customer_group.active_flag]='1' AND ([KNA1.KNA1_KATR6]=[tbl_dim_customer_group.customer_group_code] OR ([KNA1.KNA1_KATR6] IS NULL AND [tbl_dim_customer_group.customer_group_code] IS NULL) OR ([KNA1.KNA1_KATR6] = 'Z00' AND [tbl_dim_customer_group.customer_group_code] IS NULL))
 LEFT OUTER JOIN
-SELECT [tbl_dim_market.market_segment_stat_code], [tbl_dim_market.market_segment_name], [tbl_dim_market.market_name], [tbl_dim_market.market_code]
+SELECT [tbl_dim_market.market_segment_stat_code], [tbl_dim_market.market_segment_name], [tbl_dim_market.market_name], [tbl_dim_market.market_code],[tbl_dim_market.sub_market_name]
   FROM [tbl_dim_market]
     ON ([KNA1.KNA1_BRAN1] = [tbl_dim_market.market_segment_code]) OR ([KNA1.KNA1_BRAN1] IS NULL AND [tbl_dim_market.market_segment_code] IS NULL)
 LEFT OUTER JOIN
