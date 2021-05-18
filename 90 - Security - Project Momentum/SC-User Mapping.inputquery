@@ -1,0 +1,10 @@
+SELECT [dwh_user_mapping.User], [dwh_user_mapping.Mapped User] 
+FROM [dwh_user_mapping]
+inner join
+SELECT [MappedEmail.mail], [MappedEmail.uid] 
+FROM [vw_cockpit_users]  'MappedEmail'  
+ON [dwh_user_mapping.Mapped User] = [MappedEmail.uid] 
+inner join
+SELECT [Email.mail], [Email.uid] 
+FROM [vw_cockpit_users]  'Email'
+  ON [dwh_user_mapping.User] = [Email.uid]

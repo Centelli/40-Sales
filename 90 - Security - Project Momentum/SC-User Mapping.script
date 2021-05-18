@@ -1,0 +1,5 @@
+[User]=[dwh_user_mapping.User]
+[User Email] = [Email.mail]
+[Mapped User]=[dwh_user_mapping.Mapped User]
+[Mapped User Email] = [MappedEmail.mail]
+WRITERECORD

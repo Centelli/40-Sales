@@ -1,0 +1,129 @@
+/* OLD - [vSecMask] = 1 character for ICOGS (Y/N), 4 for company, 2 for division and 18 for customer */
+/* Project Momentum */
+/* NEW - [vSecMask] = 1 character for ICOGS (Y/N), 4 for company, 2 for division, 3 for Segment and 18 for customer */
+DIM [vSecMask] AS VARCHAR(28)
+DIM [vVKORG] AS VARCHAR(4)
+DIM [vSalesRepCode] as Integer
+/* Project Momentum added Segment  */
+DIM [vSegmentKey] as VARCHAR(3)
+
+DIM [mUserMapping] as MAP(varchar(20),varchar(20)) = select [dwh_user_mapping.Mapped User],[dwh_user_mapping.User] from [dwh_user_mapping]
+
+PRINT 'Processing user: ' + [vw_cockpit_users.mail] +' uid: '+ [vw_cockpit_users.uid]
+PRINT '[mUserMapping]([vw_cockpit_users.uid]):' + [mUserMapping]([vw_cockpit_users.uid])
+
+// Make base assignments
+
+IF [mUserMapping]([vw_cockpit_users.uid]) is not null then 
+
+[User] = [vw_cockpit_users.mail]
+[Cust Role Entity] = [vw_cockpit_map_customer.Entity]
+
+// If cust role code is numeric, then assume it is SAP code and needs to be padded with 0s to get length as 10
+[vSalesRepCode] = [vw_cockpit_map_customer.Code]
+IF [vSalesRepCode] = 0 THEN
+  [Cust Role Code] = [vw_cockpit_map_customer.Code]
+ELSEIF [vw_cockpit_map_customer.Code] is not null and [vw_cockpit_map_customer.Entity] <> 'Market' then
+  [Cust Role Code] = substring('0000000000',0,10-length([vw_cockpit_map_customer.Code])) + '' + [vw_cockpit_map_customer.Code]
+ELSEIF [vw_cockpit_map_customer.Code] is not null and [vw_cockpit_map_customer.Entity] = 'Market' then
+  [Cust Role Code] = [vw_cockpit_map_customer.Code]
+END IF
+
+[Cust Role Name] = [vw_cockpit_map_customer.Name]
+[ICOGS] = [vw_cockpit_user_roles.icogs]
+
+IF [vw_cockpit_map_company.VKORG] IS NOT NULL THEN 
+   [vVKORG] = [vw_cockpit_map_company.VKORG]
+ELSE 
+   [vVKORG] = '0000'
+END IF
+IF [vw_cockpit_user_roles.comp_role_key] IN ('COMP_ALL', 'COMP_REG_ALL') THEN 
+   [vSecMask] = '____'
+   [Sales Office Key] = 'All'
+ELSE 
+   IF LENGTH([vVKORG]) = 4 THEN 
+      [vSecMask] = [vVKORG]
+   ELSE 
+      PRINT [vVKORG]
+      [vSecMask] = SUBSTRING('0000',0,4 - LENGTH([vVKORG])) + [vVKORG]
+   END IF
+   [Sales Office Key] = [vw_cockpit_map_company.VKBUR]
+END IF
+IF [vw_cockpit_user_roles.div_role_key] = 'DIV_ALL' THEN 
+   [vSecMask] = [vSecMask] + '__'
+ELSE 
+   IF [vw_cockpit_map_division.division_code] = 0 THEN 
+      [vSecMask] = [vSecMask] + '00'
+   ELSE 
+      [vSecMask] = [vSecMask] + [vw_cockpit_map_division.division_code]
+   END IF
+END IF
+PRINT 'Division:' + [vSecMask]
+
+print 'Input segment information: ' + [vw_cockpit_user_roles.seg_role_key] + ':' + ifnull([vw_cockpit_map_segment.segment_key],'Null')
+/* Project Momentum added Segment  */
+IF [vw_cockpit_user_roles.seg_role_key] IS NOT NULL THEN
+   IF [vw_cockpit_user_roles.seg_role_key] = 'SEG_ALL' THEN
+      [vSegmentKey] = 'All'
+      [vSecMask] = [vSecMask] + '___'
+   ELSE
+    if [vw_cockpit_map_segment.segment_key] is not null then
+      IF LENGTH([vw_cockpit_map_segment.segment_key]) = 3 THEN 
+         [vSegmentKey] = [vw_cockpit_map_segment.segment_key]
+      ELSE
+         [vSegmentKey] = SUBSTRING('0000',0,4 - LENGTH([vw_cockpit_map_segment.segment_key])) + [vw_cockpit_map_segment.segment_key]
+      END IF
+    end if
+    [vSecMask] = [vSecMask] +  [vSegmentKey]
+   END IF
+END IF   
+
+PRINT 'seg_role:' + [vw_cockpit_user_roles.seg_role_key] + 'seg key:' + [vSegmentKey] 
+[Segment Key]=[vSegmentKey]
+
+
+// Customers will need to be determined in the target space
+// if [vw_cockpit_user_roles.cust_role_key] = 'CUST_ALL' THEN
+
+[vSecMask] = [vSecMask] + '%'
+// end if
+// Determine role for user
+
+/* IF [vw_cockpit_user_roles.Override] IS NOT NULL THEN 
+   [Role] = [vw_cockpit_user_roles.Override]
+ELSE 
+   IF [vw_cockpit_user_roles.icogs] = 1 AND [vSecMask] = '______%' AND [vw_cockpit_map_customer.Entity] = 'Customer All' THEN 
+      [Role] = 'All'
+   ELSE 
+      [Role] = 'Limited'
+   END IF
+END IF */
+
+[Role] = 'Not implemented'
+
+/* Update only if comp role, div role and cust role exist. If they don't exist then the logic for determining security mask
+will need to be determined first */
+IF [vw_cockpit_user_roles.comp_role_key] IS NOT NULL AND [vw_cockpit_user_roles.div_role_key] IS NOT NULL AND [vw_cockpit_user_roles.cust_role_key] IS NOT NULL THEN 
+// Check length of Security mask - should always be 7 characters long at this stage
+   IF LENGTH([vSecMask]) <> 10 THEN 
+      PRINT 'Security Mask length incorrect: ' + [vSecMask] + ' for user ' + [vw_cockpit_users.mail]
+   END IF
+   // Write record for everything apart from ICOGS. Append 'N' for non-ICOGS
+   [Security Mask] = 'N' + [vSecMask]
+   print 'Writing record'
+   WRITERECORD
+
+   IF [vw_cockpit_map_company.VKORG] = '6100'
+      print [vSecMask] + ':' + [vw_cockpit_map_company.VKBUR] + ':' + 'N' + [vw_cockpit_map_company.VKBUR] + substring([vSecMask], 4, length([vSecMask]))
+      [Security Mask] = 'N' + [vw_cockpit_map_company.VKBUR] + substring([vSecMask], 4, length([vSecMask]))
+      WRITERECORD
+   END IF
+
+   // If user has access to ICOGS, then add a record for ICOGS as well
+   IF [vw_cockpit_user_roles.icogs] = 1 THEN 
+      [Security Mask] = 'Y' + [vSecMask]
+      print 'Writing ICOGS record'
+      WRITERECORD
+   END IF
+END IF
+END IF
