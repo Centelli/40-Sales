@@ -1,0 +1,20 @@
+DIM [vOldCustAreaKey] as Varchar(40)
+DIM [vCurrentCustAreaKey] as Varchar(40)
+
+[vCurrentCustAreaKey] =  [KNVP.KNVP_KUNNR] + [KNVP.KNVP_VKORG] + [KNVP.KNVP_VTWEG] + [KNVP.KNVP_SPART]
+print [KNVP.KNVP_KUNNR] + ':' + [KNVP.KNVP_VKORG] + ':' + [KNVP.KNVP_DEFPA] + ':' + [KNVP.KNVP_PARZA]
+
+IF [vOldCustAreaKey] is null or [vOldCustAreaKey] <> [vCurrentCustAreaKey] THEN
+  [KNVP_KUNNR] = [KNVP.KNVP_KUNNR] 
+  [KNVP_VKORG] = [KNVP.KNVP_VKORG] 
+  [KNVP_VTWEG] = [KNVP.KNVP_VTWEG] 
+  [KNVP_SPART] = [KNVP.KNVP_SPART]
+  [KNVP_PARVW] = [KNVP.KNVP_PARVW]
+  [KNVP_PARZA] = [KNVP.KNVP_PARZA]
+  [KNVP_DEFPA] = [KNVP.KNVP_DEFPA]
+  [KNVP_KUNN2] = [KNVP.KNVP_KUNN2]
+  WRITERECORD
+
+END IF
+
+[vOldCustAreaKey] = [vCurrentCustAreaKey]

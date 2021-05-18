@@ -1,5 +1,6 @@
 Source Name,Disabled,Processing Groups
 SC-Customer,False,1.2.Dimensions;SC-Customer
+SC-Inside Sales,False,SC-Inside Sales
 SC-Invoices,False,SC-Invoices;1.4.Invoices
 VBRK_VBRP,False,4.ST_VBRK_VBRP;1.4.Invoices
 KNA1,False,1.1.Master;2.Customer;3.Staging;4.ST_KNA1
@@ -197,3 +198,4 @@ SC-Item M21,False,
 SQL_vw_bi_ICOGS,False,1.1.SQL Sources;ST_SQL_vw_bi_ICOGS
 ADR6,False,1.1.Master;ST_ADR6
 SC-ICS Invoice Profit Center M21,False,SC-ICS Invoice M21
+SC-Customer Cleansing,False,SC-Customer Cleansing
