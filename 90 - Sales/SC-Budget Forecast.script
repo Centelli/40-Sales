@@ -10,11 +10,11 @@ IF [SQL Sales Budget Forecast.Month_Key] is not null THEN
 
 [vYearMonth] = [SQL Sales Budget Forecast.Year_Key] + '' + format([SQL Sales Budget Forecast.Month_Key], '00')
 
-IF [SQL Sales Budget Forecast.Version_Key] = 'BUD' and [SQL Sales Budget Forecast.Year_Key] = 2019 and  [SQL Sales Budget Forecast.Sales_Office_Key] = 6150 THEN
+//IF [SQL Sales Budget Forecast.Version_Key] = 'BUD' and [SQL Sales Budget Forecast.Year_Key] = 2019 and  [SQL Sales Budget Forecast.Sales_Office_Key] = 6150 THEN
 
 PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ':' + [SQL Sales Budget Forecast.Year_Key] + ':' + format([SQL Sales Budget Forecast.Month_Key], '00') +  [SQL Sales Budget Forecast.Version_Key] + ':' + [SQL Sales Budget Forecast.Comp_Key] +':'+ [SQL Sales Budget Forecast.Outside_Sales_Key] + ':' + [SQL Sales Budget Forecast.Customer_Key] + ':' + [SQL Sales Budget Forecast.Business_Unit_Key] + ':' + [SQL Sales Budget Forecast.Value] + ':' + ([SQL Sales Budget Forecast.Value]/[mWorkYearMonth]([vYearMonth])) + ':' + [RegRates.Exchange Rate] + ':' + [SQL Sales Budget Forecast.Sales_Office_Key]
 
-END IF
+//END IF
 
 IF [SQL Sales Budget Forecast.Segment_Key] is null or [SQL Sales Budget Forecast.Segment_Key] = 0 then
 [vSegmentKey] = '000'
@@ -62,10 +62,11 @@ END IF
 [Customer Type]=[SQL Sales Budget Forecast.Customer_Type]
 [Rate to CHF]=[SQL Sales Budget Forecast.Rate_to_CHF]
 
-/* PRINT [SQL Sales Budget Forecast.Customer_Key]
-PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ' - ' + [SQL Sales Budget Forecast.Year_Key] + ':' + format([SQL Sales Budget Forecast.Month_Key], '00')
-PRINT 'YearMonth:'+[vYearMonth]+' workCount:'+[mWorkYearMonth]([vYearMonth])
-PRINT [SQL Sales Budget Forecast.Value] */
+//PRINT [vCustomerKey] 
+//PRINT [SQL Workdays.day_code]
+//PRINT format([SQL Workdays.day_code],'yyyy-MM-dd') + ' - ' + [SQL Sales Budget Forecast.Year_Key] + ':' + format([SQL Sales Budget Forecast.Month_Key], '00')
+//PRINT 'YearMonth:'+[vYearMonth]+' workCount:'+[mWorkYearMonth]([vYearMonth])
+//PRINT [SQL Sales Budget Forecast.Value] 
 
 [Budget HC]=0.00
 [Budget GC]=0.00

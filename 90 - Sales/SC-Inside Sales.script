@@ -14,7 +14,6 @@ IF [vOldCustAreaKey] is null or [vOldCustAreaKey] <> [vCurrentCustAreaKey] THEN
   [KNVP_DEFPA] = [KNVP.KNVP_DEFPA]
   [KNVP_KUNN2] = [KNVP.KNVP_KUNN2]
   WRITERECORD
-
 END IF
 
 [vOldCustAreaKey] = [vCurrentCustAreaKey]

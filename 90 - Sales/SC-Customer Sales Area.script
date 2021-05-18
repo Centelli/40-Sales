@@ -5,7 +5,7 @@ Dim [mKNA1] as Map(Varchar(10),Varchar(40)) = SELECT [KNA1.KNA1_KUNNR], [KNA1.KN
 
 [CustArea Key]=[KNVV.KNVV_KUNNR]+''+[KNVV.KNVV_VKORG]
 // HSBI-32 - Inside sales counter is sometimes not always 000.
-// HSBI-32 - 31Mar2021: changed to use SC-Inside Sales instead of KNVP
+
 IF [InSales.KNVP_KUNN2] is not null then
   [Inside Sales Key]=[InSales.KNVP_KUNN2]
   [Inside Sales]=[InCust.KNA1_NAME1]

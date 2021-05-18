@@ -4,4 +4,6 @@ SELECT [tbl_dim_country.country_iso_alpha_code], [tbl_dim_country.subregion_key]
 ON [KNA1.KNA1_LAND1]=[tbl_dim_country.country_iso_alpha_code]
 LEFT OUTER JOIN  
 SELECT [tbl_weee_country_mapping.LPP name], [tbl_weee_country_mapping.LPP ID] FROM [tbl_weee_country_mapping] 
-ON ([KNA1.KNA1_LAND1]=[tbl_weee_country_mapping.Delivery Country Key] AND [tbl_weee_country_mapping.LPP ID] <> 359)
+ON ([KNA1.KNA1_LAND1]=[tbl_weee_country_mapping.Delivery Country Key] 
+AND [tbl_weee_country_mapping.LPP ID] <> 359 
+AND [tbl_weee_country_mapping.LPP ID] <> 547)

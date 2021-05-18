@@ -58,6 +58,9 @@ print [Grain(SC-Orders SL Update).# Source] */
 [WBS Element] = [Grain(SC-Orders SL Update).WBS Element]
 [Profit Center Key] = [Grain(SC-Orders SL Update).Profit Center Key]
 
+//HSBI-131
+[Requested Date GI BI] = [Level(Sales Order.Sales Order).Requested Date GI BI]
+
 [v_rate_home_to_chf] = 1.0
 IF [Level(Sales Order.Sales Order).Currency Key HC] <> [Level(Sales Order.Sales Order).Currency Key GC] THEN                  
   IF [ExRateGC.Exchange Rate] is not null then

@@ -80,7 +80,7 @@ tbl_dim_customer_type,False,1.1.Files
 tbl_dim_division,False,1.1.Files
 tbl_dim_market,False,1.1.Files
 tbl_dim_market_role,False,1.1.Files
-tbl_dim_sales_region,False,1.1.Files
+tbl_dim_sales_region,False,1.1.Files;tbl_dim_sales_region
 SC-Division,False,1.2.Dimensions;SC-Division
 VBKD,False,1.1.Transaction;ST_VBKD;Order Rebuild v0
 SQL_I2_vw_Sales_Org,False,1.1.SQL Sources
@@ -130,7 +130,7 @@ SC-Orders SL Delete,False,SC-Orders SL Delete
 SC-Test,False,SC-Test
 SC-Delete Data,False,XX. SC-Delete Data
 AUSP,False,1.1.Configuration
-tbl_weee_country_mapping,False,1.1.Configuration
+tbl_weee_country_mapping,False,1.1.Configuration;tble_weee_country_mapping
 tbl_weee_item_cubo,False,1.1.Configuration
 tbl_weee_item_polatis,False,1.1.Configuration
 BKtel Company Keys,True,
@@ -144,7 +144,7 @@ SC-VBKD History,False,SC-VBKD History;Order Rebuild
 EKKN,False,ST-EKKN;1.4.Invoices
 SC-Invoices Stg,False,SC-Invoices Stg;1.4.Invoices
 SC-ZZMM_MSEG PO Condensed,False,SC-ZZMM_MSEG PO Condensed;ICOGS;1.4.Invoices
-SC-Item Repopulate,True,SC-Item Repopulate
+SC-Item Repopulate,False,SC-Item Repopulate;1.2.Dimensions
 BKtel-proAlpha_S_Adresse,False,
 BKtel-proAlpha_S_Artikel,False,
 BKtel-proAlpha_S_ArtikelSpr,False,
@@ -178,7 +178,7 @@ SC-Migration Orders Clean,True,SC-Migration Order Clean
 SC-Migration Invoice Clean,True,SC-Migration Inv Clean
 SC-Migration Dimension Clean,True,SC-Migration Dim Clean
 Profit Center,False,
-WBS Element,False,
+WBS Element,False,ST_WBS Element
 ZFI_MOM_PC,False,
 ZFI_MOM_DEFAULT,False,
 ZFI_MOM_EXMATGRP,False,
@@ -199,3 +199,8 @@ SQL_vw_bi_ICOGS,False,1.1.SQL Sources;ST_SQL_vw_bi_ICOGS
 ADR6,False,1.1.Master;ST_ADR6
 SC-ICS Invoice Profit Center M21,False,SC-ICS Invoice M21
 SC-Customer Cleansing,False,SC-Customer Cleansing
+SC-Budget Forecast Test,False,SC-Budget Forecast Test
+ZZSD_DP,False,1.1.Transaction;SC-ZZSD_DP
+SC-ZZSD_DP,False,1.1.Transaction;SC-ZZSD_DP
+SC-Orders SL TG Update,False,SC-Orders SL TG Update
+SC-Orders SL TG Update New,False,SC-Orders SL TG Update New

@@ -1,13 +1,13 @@
 SELECT [SQL Workdays.day_key], [SQL Workdays.day_code], [SQL Workdays.day_type], [SQL Workdays.sales_max_count], [SQL Workdays.sales_act_count], [SQL Workdays.order_max_count], [SQL Workdays.order_act_count] 
-  FROM [SQL Workdays] 
+  FROM [SQL Workdays]
 INNER JOIN
 SELECT [SQL Sales Budget Forecast.Version_Key], [SQL Sales Budget Forecast.Comp_Key], [SQL Sales Budget Forecast.Customer_Key], [SQL Sales Budget Forecast.Outside_Sales_Key],  [SQL Sales Budget Forecast.Currency_Key], [SQL Sales Budget Forecast.Year_Key], [SQL Sales Budget Forecast.Value], [SQL Sales Budget Forecast.Rate_to_CHF], [SQL Sales Budget Forecast.Customer_Type], [SQL Sales Budget Forecast.Business_Unit_Key], [SQL Sales Budget Forecast.Month_Key], [SQL Sales Budget Forecast.Sales_Org_Key], [SQL Sales Budget Forecast.Sales_Office_Key], [SQL Sales Budget Forecast.Segment_Key]
   FROM [SQL Sales Budget Forecast]
   ON DATEPART(YEAR,[SQL Workdays.day_code]) = [SQL Sales Budget Forecast.Year_Key] 
   and DATEPART(month,[SQL Workdays.day_code]) = [SQL Sales Budget Forecast.Month_Key] 
-and ([SQL Sales Budget Forecast.Year_Key]  = '2020' or [SQL Sales Budget Forecast.Year_Key]  = '2021')
+and ([SQL Sales Budget Forecast.Year_Key]  = '2020' or [SQL Sales Budget Forecast.Year_Key]  = '2021') and [SQL Sales Budget Forecast.Version_Key] = 'BUD' 
 INNER JOIN
 SELECT [tbl_dim_sales_region.regional_currency_code] from [tbl_dim_sales_region] on [tbl_dim_sales_region.sales_office_code] = [SQL Sales Budget Forecast.Sales_Office_Key]
 LEFT OUTER JOIN
 SELECT [RegRates.Exchange Rate] FROM [SC-Ex Rates] 'RegRates' ON [RegRates.Valid From Date] <= [SQL Workdays.day_code] AND [RegRates.Valid To Date] >= [SQL Workdays.day_code] AND [RegRates.From Currency Key] = [tbl_dim_sales_region.regional_currency_code] 
-ORDER BY [SQL Workdays.day_code]
+ORDER BY [SQL Workdays.day_code],[SQL Sales Budget Forecast.Customer_Key]
