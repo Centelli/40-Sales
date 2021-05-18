@@ -1,0 +1,20 @@
+// HSBI-127 - Script created
+
+[cust_role_key] = [vw_cockpit_map_customer.cust_role_key]
+[Entity] = [vw_cockpit_map_customer.Entity]
+[Cockpit Table] = [vw_cockpit_map_customer.Cockpit Table]
+[Key] = [vw_cockpit_map_customer.Key]
+[Code] = [vw_cockpit_map_customer.Code]
+[Name] = [vw_cockpit_map_customer.Name]
+WriteRecord
+
+// HSBI-127 - new role added for Cust_all_Sales_Rep
+COMPLETE
+[cust_role_key] = 'CUST_ALL_SALES_REP'
+[Entity] = 'Sales Rep'
+[Cockpit Table] = 'Direct entry in Birst'
+[Key] = 'Sales Rep'
+[Code] = ''
+[Name] = ''
+WRITERECORD
+END COMPLETE

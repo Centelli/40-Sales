@@ -1,0 +1,14 @@
+// HSBI-127 - Script created
+
+[role_key] = [vw_cockpit_user_roles.role_key]
+[role_code] = [vw_cockpit_user_roles.role_code]
+[icogs] = [vw_cockpit_user_roles.icogs]
+[comp_entity] = [vw_cockpit_user_roles.comp_entity]
+[comp_role_key] = [vw_cockpit_user_roles.comp_role_key]
+[div_role_key] = [vw_cockpit_user_roles.div_role_key]
+[cust_role_key] = [vw_cockpit_user_roles.cust_role_key]
+[Module] = [vw_cockpit_user_roles.Module]
+[member_key] = [vw_cockpit_user_roles.member_key]
+[uid] = [vw_cockpit_user_roles.uid]
+[seg_role_key] = [vw_cockpit_user_roles.seg_role_key]
+WriteRecord

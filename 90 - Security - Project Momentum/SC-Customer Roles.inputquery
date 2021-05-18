@@ -1,0 +1,8 @@
+SELECT
+[vw_cockpit_map_customer.cust_role_key],
+[vw_cockpit_map_customer.Entity],
+[vw_cockpit_map_customer.Cockpit Table],
+[vw_cockpit_map_customer.Key],
+[vw_cockpit_map_customer.Code],
+[vw_cockpit_map_customer.Name]
+FROM [vw_cockpit_map_customer]

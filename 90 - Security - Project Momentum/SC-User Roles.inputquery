@@ -1,0 +1,27 @@
+SELECT
+[vw_cockpit_user_roles.role_key],
+[vw_cockpit_user_roles.role_code],
+[vw_cockpit_user_roles.icogs],
+[vw_cockpit_user_roles.comp_entity],
+[vw_cockpit_user_roles.comp_role_key],
+[vw_cockpit_user_roles.div_role_key],
+[vw_cockpit_user_roles.cust_role_key],
+[vw_cockpit_user_roles.Module],
+[vw_cockpit_user_roles.member_key],
+[vw_cockpit_user_roles.uid],
+[vw_cockpit_user_roles.seg_role_key]
+FROM [vw_cockpit_user_roles]
+UNION
+SELECT
+'',
+'',
+'1',
+'',
+'COMP_REG_ALL',
+'DIV_ALL',
+'CUST_ALL_SALES_REP',
+'BM_Customer_ALL',
+'',
+[tbl_outside_sales_security.uid],
+'SEG_ALL'
+from [tbl_outside_sales_security]
