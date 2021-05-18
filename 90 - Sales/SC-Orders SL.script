@@ -218,6 +218,9 @@ if [VBAK_VBAP_VBEP.VBAP_ABGRU] is not null and [VBAK_VBAP_VBEP.VBAP_ABGRU] <> 'Z
   PRINT '2.4 [vSchedLineQty]:'+[vSchedLineQty] 
 end if
 
+//HSBI-131
+[Requested Date GI BI] = [VBAK_VBAP_VBEP.Requested Date GI BI] 
+
   [Sales Order Number]=[VBAK_VBAP_VBEP.VBAP_VBELN]
   [Sales Order Item]=[VBAK_VBAP_VBEP.VBAP_POSNR]
   [Sales Order ScL Line]=[VBAK_VBAP_VBEP.VBEP_ETENR]

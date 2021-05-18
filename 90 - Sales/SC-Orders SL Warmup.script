@@ -30,6 +30,8 @@ PRINT [vAnalysisDate]
 
 [Analysis Date]=[vAnalysisDate]
 
+//HSBI-131
+[Requested Date GI BI] = [SC-ZZSD_DP.ZZSD_DP_RWADA]
 
 [VBAP_VBELN]=[VBAK_VBAP_VBEP.VBAP_VBELN]
 [VBAP_POSNR]=[VBAK_VBAP_VBEP.VBAP_POSNR]

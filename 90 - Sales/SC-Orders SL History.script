@@ -37,6 +37,9 @@
 [WBS Element] = [Grain(SC-Orders SL History).WBS Element]
 [Profit Center Key] = [Grain(SC-Orders SL History).Profit Center Key]
 
+//HSBI-131
+[Requested Date GI BI] = [Level(Sales Order.Sales Order).Requested Date GI BI]
+
 /* Begin of negate fact table */
 /*
 Negation takes the latest records dates, If Schedule Line Negation take SO Item Date from SRC

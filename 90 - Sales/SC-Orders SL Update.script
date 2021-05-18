@@ -48,6 +48,9 @@ print [SC-Orders SL.Sales Order Number] + ':' + [SC-Orders SL.Sales Order Item] 
 [Profit Center Key] = [SC-Orders SL.Profit Center Key]
 [WBS Element] = [SC-Orders SL.WBS Element]
 
+//HSBI-131
+[Requested Date GI BI] = [SC-Orders SL.Requested Date GI BI]
+
 /* DIM [mCurrentOrders] AS MAP(VARCHAR(16), VARCHAR(10)) = SELECT [Grain(SC-Orders SL Update).# Sales Order Key], [Grain(SC-Orders SL Update).Sales Order Number] FROM [Grain(SC-Orders SL Update)] WHERE [Grain(SC-Orders SL Update).# Current Record] = '1'
 
 
